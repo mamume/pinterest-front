@@ -6,7 +6,8 @@ const theme = createTheme({
   components: {
     MuiTextField: {
       defaultProps: {
-        color: 'info'
+        color: 'info',
+        margin: 'dense'
       }
     },
     MuiButton: {
