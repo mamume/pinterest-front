@@ -1,15 +1,14 @@
 import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import * as React from 'react';
+import { Fragment } from "react";
 
 const Input = styled('input')({
     display: 'none',
 });
 
 function PublicProfile() {
-
     return (
-        <Stack sx={{ minWidth: "490px" }}>
+        <Fragment>
             <Typography variant="h5">Public Profile</Typography>
             <Typography variant="subtitle1" paragraph>People visiting your profile will see following info</Typography>
             <InputLabel>Photo</InputLabel>
@@ -40,7 +39,7 @@ function PublicProfile() {
             <Stack direction="row" alignItems="center" spacing={2}>
                 <TextField fullWidth label="Username" helperText="www.pinterest.com/username"></TextField>
             </Stack>
-        </Stack>
+        </Fragment>
     );
 }
 

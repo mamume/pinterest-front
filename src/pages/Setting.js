@@ -1,7 +1,8 @@
-import { Container, List, ListItemButton, ListItemText } from '@mui/material';
+import { Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
+import AccountSettings from '../components/AccountSettings';
 
 const drawerWidth = 200
 
@@ -27,7 +28,7 @@ function Setting() {
                     classes={{ paper: classes.drawer }}
                 >
                     <List>
-                        <ListItemButton>
+                        <ListItemButton selected>
                             <ListItemText
                                 primaryTypographyProps={{
                                     variant: "button"
@@ -93,7 +94,10 @@ function Setting() {
                         </ListItemButton>
                     </List>
                 </Drawer>
-                <PublicProfile />
+                <Stack spacing={2} sx={{ width: "490px" }}>
+                    {/* <PublicProfile /> */}
+                    <AccountSettings />
+                </Stack>
             </div>
         </Container>
     );
