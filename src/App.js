@@ -1,6 +1,7 @@
 import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import Setting from './pages/Setting'
 
 const theme = createTheme({
   components: {
@@ -33,6 +34,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
+        <Setting />
       </ThemeProvider>
     </div>
   );
