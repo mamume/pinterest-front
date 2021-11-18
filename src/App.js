@@ -1,6 +1,7 @@
 import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import PrimarySearchAppBar from './Components/NavigationBar'
 
 const theme = createTheme({
   components: {
@@ -32,6 +33,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
+        <PrimarySearchAppBar></PrimarySearchAppBar>
       </ThemeProvider>
     </div>
   );
