@@ -3,6 +3,12 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
 import AccountSettings from '../components/AccountSettings';
+import {
+    Routes,
+    Route,
+    Link,
+    useLocation
+} from "react-router-dom";
 
 const drawerWidth = 200
 
@@ -13,10 +19,15 @@ const useStyles = makeStyles({
     drawer: {
         width: drawerWidth,
     },
+    link: {
+        textDecoration: "inherit",
+        color: "inherit"
+    }
 })
 
 function Setting() {
     const classes = useStyles()
+    let location = useLocation();
 
     return (
         <Container>
@@ -28,22 +39,30 @@ function Setting() {
                     classes={{ paper: classes.drawer }}
                 >
                     <List>
-                        <ListItemButton selected>
-                            <ListItemText
-                                primaryTypographyProps={{
-                                    variant: "button"
-                                }}
-                            >
-                                Public Profile</ListItemText>
-                        </ListItemButton>
-                        <ListItemButton>
-                            <ListItemText
-                                primaryTypographyProps={{
-                                    variant: "button"
-                                }}
-                            >
-                                Account Settings</ListItemText>
-                        </ListItemButton>
+                        <Link to="/settings/public-profile" className={classes.link}>
+                            <ListItemButton selected={location.pathname === "/settings/public-profile"}>
+                                <ListItemText
+                                    primaryTypographyProps={{
+                                        variant: "button"
+                                    }}
+                                >
+                                    Public Profile
+                                </ListItemText>
+                            </ListItemButton>
+                        </Link>
+
+                        <Link to="/settings/account" className={classes.link}>
+                            <ListItemButton selected={location.pathname === "/settings/account"}>
+                                <ListItemText
+                                    primaryTypographyProps={{
+                                        variant: "button"
+                                    }}
+                                >
+                                    Account Settings
+                                </ListItemText>
+                            </ListItemButton>
+                        </Link>
+
                         <ListItemButton>
                             <ListItemText
                                 primaryTypographyProps={{
@@ -95,11 +114,13 @@ function Setting() {
                     </List>
                 </Drawer>
                 <Stack spacing={2} sx={{ width: "490px" }}>
-                    {/* <PublicProfile /> */}
-                    <AccountSettings />
+                    <Routes>
+                        <Route path="/settings/public-profile" element={<PublicProfile />} />
+                        <Route path="/settings/account" element={<AccountSettings />} />
+                    </Routes>
                 </Stack>
             </div>
-        </Container>
+        </Container >
     );
 }
 
