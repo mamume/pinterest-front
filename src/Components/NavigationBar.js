@@ -29,7 +29,7 @@ const Search = styled('div')(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '200%',
+  width: '75%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: '75%',
@@ -159,8 +159,8 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{backgroundColor:"rgba(1,1,1,.6)"}}>
+    <Box sx={{ flexGrow: 1 }} style={{margin: 0}}>
+      <AppBar position="static" color="text">
         <Toolbar>
         <Box
             component="img"
@@ -172,7 +172,7 @@ export default function PrimarySearchAppBar() {
             alt="Your logo."
             src={logo}
         />
-          <Search>
+          <Search style={{backgroundColor: "rgba(1,1,1,.1)"}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
