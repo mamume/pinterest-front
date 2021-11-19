@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Settings from './pages/Settings'
 import { grey } from "@mui/material/colors";
+import { BrowserRouter as Router } from 'react-router-dom'
 
 console.log(grey[900])
 
@@ -60,9 +61,11 @@ const theme = createTheme({
 function App() {
   return (
     <div>
-      <ThemeProvider theme={theme}>
-        <Settings />
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <Settings />
+        </ThemeProvider>
+      </Router>
     </div>
   );
 }
