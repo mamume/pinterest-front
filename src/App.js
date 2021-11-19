@@ -42,9 +42,10 @@ function App() {
         right: 50,
         padding: "15px",
         color: "black",
-        border: "0.02px solid black",
+        //border: "0.02px solid black",
         
-      }}>
+        
+      }} sx={{boxShadow: 3,}}>
         <AddIcon sx={{
           fontSize: 20,
           transform: "scale(2)"
