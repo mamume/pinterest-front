@@ -4,6 +4,7 @@ import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
 import AccountSettings from '../components/AccountSettings';
 import Notifications from '../components/Notifications'
+import PrivacyAndData from '../components/PrivacyAndData';
 import {
     Routes,
     Route,
@@ -101,14 +102,17 @@ function Setting() {
                                 </ListItemButton>
                             </Link>
 
-                            <ListItemButton>
-                                <ListItemText
-                                    primaryTypographyProps={{
-                                        variant: "button"
-                                    }}
-                                >
-                                    Privacy and data</ListItemText>
-                            </ListItemButton>
+                            <Link to="/settings/privacy" className={classes.link}>
+                                <ListItemButton selected={location.pathname === "/settings/privacy"}>
+                                    <ListItemText
+                                        primaryTypographyProps={{
+                                            variant: "button"
+                                        }}
+                                    >
+                                        Privacy and data</ListItemText>
+                                </ListItemButton>
+                            </Link>
+
                             <ListItemButton>
                                 <ListItemText
                                     primaryTypographyProps={{
@@ -132,6 +136,7 @@ function Setting() {
                             <Route path="/settings/public-profile" element={<PublicProfile />} />
                             <Route path="/settings/account" element={<AccountSettings />} />
                             <Route path="/settings/notifications" element={<Notifications />} />
+                            <Route path="/settings/privacy" element={<PrivacyAndData />} />
                         </Routes>
                     </Stack>
                 </div>
