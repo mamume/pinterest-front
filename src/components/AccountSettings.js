@@ -1,11 +1,5 @@
-import { MenuItem, Avatar, Button, InputLabel, Select, Stack, TextField, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import { Box, fontWeight } from "@mui/system";
+import { MenuItem, Button, InputLabel, Select, Stack, TextField, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { Fragment } from "react";
-
-const Input = styled('input')({
-    display: 'none',
-});
 
 function AccountSettings() {
     return (
@@ -18,7 +12,7 @@ function AccountSettings() {
             <Stack direction="row" alignItems="center" spacing={2}>
                 <TextField label="Email" fullWidth></TextField>
             </Stack>
-            {/* <Stack direction="row" alignItems="center" spacing={2}> */}
+
             <FormControl fullWidth>
                 <InputLabel id="country">Country/Region</InputLabel>
                 <Select
