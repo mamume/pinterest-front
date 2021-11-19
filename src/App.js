@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Settings from './pages/Settings'
 import { grey } from "@mui/material/colors";
 import { BrowserRouter as Router } from 'react-router-dom'
+import './App.css'
 
 console.log(grey[900])
 

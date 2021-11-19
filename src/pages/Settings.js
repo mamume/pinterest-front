@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
 import AccountSettings from '../components/AccountSettings';
+import PrivacyAndData from '../components/PrivacyAndData';
 import {
     Routes,
     Route,
@@ -79,7 +80,8 @@ function Setting() {
                             >
                                 Claim</ListItemText>
                         </ListItemButton>
-                        <ListItemButton>
+                            
+                        <ListItemButton >
                             <ListItemText
                                 primaryTypographyProps={{
                                     variant: "button"
@@ -87,14 +89,17 @@ function Setting() {
                             >
                                 Notifications</ListItemText>
                         </ListItemButton>
-                        <ListItemButton>
-                            <ListItemText
-                                primaryTypographyProps={{
-                                    variant: "button"
-                                }}
-                            >
-                                Privacy and data</ListItemText>
-                        </ListItemButton>
+                        <Link to="/settings/privacy" className={classes.link}>
+                            <ListItemButton selected={location.pathname === "/settings/account"}>
+                                <ListItemText
+                                    primaryTypographyProps={{
+                                        variant: "button"
+                                    }}
+                                    
+                                >
+                                    Privacy and data</ListItemText>
+                            </ListItemButton>
+                            </Link>
                         <ListItemButton>
                             <ListItemText
                                 primaryTypographyProps={{
@@ -117,6 +122,7 @@ function Setting() {
                     <Routes>
                         <Route path="/settings/public-profile" element={<PublicProfile />} />
                         <Route path="/settings/account" element={<AccountSettings />} />
+                        <Route path="/settings/privacy" element={<PrivacyAndData />} />
                     </Routes>
                 </Stack>
             </div>
