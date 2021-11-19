@@ -82,7 +82,7 @@ function Setting() {
                         </ListItemButton>
 
                         <Link to="/settings/notifications" className={classes.link}>
-                            <ListItemButton selected={location.pathname === "/settings/account"}>
+                            <ListItemButton selected={location.pathname === "/settings/notifications"}>
                                 <ListItemText
                                     primaryTypographyProps={{
                                         variant: "button"
