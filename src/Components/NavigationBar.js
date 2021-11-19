@@ -4,12 +4,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -17,8 +15,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
-import avatar from '../avatar/1.jpg'; 
-import logo from '../avatar/logo.png'; 
+import avatar from '../avatar/1.jpg';
+import logo from '../avatar/logo.png';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -159,20 +157,20 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{margin: 0}}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0 }}>
       <AppBar position="static" color="text">
         <Toolbar>
-        <Box
+          <Box
             component="img"
             sx={{
-            height: '50%',
-            maxWidth: 50,
-            borderRadius: "50%"
+              height: '50%',
+              maxWidth: 50,
+              borderRadius: "50%"
             }}
             alt="Your logo."
             src={logo}
-        />
-          <Search style={{backgroundColor: "rgba(1,1,1,.1)"}}>
+          />
+          <Search style={{ backgroundColor: "rgba(1,1,1,.1)" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
