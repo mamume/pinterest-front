@@ -1,6 +1,10 @@
 import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import Setting from './pages/Setting'
+import { grey } from "@mui/material/colors";
+
+console.log(grey[900])
 
 const theme = createTheme({
   components: {
@@ -15,6 +19,26 @@ const theme = createTheme({
         size: "large",
         variant: "contained",
       }
+    },
+    MuiSelect: {
+      defaultProps: {
+        color: 'info'
+      }
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        color: 'info'
+      }
+    },
+    MuiRadio: {
+      defaultProps: {
+        color: 'black'
+      }
+    },
+    MuiFormLabel: {
+      defaultProps: {
+        color: 'black'
+      }
     }
   },
   palette: {
@@ -22,6 +46,10 @@ const theme = createTheme({
       main: red[700],
       light: red[300],
       dark: red[900]
+    },
+    black: {
+      main: grey[900],
+      light: grey[500],
     }
   },
   shape: {
@@ -33,6 +61,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
+        <Setting />
       </ThemeProvider>
     </div>
   );
