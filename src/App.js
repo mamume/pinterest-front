@@ -1,7 +1,7 @@
 import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Setting from './pages/Setting'
+import Settings from './pages/Settings'
 import { grey } from "@mui/material/colors";
 
 console.log(grey[900])
@@ -61,7 +61,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Setting />
+        <Settings />
       </ThemeProvider>
     </div>
   );
