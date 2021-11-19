@@ -1,7 +1,7 @@
 import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import PrimarySearchAppBar from './Components/NavigationBar'
+import PrimarySearchAppBar from './components/NavigationBar'
 import { IconButton } from '@mui/material'; 
 import AddIcon from '@mui/icons-material/Add';
 import './app.css'
