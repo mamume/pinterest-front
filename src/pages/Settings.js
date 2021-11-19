@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
 import AccountSettings from '../components/AccountSettings';
+import Notifications from '../components/Notifications'
 import {
     Routes,
     Route,
@@ -117,6 +118,7 @@ function Setting() {
                     <Routes>
                         <Route path="/settings/public-profile" element={<PublicProfile />} />
                         <Route path="/settings/account" element={<AccountSettings />} />
+                        <Route path="/settings/notifications" element={<Notifications />} />
                     </Routes>
                 </Stack>
             </div>
