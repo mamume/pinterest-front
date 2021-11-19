@@ -80,14 +80,19 @@ function Setting() {
                             >
                                 Claim</ListItemText>
                         </ListItemButton>
-                        <ListItemButton>
-                            <ListItemText
-                                primaryTypographyProps={{
-                                    variant: "button"
-                                }}
-                            >
-                                Notifications</ListItemText>
-                        </ListItemButton>
+
+                        <Link to="/settings/notifications" className={classes.link}>
+                            <ListItemButton selected={location.pathname === "/settings/account"}>
+                                <ListItemText
+                                    primaryTypographyProps={{
+                                        variant: "button"
+                                    }}
+                                >
+                                    Notifications
+                                </ListItemText>
+                            </ListItemButton>
+                        </Link>
+
                         <ListItemButton>
                             <ListItemText
                                 primaryTypographyProps={{
