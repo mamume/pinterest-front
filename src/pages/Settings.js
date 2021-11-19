@@ -6,7 +6,8 @@ import AccountSettings from '../components/AccountSettings';
 import {
     Routes,
     Route,
-    Link
+    Link,
+    useLocation
 } from "react-router-dom";
 
 const drawerWidth = 200
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 
 function Setting() {
     const classes = useStyles()
+    let location = useLocation();
 
     return (
         <Container>
@@ -38,7 +40,7 @@ function Setting() {
                 >
                     <List>
                         <Link to="/settings/public-profile" className={classes.link}>
-                            <ListItemButton selected>
+                            <ListItemButton selected={location.pathname === "/settings/public-profile"}>
                                 <ListItemText
                                     primaryTypographyProps={{
                                         variant: "button"
@@ -50,7 +52,7 @@ function Setting() {
                         </Link>
 
                         <Link to="/settings/account" className={classes.link}>
-                            <ListItemButton>
+                            <ListItemButton selected={location.pathname === "/settings/account"}>
                                 <ListItemText
                                     primaryTypographyProps={{
                                         variant: "button"
@@ -118,7 +120,7 @@ function Setting() {
                     </Routes>
                 </Stack>
             </div>
-        </Container>
+        </Container >
     );
 }
 
