@@ -13,12 +13,18 @@ const theme = createTheme({
       defaultProps: {
         sx: {
           borderRadius: "16px",
-        }
+          height: "48px"
+        },
       }
     },
     MuiTextField: {
       defaultProps: {
         color: 'info',
+        InputLabelProps: {
+          sx: {
+            fontSize: "16px"
+          }
+        }
       }
     },
     MuiButton: {
