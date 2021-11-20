@@ -66,8 +66,14 @@ const theme = createTheme({
         black: {
             main: grey[900],
             light: grey[500],
+        },
+        grey: {
+            main: "#E2E2E2"
         }
     },
+    shape: {
+        borderRadius: 16
+    }
 });
 
 export default theme;
