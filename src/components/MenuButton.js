@@ -1,8 +1,7 @@
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
-function SortButton() {
+function SortButton({ icon, label, options }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -16,8 +15,7 @@ function SortButton() {
 
     return (
         <Fragment>
-            <Button onClick={handleClick} disableElevation color="text"><MenuRoundedIcon fontSize="large" /></Button>
-
+            <Button onClick={handleClick} disableElevation color="text">{icon}</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={open}
@@ -32,11 +30,11 @@ function SortButton() {
                 }}
                 elevation
             >
-                <Typography variant="caption" color="grey" mx>Sort boards by</Typography>
-                <MenuItem selected onClick={handleClose}>A to Z</MenuItem>
-                <MenuItem onClick={handleClose}>Drag and drop</MenuItem>
-                <MenuItem onClick={handleClose}>Last saved to</MenuItem>
+                <Typography variant="caption" color="grey" mx>{label}</Typography>
 
+                {options.map((option, index) => (
+                    <MenuItem selected={index === 0} key={index} onClick={handleClose}>{option}</MenuItem>
+                ))}
             </Menu>
         </Fragment>
     );

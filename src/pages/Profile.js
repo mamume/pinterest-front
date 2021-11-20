@@ -1,7 +1,8 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import React, { Fragment } from "react";
-import SortButton from '../components/SortButton'
-import CreateButton from '../components/CreateButton'
+import MenuButton from '../components/MenuButton'
+import AddRounded from "@mui/icons-material/AddRounded";
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
 
 function Profile() {
@@ -23,9 +24,17 @@ function Profile() {
             </Stack>
 
             <Stack direction="row" justifyContent="space-between" mt={7}>
-                <SortButton />
-                {/* <Button disableElevation color="text"><AddRoundedIcon fontSize="large" /></Button> */}
-                <CreateButton />
+                <MenuButton
+                    icon={<AddRounded fontSize="large" />}
+                    label="Sort boards by"
+                    options={["A to Z", "Drag and drop", "Last saved to"]}
+                />
+
+                <MenuButton
+                    icon={<MenuRoundedIcon fontSize="large" />}
+                    label="Create"
+                    options={["Pin", "Board"]}
+                />
             </Stack>
         </Fragment >
     );
