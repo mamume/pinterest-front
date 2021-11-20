@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+}
+.css-22jxwj-MuiPaper-root-MuiDialog-paper{
+    border-radius: 30px !important;
+    padding-right: 1.25rem !important;
+    padding-left: 1.25rem !important;
+    
+}
+a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
