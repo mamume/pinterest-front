@@ -1,4 +1,4 @@
-import { Avatar, Button, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment } from "react";
 import MenuButton from '../components/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
@@ -25,16 +25,22 @@ function Profile() {
 
             <Stack direction="row" justifyContent="space-between" mt={7}>
                 <MenuButton
-                    icon={<AddRounded fontSize="large" />}
+                    icon={<MenuRoundedIcon fontSize="large" />}
                     label="Sort boards by"
                     options={["A to Z", "Drag and drop", "Last saved to"]}
                 />
 
                 <MenuButton
-                    icon={<MenuRoundedIcon fontSize="large" />}
+                    icon={<AddRounded fontSize="large" />}
                     label="Create"
                     options={["Pin", "Board"]}
                 />
+            </Stack>
+
+            <Divider />
+            <Stack direction='row' justifyContent="space-between" mt={3}>
+                <Typography fontWeight="bold" variant="h6">Unorganized Ideas</Typography>
+                <Button color="grey">Organize</Button>
             </Stack>
         </Fragment >
     );
