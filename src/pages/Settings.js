@@ -26,11 +26,6 @@ const useStyles = makeStyles({
         textDecoration: "inherit",
         color: "inherit"
     },
-    footer: {
-        position: 'fixed',
-        bottom: "20px",
-        left: "50%"
-    }
 })
 
 function Setting() {
@@ -141,12 +136,11 @@ function Setting() {
                     </Stack>
                 </div>
             </Container >
-            <div className={classes.footer}>
-                <BottomNavigation>
-                    <BottomNavigationAction label="Reset" icon={<Button disableElevation color="text" disabled>Reset</Button>} />
-                    <BottomNavigationAction label="Save" icon={<Button disableElevation color="primary" disabled>Save</Button>} />
-                </BottomNavigation>
-            </div>
+
+            <Stack direction="row" spacing={2} justifyContent="center" mt={6}>
+                <Button color="text" disabled>Reset</Button>
+                <Button color="primary" disabled>Save</Button>
+            </Stack>
         </Fragment >
     );
 }
