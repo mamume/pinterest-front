@@ -10,21 +10,21 @@ function Notifications() {
             <Typography variant="h6">On Pinterest</Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="start" spacing={2}>
                 <Typography variant="subtitle1" paragraph>Pick which notifictions to see while in the app or on the site.</Typography>
-                <Button color="text" variant="contained" component="span">
+                <Button disableElevation color="grey" variant="contained" component="span">
                     Edit
                 </Button>
             </Stack>
             <Typography variant="h6">By Email</Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="start" spacing={2}>
                 <Typography variant="subtitle1" paragraph>Pick which notifications to get by email.</Typography>
-                <Button color="text" variant="contained" component="span">
+                <Button disableElevation color="grey" variant="contained" component="span">
                     Edit
                 </Button>
             </Stack>
             <Typography variant="h6">By Push Notification</Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="start" spacing={2}>
                 <Typography variant="subtitle1" paragraph>Pick which notifications to get on your phone or computer.</Typography>
-                <Button color="text" variant="contained" component="span">
+                <Button disableElevation color="grey" variant="contained" component="span">
                     Edit
                 </Button>
             </Stack>

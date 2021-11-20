@@ -143,8 +143,8 @@ function Setting() {
             </Container >
             <div className={classes.footer}>
                 <BottomNavigation>
-                    <BottomNavigationAction label="Reset" icon={<Button color="text" disabled>Reset</Button>} />
-                    <BottomNavigationAction label="Save" icon={<Button color="text" disabled>Save</Button>} />
+                    <BottomNavigationAction label="Reset" icon={<Button disableElevation color="text" disabled>Reset</Button>} />
+                    <BottomNavigationAction label="Save" icon={<Button disableElevation color="primary" disabled>Save</Button>} />
                 </BottomNavigation>
             </div>
         </Fragment >

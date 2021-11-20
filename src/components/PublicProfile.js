@@ -19,7 +19,7 @@ function PublicProfile() {
                 </Avatar>
                 <label htmlFor="contained-button-file">
                     <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button color="text" variant="contained" component="span">
+                    <Button disableElevation color="grey" variant="contained" component="span">
                         Change
                     </Button>
                 </label>

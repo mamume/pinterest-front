@@ -41,7 +41,7 @@ function AccountSettings() {
             <Typography sx={{ fontWeight: 'bold' }}>Delete Account</Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                 <Typography>Delete your account and account data</Typography>
-                <Button color="text" variant="contained" component="span">
+                <Button disableElevation color="error" variant="contained" component="span">
                     Delete Account
                 </Button>
             </Stack>
