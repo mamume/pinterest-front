@@ -48,7 +48,7 @@ function Setting() {
                         classes={{ paper: classes.drawer }}
                     >
                         <List>
-                            <Link to="/settings/public-profile" className={classes.link}>
+                            <Link to="public-profile" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/public-profile"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -60,7 +60,7 @@ function Setting() {
                                 </ListItemButton>
                             </Link>
 
-                            <Link to="/settings/account" className={classes.link}>
+                            <Link to="account" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/account"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -89,7 +89,7 @@ function Setting() {
                                     Claim</ListItemText>
                             </ListItemButton>
 
-                            <Link to="/settings/notifications" className={classes.link}>
+                            <Link to="notifications" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/notifications"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -101,7 +101,7 @@ function Setting() {
                                 </ListItemButton>
                             </Link>
 
-                            <Link to="/settings/privacy" className={classes.link}>
+                            <Link to="privacy" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/privacy"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -132,10 +132,10 @@ function Setting() {
                     </Drawer>
                     <Stack spacing={2} sx={{ width: "490px" }}>
                         <Routes>
-                            <Route path="/settings/public-profile" element={<PublicProfile />} />
-                            <Route path="/settings/account" element={<AccountSettings />} />
-                            <Route path="/settings/notifications" element={<Notifications />} />
-                            <Route path="/settings/privacy" element={<PrivacyAndData />} />
+                            <Route path="public-profile" element={<PublicProfile />} />
+                            <Route path="account" element={<AccountSettings />} />
+                            <Route path="notifications" element={<Notifications />} />
+                            <Route path="privacy" element={<PrivacyAndData />} />
                         </Routes>
                     </Stack>
                 </div>
