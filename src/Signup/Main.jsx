@@ -1,19 +1,17 @@
 import React from "react";
 import './Main.css';
-import { Grid,
+import {
     Button,
     TextField,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     IconButton,
-    Typography,
-    styled
-    } from "@mui/material";
-    import CloseIcon from '@mui/icons-material/Close';
-    import PinterestIcon from '@mui/icons-material/Pinterest';
+    Typography,  
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import PinterestIcon from '@mui/icons-material/Pinterest';
 
 
 export default class Main extends React.Component{

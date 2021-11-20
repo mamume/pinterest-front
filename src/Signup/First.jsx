@@ -1,19 +1,16 @@
 import React from "react";
 import "./First.css"
-import { Grid,
+import {
     Button,
     TextField,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    IconButton,
     Typography,
-    styled,
     Avatar,
     MobileStepper
-    } from "@mui/material";
+} from "@mui/material";
 
 export default class First extends React.Component{
     constructor(){

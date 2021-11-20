@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Button } from "@mui/material";
 import Main from "./Main";
 import First from "./First"
+import Second from "./Second";
 import './Signup.css'
 
 export default class Signup extends React.Component{
@@ -13,7 +14,8 @@ export default class Signup extends React.Component{
             email:"ahmed.email",
             password:"",
             age:"",
-            username:""
+            username:"",
+            gender:""
 
             
 
@@ -36,6 +38,10 @@ export default class Signup extends React.Component{
         this.setState({username:userName})
     }
 
+    collectFromSecond=(gender)=>{
+      this.setState({gender:gender})
+    }
+
     render(){ 
         const CssTextField = {
             '& label.Mui-focused': {
@@ -54,9 +60,10 @@ export default class Signup extends React.Component{
             },
           };
         return <div>
-        <Button onClick={this.handleClickOpen}>Open</Button> 
-        <Main open={this.state.mainOpen} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/>
+        {/* <Button onClick={this.handleClickOpen}>Open</Button> 
+        <Main open={this.state.mainOpen} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> */}
         {/* <First collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email}/> */}
+        <Second collect={this.collectFromSecond} />
         </div>
     }
 }
