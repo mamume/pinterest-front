@@ -132,6 +132,7 @@ function Setting() {
                     </Drawer>
                     <Stack spacing={2} sx={{ width: "490px" }}>
                         <Routes>
+                            <Route path="" element={<PublicProfile />} />
                             <Route path="public-profile" element={<PublicProfile />} />
                             <Route path="account" element={<AccountSettings />} />
                             <Route path="notifications" element={<Notifications />} />
