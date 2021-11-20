@@ -137,7 +137,7 @@ function Setting() {
                 </div>
             </Container >
 
-            <Stack direction="row" spacing={2} justifyContent="center" mt={6}>
+            <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
                 <Button color="text" disabled>Reset</Button>
                 <Button color="primary" disabled>Save</Button>
             </Stack>
