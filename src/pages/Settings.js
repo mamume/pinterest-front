@@ -18,7 +18,6 @@ const drawerWidth = 200
 const useStyles = makeStyles({
     root: {
         display: 'flex',
-        // minHeight: "1vh"
     },
     drawer: {
         width: drawerWidth,
