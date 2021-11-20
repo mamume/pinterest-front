@@ -6,20 +6,28 @@ import { grey } from "@mui/material/colors";
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 
-console.log(grey[900])
 
 const theme = createTheme({
   components: {
+    MuiInputBase: {
+      defaultProps: {
+        sx: {
+          borderRadius: "16px",
+        }
+      }
+    },
     MuiTextField: {
       defaultProps: {
         color: 'info',
-        margin: 'dense'
       }
     },
     MuiButton: {
       defaultProps: {
         size: "large",
         variant: "contained",
+        sx: {
+          borderRadius: "20px"
+        }
       }
     },
     MuiSelect: {
@@ -59,9 +67,6 @@ const theme = createTheme({
       light: grey[500],
     }
   },
-  shape: {
-    borderRadius: "24px"
-  }
 });
 
 function App() {
