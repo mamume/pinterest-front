@@ -39,15 +39,10 @@ export default class Signup extends React.Component{
         this.setState({mainOpen:false});
     }
     collectFromMain = (obj) =>{
-        let email = obj.email
-        console.log(obj)
-
         this.setState({email:obj.email});
         this.setState({password:obj.password});
         this.setState({age:obj.age});
         this.setState({Cscreen:obj.screen})
-
-
     } 
 
     collectFromFirst=(obj)=>{
