@@ -9,8 +9,10 @@ import {
     DialogTitle,
     Typography,
     Avatar,
-    MobileStepper
+    MobileStepper,
+    IconButton
 } from "@mui/material";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 export default class First extends React.Component{
     constructor(){
@@ -29,15 +31,29 @@ export default class First extends React.Component{
     sendData=()=>{
       let data = {
         username:this.state.username,
-        screen:'second'
       }
       this.props.collect(data)
+      this.props.switch('second')
+
       
     }
 
     render(){
-        return <Dialog open={true} onClose={this.props.close} maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle mb={3} mt={2}>
+        <IconButton
+          aria-label="close"
+          onClick={()=> this.props.switch("main")}
+          sx={{
+            position: 'absolute',
+            left: 10,
+            top: 10,
+            color:'black',
+            fontWeight:'bold'
+          }}
+        >
+          <KeyboardBackspaceIcon />
+        </IconButton>
         <MobileStepper
         variant="dots"
         steps={3}

@@ -11,8 +11,10 @@ import {
     FormControl,
     Radio,
     FormControlLabel,
-    RadioGroup
+    RadioGroup,
+    IconButton
 } from "@mui/material";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 
 export default class Second extends React.Component{
@@ -30,17 +32,31 @@ export default class Second extends React.Component{
     sendData=()=>{
         let data = {
           gender:this.state.gender,
-          screen:"third"
         }
         this.props.collect(data)
+        this.props.switch('third')
+
       }
   
 
     render(){
         let checked = this.state.gender;
         console.log(checked)
-        return <Dialog open={true} onClose={this.props.close} maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle mb={9} mt={2}>
+        <IconButton
+          aria-label="close"
+          onClick={()=> this.props.switch("first")}
+          sx={{
+            position: 'absolute',
+            left: 10,
+            top: 10,
+            color:'black',
+            fontWeight:'bold'
+          }}
+        >
+          <KeyboardBackspaceIcon />
+        </IconButton>
         <MobileStepper
         variant="dots"
         steps={3}

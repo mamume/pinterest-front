@@ -5,17 +5,13 @@ import First from "./First"
 import Second from "./Second";
 import Third from "./Third";
 import './Signup.css'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from "react-router-dom";
-import {Routes} from 'react-router-dom';
+
 
 export default class Signup extends React.Component{
     constructor(){
         super();
         this.state = {
+            open:false,
             Cscreen:"",
             email:"",
             password:"",
@@ -32,31 +28,65 @@ export default class Signup extends React.Component{
     }
 
     handleClickOpen = () => {
+        this.setState({open:true})
         this.setState({Cscreen:"main"});
         
     };
     handleClose = ()=>{
-        this.setState({mainOpen:false});
+        this.setState({open:false});
     }
     collectFromMain = (obj) =>{
         this.setState({email:obj.email});
         this.setState({password:obj.password});
         this.setState({age:obj.age});
-        this.setState({Cscreen:obj.screen})
     } 
 
     collectFromFirst=(obj)=>{
         this.setState({username:obj.userName})
-        this.setState({Cscreen:obj.screen})
     }
 
     collectFromSecond=(obj)=>{
-      this.setState({gender:obj.gender})
-      this.setState({Cscreen:obj.screen})
+      this.setState({gender:obj.gender})    
     }
+
     collectFromThird=(obj)=>{
       this.setState({country:obj.country});
       this.setState({language:obj.lang})
+      this.handleClose()
+
+    }
+
+    componentWillUnmount(){
+      let user = {
+        email:this.state.email,
+        password:this.state.password,
+        username=this.state.username,
+        age:this.state.age,
+        gender:this.state.gender,
+        country:this.state.country,
+        language:this.state.language
+      }
+      let jsonUser = JSON.stringify(user)
+      fetch(
+        'API url',{
+        method:"POST",
+        headers:{'content-type':"application/json"},
+        body:jsonUser
+      }).then(res => {
+        return res.json()
+      }).then(json =>{
+        if(json.token){
+          localStorage.pinterestToken = json.token
+          localStorage.pinterestAccount = this.state.email
+        }else{
+
+        }
+      })
+      
+    }
+
+    switchScreen=(screen)=>{
+      this.setState({Cscreen:screen})
     }
 
     render(){ 
@@ -81,19 +111,19 @@ export default class Signup extends React.Component{
         <Button onClick={this.handleClickOpen}>Open</Button> 
         {
         this.state.Cscreen==="main" &&
-        <Main  close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
+        <Main switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
         }
         {
         this.state.Cscreen==="first" && 
-        <First collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
+        <First switch={this.switchScreen} open={this.state.open} collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
         }
         {
         this.state.Cscreen==="second" && 
-        <Second collect={this.collectFromSecond} />
+        <Second switch={this.switchScreen} open={this.state.open} collect={this.collectFromSecond} />
         }
         {
         this.state.Cscreen==="third" && 
-        <Third collect={this.collectFromThird} />
+        <Third switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
         }
       </div>
 

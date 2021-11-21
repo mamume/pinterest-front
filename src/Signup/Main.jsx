@@ -35,16 +35,16 @@ export default class Main extends React.Component{
         email:this.state.email,
         password:this.state.password,
         age:this.state.age,
-        screen:"first"
       }
       this.props.collect(data)
+      this.props.switch('first')
       
     }
 
 
     render(){
 
-        return <Dialog open={true} onClose={this.props.close} maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle sx={{textAlign:"center"}}>
         <IconButton
           aria-label="close"

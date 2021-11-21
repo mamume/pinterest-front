@@ -13,9 +13,10 @@ import {
     MenuItem,
     Select,
     InputLabel,
-    styled,
-    InputBase
+    IconButton
 } from "@mui/material";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+
 
 
 
@@ -54,8 +55,21 @@ export default class Third extends React.Component{
         );
         console.log(languagesArr)
 
-        return <Dialog open={true} onClose={this.props.close} maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle  mt={2}>
+        <IconButton
+          aria-label="close"
+          onClick={()=> this.props.switch("second")}
+          sx={{
+            position: 'absolute',
+            left: 10,
+            top: 10,
+            color:'black',
+            fontWeight:'bold'
+          }}
+        >
+          <KeyboardBackspaceIcon />
+        </IconButton>
         <MobileStepper
         variant="dots"
         steps={3}
