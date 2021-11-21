@@ -84,13 +84,12 @@ export default class First extends React.Component{
             required
             sx={this.props.inputStyle}
             margin="dense"
-            name="email"
+            name="username"
             id="username"
             label="User Name"
             type="text"
             fullWidth
             variant="outlined"
-            defaultValue={this.props.email}
             value={this.state.username}
             onChange={this.collectInput}
           />

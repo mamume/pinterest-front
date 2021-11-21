@@ -96,7 +96,7 @@ export default class Third extends React.Component{
                 onChange={this.collectInput}
             >
                 {countryArr.map((item)=>{
-                    return <MenuItem value={item.value}>{item.label}</MenuItem>
+                    return <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
                 })}
 
             </Select>
@@ -115,7 +115,7 @@ export default class Third extends React.Component{
                 
             >   
                 {languagesArr.map((item)=>{
-                    return <MenuItem value={item.code}>{item.native}</MenuItem>
+                    return <MenuItem key={item.code} value={item.code}>{item.native}</MenuItem>
                 })}
             </Select>
         </FormControl>
