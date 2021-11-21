@@ -1,89 +1,29 @@
-import { red } from "@mui/material/colors";
-import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Settings from './pages/Settings'
-import { grey } from "@mui/material/colors";
-import { BrowserRouter as Router } from 'react-router-dom'
+import Profile from './pages/Profile'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css'
-
-
-const theme = createTheme({
-  components: {
-    MuiInputBase: {
-      defaultProps: {
-        sx: {
-          borderRadius: "16px",
-          height: "48px"
-        },
-      }
-    },
-    MuiTextField: {
-      defaultProps: {
-        color: 'info',
-        InputLabelProps: {
-          sx: {
-            fontSize: "16px"
-          }
-        }
-      }
-    },
-    MuiButton: {
-      defaultProps: {
-        size: "large",
-        variant: "contained",
-        sx: {
-          borderRadius: "20px"
-        }
-      }
-    },
-    MuiSelect: {
-      defaultProps: {
-        color: 'info'
-      }
-    },
-    MuiInputLabel: {
-      defaultProps: {
-        color: 'info'
-      }
-    },
-    MuiRadio: {
-      defaultProps: {
-        color: 'black'
-      }
-    },
-    MuiFormLabel: {
-      defaultProps: {
-        color: 'black'
-      }
-    },
-    MuiCheckbox: {
-      defaultProps: {
-        color: 'black'
-      }
-    },
-  },
-  palette: {
-    primary: {
-      main: red[700],
-      light: red[300],
-      dark: red[900]
-    },
-    black: {
-      main: grey[900],
-      light: grey[500],
-    }
-  },
-});
+import theme from './theme/Theme'
+import Settings from "./pages/Settings";
+import Board from './pages/Board'
+import NavigationBar from './components/NavigationBar'
+import { Container } from "@mui/material";
 
 function App() {
   return (
     <div>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Settings />
-        </ThemeProvider>
-      </Router>
-    </div>
+      <ThemeProvider theme={theme}>
+        <NavigationBar />
+        <Container sx={{ paddingTop: 4 }}>
+          <Router>
+            <Routes>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings/*" element={<Settings />} />
+              <Route path="/board/" element={<Board />} />
+            </Routes>
+          </Router>
+        </Container>
+      </ThemeProvider>
+    </div >
   );
 }
 

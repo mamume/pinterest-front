@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction, Button, Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
+import { Button, Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
@@ -18,20 +18,16 @@ const drawerWidth = 200
 const useStyles = makeStyles({
     root: {
         display: 'flex',
-        // minHeight: "1vh"
     },
     drawer: {
         width: drawerWidth,
+        marginTop: "90px",
+        border: "0px"
     },
     link: {
         textDecoration: "inherit",
         color: "inherit"
     },
-    footer: {
-        position: 'fixed',
-        bottom: "20px",
-        left: "50%"
-    }
 })
 
 function Setting() {
@@ -40,7 +36,8 @@ function Setting() {
 
     return (
         <Fragment>
-            <Container sx={{ minHeight: "1vh" }}>
+
+            <Container>
                 <div className={classes.root}>
                     <Drawer
                         className={classes.drawer}
@@ -49,7 +46,7 @@ function Setting() {
                         classes={{ paper: classes.drawer }}
                     >
                         <List>
-                            <Link to="/settings/public-profile" className={classes.link}>
+                            <Link to="public-profile" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/public-profile"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -61,7 +58,7 @@ function Setting() {
                                 </ListItemButton>
                             </Link>
 
-                            <Link to="/settings/account" className={classes.link}>
+                            <Link to="account" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/account"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -90,7 +87,7 @@ function Setting() {
                                     Claim</ListItemText>
                             </ListItemButton>
 
-                            <Link to="/settings/notifications" className={classes.link}>
+                            <Link to="notifications" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/notifications"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -102,7 +99,7 @@ function Setting() {
                                 </ListItemButton>
                             </Link>
 
-                            <Link to="/settings/privacy" className={classes.link}>
+                            <Link to="privacy" className={classes.link}>
                                 <ListItemButton selected={location.pathname === "/settings/privacy"}>
                                     <ListItemText
                                         primaryTypographyProps={{
@@ -133,20 +130,20 @@ function Setting() {
                     </Drawer>
                     <Stack spacing={2} sx={{ width: "490px" }}>
                         <Routes>
-                            <Route path="/settings/public-profile" element={<PublicProfile />} />
-                            <Route path="/settings/account" element={<AccountSettings />} />
-                            <Route path="/settings/notifications" element={<Notifications />} />
-                            <Route path="/settings/privacy" element={<PrivacyAndData />} />
+                            <Route path="" element={<PublicProfile />} />
+                            <Route path="public-profile" element={<PublicProfile />} />
+                            <Route path="account" element={<AccountSettings />} />
+                            <Route path="notifications" element={<Notifications />} />
+                            <Route path="privacy" element={<PrivacyAndData />} />
                         </Routes>
                     </Stack>
                 </div>
             </Container >
-            <div className={classes.footer}>
-                <BottomNavigation>
-                    <BottomNavigationAction label="Reset" icon={<Button color="text" disabled>Reset</Button>} />
-                    <BottomNavigationAction label="Save" icon={<Button color="text" disabled>Save</Button>} />
-                </BottomNavigation>
-            </div>
+
+            <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
+                <Button color="text" disabled>Reset</Button>
+                <Button color="primary" disabled>Save</Button>
+            </Stack>
         </Fragment >
     );
 }
