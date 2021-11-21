@@ -2,9 +2,12 @@ import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import PrimarySearchAppBar from './Components/NavigationBar'
-import './app.css'
 import AddButton from "./Components/AddButton";
 import AltNavigationBar from "./Components/AltNavigationBar";
+
+
+
+import './App.css'
 
 
 
@@ -38,7 +41,6 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <AddButton />
         <PrimarySearchAppBar></PrimarySearchAppBar>
       </ThemeProvider>
     </div>

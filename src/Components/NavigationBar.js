@@ -17,8 +17,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import avatar from '../avatar/1.jpg'; 
-import logo from '../avatar/logo.png'; 
 import PinterestIcon from '@mui/icons-material/Pinterest';
+
 
 
 
@@ -121,19 +121,10 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{margin: 0}}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0 }}>
       <AppBar position="static" color="text">
         <Toolbar>
-        {/*<Box
-            component="img"
-            sx={{
-            height: '50%',
-            maxWidth: 50,
-            borderRadius: "50%"
-            }}
-            alt="Your logo."
-            src={logo}
-        />*/}
+
         <LogoWrapper>
                 <IconButton>
                     <PinterestIcon/>
