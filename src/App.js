@@ -2,12 +2,10 @@ import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import PrimarySearchAppBar from './Components/NavigationBar'
-import AddButton from "./Components/AddButton";
-import AltNavigationBar from "./Components/AltNavigationBar";
 
 
 
-import './App.css'
+import './app.css'
 
 
 

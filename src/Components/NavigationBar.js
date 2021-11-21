@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import {  alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -16,7 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
-import avatar from '../avatar/1.jpg'; 
+import avatar from '../avatar/1.jpg';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
 
@@ -125,26 +123,26 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static" color="text">
         <Toolbar>
 
-        <LogoWrapper>
-                <IconButton>
-                    <PinterestIcon/>
-                </IconButton>
-        </LogoWrapper>
+          <LogoWrapper>
+            <IconButton>
+              <PinterestIcon />
+            </IconButton>
+          </LogoWrapper>
           <SearchWrapper>
-                
-                <SearchBarWrapper>
-                    <IconButton>
-                        <SearchIcon></SearchIcon>
-                    </IconButton>
-                    
-                    <form>
-                        <input type="text" />
-                        <button type="submit">Submit</button>
-                    </form>
 
-                </SearchBarWrapper>    
-            </SearchWrapper> 
-          
+            <SearchBarWrapper>
+              <IconButton>
+                <SearchIcon></SearchIcon>
+              </IconButton>
+
+              <form>
+                <input type="text" />
+                <button type="submit">Submit</button>
+              </form>
+
+            </SearchBarWrapper>
+          </SearchWrapper>
+
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
@@ -217,14 +215,12 @@ const SearchBarWrapper = styled.div`
         display: flex;
         flex: 1;
     }
-    
     form > input{
         background-color: transparent;
         border: none;
         width: 100%;
         margin-left: 5px;
         font-size: 16px;
-    
     }
 
     form > button{
