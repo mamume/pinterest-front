@@ -26,12 +26,21 @@ export default class First extends React.Component{
       
     }
 
+    sendData=()=>{
+      let data = {
+        username:this.state.username,
+        screen:'second'
+      }
+      this.props.collect(data)
+      
+    }
+
     render(){
         return <Dialog open={true} onClose={this.props.close} maxWidth='xs' fullWidth={false}>
         <DialogTitle mb={3} mt={2}>
         <MobileStepper
         variant="dots"
-        steps={4}
+        steps={3}
         position="static"
         activeStep={0}
         sx={{ maxWidth: 400, flexGrow: 1}}
@@ -76,7 +85,7 @@ export default class First extends React.Component{
           </DialogContentText>
           </div>
           <Button
-          onClick={()=> this.props.collect(this.state.username)}
+          onClick={this.sendData}
           variant="contained" 
           size='large' 
           fullWidth

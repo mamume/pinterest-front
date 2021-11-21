@@ -3,19 +3,28 @@ import { Container, Button } from "@mui/material";
 import Main from "./Main";
 import First from "./First"
 import Second from "./Second";
+import Third from "./Third";
 import './Signup.css'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from "react-router-dom";
+import {Routes} from 'react-router-dom';
 
 export default class Signup extends React.Component{
     constructor(){
         super();
         this.state = {
-            mainOpen:false,
-            
-            email:"ahmed.email",
+            Cscreen:"",
+            email:"",
             password:"",
             age:"",
             username:"",
-            gender:""
+            gender:"",
+            country:"",
+            language:"",
+
 
             
 
@@ -23,23 +32,36 @@ export default class Signup extends React.Component{
     }
 
     handleClickOpen = () => {
-        this.setState({mainOpen:true});
+        this.setState({Cscreen:"main"});
+        
     };
     handleClose = ()=>{
         this.setState({mainOpen:false});
     }
     collectFromMain = (obj) =>{
+        let email = obj.email
+        console.log(obj)
+
         this.setState({email:obj.email});
         this.setState({password:obj.password});
         this.setState({age:obj.age});
+        this.setState({Cscreen:obj.screen})
+
+
     } 
 
-    collectFromFirst=(userName)=>{
-        this.setState({username:userName})
+    collectFromFirst=(obj)=>{
+        this.setState({username:obj.userName})
+        this.setState({Cscreen:obj.screen})
     }
 
-    collectFromSecond=(gender)=>{
-      this.setState({gender:gender})
+    collectFromSecond=(obj)=>{
+      this.setState({gender:obj.gender})
+      this.setState({Cscreen:obj.screen})
+    }
+    collectFromThird=(obj)=>{
+      this.setState({country:obj.country});
+      this.setState({language:obj.lang})
     }
 
     render(){ 
@@ -55,15 +77,30 @@ export default class Signup extends React.Component{
               borderRadius:20,
               '&.Mui-focused fieldset': {
                 borderColor: '#e60023',
-                borderWidth:3
+                borderWidth:3,
+                
               },
             },
           };
         return <div>
-        {/* <Button onClick={this.handleClickOpen}>Open</Button> 
-        <Main open={this.state.mainOpen} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> */}
-        {/* <First collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email}/> */}
+        <Button onClick={this.handleClickOpen}>Open</Button> 
+        {
+        this.state.Cscreen==="main" &&
+        <Main  close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
+        }
+        {
+        this.state.Cscreen==="first" && 
+        <First collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
+        }
+        {
+        this.state.Cscreen==="second" && 
         <Second collect={this.collectFromSecond} />
-        </div>
+        }
+        {
+        this.state.Cscreen==="third" && 
+        <Third collect={this.collectFromThird} />
+        }
+      </div>
+
     }
 }

@@ -27,6 +27,15 @@ export default class Second extends React.Component{
         this.setState({gender:e.target.value})
     }
 
+    sendData=()=>{
+        let data = {
+          gender:this.state.gender,
+          screen:"third"
+        }
+        this.props.collect(data)
+      }
+  
+
     render(){
         let checked = this.state.gender;
         console.log(checked)
@@ -34,7 +43,7 @@ export default class Second extends React.Component{
         <DialogTitle mb={9} mt={2}>
         <MobileStepper
         variant="dots"
-        steps={4}
+        steps={3}
         position="static"
         activeStep={1}
         sx={{ maxWidth: 400, flexGrow: 1}}
@@ -66,7 +75,7 @@ export default class Second extends React.Component{
         </FormControl>
           
         <Button
-          onClick={()=> this.props.collect(this.state.gender)}
+          onClick={this.sendData}
           variant="contained" 
           size='large' 
           fullWidth
