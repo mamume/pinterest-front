@@ -1,15 +1,14 @@
+import styled from 'styled-components';
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import {  alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -19,46 +18,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import avatar from '../avatar/1.jpg'; 
 import logo from '../avatar/logo.png'; 
+import PinterestIcon from '@mui/icons-material/Pinterest';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '75%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: '75%',
-  },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '100ch',
-    },
-  },
-}));
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -162,7 +124,7 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }} style={{margin: 0}}>
       <AppBar position="static" color="text">
         <Toolbar>
-        <Box
+        {/*<Box
             component="img"
             sx={{
             height: '50%',
@@ -171,17 +133,27 @@ export default function PrimarySearchAppBar() {
             }}
             alt="Your logo."
             src={logo}
-        />
-          <Search style={{backgroundColor: "rgba(1,1,1,.1)"}}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
+        />*/}
+        <LogoWrapper>
+                <IconButton>
+                    <PinterestIcon/>
+                </IconButton>
+        </LogoWrapper>
+          <SearchWrapper>
+                
+                <SearchBarWrapper>
+                    <IconButton>
+                        <SearchIcon></SearchIcon>
+                    </IconButton>
+                    
+                    <form>
+                        <input type="text" />
+                        <button type="submit">Submit</button>
+                    </form>
+
+                </SearchBarWrapper>    
+            </SearchWrapper> 
+          
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
@@ -237,3 +209,48 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+const SearchWrapper = styled.div`
+    flex: 1;
+`
+
+const SearchBarWrapper = styled.div`
+    background-color: #efefef;
+    display: flex;
+    height: 48px;
+    width: 100%;
+    border-radius: 50px;
+    border: none;
+
+    form{
+        display: flex;
+        flex: 1;
+    }
+    
+    form > input{
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        margin-left: 5px;
+        font-size: 16px;
+    
+    }
+
+    form > button{
+        display: none;
+
+    }
+
+    input:focus{
+        outline: none;
+    }
+
+`
+
+const LogoWrapper = styled.div`
+    .MuiSvgIcon-root{
+        color: #e60023;
+        font-size: 32px;
+        cursor: pointer;
+    }
+`
