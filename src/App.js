@@ -1,47 +1,29 @@
-import { red } from "@mui/material/colors";
-import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import PrimarySearchAppBar from './Components/NavigationBar'
-
-
-
-import './app.css'
-
-
-
-const theme = createTheme({
-  components: {
-    MuiTextField: {
-      defaultProps: {
-        color: 'info'
-      }
-    },
-    MuiButton: {
-      defaultProps: {
-        size: "large",
-        variant: "contained",
-      }
-    }
-  },
-  palette: {
-    primary: {
-      main: red[700],
-      light: red[300],
-      dark: red[900]
-    }
-  },
-  shape: {
-    borderRadius: "24px"
-  }
-});
+import Profile from './pages/Profile'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import './App.css'
+import theme from './theme/Theme'
+import Settings from "./pages/Settings";
+import Board from './pages/Board'
+import NavigationBar from './components/NavigationBar'
+import { Container } from "@mui/material";
 
 function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <PrimarySearchAppBar></PrimarySearchAppBar>
+        <NavigationBar />
+        <Container sx={{ paddingTop: 4 }}>
+          <Router>
+            <Routes>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings/*" element={<Settings />} />
+              <Route path="/board/" element={<Board />} />
+            </Routes>
+          </Router>
+        </Container>
       </ThemeProvider>
-    </div>
+    </div >
   );
 }
 
