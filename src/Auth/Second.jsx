@@ -1,5 +1,4 @@
 import React from "react";
-import './Second.css'
 import {
     Button,
     Dialog,
@@ -41,16 +40,15 @@ export default class Second extends React.Component{
 
     render(){
         let checked = this.state.gender;
-        console.log(checked)
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
-        <DialogTitle mb={9} mt={2}>
+        <DialogTitle mb={9} mt={1}>
         <IconButton
           aria-label="close"
           onClick={()=> this.props.switch("first")}
           sx={{
             position: 'absolute',
-            left: 10,
-            top: 10,
+            left: 17.5,
+            top: 17.5,
             color:'black',
             fontWeight:'bold'
           }}
@@ -89,7 +87,8 @@ export default class Second extends React.Component{
             
         </RadioGroup>
         </FormControl>
-          
+
+        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>  
         <Button
           onClick={this.sendData}
           variant="contained" 
@@ -104,6 +103,7 @@ export default class Second extends React.Component{
           }}
         >
         Next</Button>
+        </div>
         
 
         </DialogContent>

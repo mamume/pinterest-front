@@ -4,10 +4,11 @@ import Main from "./Main";
 import First from "./First"
 import Second from "./Second";
 import Third from "./Third";
-import './Signup.css'
+import LoginSaved from "./LoginSaved";
+import './Auth.css'
 
 
-export default class Signup extends React.Component{
+export default class Auth extends React.Component{
     constructor(){
         super();
         this.state = {
@@ -20,6 +21,8 @@ export default class Signup extends React.Component{
             gender:"",
             country:"",
             language:"",
+            loginEmail:"",
+            loginPassword:""
 
 
             
@@ -27,10 +30,17 @@ export default class Signup extends React.Component{
         }
     }
 
-    handleClickOpen = () => {
+    handleClickOpen = (type) => {
         this.setState({open:true})
-        this.setState({Cscreen:"main"});
-        
+        if(type==="signup"){
+          this.switchScreen("main")
+        }else if(type==="login"){
+          if(localStorage.pinterestAccount){
+            this.state.loginEmail = localStorage.pinterestAccount
+            this.setState({loginEmail:this.state.loginEmail})
+            this.switchScreen("savedLogin")
+          }else this.switchScreen("unsavedLogin")
+        }
     };
     handleClose = ()=>{
         this.setState({open:false});
@@ -108,14 +118,14 @@ export default class Signup extends React.Component{
             },
           };
         return <div>
-        <Button onClick={this.handleClickOpen}>Open</Button> 
+        <Button onClick={()=> this.handleClickOpen("login")}>Open</Button> 
         {
         this.state.Cscreen==="main" &&
-        <Main switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
+        <Main switch={this.switchScreen} handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
         }
         {
         this.state.Cscreen==="first" && 
-        <First switch={this.switchScreen} open={this.state.open} collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
+        <First switch={this.switchScreen} handle={this.handleClickOpen} open={this.state.open} collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
         }
         {
         this.state.Cscreen==="second" && 
@@ -124,6 +134,10 @@ export default class Signup extends React.Component{
         {
         this.state.Cscreen==="third" && 
         <Third switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
+        }
+        {
+        this.state.Cscreen==="unsavedLogin" &&
+        <LoginSaved switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
         }
       </div>
 

@@ -1,5 +1,4 @@
 import React from "react";
-import './Main.css';
 import {
     Button,
     TextField,
@@ -44,7 +43,7 @@ export default class Main extends React.Component{
 
     render(){
 
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
+        return <Dialog sx={{'& .MuiPaper-root-MuiDialog-paper':{borderRadius:0}}} open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle sx={{textAlign:"center"}}>
         <IconButton
           aria-label="close"
@@ -77,6 +76,7 @@ export default class Main extends React.Component{
           <div style={{width:"70%", textAlign:"center", margin:'auto'}}>
           <form>
           <TextField
+          autoFocus
             required
             sx={this.props.inputStyle}
             margin="dense"
@@ -135,15 +135,15 @@ export default class Main extends React.Component{
           </form>
           <div style={{width:"90%", margin:'1rem auto', textAlign:'center'}}>
           <Typography variant="caption">
-          By continuing you agree to pinterest's <a href="#">Terms of Service</a> and
-           acknowledge you've read our <a href="#">Privacy Policy</a>
+          By continuing you agree to pinterest's <button className="asAnchor">Terms of Service</button> and
+           acknowledge you've read our <button className="asAnchor">Privacy Policy</button>
         </Typography>
           </div>
 
           </div>
           <DialogContentText>
           <Typography variant="caption">
-          <a href="#">Are you a member? Log in</a>
+          <button className="asAnchor" onClick={()=> this.props.handle("login")}>Are you a member? Log in</button>
         </Typography>
             </DialogContentText>
         </DialogContent>

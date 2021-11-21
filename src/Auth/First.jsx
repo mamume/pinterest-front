@@ -1,5 +1,4 @@
 import React from "react";
-import "./First.css"
 import {
     Button,
     TextField,
@@ -40,14 +39,14 @@ export default class First extends React.Component{
 
     render(){
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
-        <DialogTitle mb={3} mt={2}>
+        <DialogTitle mb={3} mt={1}>
         <IconButton
           aria-label="close"
           onClick={()=> this.props.switch("main")}
           sx={{
             position: 'absolute',
-            left: 10,
-            top: 10,
+            left: 17.5,
+            top: 17.5,
             color:'black',
             fontWeight:'bold'
           }}
@@ -99,6 +98,7 @@ export default class First extends React.Component{
           the right ideas for you</Typography>
           </DialogContentText>
           </div>
+          <div style={{width:"80%", textAlign:"center", margin:'auto'}}>
           <Button
           onClick={this.sendData}
           variant="contained" 
@@ -113,11 +113,12 @@ export default class First extends React.Component{
           }}
           >
           Next</Button>
+          </div>
           
 
          <DialogContentText mt={2}> 
           <Typography variant="caption">
-          <a href="#">Are you a member? Log in</a>
+          <button className="asAnchor" onClick={()=> this.props.handle("login")}>Are you a member? Log in</button>
         </Typography>
         </DialogContentText>  
 

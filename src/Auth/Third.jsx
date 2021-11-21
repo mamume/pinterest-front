@@ -1,6 +1,5 @@
 import React from "react";
 import countryList from 'react-select-country-list';
-import './Third.css'
 import {
     Button,
     Dialog,
@@ -45,7 +44,6 @@ export default class Third extends React.Component{
 
     render(){
         let countryArr = countryList().getData()
-        console.log(countryArr)
         let langList = require('lang-list')
         let languagesArr = langList.getList(
             { 
@@ -53,17 +51,16 @@ export default class Third extends React.Component{
                 strict: true
             }
         );
-        console.log(languagesArr)
 
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
-        <DialogTitle  mt={2}>
+        <DialogTitle  mt={1}>
         <IconButton
           aria-label="close"
           onClick={()=> this.props.switch("second")}
           sx={{
             position: 'absolute',
-            left: 10,
-            top: 10,
+            left: 17.5,
+            top: 17.5,
             color:'black',
             fontWeight:'bold'
           }}
@@ -82,7 +79,8 @@ export default class Third extends React.Component{
        
         <DialogContentText my={10} >
         <Typography variant="h4" sx={{color:'black'}}>Pick your language and country/region</Typography>
-        </DialogContentText>  
+        </DialogContentText>
+        <div style={{width:"85%", textAlign:"center", margin:'auto'}}>  
         <div style={{width:'100%', marginBottom:'1rem'}}>    
         <FormControl fullWidth >
             <InputLabel id="demo-simple-select-label">Country</InputLabel>
@@ -134,6 +132,7 @@ export default class Third extends React.Component{
           }}
         >
         Next</Button>
+        </div>
         
 
         </DialogContent>

@@ -1,0 +1,127 @@
+import React from "react";
+import {
+    Button,
+    TextField,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Typography,
+    Avatar,
+    IconButton,
+    Divider
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import PinterestIcon from '@mui/icons-material/Pinterest';
+import './LoginSaved.css';
+
+
+export default class LoginSaved extends React.Component{
+    constructor(){
+        super()
+        this.state = {
+          password:""
+        }
+    }
+
+    collectInput=(e)=>{
+      
+      this.setState({[e.target.name]:e.target.value});
+      
+    }
+
+    render(){
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
+        <DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={this.props.close}
+            sx={{
+              position: 'absolute',
+              right: 10,
+              top: 10,
+              color:'black',
+              fontWeight:'bold',
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{textAlign:"center"}}>
+        <div style={{width:"90%", textAlign:"center", margin:'auto'}}>
+          <PinterestIcon fontSize="large" 
+          sx={{
+            color:'#e60023',
+            marginBottom:2
+          }} />
+          <DialogContentText>
+            <Typography variant="h4" sx={{fontWeight:400, textTransform:'capitalize'}}>Welcome back, {this.props.email[0]}
+            
+            </Typography>
+          </DialogContentText>
+          <Avatar
+          sx={{ width: 100, height: 100 , margin:'auto', backgroundColor:"#f3f0f0"}}
+          >
+            <Typography variant="h3" sx={{color:'black', fontWeight:400, textTransform:'uppercase'}}>{this.props.email[0]}
+            
+            </Typography>
+          </Avatar>
+          </div>
+          
+          <div style={{width:"70%", textAlign:"center", margin:'auto', marginTop:'0.5rem'}}>
+
+          <TextField
+            autoFocus
+            required
+            sx={this.props.inputStyle}
+            margin="dense"
+            name="loginPassword"
+            id="loginPassword"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="outlined"
+            value={this.state.password}
+            onChange={this.collectInput}
+          />
+          <DialogContentText ml={1} sx={{textAlign:"left"}}>
+            <Typography variant="subtitle2"><button className="asAnchor">Forgot your password?</button>
+            </Typography>
+          </DialogContentText>
+
+          <Button
+          onClick={this.sendData}
+          variant="contained" 
+          size='large' 
+          fullWidth
+          sx={{
+            backgroundColor:"#e60023", 
+            '&:hover':{backgroundColor:"#e60023"}, 
+            borderRadius:10,
+            textTransform:'none',
+            marginTop:'1.5rem',
+            marginBottom:'2.5rem'
+          }}
+          >
+          Next</Button>
+
+        </div>
+
+        <Divider/> 
+
+         <DialogContentText mt={2}> 
+          <Typography variant="caption">
+          <button className="asAnchor" onClick={()=> this.probs.switch('unsavedLogin')}>Not you? log in with a deffrent account</button>
+        </Typography>
+        </DialogContentText>
+        <DialogContentText> 
+          <Typography variant="caption">
+          <button className="asAnchor" onClick={()=> this.props.switch('main')}>Need an account? sign up now</button>
+        </Typography>
+        </DialogContentText>    
+
+        </DialogContent>
+
+      </Dialog>
+    }
+}
