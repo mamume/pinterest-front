@@ -1,4 +1,4 @@
-import { Button, Container, CssBaseline, List, ListItemButton, ListItemText, Stack } from '@mui/material';
+import { Button, Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
