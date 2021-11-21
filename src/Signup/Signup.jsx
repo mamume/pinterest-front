@@ -60,7 +60,7 @@ export default class Signup extends React.Component{
       let user = {
         email:this.state.email,
         password:this.state.password,
-        username=this.state.username,
+        username:this.state.username,
         age:this.state.age,
         gender:this.state.gender,
         country:this.state.country,

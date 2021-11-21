@@ -61,7 +61,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Setting />
+        
       </ThemeProvider>
     </div>
   );
