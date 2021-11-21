@@ -52,7 +52,9 @@ function Board() {
                     open={open}
                     onClose={handleClose}
                 >
-                    <InviteModal />
+                    <InviteModal
+                        handleClose={handleClose}
+                    />
                 </Modal>
 
                 <Typography>[Board Privacy]</Typography>
