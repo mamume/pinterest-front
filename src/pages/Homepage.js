@@ -3,11 +3,15 @@ import { Fragment } from "react";
 import React, { useState ,useEffect } from "react";
 import Masonry from '@mui/lab/Masonry';
 import temp from '../images/1.jpg'
+import temp1 from '../images/2.jpg'
+import SinglePin from '../components/SinglePin'
+import PinTemplate from '../components/PinTemplate'
+
 
 
 
 function Homepage() {
-    const [itemData, setItemData] = useState([{img: temp}, {img: temp}, {img: temp}, {img: temp}, {img: temp}, {img: temp}])
+    const [itemData, setItemData] = useState([{img: temp1}, {img: temp}, {img: temp1}, {img: temp}, {img: temp1}, {img: temp}])
     useEffect( () => {
 
         for (let i=1; i<10; i++ ){
@@ -17,22 +21,13 @@ function Homepage() {
     }, [])
 
     return (
-        <Fragment>
-            <Masonry columns={5} spacing={1}>
-                {itemData.map((item, index) => (
-                    <Stack key={index}>
-                        {/*<Label>{index + 1}</Label>*/}
-                        <img
-                        src={`${item.img}?w=162&auto=format`}
-                        srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
-                        alt={item.title}
-                        loading="lazy"
-                        style={{ borderBottomLeftRadius: 4, borderBottomRightRadius: 4 }}
-                    />
-                    </Stack>
-                ))}
+        <div>
+            <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }}>
+                { itemData.map((item, index) => (
+                <SinglePin img={item.img}/>
+))}
             </Masonry>
-        </Fragment>
+        </div>
     );
 }
 
