@@ -1,7 +1,4 @@
-* {
-    margin: 0px;
-    padding: 0px;
-}
+
 
 .pin-container{
     width:100%;
@@ -17,7 +14,7 @@
 
 .sides{
     width: 1061px;
-    height: 708px;
+    min-height: 708px;
     background-color: white;
     position: absolute;
     top: 50%;
@@ -28,6 +25,7 @@
     padding: 35px;
     display: flex;
     border:2px solid #EFEFEF;
+    margin-top: 100px;
 }
 
 .right-side{
@@ -42,10 +40,12 @@
     width: 50%;
     height: 100%;
     padding: 20px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#icon_more{
+.icon_more{
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -56,7 +56,7 @@
     background-color:rgba(239, 239, 239, 0);
     cursor: pointer;
 }
-#icon_more:hover{
+.icon_more:hover{
     background-color:rgba(239, 239, 239, 1);
     border: 2px solid skyblue;
     
@@ -108,7 +108,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    
     
 }
 
@@ -161,15 +161,13 @@
     width: 100%;
     
 }
-.pin_title{
-    
-}
-.pin_description{
+
+.pin_description_for_pin{
     
     /*word-break: break-word;
     height: auto;*/
-    margin-bottom: 15px;
-    margin-top: 9px;
+    padding: 10px;
+    font-size: 1em;
 }
 
 .user_details{
@@ -177,7 +175,7 @@
     flex-direction: row;
     justify-content: flex-start;
     width: 100%;
-    margin-bottom: 15px;
+   
    
 }
 .user_icon{
@@ -209,7 +207,7 @@
 .note_head{
     font-weight: 700;
     font-size: 20px;
-    margin-bottom: 5px;
+    padding: 5px;
 }
 .add_note{
     width: 132px;
@@ -239,7 +237,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin-bottom: 10px;
+    align-items: center;
 }
 .comment_icon{
     width: 40px;
@@ -255,10 +253,11 @@
 }
 .comment_icon:hover{
     background-color:rgba(239, 239, 239, 1);
+    border: 2px solid skyblue;
 }
 
 .comment_area_header{
-    margin-bottom: 30px;
+    
 }
 
 .persons_icon{
@@ -285,6 +284,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
+    top: 20px;
 }
 .text{
     width: 100%;
@@ -303,12 +304,8 @@
 .bord_name{
     display: flex;
     flex-direction: row;
-    margin-top: 32px;
-
-}
-
-.section3{
-    margin-top: 50px;
+    position: absolute;
+    bottom: 50px;
 }
 
 .bord_items{
@@ -327,9 +324,14 @@
     flex-direction: row;
     justify-content: flex-end;
     width: 100%;
-    display: none;
+    position: relative;
+    top: 25px;
+    
 }
 
+.comment_area_container{
+    display: none;
+}
 .comment_hide{
     display: none;
 }
@@ -375,4 +377,26 @@
 .img_pin{
     max-height: 100%;
     max-width: 100%;
+}
+
+.modals_pin_pin{
+    max-width:100%;
+    max-height: 100%;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+.pin_image_pin{
+    width: 100%;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pin_image_pin img{
+    object-fit: contain;
+    max-width: -moz-available;
 }
