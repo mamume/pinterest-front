@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+// import App from './App';
 import Auth from './Auth/Auth';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

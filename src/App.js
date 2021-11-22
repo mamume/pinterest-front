@@ -1,69 +1,29 @@
-import { red } from "@mui/material/colors";
-import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Setting from './pages/Setting'
-import { grey } from "@mui/material/colors";
-
-console.log(grey[900])
-
-const theme = createTheme({
-  components: {
-    MuiTextField: {
-      defaultProps: {
-        color: 'info',
-        margin: 'dense'
-      }
-    },
-    MuiButton: {
-      defaultProps: {
-        size: "large",
-        variant: "contained",
-      }
-    },
-    MuiSelect: {
-      defaultProps: {
-        color: 'info'
-      }
-    },
-    MuiInputLabel: {
-      defaultProps: {
-        color: 'info'
-      }
-    },
-    MuiRadio: {
-      defaultProps: {
-        color: 'black'
-      }
-    },
-    MuiFormLabel: {
-      defaultProps: {
-        color: 'black'
-      }
-    }
-  },
-  palette: {
-    primary: {
-      main: red[700],
-      light: red[300],
-      dark: red[900]
-    },
-    black: {
-      main: grey[900],
-      light: grey[500],
-    }
-  },
-  shape: {
-    borderRadius: "24px"
-  }
-});
+import Profile from './pages/Profile'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import './App.css'
+import theme from './theme/Theme'
+import Settings from "./pages/Settings";
+import Board from './pages/Board'
+import NavigationBar from './components/NavigationBar'
+import { Container } from "@mui/material";
 
 function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Setting />
+        <NavigationBar />
+        <Container sx={{ paddingTop: 4 }}>
+          <Router>
+            <Routes>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings/*" element={<Settings />} />
+              <Route path="/board/" element={<Board />} />
+            </Routes>
+          </Router>
+        </Container>
       </ThemeProvider>
-    </div>
+    </div >
   );
 }
 
