@@ -16,6 +16,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import avatar from '../avatar/1.jpg';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import AddButton from "./AddButton"
 
 
 
@@ -195,6 +196,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <AddButton/>
     </Box>
   );
 }
