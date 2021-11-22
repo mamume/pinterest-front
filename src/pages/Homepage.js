@@ -14,7 +14,7 @@ function Homepage() {
     const [itemData, setItemData] = useState([{img: temp1}, {img: temp}, {img: temp1}, {img: temp}, {img: temp1}, {img: temp}])
     useEffect( () => {
 
-        for (let i=1; i<10; i++ ){
+        for (let i=1; i<20; i++ ){
             setItemData(itemData => [ ...itemData, {img:temp}])
         }
 
@@ -22,7 +22,7 @@ function Homepage() {
 
     return (
         <div>
-            <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }}>
+            <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} >
                 { itemData.map((item, index) => (
                 <SinglePin img={item.img}/>
 ))}

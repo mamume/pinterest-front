@@ -21,6 +21,8 @@ const useStyles = makeStyles({
     },
     drawer: {
         width: drawerWidth,
+        marginTop: "90px",
+        border: "0px"
     },
     link: {
         textDecoration: "inherit",
@@ -34,7 +36,8 @@ function Setting() {
 
     return (
         <Fragment>
-            <Container sx={{ minHeight: "1vh" }}>
+
+            <Container>
                 <div className={classes.root}>
                     <Drawer
                         className={classes.drawer}
