@@ -133,7 +133,6 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-  const [authed] = useState(true)
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
