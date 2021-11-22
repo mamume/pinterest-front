@@ -5,6 +5,7 @@ import AddRounded from "@mui/icons-material/AddRounded";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
+import HomePage from "./Homepage"
 
 
 const useStyles = makeStyles({
@@ -58,7 +59,9 @@ function Profile() {
         <Typography fontWeight="bold" variant="h6">Unorganized Ideas</Typography>
         <Button color="grey">Organize</Button>
       </Stack>
-    </Fragment >
+
+      <HomePage />
+    </Fragment>
   );
 }
 
