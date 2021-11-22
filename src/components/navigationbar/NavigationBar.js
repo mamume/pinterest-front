@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import * as React  from 'react';
-import {useState} from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,12 +17,22 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import AddButton from "./AddButton"
-import {Link} from 'react-router-dom'
+import { makeStyles } from "@mui/styles"
+import { Link } from 'react-router-dom'
 
 
-
+const useStyles = makeStyles({
+  link: {
+    textDecoration: "inherit",
+    color: "inherit",
+    '&:hover': {
+      textDecoration: "inherit",
+    }
+  },
+})
 
 export default function PrimarySearchAppBar() {
+  const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -63,15 +73,12 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      
+
+      <Link to="/profile" className={classes.link}>
         <MenuItem onClick={handleMenuClose}>
-          {/* check this later*/} 
-          <Link to="/profile">Profile
-          </Link>
+          Profile
         </MenuItem>
-      
-      
-      
+      </Link>
     </Menu>
   );
 
@@ -132,17 +139,17 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
       <AppBar position="static" color="text">
         <Toolbar>
-        <Link to="/">
-        <LogoWrapper>
-            <IconButton>
-              <PinterestIcon />
-            </IconButton>
-          </LogoWrapper>
-          
+          <Link to="/">
+            <LogoWrapper>
+              <IconButton>
+                <PinterestIcon />
+              </IconButton>
+            </LogoWrapper>
 
-        </Link>
 
-        <SearchWrapper>
+          </Link>
+
+          <SearchWrapper>
 
             <SearchBarWrapper>
               <IconButton>
@@ -211,7 +218,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <AddButton/>
+      <AddButton />
     </Box>
   );
 }
