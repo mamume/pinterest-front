@@ -4,25 +4,33 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import theme from './theme/Theme'
 import Settings from "./pages/Settings";
 import Board from './pages/Board'
+import Auth from './Auth/Auth'
 import NavigationBar from './components/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 function App() {
+  const [authed, setAuthed] = useState(false)
+
   return (
     <Fragment>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <NavigationBar />
-        <Container sx={{ paddingTop: 4 }}>
-          <Router>
-            <Routes>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings/*" element={<Settings />} />
-              <Route path="/board/" element={<Board />} />
-            </Routes>
-          </Router>
-        </Container>
+        {authed
+          ? <Fragment>
+            <NavigationBar />
+            <Container sx={{ paddingTop: 4 }}>
+              <Router>
+                <Routes>
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings/*" element={<Settings />} />
+                  <Route path="/board/" element={<Board />} />
+                </Routes>
+              </Router>
+            </Container>
+          </Fragment>
+          : <Auth />
+        }
       </ThemeProvider>
     </Fragment>
   );
