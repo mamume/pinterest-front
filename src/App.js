@@ -7,10 +7,11 @@ import Settings from "./pages/Settings";
 import Board from './pages/Board'
 import NavigationBar from './components/NavigationBar'
 import { Container } from "@mui/material";
+import { Fragment } from "react";
 
 function App() {
   return (
-    <div>
+    <Fragment>
       <ThemeProvider theme={theme}>
         <NavigationBar />
         <Container sx={{ paddingTop: 4 }}>
@@ -23,7 +24,7 @@ function App() {
           </Router>
         </Container>
       </ThemeProvider>
-    </div >
+    </Fragment>
   );
 }
 
