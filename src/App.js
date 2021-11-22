@@ -1,25 +1,51 @@
 import { ThemeProvider } from "@mui/material/styles";
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import './App.css'
 import theme from './theme/Theme'
 import Settings from "./pages/Settings"
 import Homepage from "./pages/Homepage";
+import Board from './pages/Board'
+import Auth from './Auth/Auth'
+import NavigationBar from './components/navigationbar/NavigationBar'
+import { Container, CssBaseline } from "@mui/material";
+import { Fragment, useState } from "react";
+import PinThumbnail from './components/pins/pin_thumbnail'
+import Create from './components/pins/create_pin'
+
+
+
 
 function App() {
+  const [authed] = useState(true)
+
   return (
-    <div>
+
+    <Fragment>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Router>
-          <Routes>
-            <Route path="/" exact element={<Homepage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings/*" element={<Settings />} />
-          </Routes>
-        </Router>
+        {authed
+          ? <Fragment>
+            <PinThumbnail />
+            <Container sx = {{paddingTop: 13}} >
+              <Router>
+                <NavigationBar />
+                <Routes>
+                  <Route path="/" exact element={<Homepage />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings/*" element={<Settings />} />
+                  <Route path="/board/" element={<Board />} />
+                  <Route path="/create_pin/" element={<Create />} />
+                </Routes>
+              </Router>
+            </Container>
+          </Fragment>
+          : <Auth />
+        }
       </ThemeProvider>
-    </div>
+    </Fragment>
   );
 }
 
 export default App;
+
+

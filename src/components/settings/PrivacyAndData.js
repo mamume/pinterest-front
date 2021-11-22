@@ -29,24 +29,14 @@ function PrivacyAndData() {
                 <FormControlLabel control={<Checkbox defaultChecked color="black" />} label="Hide your profile from search engines (Ex. Google)." />
             </FormGroup>
 
-            {/* TODO: Login Options */}
-
             <Typography variant="h6">Personalization</Typography>
-            <FormGroup sx={{}}>
-                <FormControlLabel className="settings_checkbox" control={<Checkbox defaultChecked />} label="Use sites you visit to improve which recommendations and ads you see." />
-                <FormControlLabel className="settings_checkbox" control={<Checkbox defaultChecked />} label="Use information from our partners to improve which recommendations and ads you see." />
-                <FormControlLabel className="settings_checkbox" control={<Checkbox defaultChecked />} label="Use your activity to improve the ads you see about Pinterest on other sites or apps you may visit." />
-                <FormControlLabel className="settings_checkbox" control={<Checkbox defaultChecked />} label="Share activity for ads performance reporting." />
-                <FormControlLabel className="settings_checkbox" control={<Checkbox defaultChecked />} label="Autoplay videos on desktop." />
+            <FormGroup>
+                <FormControlLabel sx={{ marginBottom: 1 }} control={<Checkbox defaultChecked />} label="Use sites you visit to improve which recommendations and ads you see." />
+                <FormControlLabel sx={{ marginBottom: 1 }} control={<Checkbox defaultChecked />} label="Use information from our partners to improve which recommendations and ads you see." />
+                <FormControlLabel sx={{ marginBottom: 1 }} control={<Checkbox defaultChecked />} label="Use your activity to improve the ads you see about Pinterest on other sites or apps you may visit." />
+                <FormControlLabel sx={{ marginBottom: 1 }} control={<Checkbox defaultChecked />} label="Share activity for ads performance reporting." />
+                <FormControlLabel sx={{ marginBottom: 1 }} control={<Checkbox defaultChecked />} label="Autoplay videos on desktop." />
             </FormGroup>
-            {/* <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
-                <Button color="text" variant="contained" component="span">
-                    Reset
-                </Button>
-                <Button color="error" variant="contained" component="span">
-                    Save
-                </Button>
-            </Stack> */}
         </Fragment >
     );
 }

@@ -1,5 +1,6 @@
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
+import { IconButton } from '@mui/material';
 
 function SortButton({ icon, label, options }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -15,7 +16,7 @@ function SortButton({ icon, label, options }) {
 
     return (
         <Fragment>
-            <Button onClick={handleClick} disableElevation color="text">{icon}</Button>
+            <IconButton color="black" onClick={handleClick} disableElevation>{icon}</IconButton>
             <Menu
                 anchorEl={anchorEl}
                 open={open}
