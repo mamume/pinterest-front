@@ -13,20 +13,17 @@ import PinThumbnail from './components/pins/pin_thumbnail'
 import Create from './components/pins/create_pin'
 
 
-
-
 function App() {
   const [authed] = useState(true)
 
   return (
-
     <Fragment>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         {authed
           ? <Fragment>
             <PinThumbnail />
-            <Container sx = {{paddingTop: 13}} >
+            <Container sx={{ paddingTop: 13 }} >
               <Router>
                 <NavigationBar />
                 <Routes>
