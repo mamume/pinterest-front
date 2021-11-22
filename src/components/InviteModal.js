@@ -52,7 +52,7 @@ function InviteModal({ handleClose }) {
                 </Stack>
 
                 <Stack mb mt direction="row" spacing justifyContent="space-between">
-                    <TextField value="https://pin.it/id" fullWidth sx={{ maxWidth: 300 }} />
+                    <TextField value="https://pin.it/id" fullWidth sx={{ maxWidth: 250 }} />
                     <Button color="grey">Copy Link</Button>
                 </Stack>
 

@@ -14,7 +14,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
-import avatar from '../avatar/1.jpg';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import AddButton from "./AddButton"
 
@@ -123,7 +122,6 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
       <AppBar position="static" color="text">
         <Toolbar>
-
           <LogoWrapper>
             <IconButton>
               <PinterestIcon />
@@ -168,7 +166,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar alt="Remy Sharp" src={avatar} />
+              <Avatar alt="Remy Sharp" src='/avatar/1.jpg' />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
