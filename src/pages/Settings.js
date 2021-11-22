@@ -26,7 +26,10 @@ const useStyles = makeStyles({
   },
   link: {
     textDecoration: "inherit",
-    color: "inherit"
+    color: "inherit",
+    '&:hover': {
+      textDecoration: "inherit",
+    }
   },
 })
 
