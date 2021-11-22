@@ -76,14 +76,14 @@ const CardWrapper = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        border: 50px solid white;
+        
         height:100%;
 
     }
 
     .modal:hover{
         opacity: 100%;
-        border: 50px solid white;
+        
     }
     .modal_header{
         display: flex;

@@ -5,7 +5,7 @@ import Masonry from '@mui/lab/Masonry';
 import temp from '../images/1.jpg'
 import temp1 from '../images/2.jpg'
 import SinglePin from '../components/SinglePin'
-import PinTemplate from '../components/PinTemplate'
+
 
 
 
