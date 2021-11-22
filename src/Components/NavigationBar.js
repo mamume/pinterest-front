@@ -119,10 +119,9 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ margin: 0 }}>
-      <AppBar position="static" color="text">
+    <Box>
+      <AppBar position="fixed" color="text">
         <Toolbar>
-
           <LogoWrapper>
             <IconButton>
               <PinterestIcon />
