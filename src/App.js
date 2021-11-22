@@ -23,7 +23,7 @@ function App() {
         {authed
           ? <Fragment>
             <PinThumbnail />
-            <Container sx={{ paddingTop: 13 }} >
+            <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
                 <Routes>
