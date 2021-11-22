@@ -10,7 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useState } from "react";
 
 function App() {
-  const [authed] = useState(false)
+  const [authed] = useState(true)
 
   return (
     <Fragment>
@@ -19,7 +19,7 @@ function App() {
         {authed
           ? <Fragment>
             <NavigationBar />
-            <Container sx={{ paddingTop: 4 }}>
+            <Container sx={{ paddingTop: 13 }}>
               <Router>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
