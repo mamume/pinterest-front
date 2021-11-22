@@ -1,17 +1,17 @@
 import { ThemeProvider } from "@mui/material/styles";
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import './App.css'
 import theme from './theme/Theme'
 import Settings from "./pages/Settings";
 import Board from './pages/Board'
 import NavigationBar from './components/NavigationBar'
-import { Container } from "@mui/material";
+import { Container, CssBaseline } from "@mui/material";
 import { Fragment } from "react";
 
 function App() {
   return (
     <Fragment>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <NavigationBar />
         <Container sx={{ paddingTop: 4 }}>
