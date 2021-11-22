@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import * as React from 'react';
+import * as React  from 'react';
+import {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +17,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import AddButton from "./AddButton"
+import {Link} from 'react-router-dom'
 
 
 
@@ -61,8 +63,15 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      
+        <MenuItem onClick={handleMenuClose}>
+          {/* check this later*/} 
+          <Link to="/profile">Profile
+          </Link>
+        </MenuItem>
+      
+      
+      
     </Menu>
   );
 
@@ -117,17 +126,23 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+  const [authed] = useState(true)
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
       <AppBar position="static" color="text">
         <Toolbar>
-          <LogoWrapper>
+        <Link to="/">
+        <LogoWrapper>
             <IconButton>
               <PinterestIcon />
             </IconButton>
           </LogoWrapper>
-          <SearchWrapper>
+          
+
+        </Link>
+
+        <SearchWrapper>
 
             <SearchBarWrapper>
               <IconButton>
@@ -142,6 +157,8 @@ export default function PrimarySearchAppBar() {
             </SearchBarWrapper>
           </SearchWrapper>
 
+          {/*
+          */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"

@@ -4,7 +4,7 @@ import React, { useState ,useEffect } from "react";
 import Masonry from '@mui/lab/Masonry';
 import temp from '../images/1.jpg'
 import temp1 from '../images/2.jpg'
-import SinglePin from '../components/SinglePin'
+import SinglePin from '../components/pins/SinglePin'
 
 
 
@@ -21,13 +21,13 @@ function Homepage() {
     }, [])
 
     return (
-        <div>
-            <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} >
+        <Fragment >
+            <Masonry columns={{  xs: 1,sm: 2, md: 3, lg: 5, xl: 5 }} style={{width: "100%"}} >
                 { itemData.map((item, index) => (
                 <SinglePin img={item.img}/>
 ))}
             </Masonry>
-        </div>
+        </Fragment>
     );
 }
 

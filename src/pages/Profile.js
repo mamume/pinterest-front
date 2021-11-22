@@ -1,6 +1,6 @@
 import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment } from "react";
-import MenuButton from '../components/MenuButton'
+import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 

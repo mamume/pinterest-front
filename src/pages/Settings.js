@@ -2,9 +2,9 @@ import { Button, Container, List, ListItemButton, ListItemText, Stack } from '@m
 import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/PublicProfile'
-import AccountSettings from '../components/AccountSettings';
-import Notifications from '../components/Notifications'
-import PrivacyAndData from '../components/PrivacyAndData';
+import AccountSettings from '../components/settings/AccountSettings';
+import Notifications from '../components/settings/Notifications'
+import PrivacyAndData from '../components/settings/PrivacyAndData';
 import {
   Routes,
   Route,

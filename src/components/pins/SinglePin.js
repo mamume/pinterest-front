@@ -54,6 +54,7 @@ const Wrapper = styled.div`
     
     img{
         display: flex;
+        justify-content: center;
         width: 100%;
         border-radius: 20px;
         object-fit: cover;
@@ -67,6 +68,7 @@ const CardWrapper = styled.div`
     background-color: #efefef;
     position: relative;
     overflow: hidden;
+    margin: auto;
 
     .modal{
         width: 100%;

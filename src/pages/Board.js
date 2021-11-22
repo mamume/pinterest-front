@@ -1,6 +1,6 @@
 import { Button, IconButton, Modal, Stack, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
-import MenuButton from '../components/MenuButton'
+import MenuButton from '../components/settings/MenuButton'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FlareRoundedIcon from '@mui/icons-material/FlareRounded';
 import AppRegistrationRoundedIcon from '@mui/icons-material/AppRegistrationRounded';
