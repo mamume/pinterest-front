@@ -13,14 +13,13 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
-import './LoginSaved.css';
 
 
 export default class LoginSaved extends React.Component{
     constructor(){
         super()
         this.state = {
-          password:""
+          loginPassword:""
         }
     }
 
@@ -29,6 +28,11 @@ export default class LoginSaved extends React.Component{
       this.setState({[e.target.name]:e.target.value});
       
     }
+
+    sendData=()=>{
+      this.props.collect(this.state.loginPassword)  
+    }
+
 
     render(){
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
@@ -81,7 +85,7 @@ export default class LoginSaved extends React.Component{
             type="password"
             fullWidth
             variant="outlined"
-            value={this.state.password}
+            value={this.state.loginPassword}
             onChange={this.collectInput}
           />
           <DialogContentText ml={1} sx={{textAlign:"left"}}>
@@ -111,7 +115,7 @@ export default class LoginSaved extends React.Component{
 
          <DialogContentText mt={2}> 
           <Typography variant="caption">
-          <button className="asAnchor" onClick={()=> this.probs.switch('unsavedLogin')}>Not you? log in with a deffrent account</button>
+          <button className="asAnchor" onClick={()=> this.props.switch('unsavedLogin')}>Not you? log in with a deffrent account</button>
         </Typography>
         </DialogContentText>
         <DialogContentText> 

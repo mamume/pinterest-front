@@ -63,7 +63,8 @@ export default class Main extends React.Component{
         <DialogContentText sx={{margin:'0 0 1rem 0'}}>
           <PinterestIcon fontSize="large" 
         sx={{
-          color:'#e60023'
+          color:'#e60023',
+          marginBottom:2
         }} />
         <Typography variant="h4" sx={{color:'black'}}>
           Welcome to Pinterest

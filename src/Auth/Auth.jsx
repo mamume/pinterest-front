@@ -5,6 +5,7 @@ import First from "./First"
 import Second from "./Second";
 import Third from "./Third";
 import LoginSaved from "./LoginSaved";
+import LoginUnSaved from "./LoginUnSaved";
 import './Auth.css'
 
 
@@ -65,6 +66,20 @@ export default class Auth extends React.Component{
       this.handleClose()
 
     }
+    collectFromLoginSaved=(password)=>{
+      this.setState({loginPassword:password})
+      let userLogin = {
+        email:this.state.loginEmail,
+        password:this.state.loginPassword
+      }
+    }
+
+    collectFromLoginUnSaved=(obj)=>{
+      let userLogin = {
+        email:obj.loginEmail,
+        password:obj.loginPassword
+      }
+    }
 
     componentWillUnmount(){
       let user = {
@@ -117,8 +132,10 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div>
-        <Button onClick={()=> this.handleClickOpen("login")}>Open</Button> 
+        return <div >
+        <div style={{margin:'5rem auto', maxWidth:'150px'}}>
+        <Button ml={8} onClick={()=> this.handleClickOpen("signup")}>Sign Up</Button> 
+        <Button onClick={()=> this.handleClickOpen("login")}>Log In</Button></div>
         {
         this.state.Cscreen==="main" &&
         <Main switch={this.switchScreen} handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
@@ -136,8 +153,12 @@ export default class Auth extends React.Component{
         <Third switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
         }
         {
-        this.state.Cscreen==="unsavedLogin" &&
+        this.state.Cscreen==="saved" &&
         <LoginSaved switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
+        }
+                {
+        this.state.Cscreen==="unsavedLogin" &&
+        <LoginUnSaved switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginUnSaved} inputStyle={CssTextField}/> 
         }
       </div>
 
