@@ -10,7 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useState } from "react";
 
 function App() {
-  const [authed, setAuthed] = useState(false)
+  const [authed] = useState(false)
 
   return (
     <Fragment>
