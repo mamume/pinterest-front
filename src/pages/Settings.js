@@ -49,7 +49,7 @@ function Setting() {
           classes={{ paper: classes.drawer }}
         >
           <List>
-            <Link to="public-profile" className={classes.link}>
+            <Link to="" className={classes.link}>
               <ListItemButton selected={location.pathname === "/settings/public-profile"}>
                 <ListItemText
                   primaryTypographyProps={{
@@ -140,14 +140,6 @@ function Setting() {
                 setClear={setClear}
               />}
             />
-            <Route path="public-profile" element={
-              <PublicProfile
-                handleReset={setReset}
-                clear={clear}
-                setClear={setClear}
-              />}
-            />
-            {/* <Route path="public-profile" element={<PublicProfile />} /> */}
             <Route path="account" element={<AccountSettings />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="privacy" element={<PrivacyAndData />} />
