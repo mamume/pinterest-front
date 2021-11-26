@@ -148,7 +148,6 @@ function Setting() {
       </div>
       <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
         <Button
-          // color="primary"
           disabled={reset}
           onClick={() => setClear(true)}
         >
