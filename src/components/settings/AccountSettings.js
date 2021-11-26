@@ -1,6 +1,7 @@
 import { MenuItem, Button, InputLabel, Select, Stack, TextField, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import SettingsButtons from "./SettingsButtons";
+import countryList from 'react-select-country-list'
 
 function AccountSettings() {
     const [clear, setClear] = useState(false)
@@ -9,6 +10,7 @@ function AccountSettings() {
     const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')
     const [gender, setGender] = useState('male')
+    const countryOptions = useMemo(() => countryList().getData(), [])
 
     useEffect(() => {
         if (email || country || gender)
@@ -48,9 +50,9 @@ function AccountSettings() {
                     value={country}
                     onChange={e => setCountry(e.target.value)}
                 >
-                    <MenuItem value='eg'>Egypt</MenuItem>
-                    <MenuItem value='us'>US</MenuItem>
-                    <MenuItem value='ksa'>KSA</MenuItem>
+                    {countryOptions.map(country => (
+                        <MenuItem key={country.value} value={country.value}>{country.label}</MenuItem>
+                    ))}
                 </Select>
             </FormControl>
 
