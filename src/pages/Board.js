@@ -1,5 +1,5 @@
 import { Button, IconButton, Modal, Stack, Typography } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FlareRoundedIcon from '@mui/icons-material/FlareRounded';
@@ -20,15 +20,33 @@ const boardBtn = {
 }
 
 function Board() {
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const [boardId] = useState(params.get('board_id'))
+  const [title, setTitle] = useState('')
+  const [share, setShare] = useState(false)
+  const [description, setDescription] = useState('')
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/board/list/${boardId}`)
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data)
+        setTitle(data.title)
+        setShare(data.share)
+        setDescription(data.description)
+      })
+  }, [boardId])
 
   return (
     <Fragment>
       <Stack direction="column" alignItems="center">
         <Stack direction='row' alignItems="baseline" spacing>
-          <Typography mt fontWeight="bold" variant="h4">Board Name</Typography>
+          <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
           <MenuButton
             icon={<MoreHorizIcon />}
             options={["Edit Board", "Share", "Merge", "Archive"]}
@@ -58,7 +76,7 @@ function Board() {
           />
         </Modal>
 
-        <Typography>[Board Privacy]</Typography>
+        <Typography>{share ? "Public" : "Private"} Board</Typography>
         <Stack direction="row" spacing mt mb>
           <Stack alignItems="center">
             <IconButton sx={boardBtn}>
