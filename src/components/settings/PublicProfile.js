@@ -8,7 +8,7 @@ const Input = styled('input')({
 });
 
 function PublicProfile() {
-    const [fname, setFname] = useState('')
+    const [fname, setFname] = useState('fname')
     const [lname, setLname] = useState('')
     const [bio, setBio] = useState('')
     const [website, setWebsite] = useState('')
@@ -16,12 +16,13 @@ function PublicProfile() {
     const [profilePic, setProfilePic] = useState('')
     const [disabled, setDisabled] = useState(true)
     const [clear, setClear] = useState(false)
-
+    const [change, setChange] = useState(true)
 
     useEffect(() => {
-        (fname || lname || bio || website || username || profilePic)
-            ? setDisabled(false)
-            : setDisabled(true)
+        if (fname || lname || bio || website || username || profilePic)
+            setDisabled(false)
+        else
+            setDisabled(true)
     }, [fname, lname, bio, website, username, profilePic])
 
     useEffect(() => {
@@ -103,6 +104,7 @@ function PublicProfile() {
             <SettingsButtons
                 disabled={disabled}
                 setClear={setClear}
+                change={change}
             />
         </Fragment >
     );

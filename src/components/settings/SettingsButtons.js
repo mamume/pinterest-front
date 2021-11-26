@@ -1,12 +1,12 @@
 import { Button, Stack } from "@mui/material";
 
-function SettingsButtons({ disabled, setClear }) {
+function SettingsButtons({ disabled, setClear, change }) {
     return (
         <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
-            <Button disabled={disabled} onClick={() => setClear(true)}>
+            <Button color="text" disabled={disabled} onClick={() => setClear(true)}>
                 Reset
             </Button>
-            <Button color="primary" disabled>Save</Button>
+            <Button disabled={!change}>Save</Button>
         </Stack>
     );
 }
