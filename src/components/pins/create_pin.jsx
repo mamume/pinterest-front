@@ -81,7 +81,7 @@ const Create = () => {
                     <div className="side" id="left_side">
                             <div className="section1">
                                 <div className="pin_mock_icon_container" onClick={MoreOptions}>
-                                    <i class="fas fa-ellipsis-h"></i>
+                                    <i className="fas fa-ellipsis-h"></i>
                                 </div>
 
                             </div>

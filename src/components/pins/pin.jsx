@@ -53,13 +53,13 @@ class Pin extends React.Component {
                             <div className="section1">
                                 <div className="icons">
                                     <div className="icon_more">
-                                        <i class="fas fa-ellipsis-h"></i>
+                                        <i className="fas fa-ellipsis-h"></i>
                                     </div>
                                     <div className="upload">
-                                        <i class="fas fa-upload"></i>
+                                        <i className="fas fa-upload"></i>
                                     </div>
                                     <div className="favorite">
-                                        <i class="far fa-star"></i>
+                                        <i className="far fa-star"></i>
                                     </div>
                                 </div>
 
@@ -100,7 +100,7 @@ class Pin extends React.Component {
                                     <div className="comment_head">
                                         <h3>comments</h3>
                                         <div className="comment_icon" onClick={this.commentclick}>
-                                            <i class="fas fa-chevron-down"></i>
+                                            <i className="fas fa-chevron-down"></i>
                                         </div>
                                     </div>
                                     <div className="comment_area_container" id="comment_area_container">
@@ -124,12 +124,12 @@ class Pin extends React.Component {
 
                             </div>
                             <div className="bord_name">
-                                        <div className="bord_items">
-                                            <div className="comment_icon"><span>M</span></div>
-                                            <div className="bord_content">
-                                                <span>you saved to bord name</span>
-                                            </div>
-                                        </div>
+                                <div className="bord_items">
+                                    <div className="comment_icon"><span>M</span></div>
+                                    <div className="bord_content">
+                                        <span>you saved to bord name</span>
+                                    </div>
+                                </div>
                             </div>
 
 
