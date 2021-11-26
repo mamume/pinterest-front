@@ -17,8 +17,8 @@ function Homepage() {
   return (
     <Fragment >
       <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} style={{ width: "100%" }} >
-        {itemData.map((item) => (
-          <SinglePin img={item.img} />
+        {itemData.map((item, index) => (
+          <SinglePin key={index} img={item.img} />
         ))}
       </Masonry>
     </Fragment>
