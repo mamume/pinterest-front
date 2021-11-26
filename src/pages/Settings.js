@@ -11,6 +11,7 @@ import {
   Link,
   useLocation
 } from "react-router-dom";
+import { useState } from 'react';
 
 const drawerWidth = 200
 
@@ -34,7 +35,9 @@ const useStyles = makeStyles({
 
 function Setting() {
   const classes = useStyles()
-  let location = useLocation();
+  const location = useLocation();
+  const [reset, setReset] = useState(false)
+  const [clear, setClear] = useState(false)
 
   return (
     <Container>
@@ -130,8 +133,19 @@ function Setting() {
         </Drawer>
         <Stack spacing={2} sx={{ width: "490px" }}>
           <Routes>
-            <Route path="" element={<PublicProfile />} />
-            <Route path="public-profile" element={<PublicProfile />} />
+            <Route path="" element={
+              <PublicProfile
+                handleReset={setReset}
+                clear={clear}
+              />}
+            />
+            <Route path="public-profile" element={
+              <PublicProfile
+                handleReset={setReset}
+                clear={clear}
+              />}
+            />
+            {/* <Route path="public-profile" element={<PublicProfile />} /> */}
             <Route path="account" element={<AccountSettings />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="privacy" element={<PrivacyAndData />} />
@@ -139,7 +153,13 @@ function Setting() {
         </Stack>
       </div>
       <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
-        <Button color="text" disabled>Reset</Button>
+        <Button
+          // color="primary"
+          disabled={reset}
+          onClick={() => setClear(true)}
+        >
+          Reset
+        </Button>
         <Button color="primary" disabled>Save</Button>
       </Stack>
     </Container >

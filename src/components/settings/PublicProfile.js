@@ -1,18 +1,33 @@
 import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const Input = styled('input')({
     display: 'none',
 });
 
-function PublicProfile() {
+function PublicProfile({ handleReset, clear }) {
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
     const [bio, setBio] = useState('')
     const [website, setWebsite] = useState('')
     const [username, setUsername] = useState('')
     const [profilePic, setProfilePic] = useState('')
+
+    if (fname || lname || bio || website || username || profilePic)
+        handleReset(false)
+    else
+        handleReset(true)
+
+    useEffect(() => {
+        if (clear) {
+            setFname('')
+            setLname('')
+            setBio('')
+            setWebsite('')
+            setUsername('')
+        }
+    }, [clear])
 
     return (
         <Fragment>
