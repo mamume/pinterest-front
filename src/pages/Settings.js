@@ -1,4 +1,4 @@
-import { Button, Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
+import { Container, List, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/settings/PublicProfile'
@@ -133,12 +133,7 @@ function Setting() {
         </Drawer>
         <Stack spacing={2} sx={{ width: "490px" }}>
           <Routes>
-            <Route path="" element={
-              <PublicProfile
-                // handleReset={setReset}
-                // clear={clear}
-                // setClear={setClear}
-              />}
+            <Route path="" element={<PublicProfile />}
             />
             <Route path="account" element={<AccountSettings />} />
             <Route path="notifications" element={<Notifications />} />
@@ -146,16 +141,7 @@ function Setting() {
           </Routes>
         </Stack>
       </div>
-      {/* <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
-        <Button
-          disabled={reset}
-          onClick={() => setClear(true)}
-        >
-          Reset
-        </Button>
-        <Button color="primary" disabled>Save</Button>
-      </Stack> */}
-    </Container >
+    </Container>
   );
 }
 
