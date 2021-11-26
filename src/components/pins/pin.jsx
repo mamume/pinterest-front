@@ -22,7 +22,7 @@ class Pin extends React.Component {
         let target = document.getElementsByClassName("comment_done")
         target.item(0).disabled = false;
         target.item(0).classList.add("comment_done_edite")
-        if (event.target.value == "") {
+        if (event.target.value === "") {
             target.item(0).disabled = true;
             target.item(0).classList.remove("comment_done_edite")
         }
