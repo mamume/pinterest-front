@@ -11,7 +11,6 @@ import {
   Link,
   useLocation
 } from "react-router-dom";
-import { useState } from 'react';
 
 const drawerWidth = 200
 
@@ -36,8 +35,6 @@ const useStyles = makeStyles({
 function Setting() {
   const classes = useStyles()
   const location = useLocation();
-  const [reset, setReset] = useState(false)
-  const [clear, setClear] = useState(false)
 
   return (
     <Container>
