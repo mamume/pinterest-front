@@ -137,12 +137,14 @@ function Setting() {
               <PublicProfile
                 handleReset={setReset}
                 clear={clear}
+                setClear={setClear}
               />}
             />
             <Route path="public-profile" element={
               <PublicProfile
                 handleReset={setReset}
                 clear={clear}
+                setClear={setClear}
               />}
             />
             {/* <Route path="public-profile" element={<PublicProfile />} /> */}

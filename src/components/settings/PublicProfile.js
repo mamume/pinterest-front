@@ -6,7 +6,7 @@ const Input = styled('input')({
     display: 'none',
 });
 
-function PublicProfile({ handleReset, clear }) {
+function PublicProfile({ handleReset, clear, setClear }) {
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
     const [bio, setBio] = useState('')
@@ -14,8 +14,10 @@ function PublicProfile({ handleReset, clear }) {
     const [username, setUsername] = useState('')
     const [profilePic, setProfilePic] = useState('')
 
-    if (fname || lname || bio || website || username || profilePic)
+    if (fname || lname || bio || website || username || profilePic) {
         handleReset(false)
+        setClear(false)
+    }
     else
         handleReset(true)
 
