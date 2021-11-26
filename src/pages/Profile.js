@@ -37,7 +37,7 @@ function Profile() {
         setFollowingNum(data[0].following_count)
         setProfilePic(data[0].profile_pic)
       })
-  }, [])
+  }, [username])
 
   return (
     <Fragment>
