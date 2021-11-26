@@ -1,12 +1,19 @@
 import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 const Input = styled('input')({
     display: 'none',
 });
 
 function PublicProfile() {
+    const [fname, setFname] = useState('')
+    const [lname, setLname] = useState('')
+    const [bio, setBio] = useState('')
+    const [website, setWebsite] = useState('')
+    const [username, setUsername] = useState('')
+    const [profilePic, setProfilePic] = useState('')
+
     return (
         <Fragment>
             <Typography variant="h5">Public Profile</Typography>
@@ -14,7 +21,10 @@ function PublicProfile() {
             <InputLabel>Photo</InputLabel>
 
             <Stack direction="row" alignItems="center" spacing={2}>
-                <Avatar sx={{ width: 75, height: 75 }}>
+                <Avatar
+                    sx={{ width: 75, height: 75 }}
+                    src={profilePic}
+                >
                     <Typography variant="h4">M</Typography>
                 </Avatar>
                 <label htmlFor="contained-button-file">
@@ -26,20 +36,48 @@ function PublicProfile() {
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField label="First Name" fullWidth></TextField>
-                <TextField label="Last Name" fullWidth></TextField>
+                <TextField
+                    label="First Name"
+                    fullWidth
+                    value={fname}
+                    onChange={e => setFname(e.target.value)}
+                />
+                <TextField
+                    label="Last Name"
+                    fullWidth
+                    value={lname}
+                    onChange={e => setLname(e.target.value)}
+                />
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField placeholder="Describe Yourself" label="Short Bio" fullWidth></TextField>
+                <TextField
+                    placeholder="Describe Yourself"
+                    label="Short Bio"
+                    fullWidth
+                    value={bio}
+                    onChange={e => setBio(e.target.value)}
+                />
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField placeholder="Add a link to drive traffic to your site" label="Website" fullWidth></TextField>
+                <TextField
+                    placeholder="Add a link to drive traffic to your site"
+                    label="Website"
+                    fullWidth
+                    value={website}
+                    onChange={e => setWebsite(e.target.value)}
+                />
             </Stack>
             <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField fullWidth label="Username" helperText="www.pinterest.com/username"></TextField>
+                <TextField
+                    fullWidth
+                    label="Username"
+                    helperText={`www.pinterest.com/${username}`}
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                />
             </Stack>
-        </Fragment>
+        </Fragment >
     );
 }
 
