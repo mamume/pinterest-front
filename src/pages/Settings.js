@@ -135,9 +135,9 @@ function Setting() {
           <Routes>
             <Route path="" element={
               <PublicProfile
-                handleReset={setReset}
-                clear={clear}
-                setClear={setClear}
+                // handleReset={setReset}
+                // clear={clear}
+                // setClear={setClear}
               />}
             />
             <Route path="account" element={<AccountSettings />} />
@@ -146,7 +146,7 @@ function Setting() {
           </Routes>
         </Stack>
       </div>
-      <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
+      {/* <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
         <Button
           disabled={reset}
           onClick={() => setClear(true)}
@@ -154,7 +154,7 @@ function Setting() {
           Reset
         </Button>
         <Button color="primary" disabled>Save</Button>
-      </Stack>
+      </Stack> */}
     </Container >
   );
 }
