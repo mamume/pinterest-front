@@ -1,5 +1,5 @@
 import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -19,18 +19,36 @@ const useStyles = makeStyles({
 })
 
 function Profile() {
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+
   const classes = useStyles()
+  const [fullName, setFullName] = useState('')
+  const [followingNum, setFollowingNum] = useState(0)
+  const [profilePic, setProfilePic] = useState('')
+  const [username] = useState(params.get('username'))
+
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/profile/list?username=${username}`)
+      .then(res => res.json())
+      .then(data => {
+        setFullName(data[0].full_name)
+        setFollowingNum(data[0].following_count)
+        setProfilePic(data[0].profile_pic)
+      })
+  }, [])
 
   return (
     <Fragment>
       <Stack direction="column" alignItems="center">
-        <Avatar sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
+        <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
           <Typography variant="h2">M</Typography>
         </Avatar>
 
-        <Typography mt fontWeight="bold" variant="h4">Mahmoud Metwally</Typography>
-        <Typography>@username</Typography>
-        <Typography>[numOfFollowing] following</Typography>
+        <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
+        <Typography>@{username}</Typography>
+        <Typography>{followingNum} following</Typography>
 
         <Stack direction="row" spacing={1} mt>
           <Button disableElevation color="grey">Share</Button>
