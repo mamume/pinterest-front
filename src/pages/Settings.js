@@ -38,115 +38,112 @@ function Setting() {
   let location = useLocation();
 
   return (
-    <Fragment>
-      <Container>
-        <div className={classes.root}>
-          <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            anchor="left"
-            classes={{ paper: classes.drawer }}
-          >
-            <List>
-              <Link to="public-profile" className={classes.link}>
-                <ListItemButton selected={location.pathname === "/settings/public-profile"}>
-                  <ListItemText
-                    primaryTypographyProps={{
-                      variant: "button"
-                    }}
-                  >
-                    Public Profile
-                  </ListItemText>
-                </ListItemButton>
-              </Link>
-
-              <Link to="account" className={classes.link}>
-                <ListItemButton selected={location.pathname === "/settings/account"}>
-                  <ListItemText
-                    primaryTypographyProps={{
-                      variant: "button"
-                    }}
-                  >
-                    Account Settings
-                  </ListItemText>
-                </ListItemButton>
-              </Link>
-
-              <ListItemButton>
+    <Container>
+      <div className={classes.root}>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          anchor="left"
+          classes={{ paper: classes.drawer }}
+        >
+          <List>
+            <Link to="public-profile" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/public-profile"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
                   }}
                 >
-                  Home feed tuner</ListItemText>
+                  Public Profile
+                </ListItemText>
               </ListItemButton>
-              <ListItemButton>
+            </Link>
+
+            <Link to="account" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/account"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
                   }}
                 >
-                  Claim</ListItemText>
+                  Account Settings
+                </ListItemText>
               </ListItemButton>
+            </Link>
 
-              <Link to="notifications" className={classes.link}>
-                <ListItemButton selected={location.pathname === "/settings/notifications"}>
-                  <ListItemText
-                    primaryTypographyProps={{
-                      variant: "button"
-                    }}
-                  >
-                    Notifications
-                  </ListItemText>
-                </ListItemButton>
-              </Link>
+            <ListItemButton>
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: "button"
+                }}
+              >
+                Home feed tuner</ListItemText>
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: "button"
+                }}
+              >
+                Claim</ListItemText>
+            </ListItemButton>
 
-              <Link to="privacy" className={classes.link}>
-                <ListItemButton selected={location.pathname === "/settings/privacy"}>
-                  <ListItemText
-                    primaryTypographyProps={{
-                      variant: "button"
-                    }}
-                  >
-                    Privacy and data</ListItemText>
-                </ListItemButton>
-              </Link>
-
-              <ListItemButton>
+            <Link to="notifications" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/notifications"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
                   }}
                 >
-                  Security</ListItemText>
+                  Notifications
+                </ListItemText>
               </ListItemButton>
-              <ListItemButton>
+            </Link>
+
+            <Link to="privacy" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/privacy"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
                   }}
                 >
-                  Apps</ListItemText>
+                  Privacy and data</ListItemText>
               </ListItemButton>
-            </List>
-          </Drawer>
-          <Stack spacing={2} sx={{ width: "490px" }}>
-            <Routes>
-              <Route path="" element={<PublicProfile />} />
-              <Route path="public-profile" element={<PublicProfile />} />
-              <Route path="account" element={<AccountSettings />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="privacy" element={<PrivacyAndData />} />
-            </Routes>
-          </Stack>
-        </div>
-      </Container >
+            </Link>
 
+            <ListItemButton>
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: "button"
+                }}
+              >
+                Security</ListItemText>
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: "button"
+                }}
+              >
+                Apps</ListItemText>
+            </ListItemButton>
+          </List>
+        </Drawer>
+        <Stack spacing={2} sx={{ width: "490px" }}>
+          <Routes>
+            <Route path="" element={<PublicProfile />} />
+            <Route path="public-profile" element={<PublicProfile />} />
+            <Route path="account" element={<AccountSettings />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="privacy" element={<PrivacyAndData />} />
+          </Routes>
+        </Stack>
+      </div>
       <Stack direction="row" spacing={2} justifyContent="center" mt={5} mb={5}>
         <Button color="text" disabled>Reset</Button>
         <Button color="primary" disabled>Save</Button>
       </Stack>
-    </Fragment >
+    </Container >
   );
 }
 
