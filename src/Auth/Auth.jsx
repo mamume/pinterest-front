@@ -112,7 +112,7 @@ export default class Auth extends React.Component{
         if(json.token){
           localStorage.setItem('pinterestToken', json.token)
           localStorage.setItem('pinterestAccount', this.state.email)
-          wind
+          window.location.reload()
         }else{
 
         }
@@ -125,6 +125,8 @@ export default class Auth extends React.Component{
         password:obj.loginPassword
       }
       let jsonUser = JSON.stringify(userLogin)
+      console.log(userLogin)
+      console.log(jsonUser)
       fetch(
         'http://localhost:8000/account/api/token/auth',{
         method:"POST",
@@ -139,8 +141,9 @@ export default class Auth extends React.Component{
         if(json.token){
           localStorage.setItem('pinterestToken', json.token)
           localStorage.setItem('pinterestAccount', userLogin.email)
+          window.location.reload()
         }else{
-
+          console.log(json)
         }
       })
     }
