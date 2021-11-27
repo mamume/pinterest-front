@@ -94,7 +94,7 @@ export default class Auth extends React.Component{
     collectFromLoginSaved=(password)=>{
       this.setState({loginPassword:password})
       let userLogin = {
-        username:this.state.loginEmail,
+        email:this.state.loginEmail,
         password:this.state.loginPassword
       }
       let jsonUser = JSON.stringify(userLogin)
@@ -121,7 +121,7 @@ export default class Auth extends React.Component{
 
     collectFromLoginUnSaved=(obj)=>{
       let userLogin = {
-        username:obj.loginEmail,
+        email:obj.loginEmail,
         password:obj.loginPassword
       }
       let jsonUser = JSON.stringify(userLogin)
