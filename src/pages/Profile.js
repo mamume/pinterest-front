@@ -6,7 +6,6 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
-import { useLocation } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -25,7 +24,6 @@ function Profile() {
   const [followingNum, setFollowingNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
-  const location = useLocation()
 
 
   useEffect(() => {
