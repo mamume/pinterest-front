@@ -27,46 +27,34 @@ function Profile() {
   const [username, setUsername] = useState('')
   const [notFound, setNotFound] = useState(false)
 
-
-  useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    if (params.get('username')) {
-      fetch(`http://127.0.0.1:8000/account/${params.get('username')}/details`, {
-        headers: {
-          'content-type': "application/json",
-          'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.msg)
-            setNotFound(true)
-          else {
-            const { first_name, last_name, username, profile_pic, following } = data
-            setFullName(`${first_name} ${last_name}`)
-            setFollowingNum(following.length)
-            setProfilePic(profile_pic)
-            setUsername(username)
-          }
-        })
-    }
-    else {
-      fetch(`http://127.0.0.1:8000/account/details`, {
-        headers: {
-          'content-type': "application/json",
-          'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
+  function fetchData(url) {
+    fetch(url, {
+      headers: {
+        'content-type': "application/json",
+        'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.msg)
+          setNotFound(true)
+        else {
           const { first_name, last_name, username, profile_pic, following } = data
           setFullName(`${first_name} ${last_name}`)
           setFollowingNum(following.length)
           setProfilePic(profile_pic)
           setUsername(username)
-        })
-    }
+        }
+      })
+  }
+
+  useEffect(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    if (params.get('username'))
+      fetchData(`http://127.0.0.1:8000/account/${params.get('username')}/details`)
+    else
+      fetchData('http://127.0.0.1:8000/account/details')
   }, [])
 
   return (
