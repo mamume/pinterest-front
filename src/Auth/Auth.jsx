@@ -37,7 +37,9 @@ export default class Auth extends React.Component{
           this.switchScreen("main")
         }else if(type==="login"){
           if(localStorage.pinterestAccount){
-            this.state.loginEmail = localStorage.pinterestAccount
+            this.state.loginEmail = localStorage.getItem('pinterestAccount')
+            // console.log(localStorage.getItem('pinterestAccount'))
+            console.log(this.state.loginEmail)
             this.setState({loginEmail:this.state.loginEmail})
             this.switchScreen("savedLogin")
           }else this.switchScreen("unsavedLogin")
@@ -63,25 +65,6 @@ export default class Auth extends React.Component{
     collectFromThird=(obj)=>{
       this.setState({country:obj.country});
       this.setState({language:obj.lang})
-      this.handleClose()
-
-    }
-    collectFromLoginSaved=(password)=>{
-      this.setState({loginPassword:password})
-      let userLogin = {
-        email:this.state.loginEmail,
-        password:this.state.loginPassword
-      }
-    }
-
-    collectFromLoginUnSaved=(obj)=>{
-      let userLogin = {
-        email:obj.loginEmail,
-        password:obj.loginPassword
-      }
-    }
-
-    componentWillUnmount(){
       let user = {
         email:this.state.email,
         password:this.state.password,
@@ -93,7 +76,7 @@ export default class Auth extends React.Component{
       }
       let jsonUser = JSON.stringify(user)
       fetch(
-        'API url',{
+        'http://localhost:8000/account/signup',{
         method:"POST",
         headers:{'content-type':"application/json"},
         body:jsonUser
@@ -101,12 +84,75 @@ export default class Auth extends React.Component{
         return res.json()
       }).then(json =>{
         if(json.token){
-          localStorage.pinterestToken = json.token
-          localStorage.pinterestAccount = this.state.email
+          localStorage.setItem('pinterestToken', json.token)
+          localStorage.setItem('pinterestAccount', this.state.email)
+          window.location.href = 'http://localhost:3000/'
         }else{
 
         }
       })
+
+    }
+    collectFromLoginSaved=(password)=>{
+      this.state.loginPassword = password
+      this.setState({loginPassword:this.state.loginPassword})
+      let userLogin = {
+        email:this.state.loginEmail,
+        password:this.state.loginPassword
+      }
+      let jsonUser = JSON.stringify(userLogin)
+      fetch(
+        'http://localhost:8000/account/api/token/auth',{
+        method:"POST",
+        headers:{
+          'content-type':"application/json",
+          // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
+        },
+        body:jsonUser
+      }).then(res => {
+        return res.json()
+      }).then(json =>{
+        if(json.token){
+          localStorage.setItem('pinterestToken', json.token)
+          localStorage.setItem('pinterestAccount', this.state.loginEmail)
+          window.location.reload()
+        }else{
+          console.log(json)
+        }
+      })
+    }
+
+    collectFromLoginUnSaved=(obj)=>{
+      let userLogin = {
+        email:obj.loginEmail,
+        password:obj.loginPassword
+      }
+      let jsonUser = JSON.stringify(userLogin)
+      console.log(userLogin)
+      console.log(jsonUser)
+      fetch(
+        'http://localhost:8000/account/api/token/auth',{
+        method:"POST",
+        headers:{
+          'content-type':"application/json",
+          // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
+        },
+        body:jsonUser
+      }).then(res => {
+        return res.json()
+      }).then(json =>{
+        if(json.token){
+          localStorage.setItem('pinterestToken', json.token)
+          localStorage.setItem('pinterestAccount', userLogin.email)
+          window.location.reload()
+        }else{
+          console.log(json)
+        }
+      })
+    }
+
+    componentWillUnmount(){
+
       
     }
 
@@ -156,7 +202,7 @@ export default class Auth extends React.Component{
         <Third switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
         }
         {
-        this.state.Cscreen==="saved" &&
+        this.state.Cscreen==="savedLogin" &&
         <LoginSaved switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
         }
                 {
