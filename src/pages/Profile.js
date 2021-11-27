@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
 import NotFound from './NotFound'
-
+import ShareButton from '../components/profile/ShareButton'
 
 const useStyles = makeStyles({
   link: {
@@ -73,9 +73,10 @@ function Profile() {
               <Typography>{followingNum} following</Typography>
 
               <Stack direction="row" spacing={1} mt>
-                <Button disableElevation color="grey">Share</Button>
+                {/* <Button disableElevation color="grey">Share</Button> */}
+                <ShareButton />
                 <Link to="/settings" className={classes.link}>
-                  <Button disableElevation color="grey">Edit Profile</Button>
+                  <Button color="grey">Edit Profile</Button>
                 </Link>
               </Stack>
             </Stack>
