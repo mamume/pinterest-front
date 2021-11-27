@@ -37,7 +37,9 @@ export default class Auth extends React.Component{
           this.switchScreen("main")
         }else if(type==="login"){
           if(localStorage.pinterestAccount){
-            this.state.loginEmail = localStorage.pinterestAccount
+            this.state.loginEmail = localStorage.getItem('pinterestAccount')
+            // console.log(localStorage.getItem('pinterestAccount'))
+            console.log(this.state.loginEmail)
             this.setState({loginEmail:this.state.loginEmail})
             this.switchScreen("savedLogin")
           }else this.switchScreen("unsavedLogin")
@@ -92,7 +94,8 @@ export default class Auth extends React.Component{
 
     }
     collectFromLoginSaved=(password)=>{
-      this.setState({loginPassword:password})
+      this.state.loginPassword = password
+      this.setState({loginPassword:this.state.loginPassword})
       let userLogin = {
         email:this.state.loginEmail,
         password:this.state.loginPassword
@@ -111,10 +114,10 @@ export default class Auth extends React.Component{
       }).then(json =>{
         if(json.token){
           localStorage.setItem('pinterestToken', json.token)
-          localStorage.setItem('pinterestAccount', this.state.email)
+          localStorage.setItem('pinterestAccount', this.state.loginEmail)
           window.location.reload()
         }else{
-
+          console.log(json)
         }
       })
     }
@@ -199,7 +202,7 @@ export default class Auth extends React.Component{
         <Third switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
         }
         {
-        this.state.Cscreen==="saved" &&
+        this.state.Cscreen==="savedLogin" &&
         <LoginSaved switch={this.switchScreen} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
         }
                 {
