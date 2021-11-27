@@ -143,6 +143,8 @@ const CardWrapper = styled.div`
         align-items: center;
     }
     .ext span{
+        display: inline-block;
+        white-space: nowrap; 
         overflow: hidden;
     }
 

@@ -27,7 +27,7 @@ function Homepage() {
 
   return (
     <Fragment >
-      <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} style={{ width: "100%" }} >
+      <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} style={{ width: "100%" }} spacing={0} >
         {itemData.map((item, index) => (
           <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} />
         ))}
