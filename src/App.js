@@ -14,7 +14,7 @@ import Create from './components/pins/create_pin'
 
 
 function App() {
-  const [authed] = useState(false)
+  const [authed] = useState(true)
 
   return (
     <Fragment>

@@ -36,7 +36,7 @@ function Profile() {
     })
       .then(res => res.json())
       .then(data => {
-        if (data.msg)
+        if (!data.length)
           setNotFound(true)
         else {
           console.log(data)
