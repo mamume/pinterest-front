@@ -11,7 +11,6 @@ import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useState } from "react";
 import PinThumbnail from './components/pins/pin_thumbnail'
 import Create from './components/pins/create_pin'
-import ProfileNotFound from "./components/NotFound";
 
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
                 <NavigationBar />
                 <Routes>
                   <Route path="/" exact element={<Homepage />} />
-                  <Route path="/profile" element={<ProfileNotFound />} />
+                  <Route path="/profile" element={<Profile />} />
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
