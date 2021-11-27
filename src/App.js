@@ -11,6 +11,7 @@ import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useState } from "react";
 import PinThumbnail from './components/pins/pin_thumbnail'
 import Create from './components/pins/create_pin'
+import Pin from './components/pins/pin'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
+                  <Route path='/pin/:id' element={<Pin /> }> </Route>
                 </Routes>
               </Router>
             </Container>

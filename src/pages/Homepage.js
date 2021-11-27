@@ -7,18 +7,29 @@ import SinglePin from '../components/pins/SinglePin'
 
 
 function Homepage() {
-  const [itemData, setItemData] = useState([{ img: temp1 }, { img: temp }, { img: temp1 }, { img: temp }, { img: temp1 }, { img: temp }])
+  const [itemData, setItemData] = useState([])
+  
   useEffect(() => {
-    for (let i = 1; i < 20; i++) {
-      setItemData(itemData => [...itemData, { img: temp }])
-    }
+    fetch(`http://127.0.0.1:8000/pin/pins/`)
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data)
+        //setItemData(itemData => [...itemData, { img: temp }])
+        console.log(data)
+        for ( let i=0; i < data.length; i++){
+          setItemData(itemData=>
+            [...itemData, {img: data[i].content_src, external_link: data[i].external_website, id: data[i].id}]
+          )
+        }
+        
+      })
   }, [])
 
   return (
     <Fragment >
       <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 5 }} style={{ width: "100%" }} >
         {itemData.map((item, index) => (
-          <SinglePin key={index} img={item.img} />
+          <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} />
         ))}
       </Masonry>
     </Fragment>
