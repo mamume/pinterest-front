@@ -9,7 +9,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import InviteModal from "../components/InviteModal";
+import InviteModal from "../components/board/InviteModal";
 import Homepage from "./Homepage";
 
 const boardBtn = {

@@ -1,25 +1,29 @@
 import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { Fragment, useEffect, useState } from "react";
+import SettingsButtons from "./SettingsButtons";
 
 const Input = styled('input')({
     display: 'none',
 });
 
-function PublicProfile({ handleReset, clear, setClear }) {
-    const [fname, setFname] = useState('')
+function PublicProfile() {
+    const [fname, setFname] = useState('fname')
     const [lname, setLname] = useState('')
     const [bio, setBio] = useState('')
     const [website, setWebsite] = useState('')
     const [username, setUsername] = useState('')
     const [profilePic, setProfilePic] = useState('')
+    const [disabled, setDisabled] = useState(true)
+    const [clear, setClear] = useState(false)
+    const [change, setChange] = useState(true)
 
-    if (fname || lname || bio || website || username || profilePic) {
-        handleReset(false)
-        setClear(false)
-    }
-    else
-        handleReset(true)
+    useEffect(() => {
+        if (fname || lname || bio || website || username || profilePic)
+            setDisabled(false)
+        else
+            setDisabled(true)
+    }, [fname, lname, bio, website, username, profilePic])
 
     useEffect(() => {
         if (clear) {
@@ -28,6 +32,8 @@ function PublicProfile({ handleReset, clear, setClear }) {
             setBio('')
             setWebsite('')
             setUsername('')
+
+            setClear(false)
         }
     }, [clear])
 
@@ -45,7 +51,7 @@ function PublicProfile({ handleReset, clear, setClear }) {
                     <Typography variant="h4">M</Typography>
                 </Avatar>
                 <label htmlFor="contained-button-file">
-                    <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Input accept="image/*" id="contained-button-file" type="file" onChange={e => setProfilePic(e.target.files[0])} />
                     <Button color="grey" variant="contained" component="span">
                         Change
                     </Button>
@@ -94,6 +100,12 @@ function PublicProfile({ handleReset, clear, setClear }) {
                     onChange={e => setUsername(e.target.value)}
                 />
             </Stack>
+
+            <SettingsButtons
+                disabled={disabled}
+                setClear={setClear}
+                change={change}
+            />
         </Fragment >
     );
 }

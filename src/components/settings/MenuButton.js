@@ -2,7 +2,7 @@ import { Menu, MenuItem, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 import { IconButton } from '@mui/material';
 
-function SortButton({ icon, label, options }) {
+function MenuButton({ icon, label, options }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -16,7 +16,7 @@ function SortButton({ icon, label, options }) {
 
     return (
         <Fragment>
-            <IconButton color="black" onClick={handleClick} disableElevation>{icon}</IconButton>
+            <IconButton color="black" onClick={handleClick}>{icon}</IconButton>
             <Menu
                 anchorEl={anchorEl}
                 open={open}
@@ -29,7 +29,7 @@ function SortButton({ icon, label, options }) {
                     vertical: 'top',
                     horizontal: 'left',
                 }}
-                elevation
+                elevation={1}
             >
                 <Typography variant="caption" color="grey" mx>{label}</Typography>
 
@@ -41,4 +41,4 @@ function SortButton({ icon, label, options }) {
     );
 }
 
-export default SortButton;
+export default MenuButton;
