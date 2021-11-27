@@ -73,7 +73,7 @@ function Profile() {
     <Fragment>
       {
         notFound
-          ? <NotFound message="User Not Found" />
+          ? <NotFound statusCode="404" message="User Not Found" />
           : <Fragment>
             <Stack direction="column" alignItems="center">
               <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
