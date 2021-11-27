@@ -6,7 +6,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
-import NotFound from '../components/NotFound'
+import NotFound from './NotFound'
 
 
 const useStyles = makeStyles({
