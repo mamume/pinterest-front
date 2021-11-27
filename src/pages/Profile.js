@@ -31,17 +31,18 @@ function Profile() {
     fetch(url, {
       headers: {
         'content-type': "application/json",
-        'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        // 'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
       }
     })
       .then(res => res.json())
       .then(data => {
-        if (data.msg)
+        if (!data.length)
           setNotFound(true)
         else {
-          const { first_name, last_name, username, profile_pic, following } = data
-          setFullName(`${first_name} ${last_name}`)
-          setFollowingNum(following.length)
+          console.log(data)
+          const { full_name, username, profile_pic, following_count } = data[0]
+          setFullName(full_name)
+          setFollowingNum(following_count)
           setProfilePic(profile_pic)
           setUsername(username)
         }
@@ -52,9 +53,9 @@ function Profile() {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     if (params.get('username'))
-      fetchData(`http://127.0.0.1:8000/account/${params.get('username')}/details`)
+      fetchData(`http://127.0.0.1:8000/profile/list?username=${params.get('username')}`)
     else
-      fetchData('http://127.0.0.1:8000/account/details')
+      fetchData('http://127.0.0.1:8000/profile/list')
   }, [])
 
   return (
