@@ -55,7 +55,9 @@ export default class Auth extends React.Component{
     } 
 
     collectFromFirst=(obj)=>{
-        this.setState({username:obj.userName})
+      
+      this.state.username = obj.username
+      this.setState({username:this.state.username})
     }
 
     collectFromSecond=(obj)=>{
@@ -63,8 +65,9 @@ export default class Auth extends React.Component{
     }
 
     collectFromThird=(obj)=>{
-      this.setState({country:obj.country});
-      this.setState({language:obj.lang})
+      this.state.country = obj.country
+      this.setState({country:this.state.country});
+      // this.setState({language:obj.lang})
       let user = {
         email:this.state.email,
         password:this.state.password,
@@ -72,9 +75,10 @@ export default class Auth extends React.Component{
         age:this.state.age,
         gender:this.state.gender,
         country:this.state.country,
-        language:this.state.language
+        // language:this.state.language
       }
       let jsonUser = JSON.stringify(user)
+      console.log(user)
       fetch(
         'http://localhost:8000/account/signup',{
         method:"POST",
@@ -88,7 +92,7 @@ export default class Auth extends React.Component{
           localStorage.setItem('pinterestAccount', this.state.email)
           window.location.href = 'http://localhost:3000/'
         }else{
-
+          console.log(json)
         }
       })
 
