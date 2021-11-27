@@ -6,6 +6,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
+import { useLocation } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -19,25 +20,52 @@ const useStyles = makeStyles({
 })
 
 function Profile() {
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-
   const classes = useStyles()
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
-  const [username] = useState(params.get('username'))
+  const [username, setUsername] = useState('')
+  const location = useLocation()
 
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/profile/list?username=${username}`)
-      .then(res => res.json())
-      .then(data => {
-        setFullName(data[0].full_name)
-        setFollowingNum(data[0].following_count)
-        setProfilePic(data[0].profile_pic)
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    if (params.get('username')) {
+      fetch(`http://127.0.0.1:8000/account/${params.get('username')}/details`, {
+        headers: {
+          'content-type': "application/json",
+          'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        }
       })
-  }, [username])
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          const { first_name, last_name, username, profile_pic, following } = data
+          setFullName(`${first_name} ${last_name}`)
+          setFollowingNum(following.length)
+          setProfilePic(profile_pic)
+          setUsername(username)
+        })
+        .catch(console.log("Error"))
+    }
+    else {
+      fetch(`http://127.0.0.1:8000/account/details`, {
+        headers: {
+          'content-type': "application/json",
+          'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          const { first_name, last_name, username, profile_pic, following } = data
+          setFullName(`${first_name} ${last_name}`)
+          setFollowingNum(following.length)
+          setProfilePic(profile_pic)
+          setUsername(username)
+        })
+    }
+  }, [])
 
   return (
     <Fragment>
