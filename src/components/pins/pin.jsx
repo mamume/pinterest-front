@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import './pin_styles.css'
 import { Router, Route, browserHistory, IndexRoute} from 'react-router'
 import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.css"
+import "./pin_styles.css"
 
 export function withRouter( Child ) {
     return ( props ) => {
@@ -68,31 +69,32 @@ export function withRouter( Child ) {
     
         return (
             <React.Fragment>
-                <div className="pin-container">
-                    <div className="sides">
-                        <div className="left-side">
+                <div className="container">
+                    <div className="sides row">
+                        
+                        <div className="left-side col-md-5">
                             <div className="modals_pin_pin">
                                 <div className="pin_image_pin">
-                                    <img src={pin.img} alt="pin_image" />
+                                    <img src={ pin.img} alt="pin_image" />
                                 </div>
                             </div>
 
                         </div>
-                        <div className="right-side">
-                            <div className="section1">
-                                <div className="icons">
+                        <div className="right-side col-md-5">
+                            <div className="section1 row">
+                                <div className="icons col-6">
                                     <div className="icon_more">
-                                        <i className="fas fa-ellipsis-h"></i>
+                                        <i class="fas fa-ellipsis-h"></i>
                                     </div>
                                     <div className="upload">
-                                        <i className="fas fa-upload"></i>
+                                        <i class="fas fa-upload"></i>
                                     </div>
                                     <div className="favorite">
-                                        <i className="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     </div>
                                 </div>
 
-                                <div className="select_board">
+                                <div className="select_board col-6">
                                     <select defaultValue="Select" name="pin_size" id="board_btn">
                                         <option value="">Select</option>
                                         <option value="small">small</option>
@@ -104,14 +106,14 @@ export function withRouter( Child ) {
 
                             </div>
 
-                            <div className="section2">
-                                <div className="section2_header">
-                                    <h1 className="pin_title_for_pin">{pin.title}</h1>
+                            <div className="section2 row">
+                                <div className="section2_header col-12">
+                                    <div className="pin_title_for_pin h1">{pin.title}</div>
                                     <div className="pin_description_for_pin">{pin.desc}</div>
                                 </div>
-                                <div className="user_details">
-                                    <div className="user_icon"><span>m</span></div>
-                                    <div className="user_name"><span>momen awad</span></div>
+                                <div className="user_details row">
+                                    <div className="user_icon col-1"><span>m</span></div>
+                                    <div className="user_name col-4"><span>momen awad</span></div>
                                 </div>
 
                                 <div className="note">
@@ -121,7 +123,7 @@ export function withRouter( Child ) {
                                     <div className="note_details">
                                         what do you want to remember about this pin?
                                     </div>
-                                    <div className="add_note"><span>Add note</span></div>
+                                    <div className="add_note" ><span>Add note</span></div>
                                 </div>
 
 
@@ -129,7 +131,7 @@ export function withRouter( Child ) {
                                     <div className="comment_head">
                                         <h3>comments</h3>
                                         <div className="comment_icon" onClick={commentclick}>
-                                            <i className="fas fa-chevron-down"></i>
+                                            <i class="fas fa-chevron-down"></i>
                                         </div>
                                     </div>
                                     <div className="comment_area_container" id="comment_area_container">
@@ -155,9 +157,9 @@ export function withRouter( Child ) {
                             <div className="bord_name">
                                 <div className="bord_items">
                                     <div className="comment_icon"><span>M</span></div>
-                                    <div className="bord_content">
-                                        <span>you saved to bord name</span>
-                                    </div>
+                                        <div className="bord_content">
+                                            <span>you saved to bord name</span>
+                                        </div>
                                 </div>
                             </div>
 
@@ -167,6 +169,9 @@ export function withRouter( Child ) {
                         </div>
                     </div>
                 </div>
+
+                
+                
             </React.Fragment>
         );
     }

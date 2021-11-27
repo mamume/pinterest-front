@@ -15,7 +15,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
-import AddButton from "./AddButton"
+
 import { makeStyles } from "@mui/styles"
 import { Link } from 'react-router-dom'
 
@@ -216,7 +216,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <AddButton />
+      
     </Box>
   );
 }

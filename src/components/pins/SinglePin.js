@@ -28,14 +28,14 @@ function SinglePin({img, external_link, id}) {
             <CardWrapper>
               
                 <Link to={newTo}>
-                <div className="modal">
+                <div className="myModal">
 
-                    <div className="modal_header">
+                    <div className="my_modal_header">
                         <Button>Save</Button>
                     </div>
-                    <div className="modal_footer">
+                    <div className="my_modal_footer">
                         <a href={external_link}>
-                            <div className="ext">
+                            <div className="my_ext">
                                 <IconButton>
                                     <CallMadeIcon/>
                                 </IconButton>
@@ -45,13 +45,13 @@ function SinglePin({img, external_link, id}) {
                         </a>
                         
 
-                        <div className="send">
+                        <div className="my_send">
                             <IconButton>
                                 <DownloadIcon/>
                             </IconButton>
                         </div>
 
-                        <div className="options">
+                        <div className="my_options">
                             <IconButton>
                                 <MoreVertIcon/>
                             </IconButton>
@@ -95,7 +95,7 @@ const CardWrapper = styled.div`
     overflow: hidden;
     margin: auto;
 
-    .modal{
+    .myModal{
         width: 100%;
         opacity: 0;
         transition-duration: 1s;
@@ -108,17 +108,17 @@ const CardWrapper = styled.div`
 
     }
 
-    .modal:hover{
+    .myModal:hover{
         opacity: 100%;
         
     }
-    .modal_header{
+    .my_modal_header{
         display: flex;
         justify-content: flex-end;
         padding: 8px;
     }
 
-    .modal_footer{
+    .my_modal_footer{
         display: flex;
         width: 100%;
         justify-content: space-evenly;
@@ -133,7 +133,7 @@ const CardWrapper = styled.div`
        
     }
 
-    .ext{
+    .my_ext{
         height: 32px;
         width: 130px;
         background-color: #efefef;
@@ -142,13 +142,13 @@ const CardWrapper = styled.div`
         justify-content: flex-start;
         align-items: center;
     }
-    .ext span{
+    .my_ext span{
         display: inline-block;
         white-space: nowrap; 
         overflow: hidden;
     }
 
-    .send, .options{
+    .my_send, .my_options{
         height: 32px;
         background-color: #efefef;
         border-radius: 50%;

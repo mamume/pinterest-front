@@ -44,6 +44,7 @@ function Profile() {
           setFollowingNum(following.length)
           setProfilePic(profile_pic)
           setUsername(username)
+          console.log(data)
         }
       })
   }
