@@ -1,10 +1,23 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import { Fragment, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 
+const useStyles = makeStyles({
+  link: {
+    textDecoration: "inherit",
+    color: "inherit",
+    '&:hover': {
+      textDecoration: "inherit",
+    }
+  },
+})
+
+
 function FollowingModal({ username }) {
   const [following, setFollowing] = useState([])
+  const classes = useStyles()
 
   useEffect(() => {
     fetch(`http://localhost:8000/profile/following?username=${username}`, {
@@ -34,8 +47,12 @@ function FollowingModal({ username }) {
           {following.map(following => (
             <Stack justifyContent="space-between" alignItems="center" spacing={1} direction="row" key={following.username}>
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Avatar sx={{ width: 56, height: 56 }} src={following.profile_pic}>{following.username[0].toUpperCase()}</Avatar>
-                <Typography fontWeight="bold">{following.full_name}</Typography>
+                <a className={classes.link} href={`/profile?username=${following.username}`}>
+                  <Avatar sx={{ width: 56, height: 56 }} src={following.profile_pic}>{following.username[0].toUpperCase()}</Avatar>
+                </a>
+                <a className={classes.link} href={`/profile?username=${following.username}`}>
+                  <Typography fontWeight="bold">{following.full_name}</Typography>
+                </a>
               </Stack>
               <Button>Follow</Button>
             </Stack>
