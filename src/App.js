@@ -14,6 +14,7 @@ import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 
 
+
 function App() {
   const [authed] = useState(true)
 
@@ -23,7 +24,6 @@ function App() {
       <ThemeProvider theme={theme}>
         {authed
           ? <Fragment>
-            <PinThumbnail />
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
