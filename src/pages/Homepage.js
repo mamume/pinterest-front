@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import React, { useState, useEffect } from "react";
-//import Masonry from '@mui/lab/Masonry';
 import temp from '../images/1.jpg'
 import temp1 from '../images/2.jpg'
 import SinglePin from '../components/pins/SinglePin'

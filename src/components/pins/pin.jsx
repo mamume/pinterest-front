@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Router, Route, browserHistory, IndexRoute} from 'react-router'
 import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.css"
+//mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 
 export function withRouter( Child ) {

@@ -55,7 +55,9 @@ export default class Auth extends React.Component{
     } 
 
     collectFromFirst=(obj)=>{
-        this.setState({username:obj.userName})
+      
+      this.state.username = obj.username
+      this.setState({username:this.state.username})
     }
 
     collectFromSecond=(obj)=>{
@@ -63,8 +65,9 @@ export default class Auth extends React.Component{
     }
 
     collectFromThird=(obj)=>{
-      this.setState({country:obj.country});
-      this.setState({language:obj.lang})
+      this.state.country = obj.country
+      this.setState({country:this.state.country});
+      // this.setState({language:obj.lang})
       let user = {
         email:this.state.email,
         password:this.state.password,
@@ -72,9 +75,10 @@ export default class Auth extends React.Component{
         age:this.state.age,
         gender:this.state.gender,
         country:this.state.country,
-        language:this.state.language
+        // language:this.state.language
       }
       let jsonUser = JSON.stringify(user)
+      console.log(user)
       fetch(
         'http://localhost:8000/account/signup',{
         method:"POST",
@@ -88,7 +92,7 @@ export default class Auth extends React.Component{
           localStorage.setItem('pinterestAccount', this.state.email)
           window.location.href = 'http://localhost:3000/'
         }else{
-
+          console.log(json)
         }
       })
 
@@ -97,12 +101,15 @@ export default class Auth extends React.Component{
       this.state.loginPassword = password
       this.setState({loginPassword:this.state.loginPassword})
       let userLogin = {
-        email:this.state.loginEmail,
-        password:this.state.loginPassword
+        username:this.state.loginEmail,
+        password:this.state.loginPassword,
+        grant_type:"password",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
       }
       let jsonUser = JSON.stringify(userLogin)
       fetch(
-        'http://localhost:8000/account/api/token/auth',{
+        'http://localhost:8000/account/auth/token',{
         method:"POST",
         headers:{
           'content-type':"application/json",
@@ -112,8 +119,9 @@ export default class Auth extends React.Component{
       }).then(res => {
         return res.json()
       }).then(json =>{
-        if(json.token){
-          localStorage.setItem('pinterestToken', json.token)
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
           localStorage.setItem('pinterestAccount', this.state.loginEmail)
           window.location.reload()
         }else{
@@ -124,14 +132,17 @@ export default class Auth extends React.Component{
 
     collectFromLoginUnSaved=(obj)=>{
       let userLogin = {
-        email:obj.loginEmail,
-        password:obj.loginPassword
+        username:obj.loginEmail,
+        password:obj.loginPassword,
+        grant_type:"password",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
       }
       let jsonUser = JSON.stringify(userLogin)
       console.log(userLogin)
       console.log(jsonUser)
       fetch(
-        'http://localhost:8000/account/api/token/auth',{
+        'http://localhost:8000/account/auth/token',{
         method:"POST",
         headers:{
           'content-type':"application/json",
@@ -141,9 +152,10 @@ export default class Auth extends React.Component{
       }).then(res => {
         return res.json()
       }).then(json =>{
-        if(json.token){
-          localStorage.setItem('pinterestToken', json.token)
-          localStorage.setItem('pinterestAccount', userLogin.email)
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+          localStorage.setItem('pinterestAccount', userLogin.username)
           window.location.reload()
         }else{
           console.log(json)
