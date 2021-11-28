@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
@@ -8,6 +8,7 @@ import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
+import FollowersModal from '../components/profile/FollowersModal'
 
 const useStyles = makeStyles({
   link: {
@@ -28,6 +29,9 @@ function Profile() {
   const [username, setUsername] = useState('')
   const [bioText, setBioText] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [openFollowers, setOpenFollowers] = useState(false);
+  const handleOpenFollowars = () => setOpenFollowers(true);
+  const handleCloseFollowers = () => setOpenFollowers(false);
 
   function fetchData(url) {
     fetch(url, {
@@ -75,7 +79,26 @@ function Profile() {
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
               <Typography>@{username}</Typography>
               <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
-              <Typography fontWeight="bold">{followersNum} followers  ·  {followingNum} following</Typography>
+              <Typography fontWeight="bold">
+                <Button disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                  {followersNum} followers
+                </Button>
+                ·
+                <Button disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                  {followingNum} following
+                </Button>
+              </Typography>
+
+              <Modal
+                open={openFollowers}
+                onClose={handleCloseFollowers}
+              >
+                <FollowersModal
+                  handleClose={handleCloseFollowers}
+                  followersNum={followersNum}
+                  username={username}
+                />
+              </Modal>
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
