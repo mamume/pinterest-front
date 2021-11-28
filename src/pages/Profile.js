@@ -52,9 +52,9 @@ function Profile() {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     if (params.get('username'))
-      fetchData(`http://127.0.0.1:8000/profile/list?username=${params.get('username')}`)
+      fetchData(`localhost/profile/list?username=${params.get('username')}`)
     else
-      fetchData('http://127.0.0.1:8000/profile/list')
+      fetchData('localhost/profile/list')
   }, [])
 
   return (
@@ -70,7 +70,7 @@ function Profile() {
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
               <Typography>@{username}</Typography>
-              <Typography>{followingNum} following</Typography>
+              <Typography fontWeight="bold">{followingNum} following</Typography>
 
               <Stack direction="row" spacing={1} mt>
                 {/* <Button disableElevation color="grey">Share</Button> */}
