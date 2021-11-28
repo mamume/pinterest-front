@@ -1,4 +1,4 @@
-export default function ModalStyle() {
+export default function ModalStyles() {
   return {
     position: 'absolute',
     top: '50%',

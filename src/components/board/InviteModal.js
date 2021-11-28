@@ -3,18 +3,8 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import { Fragment, useState } from "react";
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ModalStyles from '../ModalStyles'
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 445,
-    bgcolor: 'background.paper',
-    borderRadius: "32px",
-    boxShadow: 24,
-    p: 4
-};
 
 function InviteModal({ handleClose }) {
     const [openPermissions, setOpenPermissions] = useState(false);
@@ -29,7 +19,7 @@ function InviteModal({ handleClose }) {
 
     return (
         <Fragment>
-            <Box sx={style}>
+            <Box sx={ModalStyles}>
                 <Box sx={{ marginBottom: 3 }}>
                     <Typography variant="h5" fontWeight="bold" textAlign="center">
                         Invite Collaborators

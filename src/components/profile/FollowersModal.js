@@ -1,7 +1,7 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Fragment, useEffect, useState } from "react";
-import ModalStyle from '../ModalStyles'
+import ModalStyles from '../ModalStyles'
 
 function FollowersModal({ followersNum, username }) {
   const [followers, setFollowers] = useState([])
@@ -24,7 +24,7 @@ function FollowersModal({ followersNum, username }) {
 
   return (
     <Fragment>
-      <Box sx={ModalStyle}>
+      <Box sx={ModalStyles}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             {followersNum} Followers
