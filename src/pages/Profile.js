@@ -120,10 +120,11 @@ function Profile() {
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
-                {authedUser.username === username &&
-                  (<Link to="/settings" className={classes.link}>
+                {authedUser.username === username
+                  ? (<Link to="/settings" className={classes.link}>
                     <Button color="grey">Edit Profile</Button>
                   </Link>)
+                  : <Button>Follow</Button>
                 }
               </Stack>
             </Stack>
