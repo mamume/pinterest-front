@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider, Modal, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
@@ -40,8 +40,8 @@ function Profile() {
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
 
-  const { authedUser, headers, setAuthedUser } = useContext(UserContext)
-  // console.log(authedUser)
+  const { authedUser, headers } = useContext(UserContext)
+
   function fetchData(url) {
     fetch(url, {
       headers: {
@@ -81,20 +81,23 @@ function Profile() {
       fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
       fetchData('http://localhost:8000/profile/list')
-  })
+  }, [])
 
-  function handleFollow() {
-    fetch(`http://localhost:8000/account/${userId}/follow`, { headers })
-      .then(res => res.json())
-      .then(() => (
-        fetch(`http://localhost:8000/account/details`, { headers })
-          .then(setFollowed(true))
-      ))
+  function handleFollow(e, id = userId) {
+    fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+      .then(res => {
+        if (res.status === 201)
+          setFollowed(true)
+      })
   }
 
-  function handleUnfollow() {
-    fetch(`http://localhost:8000/account/${userId}/unfollow`, { headers })
-      .then(setFollowed(false))
+  function handleUnfollow(e, id = userId) {
+    fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+      .then(res => {
+        console.log(res.status)
+        if (res.status === 200)
+          setFollowed(false)
+      })
   }
 
   return (
@@ -121,27 +124,25 @@ function Profile() {
                 </Button>
               </Typography>
 
-              <Modal
+              <FollowersModal
+                handleClose={handleCloseFollowers}
+                followersNum={followersNum}
+                username={username}
+                handleFollow={handleFollow}
+                handleUnfollow={handleUnfollow}
                 open={openFollowers}
                 onClose={handleCloseFollowers}
-              >
-                <FollowersModal
-                  handleClose={handleCloseFollowers}
-                  followersNum={followersNum}
-                  username={username}
-                />
-              </Modal>
+              />
 
-              <Modal
+              <FollowingModal
+                handleClose={handleCloseFollowing}
+                followersNum={followingNum}
+                username={username}
+                handleFollow={handleFollow}
+                handleUnfollow={handleUnfollow}
                 open={openFollowing}
                 onClose={handleCloseFollowing}
-              >
-                <FollowingModal
-                  handleClose={handleCloseFollowing}
-                  followersNum={followingNum}
-                  username={username}
-                />
-              </Modal>
+              />
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
