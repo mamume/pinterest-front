@@ -9,6 +9,7 @@ import HomePage from "./Homepage"
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'
+import FollowingModal from '../components/profile/FollowingModal'
 
 const useStyles = makeStyles({
   link: {
@@ -32,6 +33,9 @@ function Profile() {
   const [openFollowers, setOpenFollowers] = useState(false);
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
+  const [openFollowing, setOpenFollowing] = useState(false);
+  const handleOpenFollowing = () => setOpenFollowing(true);
+  const handleCloseFollowing = () => setOpenFollowing(false);
 
   function fetchData(url) {
     fetch(url, {
@@ -80,11 +84,11 @@ function Profile() {
               <Typography>@{username}</Typography>
               <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
               <Typography fontWeight="bold">
-                <Button disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
                   {followersNum} followers
                 </Button>
                 ·
-                <Button disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                <Button disabled={!followingNum} disableRipple variant="text" onClick={handleOpenFollowing} color="black">
                   {followingNum} following
                 </Button>
               </Typography>
@@ -96,6 +100,17 @@ function Profile() {
                 <FollowersModal
                   handleClose={handleCloseFollowers}
                   followersNum={followersNum}
+                  username={username}
+                />
+              </Modal>
+
+              <Modal
+                open={openFollowing}
+                onClose={handleCloseFollowing}
+              >
+                <FollowingModal
+                  handleClose={handleCloseFollowing}
+                  followersNum={followingNum}
                   username={username}
                 />
               </Modal>

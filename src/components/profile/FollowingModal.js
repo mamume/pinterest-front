@@ -3,11 +3,11 @@ import { Box } from "@mui/system";
 import { Fragment, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 
-function FollowersModal({ followersNum, username }) {
-  const [followers, setFollowers] = useState([])
+function FollowingModal({ username }) {
+  const [following, setFollowing] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/followers?username=${username}`, {
+    fetch(`http://localhost:8000/profile/following?username=${username}`, {
       headers: {
         'content-type': "application/json",
         'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
@@ -15,9 +15,9 @@ function FollowersModal({ followersNum, username }) {
     })
       .then(res => res.json())
       .then(data => {
-        setFollowers([])
+        setFollowing([])
         for (let person of data) {
-          setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
+          setFollowing(prevFollowing => [...prevFollowing, person.following[0]])
         }
       })
   }, [username])
@@ -27,15 +27,15 @@ function FollowersModal({ followersNum, username }) {
       <Box sx={ModalStyles}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
-            {followersNum} Followers
+            Following
           </Typography>
         </Box>
         <Stack spacing={2}>
-          {followers.map(follower => (
-            <Stack justifyContent="space-between" alignItems="center" spacing={1} direction="row" key={follower.username}>
+          {following.map(following => (
+            <Stack justifyContent="space-between" alignItems="center" spacing={1} direction="row" key={following.username}>
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
-                <Typography fontWeight="bold">{follower.full_name}</Typography>
+                <Avatar sx={{ width: 56, height: 56 }} src={following.profile_pic}>{following.username[0].toUpperCase()}</Avatar>
+                <Typography fontWeight="bold">{following.full_name}</Typography>
               </Stack>
               <Button>Follow</Button>
             </Stack>
@@ -46,4 +46,4 @@ function FollowersModal({ followersNum, username }) {
   );
 }
 
-export default FollowersModal;
+export default FollowingModal;
