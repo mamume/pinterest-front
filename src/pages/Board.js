@@ -25,7 +25,7 @@ function Board() {
   const [boardId] = useState(params.get('board_id'))
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
-  const [description, setDescription] = useState('')
+  const [, setDescription] = useState('')
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -35,7 +35,6 @@ function Board() {
     fetch(`http://127.0.0.1:8000/board/list/${boardId}`)
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
         setTitle(data.title)
         setShare(data.share)
         setDescription(data.description)

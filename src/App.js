@@ -8,7 +8,7 @@ import Board from './pages/Board'
 import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { createContext, Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 import { UserContext } from "./context";
@@ -32,14 +32,13 @@ function App() {
       })
   }, [headers])
 
-  // const UserContext = createContext()
 
   return (
     <Fragment>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         {authedUser
-          ? <UserContext.Provider value={authedUser}>
+          ? <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />

@@ -1,7 +1,7 @@
-import { Avatar, Button, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Modal, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 
 const useStyles = makeStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 })
 
 
-function FollowingModal({ username }) {
+function FollowingModal({ username, open, onClose }) {
   const [following, setFollowing] = useState([])
   const classes = useStyles()
 
@@ -36,7 +36,10 @@ function FollowingModal({ username }) {
   }, [username])
 
   return (
-    <Fragment>
+    <Modal
+      open={open}
+      onClose={onClose}
+    >
       <Box sx={ModalStyles}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
@@ -59,7 +62,7 @@ function FollowingModal({ username }) {
           ))}
         </Stack>
       </Box>
-    </Fragment>
+    </Modal>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider, Modal, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
@@ -30,7 +30,9 @@ function Profile() {
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
   const [bioText, setBioText] = useState('')
+  const [userId, setUserId] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [followed, setFollowed] = useState(false)
   const [openFollowers, setOpenFollowers] = useState(false);
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
@@ -38,7 +40,7 @@ function Profile() {
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
 
-  const authedUser = useContext(UserContext)
+  const { authedUser, headers } = useContext(UserContext)
 
   function fetchData(url) {
     fetch(url, {
@@ -52,16 +54,25 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
+          const { id, full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
           setProfilePic(profile_pic)
           setUsername(username)
           setBioText(bio)
+          setUserId(id)
         }
       })
   }
+
+  useEffect(() => {
+    if (authedUser.following)
+      for (const user of authedUser.following) {
+        if (user.followed_user === username)
+          setFollowed(true)
+      }
+  }, [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
@@ -71,6 +82,23 @@ function Profile() {
     else
       fetchData('http://localhost:8000/profile/list')
   }, [])
+
+  function handleFollow(e, id = userId) {
+    fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+      .then(res => {
+        if (res.status === 201)
+          setFollowed(true)
+      })
+  }
+
+  function handleUnfollow(e, id = userId) {
+    fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+      .then(res => {
+        console.log(res.status)
+        if (res.status === 200)
+          setFollowed(false)
+      })
+  }
 
   return (
     <Fragment>
@@ -96,27 +124,25 @@ function Profile() {
                 </Button>
               </Typography>
 
-              <Modal
+              <FollowersModal
+                handleClose={handleCloseFollowers}
+                followersNum={followersNum}
+                username={username}
+                handleFollow={handleFollow}
+                handleUnfollow={handleUnfollow}
                 open={openFollowers}
                 onClose={handleCloseFollowers}
-              >
-                <FollowersModal
-                  handleClose={handleCloseFollowers}
-                  followersNum={followersNum}
-                  username={username}
-                />
-              </Modal>
+              />
 
-              <Modal
+              <FollowingModal
+                handleClose={handleCloseFollowing}
+                followersNum={followingNum}
+                username={username}
+                handleFollow={handleFollow}
+                handleUnfollow={handleUnfollow}
                 open={openFollowing}
                 onClose={handleCloseFollowing}
-              >
-                <FollowingModal
-                  handleClose={handleCloseFollowing}
-                  followersNum={followingNum}
-                  username={username}
-                />
-              </Modal>
+              />
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
@@ -124,7 +150,11 @@ function Profile() {
                   ? (<Link to="/settings" className={classes.link}>
                     <Button color="grey">Edit Profile</Button>
                   </Link>)
-                  : <Button>Follow</Button>
+                  : <Fragment>
+                    {followed
+                      ? <Button color="black" onClick={handleUnfollow}>Unfollow</Button>
+                      : <Button onClick={handleFollow}>Follow</Button>
+                    }</Fragment>
                 }
               </Stack>
             </Stack>
