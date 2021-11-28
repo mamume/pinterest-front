@@ -8,21 +8,37 @@ import Board from './pages/Board'
 import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { Fragment, useState } from "react";
-import PinThumbnail from './components/pins/pin_thumbnail'
+import { createContext, Fragment, useEffect, useState } from "react";
 import Create from './components/pins/create_pin'
+import { UserContext } from "./context";
 
 
 function App() {
-  const [authed] = useState(true)
+  const [authedUser, setAuthedUser] = useState({})
+  const [headers] = useState({
+    'content-type': "application/json",
+    'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
+  })
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/account/details`, { headers })
+      .then(res => res.json())
+      .then(data => {
+        if (data.username)
+          setAuthedUser(data)
+        else
+          setAuthedUser(null)
+      })
+  }, [headers])
+
+  // const UserContext = createContext()
 
   return (
     <Fragment>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        {authed
-          ? <Fragment>
-            <PinThumbnail />
+        {authedUser
+          ? <UserContext.Provider value={authedUser}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
@@ -35,7 +51,7 @@ function App() {
                 </Routes>
               </Router>
             </Container>
-          </Fragment>
+          </UserContext.Provider>
           : <Auth />
         }
       </ThemeProvider>

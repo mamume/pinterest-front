@@ -1,5 +1,5 @@
 import { Avatar, Button, Divider, Modal, Stack, Typography } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -10,6 +10,7 @@ import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'
 import FollowingModal from '../components/profile/FollowingModal'
+import { UserContext } from "../context";
 
 const useStyles = makeStyles({
   link: {
@@ -36,6 +37,8 @@ function Profile() {
   const [openFollowing, setOpenFollowing] = useState(false);
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
+
+  const authedUser = useContext(UserContext)
 
   function fetchData(url) {
     fetch(url, {
@@ -117,9 +120,11 @@ function Profile() {
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
-                <Link to="/settings" className={classes.link}>
-                  <Button color="grey">Edit Profile</Button>
-                </Link>
+                {authedUser.username === username &&
+                  (<Link to="/settings" className={classes.link}>
+                    <Button color="grey">Edit Profile</Button>
+                  </Link>)
+                }
               </Stack>
             </Stack>
 
