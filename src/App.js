@@ -31,14 +31,13 @@ function App() {
       })
   }, [headers])
 
-  // const UserContext = createContext()
 
   return (
     <Fragment>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         {authedUser
-          ? <UserContext.Provider value={authedUser}>
+          ? <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />

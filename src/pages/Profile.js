@@ -30,7 +30,9 @@ function Profile() {
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
   const [bioText, setBioText] = useState('')
+  const [userId, setUserId] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [followed, setFollowed] = useState(false)
   const [openFollowers, setOpenFollowers] = useState(false);
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
@@ -38,8 +40,8 @@ function Profile() {
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
 
-  const authedUser = useContext(UserContext)
-
+  const { authedUser, headers, setAuthedUser } = useContext(UserContext)
+  // console.log(authedUser)
   function fetchData(url) {
     fetch(url, {
       headers: {
@@ -52,16 +54,25 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
+          const { id, full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
           setProfilePic(profile_pic)
           setUsername(username)
           setBioText(bio)
+          setUserId(id)
         }
       })
   }
+
+  useEffect(() => {
+    if (authedUser.following)
+      for (const user of authedUser.following) {
+        if (user.followed_user === username)
+          setFollowed(true)
+      }
+  }, [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
@@ -70,7 +81,21 @@ function Profile() {
       fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
       fetchData('http://localhost:8000/profile/list')
-  }, [])
+  })
+
+  function handleFollow() {
+    fetch(`http://localhost:8000/account/${userId}/follow`, { headers })
+      .then(res => res.json())
+      .then(() => (
+        fetch(`http://localhost:8000/account/details`, { headers })
+          .then(setFollowed(true))
+      ))
+  }
+
+  function handleUnfollow() {
+    fetch(`http://localhost:8000/account/${userId}/unfollow`, { headers })
+      .then(setFollowed(false))
+  }
 
   return (
     <Fragment>
@@ -124,7 +149,11 @@ function Profile() {
                   ? (<Link to="/settings" className={classes.link}>
                     <Button color="grey">Edit Profile</Button>
                   </Link>)
-                  : <Button>Follow</Button>
+                  : <Fragment>
+                    {followed
+                      ? <Button color="black" onClick={handleUnfollow}>Unfollow</Button>
+                      : <Button onClick={handleFollow}>Follow</Button>
+                    }</Fragment>
                 }
               </Stack>
             </Stack>
