@@ -31,7 +31,7 @@ function Profile() {
     fetch(url, {
       headers: {
         'content-type': "application/json",
-        // 'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
       }
     })
       .then(res => res.json())
@@ -39,7 +39,6 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          console.log(data)
           const { full_name, username, profile_pic, following_count } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
