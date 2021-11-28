@@ -66,7 +66,7 @@ function InviteModal({ handleClose }) {
                 open={openPermissions}
                 onClose={handleClosePermissions}
             >
-                <Box sx={style}>
+                <Box sx={ModalStyles}>
                     <Stack mb={2} direction="row" justifyContent="space-between" alignItems="center">
                         <IconButton onClick={handleClosePermissions}>
                             <ArrowBackIosNewRoundedIcon color="black" />
