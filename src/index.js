@@ -6,7 +6,7 @@ import Auth from './Auth/Auth'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

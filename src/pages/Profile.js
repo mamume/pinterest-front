@@ -23,6 +23,7 @@ function Profile() {
   const classes = useStyles()
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
+  const [followersNum, setFollwersNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
   const [notFound, setNotFound] = useState(false)
@@ -31,7 +32,7 @@ function Profile() {
     fetch(url, {
       headers: {
         'content-type': "application/json",
-        'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
       }
     })
       .then(res => res.json())
@@ -39,9 +40,10 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { full_name, username, profile_pic, following_count } = data[0]
+          const { full_name, username, profile_pic, following_count, followers_count } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
+          setFollwersNum(followers_count)
           setProfilePic(profile_pic)
           setUsername(username)
         }
@@ -52,9 +54,9 @@ function Profile() {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     if (params.get('username'))
-      fetchData(`localhost/profile/list?username=${params.get('username')}`)
+      fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
-      fetchData('localhost/profile/list')
+      fetchData('http://localhost:8000/profile/list')
   }, [])
 
   return (
@@ -70,10 +72,11 @@ function Profile() {
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
               <Typography>@{username}</Typography>
-              <Typography fontWeight="bold">{followingNum} following</Typography>
+              <Stack direction="row">
+                <Typography fontWeight="bold">{followersNum} followers  ·  {followingNum} following</Typography>
+              </Stack>
 
               <Stack direction="row" spacing={1} mt>
-                {/* <Button disableElevation color="grey">Share</Button> */}
                 <ShareButton />
                 <Link to="/settings" className={classes.link}>
                   <Button color="grey">Edit Profile</Button>
