@@ -26,6 +26,7 @@ function Profile() {
   const [followersNum, setFollwersNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
+  const [bioText, setBioText] = useState('')
   const [notFound, setNotFound] = useState(false)
 
   function fetchData(url) {
@@ -40,12 +41,13 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { full_name, username, profile_pic, following_count, followers_count } = data[0]
+          const { full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
           setProfilePic(profile_pic)
           setUsername(username)
+          setBioText(bio)
         }
       })
   }
@@ -72,9 +74,8 @@ function Profile() {
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
               <Typography>@{username}</Typography>
-              <Stack direction="row">
-                <Typography fontWeight="bold">{followersNum} followers  ·  {followingNum} following</Typography>
-              </Stack>
+              <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
+              <Typography fontWeight="bold">{followersNum} followers  ·  {followingNum} following</Typography>
 
               <Stack direction="row" spacing={1} mt>
                 <ShareButton />
