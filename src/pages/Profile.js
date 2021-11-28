@@ -1,5 +1,5 @@
-import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import { Avatar, Button, Divider, Modal, Stack, Typography } from "@mui/material";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import AddRounded from "@mui/icons-material/AddRounded";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -8,6 +8,9 @@ import { makeStyles } from "@mui/styles";
 import HomePage from "./Homepage"
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
+import FollowersModal from '../components/profile/FollowersModal'
+import FollowingModal from '../components/profile/FollowingModal'
+import { UserContext } from "../context";
 
 const useStyles = makeStyles({
   link: {
@@ -23,27 +26,39 @@ function Profile() {
   const classes = useStyles()
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
+  const [followersNum, setFollwersNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
   const [username, setUsername] = useState('')
+  const [bioText, setBioText] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [openFollowers, setOpenFollowers] = useState(false);
+  const handleOpenFollowars = () => setOpenFollowers(true);
+  const handleCloseFollowers = () => setOpenFollowers(false);
+  const [openFollowing, setOpenFollowing] = useState(false);
+  const handleOpenFollowing = () => setOpenFollowing(true);
+  const handleCloseFollowing = () => setOpenFollowing(false);
+
+  const authedUser = useContext(UserContext)
 
   function fetchData(url) {
     fetch(url, {
       headers: {
         'content-type': "application/json",
-        'Authorization': `jwt ${localStorage.getItem('pinterestToken')}`
+        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
       }
     })
       .then(res => res.json())
       .then(data => {
-        if (data.msg)
+        if (!data.length)
           setNotFound(true)
         else {
-          const { first_name, last_name, username, profile_pic, following } = data
-          setFullName(`${first_name} ${last_name}`)
-          setFollowingNum(following.length)
+          const { full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
+          setFullName(full_name)
+          setFollowingNum(following_count)
+          setFollwersNum(followers_count)
           setProfilePic(profile_pic)
           setUsername(username)
+          setBioText(bio)
         }
       })
   }
@@ -52,9 +67,9 @@ function Profile() {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     if (params.get('username'))
-      fetchData(`http://127.0.0.1:8000/account/${params.get('username')}/details`)
+      fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
-      fetchData('http://127.0.0.1:8000/account/details')
+      fetchData('http://localhost:8000/profile/list')
   }, [])
 
   return (
@@ -70,14 +85,47 @@ function Profile() {
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
               <Typography>@{username}</Typography>
-              <Typography>{followingNum} following</Typography>
+              <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
+              <Typography fontWeight="bold">
+                <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                  {followersNum} followers
+                </Button>
+                ·
+                <Button disabled={!followingNum} disableRipple variant="text" onClick={handleOpenFollowing} color="black">
+                  {followingNum} following
+                </Button>
+              </Typography>
+
+              <Modal
+                open={openFollowers}
+                onClose={handleCloseFollowers}
+              >
+                <FollowersModal
+                  handleClose={handleCloseFollowers}
+                  followersNum={followersNum}
+                  username={username}
+                />
+              </Modal>
+
+              <Modal
+                open={openFollowing}
+                onClose={handleCloseFollowing}
+              >
+                <FollowingModal
+                  handleClose={handleCloseFollowing}
+                  followersNum={followingNum}
+                  username={username}
+                />
+              </Modal>
 
               <Stack direction="row" spacing={1} mt>
-                {/* <Button disableElevation color="grey">Share</Button> */}
                 <ShareButton />
-                <Link to="/settings" className={classes.link}>
-                  <Button color="grey">Edit Profile</Button>
-                </Link>
+                {authedUser.username === username
+                  ? (<Link to="/settings" className={classes.link}>
+                    <Button color="grey">Edit Profile</Button>
+                  </Link>)
+                  : <Button>Follow</Button>
+                }
               </Stack>
             </Stack>
 

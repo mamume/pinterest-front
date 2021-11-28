@@ -1,4 +1,7 @@
 import React from "react";
+import ReactDOM from 'react-dom';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 import {
     Button,
     TextField,
@@ -38,6 +41,62 @@ export default class Main extends React.Component{
       this.props.collect(data)
       this.props.switch('first')
       
+    }
+
+    responseFacebook=(response)=>{
+      console.log(response.accessToken)
+      let obj = {
+        grant_type:"convert_token",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+        backend:"facebook",
+        token:response.accessToken
+      }
+      let jsonObj = JSON.stringify(obj)
+      fetch(
+        'http://localhost:8000/account/auth/convert-token',{
+        method:"POST",
+        headers:{'content-type':"application/json"},
+        body:jsonObj
+      }).then(res =>{
+        console.log(res)
+        return res.json()
+      }).then(json =>{
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+          localStorage.setItem('pinterestAccount', response.email)
+          window.location.href = 'http://localhost:3000/'
+        }else console.log(json)
+      })
+    }
+
+    responseGoogle=(response)=>{
+      console.log(response)
+      let obj = {
+        grant_type:"convert_token",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+        backend:"google-oauth2",
+        token:response.accessToken
+      }
+      let jsonObj = JSON.stringify(obj)
+      fetch(
+        'http://localhost:8000/account/auth/convert-token',{
+        method:"POST",
+        headers:{'content-type':"application/json"},
+        body:jsonObj
+      }).then(res =>{
+        console.log(res)
+        return res.json()
+      }).then(json =>{
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+          localStorage.setItem('pinterestAccount', response.vu.jv)
+          window.location.href = 'http://localhost:3000/'
+        }else console.log(json)
+      })
     }
 
 
@@ -132,6 +191,21 @@ export default class Main extends React.Component{
           }}
           >
           Continue</Button>
+          </div>
+          <div style={{width:"100%", marginTop:'0.5rem'}}>
+            <FacebookLogin
+              appId="1730643360462848"
+              fields="name,email,picture,first_name,last_name"
+              callback={this.responseFacebook} />
+          </div>
+          <div style={{width:"100%", marginTop:'0.5rem'}}>
+          <GoogleLogin
+            clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+            buttonText="Sign up With Google Account"
+            onSuccess={this.responseGoogle}
+            onFailure={this.responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
           </div>
           </form>
           <div style={{width:"90%", margin:'1rem auto', textAlign:'center'}}>
