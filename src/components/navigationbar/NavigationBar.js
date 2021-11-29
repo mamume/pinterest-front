@@ -15,6 +15,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import Button from '@mui/material/Button';
 
 import { makeStyles } from "@mui/styles"
 import { Link } from 'react-router-dom'
@@ -163,7 +164,7 @@ export default function PrimarySearchAppBar() {
           </SearchWrapper>
 
           {/*
-          */}
+          
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
@@ -212,6 +213,9 @@ export default function PrimarySearchAppBar() {
           >
             <KeyboardArrowDownIcon />
           </IconButton>
+          */}
+          <Button>Signup</Button>
+          <Button>Signin</Button>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
