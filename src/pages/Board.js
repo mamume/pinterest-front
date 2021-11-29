@@ -8,7 +8,9 @@ import Masonry from 'react-masonry-component';
 
 
 function Board() {
-  const [boardId, setBoardId] = useState('')
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const [boardId, setBoardId] = useState(params.get('board_id'))
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
   const [, setDescription] = useState('')
@@ -21,9 +23,6 @@ function Board() {
   const { headers } = useContext(UserContext)
 
   useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    setBoardId(params.get('board_id'))
     fetch(`http://127.0.0.1:8000/board/list?board_id=${boardId}`, { headers })
       .then(res => res.json())
       .then(data => {
@@ -33,7 +32,7 @@ function Board() {
         setPinItems(data[0].pins)
         setCoverImage(data[0].cover_img)
       })
-  }, [])
+  }, [boardId])
 
   return (
     <Fragment>
