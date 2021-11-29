@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 })
 
 
-function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow }) {
+function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow, followingNum }) {
   const [following, setFollowing] = useState([])
   const classes = useStyles()
   const { authedUser, setAuthedUser, headers } = useContext(UserContext)
@@ -35,7 +35,7 @@ function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow 
           setFollowing(prevFollowing => [...prevFollowing, person.following[0]])
         }
       })
-  }, [username])
+  }, [username, followingNum])
 
   function handleToFollow(e, id) {
     handleFollow(e, id)

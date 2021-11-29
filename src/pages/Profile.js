@@ -161,7 +161,7 @@ function Profile() {
 
               <FollowingModal
                 handleClose={handleCloseFollowing}
-                followersNum={followingNum}
+                followingNum={followingNum}
                 username={username}
                 handleFollow={handleFollow}
                 handleUnfollow={handleUnfollow}
