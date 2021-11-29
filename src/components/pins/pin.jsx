@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './pin_styles.css'
+import { Router, Route, browserHistory, IndexRoute} from 'react-router'
+import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
 
-class Pin extends React.Component {
-    state = {
-
+export function withRouter( Child ) {
+    return ( props ) => {
+      const location = useLocation();
+      const navigate = useNavigate();
+      return <Child { ...props } navigate={ navigate } location={ location } />;
     }
-    handelfocus = () => {
+  }
+
+
+
+
+    const handelfocus = () => {
         let ftarget = document.getElementById("comment_controllers")
         ftarget.classList.add("comment_vis")
     }
 
-    handelclick = () => {
+    const handelclick = () => {
         let btarget = document.getElementById("comment_controllers")
         console.log(btarget)
 
@@ -18,7 +27,7 @@ class Pin extends React.Component {
         btarget.classList.add("comment_hide")
     }
 
-    handelchange = (event) => {
+    const handelchange = (event) => {
         let target = document.getElementsByClassName("comment_done")
         target.item(0).disabled = false;
         target.item(0).classList.add("comment_done_edite")
@@ -28,15 +37,35 @@ class Pin extends React.Component {
         }
     }
 
-    commentclick = () => {
+    const commentclick = () => {
         let dis = document.getElementById("comment_area_container")
         console.log(dis);
         dis.classList.toggle("comment_area_container");
         console.log("done")
     }
+    
+    
+    const Pin =() =>{
+        const [pin, setPin] = useState({})
+        let data = useLocation();
+        let param = useParams();
+        console.log(param.id)
 
-    render() {
+        useEffect(() => {
+            fetch(`http://127.0.0.1:8000/pin/${param.id}`)
+              .then(res => res.json())
+              .then(data => {
+                // console.log(data)
+                //setItemData(itemData => [...itemData, { img: temp }])
+                console.log(data)
+                console.log(data.content_src)
+                setPin({img:data.content_src, title: data.title, desc: data.description })
+               
+                
+              })
+          }, [])
 
+    
         return (
             <React.Fragment>
                 <div className="pin-container">
@@ -44,7 +73,7 @@ class Pin extends React.Component {
                         <div className="left-side">
                             <div className="modals_pin_pin">
                                 <div className="pin_image_pin">
-                                    <img src="/images/movie.png" alt="pin_image" />
+                                    <img src={pin.img} alt="pin_image" />
                                 </div>
                             </div>
 
@@ -77,8 +106,8 @@ class Pin extends React.Component {
 
                             <div className="section2">
                                 <div className="section2_header">
-                                    <h1 className="pin_title_for_pin">test pin</h1>
-                                    <div className="pin_description_for_pin">a simpled description for a new pin we went to our friend to see what is going too happen and we went so far to get it</div>
+                                    <h1 className="pin_title_for_pin">{pin.title}</h1>
+                                    <div className="pin_description_for_pin">{pin.desc}</div>
                                 </div>
                                 <div className="user_details">
                                     <div className="user_icon"><span>m</span></div>
@@ -99,7 +128,7 @@ class Pin extends React.Component {
                                 <div className="section3">
                                     <div className="comment_head">
                                         <h3>comments</h3>
-                                        <div className="comment_icon" onClick={this.commentclick}>
+                                        <div className="comment_icon" onClick={commentclick}>
                                             <i className="fas fa-chevron-down"></i>
                                         </div>
                                     </div>
@@ -111,11 +140,11 @@ class Pin extends React.Component {
                                         <div className="comment_area">
                                             <div className="persons_icon"><span>A</span></div>
                                             <div className="text">
-                                                <input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={this.handelfocus} onChange={this.handelchange} />
+                                                <input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
                                             </div>
                                         </div>
                                         <div className="comment_controllers" id="comment_controllers">
-                                            <input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={this.handelclick} />
+                                            <input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
                                             <input type="button" value="Done" name="comment_done" className="comment_done" disabled />
                                         </div>
                                     </div>
@@ -141,6 +170,5 @@ class Pin extends React.Component {
             </React.Fragment>
         );
     }
-}
 
-export default Pin;
+export default Pin
