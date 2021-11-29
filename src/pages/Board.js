@@ -1,5 +1,5 @@
-import { Button, IconButton, Modal, Stack, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Button, Divider, IconButton, Modal, Stack, Typography } from "@mui/material";
+import { Fragment, useContext, useEffect, useState } from "react";
 import MenuButton from '../components/settings/MenuButton'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FlareRoundedIcon from '@mui/icons-material/FlareRounded';
@@ -11,6 +11,10 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import InviteModal from "../components/board/InviteModal";
 import Homepage from "./Homepage";
+import { UserContext } from "../context";
+import SinglePin from "../components/pins/SinglePin";
+import Masonry from 'react-masonry-component';
+
 
 const boardBtn = {
   bgcolor: "#E2E2E2",
@@ -20,40 +24,50 @@ const boardBtn = {
 }
 
 function Board() {
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  const [boardId] = useState(params.get('board_id'))
+  const [boardId, setBoardId] = useState('')
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
   const [, setDescription] = useState('')
+  const [pinItems, setPinItems] = useState([])
+  const [coverImage, setCoverImage] = useState('')
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const { headers } = useContext(UserContext)
+
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/board/list/${boardId}`)
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    setBoardId(params.get('board_id'))
+    fetch(`http://127.0.0.1:8000/board/list?board_id=${boardId}`, { headers })
       .then(res => res.json())
       .then(data => {
-        setTitle(data.title)
-        setShare(data.share)
-        setDescription(data.description)
+        setTitle(data[0].title)
+        setShare(data[0].share)
+        setDescription(data[0].description)
+        setPinItems(data[0].pins)
+        setCoverImage(data[0].cover_img)
       })
-  }, [boardId])
+  }, [])
 
   return (
     <Fragment>
       <Stack direction="column" alignItems="center">
-        <Stack direction='row' alignItems="baseline" spacing>
-          <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
-          <MenuButton
+        <Avatar src={coverImage} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
+          <Typography variant="h2">{title.toUpperCase()}</Typography>
+        </Avatar>
+        {/* <Stack direction='row' alignItems="baseline" spacing> */}
+        <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
+        {/* <MenuButton
             icon={<MoreHorizIcon />}
             options={["Edit Board", "Share", "Merge", "Archive"]}
             label="Board Options"
-          />
-        </Stack>
+          /> */}
+        {/* </Stack> */}
 
-        <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
+        {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
           <Stack direction='row' alignItems="center">
             <AvatarGroup max={2}>
               <Avatar alt="Remy Sharp" src="#" />
@@ -64,7 +78,7 @@ function Board() {
             </AvatarGroup>
             <AddRoundedIcon fontSize="large" color="black" />
           </Stack>
-        </Button>
+        </Button> */}
 
         <Modal
           open={open}
@@ -76,7 +90,7 @@ function Board() {
         </Modal>
 
         <Typography>{share ? "Public" : "Private"} Board</Typography>
-        <Stack direction="row" spacing mt mb>
+        {/* <Stack direction="row" spacing mt mb>
           <Stack alignItems="center">
             <IconButton sx={boardBtn}>
               <FlareRoundedIcon fontSize="large" color="black" />
@@ -97,19 +111,26 @@ function Board() {
             </IconButton>
             <Typography variant="caption">Notes</Typography>
           </Stack>
-        </Stack>
+        </Stack> */}
       </Stack>
 
-      <Stack direction="row" justifyContent="space-between" mt={7}>
-        <Typography fontWeight="bold">[num]Pins</Typography>
-        <MenuButton
+      <Divider sx={{ marginY: 5 }} />
+
+      {/* <Stack direction="row" justifyContent="space-between" mt={7}> */}
+      <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
+      {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
           label="Sort boards by"
           options={["A to Z", "Drag and drop", "Last saved to"]}
-        />
-      </Stack>
+        /> */}
+      {/* </Stack> */}
 
-      <Homepage />
+      {/* <Homepage /> */}
+      <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+        {pinItems.map((item, index) => (
+          <SinglePin key={item.id} img={item.content_src} id={item.id} />
+        ))}
+      </Masonry>
     </Fragment >
   );
 }

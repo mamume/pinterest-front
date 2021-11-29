@@ -18,9 +18,9 @@ export function withRouter( Child ) {
     }
   }
 
-function SinglePin({img, external_link, id}) {
+function SinglePin({img, external_link, id, url}) {
     const newTo =  { 
-        pathname: `pin/${id}`, 
+        pathname: url ? url : `pin/${id}`, 
         state:{ id: id} 
       };
     return (

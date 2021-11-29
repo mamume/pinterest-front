@@ -42,7 +42,8 @@ function Profile() {
   const [openFollowing, setOpenFollowing] = useState(false);
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
-  const [mypins, setMypins] = useState([])
+  const [pinItems, setPinItems] = useState([])
+  const [boardItems, setBoardItems] = useState([])
   const { authedUser, headers } = useContext(UserContext)
 
   useEffect(() => {
@@ -64,7 +65,7 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { id, full_name, username, profile_pic, following_count, followers_count, bio, pins } = data[0]
+          const { id, full_name, username, profile_pic, following_count, followers_count, bio, pins, boards } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
@@ -72,7 +73,8 @@ function Profile() {
           setUsername(username)
           setBioText(bio)
           setUserId(id)
-          setMypins(pins)
+          setPinItems(pins)
+          setBoardItems(boards)
         }
       })
   }, [headers, followed])
@@ -113,7 +115,7 @@ function Profile() {
           : <Fragment>
             <Stack direction="column" alignItems="center">
               <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                <Typography variant="h2">M</Typography>
+                <Typography variant="h2">{fullName.toUpperCase()}</Typography>
               </Avatar>
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
@@ -179,13 +181,21 @@ function Profile() {
             </Stack> */}
 
             <Divider sx={{ marginY: 5 }} />
-            <Stack direction='row' justifyContent="space-between" mt={3}>
-              <Typography fontWeight="bold" variant="h6">Pins</Typography>
-              {/* <Button color="grey">Organize</Button> */}
-            </Stack>
+            <Typography fontWeight="bold" variant="h6">Boards</Typography>
+            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+              {boardItems.map((item) => (
+                <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
+              ))}
+            </Masonry>
+
+            <Divider sx={{ marginY: 5 }} />
+            {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
+            <Typography fontWeight="bold" variant="h6">Pins</Typography>
+            {/* <Button color="grey">Organize</Button> */}
+            {/* </Stack> */}
 
             <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {mypins.map((item, index) => (
+              {pinItems.map((item, index) => (
                 <SinglePin key={item.id} img={item.content_src} id={item.id} />
               ))}
             </Masonry>
