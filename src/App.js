@@ -36,9 +36,9 @@ function App() {
   return (
     <Fragment>
       <CssBaseline />
-      <ThemeProvider theme={theme}>
-        {authedUser
-          ? <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
+      {authedUser
+        ? <ThemeProvider theme={theme}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
@@ -48,14 +48,14 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
-                  <Route path='/pin/:id' element={<Pin /> }> </Route>
+                  <Route path='/pin/:id' element={<Pin />}> </Route>
                 </Routes>
               </Router>
             </Container>
           </UserContext.Provider>
-          : <Auth />
-        }
-      </ThemeProvider>
+        </ThemeProvider>
+        : <Auth />
+      }
     </Fragment>
   );
 }
