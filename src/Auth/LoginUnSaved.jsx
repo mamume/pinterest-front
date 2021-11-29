@@ -13,6 +13,10 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
+import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
+import { FcGoogle } from "react-icons/fc";
 
 export default class LoginUnSaved extends React.Component{
     constructor(){
@@ -86,7 +90,7 @@ export default class LoginUnSaved extends React.Component{
           />
           <TextField
             required
-            sx={this.props.inputStyle}
+            sx={this.props.inputStyle}  
             margin="dense"
             name="loginPassword"
             id="password"
@@ -119,9 +123,59 @@ export default class LoginUnSaved extends React.Component{
           >
           Next</Button>
 
-        
-
-        
+          <DialogContentText my={1}>
+          <Typography variant="h6">OR</Typography>
+          </DialogContentText>
+          <FacebookLogin
+                appId="1730643360462848"
+                fields='name,email,picture,first_name,last_name'
+                callback={this.responseFacebook}
+                render={renderProps => (
+                  <Button
+                  onClick={renderProps.onClick}
+                  variant="contained" 
+                  size='large' 
+                  fullWidth 
+                  sx={{
+                    backgroundColor:"#4267b2", 
+                    '&:hover':{backgroundColor:"#4267b2"}, 
+                    borderRadius:10,
+                    textTransform:'none',
+                    paddingLeft:'0.1rem',
+                    paddingRight:'0.5rem'
+                  }}
+                  >
+                  <FacebookTwoToneIcon sx={{marginRight:'0.5rem'}}/>
+                  Continue With Facebook</Button>
+                )}
+            />
+            <GoogleLogin
+              clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+              render={renderProps => (
+                <Button
+                onClick={renderProps.onClick}
+                variant="contained" 
+                size='large' 
+                fullWidth 
+                sx={{
+                  backgroundColor:"rgb(255, 255, 255)", 
+                  color:'rgba(0, 0, 0, 0.54)',
+                  '&:hover':{backgroundColor:"rgb(255, 255, 255)"}, 
+                  
+                  borderRadius:10,
+                  textTransform:'none',
+                  paddingLeft:'0.1rem',
+                  paddingRight:'0.5rem',
+                  marginTop:'1rem'
+                }}
+                >
+                <FcGoogle style={{marginRight:'0.5rem', fontSize:'1.5rem'}}/>
+                Continue With Google</Button>
+            )}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
 
          <DialogContentText mt={2}> 
          <Typography variant="caption">

@@ -181,7 +181,7 @@ export default class Auth extends React.Component{
               borderBottomColor: '#e60023',
             },
             '& .MuiOutlinedInput-root': {
-    
+              maxHeight:'50px',
               borderRadius:20,
               '&.Mui-focused fieldset': {
                 borderColor: '#e60023',
@@ -190,7 +190,7 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div >
+        return <div style={{minHeight:'100vh'}}>
         <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 
