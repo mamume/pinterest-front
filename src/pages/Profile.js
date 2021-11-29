@@ -43,12 +43,7 @@ function Profile() {
   const { authedUser, headers } = useContext(UserContext)
 
   function fetchData(url) {
-    fetch(url, {
-      headers: {
-        'content-type': "application/json",
-        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
-      }
-    })
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => {
         if (!data.length)
@@ -81,24 +76,35 @@ function Profile() {
       fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
       fetchData('http://localhost:8000/profile/list')
-  }, [])
+  })
 
-  function handleFollow(e, id = userId) {
-    fetch(`http://localhost:8000/account/${id}/follow`, { headers })
-      .then(res => {
-        if (res.status === 201)
-          setFollowed(true)
-      })
+  async function handleFollow(e, id = userId) {
+    let statusCode
+
+    await fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+      .then(res => res.status)
+      .then((status) => statusCode = status)
+
+    if (statusCode === 201)
+      setFollowed(true)
+    console.log(statusCode)
+
+    return statusCode
   }
 
-  function handleUnfollow(e, id = userId) {
-    fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
-      .then(res => {
-        console.log(res.status)
-        if (res.status === 200)
-          setFollowed(false)
-      })
+  async function handleUnfollow(e, id = userId) {
+    let statusCode
+
+    await fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+      .then(res => res.status)
+      .then(status => statusCode = status)
+
+    if (statusCode === 200)
+      setFollowed(false)
+    console.log(statusCode)
+    return statusCode
   }
+
 
   return (
     <Fragment>
@@ -136,7 +142,7 @@ function Profile() {
 
               <FollowingModal
                 handleClose={handleCloseFollowing}
-                followersNum={followingNum}
+                followingNum={followingNum}
                 username={username}
                 handleFollow={handleFollow}
                 handleUnfollow={handleUnfollow}

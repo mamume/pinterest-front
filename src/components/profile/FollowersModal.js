@@ -1,7 +1,7 @@
-import { Avatar, Button, Modal, Stack, Typography } from "@mui/material";
+import { Avatar, Modal, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import { Fragment, useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 import { UserContext } from "../../context";
 
@@ -15,91 +15,44 @@ const useStyles = makeStyles({
   },
 })
 
-// function useForceUpdate() {
-//   const [value, setValue] = useState(0); // integer state
-//   return () => setValue(value => value + 1); // update the state to force render
-// }
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
   const [followers, setFollowers] = useState([])
   const classes = useStyles()
-  const { authedUser, setAuthedUser, headers } = useContext(UserContext)
-  // const [, forceUpdate] = useReducer(x => x + 1, 0);
-  const [update, setUpdate] = useState(true)
+  const { headers } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/followers?username=${username}`, {
-      headers: {
-        'content-type': "application/json",
-        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
-      }
-    })
+    fetch(`http://localhost:8000/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
         setFollowers([])
         for (let person of data) {
-          console.log(person.follower[0])
           setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-          // let found = false
-          // for (const user in authedUser.following) {
-          //   if (user.followed_user === person.follower[0].username) {
-          //     found = true
-          //     setToUnfollow(prev => [...prev, person.follower[0]])
-          //   }
-          // }
-          // if (!found) {
-          //   setToFollow(prev => [...prev, person.follower[0]])
-          // }
         }
       })
-    // .then(() => {
-    //   const toFollow = followers.filter(user => user.username !== authedUser.username)
-    //   const toUnfollow = toFollow.filter(user => {
-    //     for (const follower of authedUser.following)
-    //       if (user.username === follower.username)
-    //         return user
-    //   })
-    //   console.log(followers, toFollow, toUnfollow)
-    // })
-  }, [username, update])
+  }, [followersNum, headers, username])
 
-  // useEffect(() => {
-  //   for (const follower of followers)
-  //     console.log(follower)
-  // }, [followers])
 
-  function handleToFollow(e, id) {
-    handleFollow(e, id)
-    // setUpdate(prev => !prev)
-    e.target.innerText = "Unfollow"
-    // console.log(e.target.className)
-    e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
-    // console.log(e.target.className)
-    // e.target.className = "MuiButton-root MuiButton-contained MuiButton-containedBlack MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root  css-1vntq7r-MuiButtonBase-root-MuiButton-root"
+  async function handleToFollow(e, id) {
+    const status = await handleFollow(e, id)
+    console.log(status)
+    if (status === 201) {
+      e.target.innerText = "Unfollow"
+      e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
+      e.target.onclick = (e) => handleToUnfollow(e, id)
+    }
   }
 
-  function handleToUnfollow(e, id) {
-    handleUnfollow(e, id)
-    // setUpdate(prev => !prev)
-    // e.target.className += "MuiButton-containedPrimary"
-    e.target.innerText = "Follow"
-    // console.log(e.target.className)
-    e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
-    // console.log(e.target.className)
-
-    // updateAuthedUser()
+  async function handleToUnfollow(e, id) {
+    const status = await handleUnfollow(e, id)
+    console.log(status)
+    if (status === 200) {
+      console.log(e.target.onclick)
+      e.target.innerText = "Follow"
+      e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
+      e.target.onclick = (e) => handleToFollow(e, id)
+    }
   }
-
-  // function updateAuthedUser() {
-  //   fetch(`http://localhost:8000/account/details`, { headers })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.username)
-  //         setAuthedUser(data)
-  //       else
-  //         setAuthedUser(null)
-  //     })
-  // }
 
   return (
     <Modal
@@ -114,21 +67,13 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
         </Box>
         <Stack spacing={2}>
           {followers.map(follower => (
-            <Stack justifyContent="space-between" alignItems="center" spacing={1} direction="row" key={follower.id}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                  <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
-                </a>
-                <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                  <Typography fontWeight="bold">{follower.full_name}</Typography>
-                </a>
-              </Stack>
-
-              {authedUser.username !== follower.username && (
-                authedUser.following.filter(user => follower.username === user.followed_user).length === 1
-                  ? <Button color="black" onClick={(e) => handleToUnfollow(e, follower.id)}>Unfollow</Button>
-                  : <Button onClick={(e) => handleToFollow(e, follower.id)}>Follow</Button>
-              )}
+            <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
+              <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
+              </a>
+              <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                <Typography fontWeight="bold">{follower.full_name}</Typography>
+              </a>
             </Stack>
           ))}
         </Stack>

@@ -1,8 +1,9 @@
-import { Avatar, Button, Modal, Stack, Typography } from "@mui/material";
+import { Avatar, Modal, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
+import { UserContext } from "../../context";
 
 const useStyles = makeStyles({
   link: {
@@ -15,17 +16,13 @@ const useStyles = makeStyles({
 })
 
 
-function FollowingModal({ username, open, onClose }) {
+function FollowingModal({ username, open, onClose, followingNum }) {
   const [following, setFollowing] = useState([])
   const classes = useStyles()
+  const { headers } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/following?username=${username}`, {
-      headers: {
-        'content-type': "application/json",
-        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
-      }
-    })
+    fetch(`http://localhost:8000/profile/following?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
         setFollowing([])
@@ -33,7 +30,7 @@ function FollowingModal({ username, open, onClose }) {
           setFollowing(prevFollowing => [...prevFollowing, person.following[0]])
         }
       })
-  }, [username])
+  }, [username, followingNum, headers])
 
   return (
     <Modal
@@ -48,16 +45,13 @@ function FollowingModal({ username, open, onClose }) {
         </Box>
         <Stack spacing={2}>
           {following.map(following => (
-            <Stack justifyContent="space-between" alignItems="center" spacing={1} direction="row" key={following.username}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <a className={classes.link} href={`/profile?username=${following.username}`}>
-                  <Avatar sx={{ width: 56, height: 56 }} src={following.profile_pic}>{following.username[0].toUpperCase()}</Avatar>
-                </a>
-                <a className={classes.link} href={`/profile?username=${following.username}`}>
-                  <Typography fontWeight="bold">{following.full_name}</Typography>
-                </a>
-              </Stack>
-              <Button>Follow</Button>
+            <Stack direction="row" alignItems="center" spacing={1} key={following.id}>
+              <a className={classes.link} href={`/profile?username=${following.username}`}>
+                <Avatar sx={{ width: 56, height: 56 }} src={following.profile_pic}>{following.username[0].toUpperCase()}</Avatar>
+              </a>
+              <a className={classes.link} href={`/profile?username=${following.username}`}>
+                <Typography fontWeight="bold">{following.full_name}</Typography>
+              </a>
             </Stack>
           ))}
         </Stack>
