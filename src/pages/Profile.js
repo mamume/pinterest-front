@@ -45,7 +45,19 @@ function Profile() {
   const [mypins, setMypins] = useState([])
   const { authedUser, headers } = useContext(UserContext)
 
-  function fetchData(url) {
+  useEffect(() => {
+    if (authedUser.following)
+      for (const user of authedUser.following) {
+        if (user.followed_user === username)
+          setFollowed(true)
+      }
+  }, [authedUser, username])
+
+  useEffect(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const url = params.get('username') ? `http://localhost:8000/profile/list?username=${params.get('username')}` : `fetchData('http://localhost:8000/profile/list')`
+
     fetch(url, { headers })
       .then(res => res.json())
       .then(data => {
@@ -63,24 +75,7 @@ function Profile() {
           setMypins(pins)
         }
       })
-  }
-
-  useEffect(() => {
-    if (authedUser.following)
-      for (const user of authedUser.following) {
-        if (user.followed_user === username)
-          setFollowed(true)
-      }
-  }, [authedUser, username])
-
-  useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    if (params.get('username'))
-      fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
-    else
-      fetchData('http://localhost:8000/profile/list')
-  })
+  }, [headers, followed])
 
   async function handleFollow(e, id = userId) {
     let statusCode
@@ -189,11 +184,11 @@ function Profile() {
               <Button color="grey">Organize</Button>
             </Stack>
 
-                <Masonry  style={{ width: "100%",paddingLeft: "80px" }}  >
-                    {mypins.map((item, index) => (
-                      <SinglePin key={item.id} img={item.content_src}  id={item.id} />
-                     ))}
-                </Masonry>
+            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+              {mypins.map((item, index) => (
+                <SinglePin key={item.id} img={item.content_src} id={item.id} />
+              ))}
+            </Masonry>
           </Fragment>
       }
     </Fragment>
