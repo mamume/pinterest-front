@@ -1,27 +1,11 @@
-import { Button, Divider, IconButton, Modal, Stack, Typography } from "@mui/material";
+import { Divider, Modal, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
-import MenuButton from '../components/settings/MenuButton'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import FlareRoundedIcon from '@mui/icons-material/FlareRounded';
-import AppRegistrationRoundedIcon from '@mui/icons-material/AppRegistrationRounded';
-import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import InviteModal from "../components/board/InviteModal";
-import Homepage from "./Homepage";
 import { UserContext } from "../context";
 import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 
-
-const boardBtn = {
-  bgcolor: "#E2E2E2",
-  width: "88px",
-  height: "88px",
-  borderRadius: "16px"
-}
 
 function Board() {
   const [boardId, setBoardId] = useState('')
@@ -32,7 +16,6 @@ function Board() {
   const [coverImage, setCoverImage] = useState('')
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const { headers } = useContext(UserContext)
@@ -125,7 +108,6 @@ function Board() {
         /> */}
       {/* </Stack> */}
 
-      {/* <Homepage /> */}
       <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
         {pinItems.map((item, index) => (
           <SinglePin key={item.id} img={item.content_src} id={item.id} />

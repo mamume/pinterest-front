@@ -1,11 +1,7 @@
 import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import MenuButton from '../components/settings/MenuButton'
-import AddRounded from "@mui/icons-material/AddRounded";
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { Link } from 'react-router-dom'
 import { makeStyles } from "@mui/styles";
-import HomePage from "./Homepage"
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import CallMadeIcon from '@mui/icons-material/CallMade';
@@ -6,67 +6,60 @@ import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom'
-import Pin from './pin';
-import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 
-export function withRouter( Child ) {
-    return ( props ) => {
-      const location = useLocation();
-      const navigate = useNavigate();
-      return <Child { ...props } navigate={ navigate } location={ location } />;
+export function withRouter(Child) {
+    return (props) => {
+        const location = useLocation();
+        const navigate = useNavigate();
+        return <Child {...props} navigate={navigate} location={location} />;
     }
-  }
+}
 
-function SinglePin({img, external_link, id, url}) {
-    const newTo =  { 
-        pathname: url ? url : `pin/${id}`, 
-        state:{ id: id} 
-      };
+function SinglePin({ img, external_link, id, url }) {
+    const newTo = {
+        pathname: url ? url : `pin/${id}`,
+        state: { id: id }
+    };
     return (
-        <Wrapper>  
+        <Wrapper>
             <CardWrapper>
-              
                 <Link to={newTo}>
-                <div className="myModal">
+                    <div className="myModal">
 
-                    <div className="my_modal_header">
-                        <Button>Save</Button>
-                    </div>
-                    <div className="my_modal_footer">
-                        <a href={external_link}>
-                            <div className="my_ext">
+                        <div className="my_modal_header">
+                            <Button>Save</Button>
+                        </div>
+                        <div className="my_modal_footer">
+                            <a href={external_link}>
+                                <div className="my_ext">
+                                    <IconButton>
+                                        <CallMadeIcon />
+                                    </IconButton>
+                                    <span>{external_link}</span>
+                                </div>
+
+                            </a>
+
+                            <div className="my_send">
                                 <IconButton>
-                                    <CallMadeIcon/>
+                                    <DownloadIcon />
                                 </IconButton>
-                                <span>{external_link}</span>
                             </div>
 
-                        </a>
-                        
+                            <div className="my_options">
+                                <IconButton>
+                                    <MoreVertIcon />
+                                </IconButton>
+                            </div>
 
-                        <div className="my_send">
-                            <IconButton>
-                                <DownloadIcon/>
-                            </IconButton>
                         </div>
-
-                        <div className="my_options">
-                            <IconButton>
-                                <MoreVertIcon/>
-                            </IconButton>
-                        </div>
-
                     </div>
-                </div>
-               
-                
-                    <img src={img} />
-                
-            </Link>
-            </CardWrapper>   
 
-
+                    <img src={img} alt="" />
+                </Link>
+            </CardWrapper>
         </Wrapper>
     )
 }
@@ -76,7 +69,7 @@ export default withRouter(SinglePin)
 const Wrapper = styled.div`
     display: inline-flex;
     padding: 8px;
-    
+
     img{
         display: flex;
         justify-content: center;
@@ -88,7 +81,7 @@ const Wrapper = styled.div`
 
 const CardWrapper = styled.div`
     width: 250px;
-    
+
     border-radius: 16px;
     background-color: #efefef;
     position: relative;
@@ -103,14 +96,14 @@ const CardWrapper = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        
+
         height:100%;
 
     }
 
     .myModal:hover{
         opacity: 100%;
-        
+
     }
     .my_modal_header{
         display: flex;
@@ -125,12 +118,12 @@ const CardWrapper = styled.div`
         position: fixed;
         bottom: 0;
         padding: 10px 0px;
-        
+
         a{
             text-decoration: none;
         }
 
-       
+
     }
 
     .my_ext{
@@ -144,7 +137,7 @@ const CardWrapper = styled.div`
     }
     .my_ext span{
         display: inline-block;
-        white-space: nowrap; 
+        white-space: nowrap;
         overflow: hidden;
     }
 
