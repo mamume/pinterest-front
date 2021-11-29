@@ -40,15 +40,10 @@ function Profile() {
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
 
-  const { authedUser, headers } = useContext(UserContext)
+  const { authedUser, headers, setAuthedUser } = useContext(UserContext)
 
   function fetchData(url) {
-    fetch(url, {
-      headers: {
-        'content-type': "application/json",
-        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
-      }
-    })
+    fetch(url, { headers })
       .then(res => res.json())
       .then(data => {
         if (!data.length)
@@ -81,24 +76,54 @@ function Profile() {
       fetchData(`http://localhost:8000/profile/list?username=${params.get('username')}`)
     else
       fetchData('http://localhost:8000/profile/list')
-  }, [])
+  })
 
-  function handleFollow(e, id = userId) {
-    fetch(`http://localhost:8000/account/${id}/follow`, { headers })
-      .then(res => {
-        if (res.status === 201)
-          setFollowed(true)
+  // function getAuthedData() {
+  //   fetch(`http://localhost:8000/account/details`, { headers })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       if (data.username)
+  //         return data
+  //       else
+  //         return null
+  //     })
+  // }
+
+  async function handleFollow(e, id = userId) {
+    let statusCode
+    await fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+      .then(res => res.status)
+      .then((status) => {
+        statusCode = status
+
       })
+    if (statusCode === 201)
+      setFollowed(true)
+    console.log(statusCode)
+
+    return statusCode
   }
 
-  function handleUnfollow(e, id = userId) {
-    fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
-      .then(res => {
-        console.log(res.status)
-        if (res.status === 200)
-          setFollowed(false)
+  async function handleUnfollow(e, id = userId) {
+    let statusCode
+    await fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+      .then(res => res.status)
+      .then(status => {
+        statusCode = status
+        // if (status === 200) {
+        //   setFollowed(false)
+        //   return 200
+        // }
+        // else
+        //   return 400
       })
+    if (statusCode === 200)
+      setFollowed(false)
+    console.log(statusCode)
+    return statusCode
   }
+
 
   return (
     <Fragment>

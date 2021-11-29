@@ -1,8 +1,9 @@
 import { Avatar, Button, Modal, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
+import { UserContext } from "../../context";
 
 const useStyles = makeStyles({
   link: {
@@ -15,9 +16,10 @@ const useStyles = makeStyles({
 })
 
 
-function FollowingModal({ username, open, onClose }) {
+function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow }) {
   const [following, setFollowing] = useState([])
   const classes = useStyles()
+  const { authedUser, setAuthedUser, headers } = useContext(UserContext)
 
   useEffect(() => {
     fetch(`http://localhost:8000/profile/following?username=${username}`, {
@@ -34,6 +36,28 @@ function FollowingModal({ username, open, onClose }) {
         }
       })
   }, [username])
+
+  function handleToFollow(e, id) {
+    handleFollow(e, id)
+    // setUpdate(prev => !prev)
+    e.target.innerText = "Unfollow"
+    // console.log(e.target.className)
+    e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
+    // console.log(e.target.className)
+    // e.target.className = "MuiButton-root MuiButton-contained MuiButton-containedBlack MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root  css-1vntq7r-MuiButtonBase-root-MuiButton-root"
+  }
+
+  function handleToUnfollow(e, id) {
+    handleUnfollow(e, id)
+    // setUpdate(prev => !prev)
+    // e.target.className += "MuiButton-containedPrimary"
+    e.target.innerText = "Follow"
+    // console.log(e.target.className)
+    e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
+    // console.log(e.target.className)
+
+    // updateAuthedUser()
+  }
 
   return (
     <Modal
@@ -57,7 +81,11 @@ function FollowingModal({ username, open, onClose }) {
                   <Typography fontWeight="bold">{following.full_name}</Typography>
                 </a>
               </Stack>
-              <Button>Follow</Button>
+              {/* {authedUser.username !== following.username && (
+                authedUser.following.filter(user => following.username === user.followed_user).length === 1
+                  ? <Button color="black" onClick={(e) => handleToUnfollow(e, following.id)}>Unfollow</Button>
+                  : <Button onClick={(e) => handleToFollow(e, following.id)}>Follow</Button>
+              )} */}
             </Stack>
           ))}
         </Stack>

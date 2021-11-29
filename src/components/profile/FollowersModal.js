@@ -1,7 +1,7 @@
 import { Avatar, Button, Modal, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import { Fragment, useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 import { UserContext } from "../../context";
 
@@ -15,77 +15,44 @@ const useStyles = makeStyles({
   },
 })
 
-// function useForceUpdate() {
-//   const [value, setValue] = useState(0); // integer state
-//   return () => setValue(value => value + 1); // update the state to force render
-// }
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
   const [followers, setFollowers] = useState([])
   const classes = useStyles()
   const { authedUser, setAuthedUser, headers } = useContext(UserContext)
-  // const [, forceUpdate] = useReducer(x => x + 1, 0);
-  const [update, setUpdate] = useState(true)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/followers?username=${username}`, {
-      headers: {
-        'content-type': "application/json",
-        'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
-      }
-    })
+    fetch(`http://localhost:8000/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
         setFollowers([])
         for (let person of data) {
-          console.log(person.follower[0])
           setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-          // let found = false
-          // for (const user in authedUser.following) {
-          //   if (user.followed_user === person.follower[0].username) {
-          //     found = true
-          //     setToUnfollow(prev => [...prev, person.follower[0]])
-          //   }
-          // }
-          // if (!found) {
-          //   setToFollow(prev => [...prev, person.follower[0]])
-          // }
         }
       })
-    // .then(() => {
-    //   const toFollow = followers.filter(user => user.username !== authedUser.username)
-    //   const toUnfollow = toFollow.filter(user => {
-    //     for (const follower of authedUser.following)
-    //       if (user.username === follower.username)
-    //         return user
-    //   })
-    //   console.log(followers, toFollow, toUnfollow)
-    // })
-  }, [username, update])
+  }, [followersNum, headers, username])
 
-  // useEffect(() => {
-  //   for (const follower of followers)
-  //     console.log(follower)
-  // }, [followers])
 
-  function handleToFollow(e, id) {
-    handleFollow(e, id)
-    // setUpdate(prev => !prev)
-    e.target.innerText = "Unfollow"
-    // console.log(e.target.className)
-    e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
-    // console.log(e.target.className)
-    // e.target.className = "MuiButton-root MuiButton-contained MuiButton-containedBlack MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButtonBase-root  css-1vntq7r-MuiButtonBase-root-MuiButton-root"
+  async function handleToFollow(e, id) {
+    const status = await handleFollow(e, id)
+    console.log(status)
+    if (status === 201) {
+      e.target.innerText = "Unfollow"
+      e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
+      e.target.onclick = (e) => handleToUnfollow(e, id)
+    }
+    // updateAuthedUser()
   }
 
-  function handleToUnfollow(e, id) {
-    handleUnfollow(e, id)
-    // setUpdate(prev => !prev)
-    // e.target.className += "MuiButton-containedPrimary"
-    e.target.innerText = "Follow"
-    // console.log(e.target.className)
-    e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
-    // console.log(e.target.className)
+  async function handleToUnfollow(e, id) {
+    const status = await handleUnfollow(e, id)
+    console.log(status)
+    if (status === 200) {
+      console.log(e.target.onclick)
+      e.target.innerText = "Follow"
+      e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
+      e.target.onclick = (e) => handleToFollow(e, id)
+    }
 
     // updateAuthedUser()
   }
@@ -124,11 +91,11 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
                 </a>
               </Stack>
 
-              {authedUser.username !== follower.username && (
+              {/* {authedUser.username !== follower.username && (
                 authedUser.following.filter(user => follower.username === user.followed_user).length === 1
                   ? <Button color="black" onClick={(e) => handleToUnfollow(e, follower.id)}>Unfollow</Button>
                   : <Button onClick={(e) => handleToFollow(e, follower.id)}>Follow</Button>
-              )}
+              )} */}
             </Stack>
           ))}
         </Stack>
