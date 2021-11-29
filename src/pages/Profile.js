@@ -56,7 +56,7 @@ function Profile() {
   useEffect(() => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const url = params.get('username') ? `http://localhost:8000/profile/list?username=${params.get('username')}` : `fetchData('http://localhost:8000/profile/list')`
+    const url = params.get('username') ? `http://localhost:8000/profile/list?username=${params.get('username')}` : 'http://localhost:8000/profile/list'
 
     fetch(url, { headers })
       .then(res => res.json())
@@ -164,7 +164,7 @@ function Profile() {
               </Stack>
             </Stack>
 
-            <Stack direction="row" justifyContent="space-between" mt={7}>
+            {/* <Stack direction="row" justifyContent="space-between" mt={7}>
               <MenuButton
                 icon={<MenuRoundedIcon fontSize="large" />}
                 label="Sort boards by"
@@ -176,12 +176,12 @@ function Profile() {
                 label="Create"
                 options={["Pin", "Board"]}
               />
-            </Stack>
+            </Stack> */}
 
-            <Divider />
+            <Divider sx={{ marginY: 5 }} />
             <Stack direction='row' justifyContent="space-between" mt={3}>
-              <Typography fontWeight="bold" variant="h6">Unorganized Ideas</Typography>
-              <Button color="grey">Organize</Button>
+              <Typography fontWeight="bold" variant="h6">Pins</Typography>
+              {/* <Button color="grey">Organize</Button> */}
             </Stack>
 
             <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
