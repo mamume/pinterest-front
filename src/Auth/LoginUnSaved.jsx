@@ -40,6 +40,62 @@ export default class LoginUnSaved extends React.Component{
         }
         this.props.collect(data)  
       }
+      
+    responseFacebook=(response)=>{
+      console.log(response.accessToken)
+      let obj = {
+        grant_type:"convert_token",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+        backend:"facebook",
+        token:response.accessToken
+      }
+      let jsonObj = JSON.stringify(obj)
+      fetch(
+        'http://localhost:8000/account/auth/convert-token',{
+        method:"POST",
+        headers:{'content-type':"application/json"},
+        body:jsonObj
+      }).then(res =>{
+        console.log(res)
+        return res.json()
+      }).then(json =>{
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+          localStorage.setItem('pinterestAccount', response.email)
+          window.location.href = 'http://localhost:3000/'
+        }else console.log(json)
+      })
+    }
+  
+    responseGoogle=(response)=>{
+      console.log(response)
+      let obj = {
+        grant_type:"convert_token",
+        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+        backend:"google-oauth2",
+        token:response.accessToken
+      }
+      let jsonObj = JSON.stringify(obj)
+      fetch(
+        'http://localhost:8000/account/auth/convert-token',{
+        method:"POST",
+        headers:{'content-type':"application/json"},
+        body:jsonObj
+      }).then(res =>{
+        console.log(res)
+        return res.json()
+      }).then(json =>{
+        if(json.access_token){
+          localStorage.setItem('pinterestAccessToken', json.access_token)
+          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+          localStorage.setItem('pinterestAccount', response.vu.jv)
+          window.location.href = 'http://localhost:3000/'
+        }else console.log(json)
+      })
+    }
 
     render(){
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
