@@ -51,3 +51,7 @@ a:hover{
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
     border-color: #e60023 !important;
 }
+
+.css-22jxwj-MuiPaper-root-MuiDialog-paper{
+    max-height: none !important;
+}

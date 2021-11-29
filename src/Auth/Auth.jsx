@@ -7,7 +7,8 @@ import Third from "./Third";
 import LoginSaved from "./LoginSaved";
 import LoginUnSaved from "./LoginUnSaved";
 import './Auth.css'
-
+import axiosInstance from '../axios/Base'
+import axiosFetchInstance from "../axios/Fetch";
 
 export default class Auth extends React.Component{
     constructor(){
@@ -68,99 +69,152 @@ export default class Auth extends React.Component{
       this.state.country = obj.country
       this.setState({country:this.state.country});
       // this.setState({language:obj.lang})
-      let user = {
-        email:this.state.email,
-        password:this.state.password,
-        username:this.state.username,
-        age:this.state.age,
-        gender:this.state.gender,
-        country:this.state.country,
-        // language:this.state.language
-      }
-      let jsonUser = JSON.stringify(user)
-      console.log(user)
-      fetch(
-        'http://localhost:8000/account/signup',{
-        method:"POST",
-        headers:{'content-type':"application/json"},
-        body:jsonUser
-      }).then(res => {
-        return res.json()
-      }).then(json =>{
-        if(json.token){
-          localStorage.setItem('pinterestToken', json.token)
+      axiosInstance
+        .post('/account/signup',{
+          email:this.state.email,
+          password:this.state.password,
+          username:this.state.username,
+          age:this.state.age,
+          gender:this.state.gender,
+          country:this.state.country,
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           localStorage.setItem('pinterestAccount', this.state.email)
-          window.location.href = 'http://localhost:3000/'
-        }else{
-          console.log(json)
-        }
-      })
+          window.location.href = '/'
+        }).catch(err => {
+          console.log(err)
+        })
+      // let user = {
+      //   email:this.state.email,
+      //   password:this.state.password,
+      //   username:this.state.username,
+      //   age:this.state.age,
+      //   gender:this.state.gender,
+      //   country:this.state.country,
+      //   // language:this.state.language
+      // }
+      // let jsonUser = JSON.stringify(user)
+      // console.log(user)
+      // fetch(
+      //   'http://localhost:8000/account/signup',{
+      //   method:"POST",
+      //   headers:{'content-type':"application/json"},
+      //   body:jsonUser
+      // }).then(res => {
+      //   return res.json()
+      // }).then(json =>{
+      //   if(json.token){
+      //     localStorage.setItem('pinterestToken', json.token)
+      //     localStorage.setItem('pinterestAccount', this.state.email)
+      //     window.location.href = 'http://localhost:3000/'
+      //   }else{
+      //     console.log(json)
+      //   }
+      // })
 
     }
     collectFromLoginSaved=(password)=>{
       this.state.loginPassword = password
       this.setState({loginPassword:this.state.loginPassword})
-      let userLogin = {
-        username:this.state.loginEmail,
-        password:this.state.loginPassword,
-        grant_type:"password",
-        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-      }
-      let jsonUser = JSON.stringify(userLogin)
-      fetch(
-        'http://localhost:8000/account/auth/token',{
-        method:"POST",
-        headers:{
-          'content-type':"application/json",
-          // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
-        },
-        body:jsonUser
-      }).then(res => {
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
-          localStorage.setItem('pinterestAccount', this.state.loginEmail)
+
+      axiosInstance
+        .post('/account/auth/token', {
+          username:this.state.loginEmail,
+          password:this.state.loginPassword,
+          grant_type:"password",
+          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          localStorage.setItem('pinterestAccount', this.state.loginEmail) 
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           window.location.reload()
-        }else{
-          console.log(json)
-        }
-      })
+        }).catch(err => {
+          console.log(err)
+        })
+
+      // let userLogin = {
+      //   username:this.state.loginEmail,
+      //   password:this.state.loginPassword,
+      //   grant_type:"password",
+      //   client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+      //   client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+      // }
+      // let jsonUser = JSON.stringify(userLogin)
+      // fetch(
+      //   'http://localhost:8000/account/auth/token',{
+      //   method:"POST",
+      //   headers:{
+      //     'content-type':"application/json",
+      //     // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
+      //   },
+      //   body:jsonUser
+      // }).then(res => {
+      //   return res.json()
+      // }).then(json =>{
+      //   if(json.access_token){
+      //     localStorage.setItem('pinterestAccessToken', json.access_token)
+      //     localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+      //     localStorage.setItem('pinterestAccount', this.state.loginEmail)
+      //     window.location.reload()
+      //   }else{
+      //     console.log(json)
+      //   }
+      // })
     }
 
     collectFromLoginUnSaved=(obj)=>{
-      let userLogin = {
+
+      axiosInstance
+      .post('/account/auth/token', {
         username:obj.loginEmail,
         password:obj.loginPassword,
         grant_type:"password",
         client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
         client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-      }
-      let jsonUser = JSON.stringify(userLogin)
-      console.log(userLogin)
-      console.log(jsonUser)
-      fetch(
-        'http://localhost:8000/account/auth/token',{
-        method:"POST",
-        headers:{
-          'content-type':"application/json",
-          // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
-        },
-        body:jsonUser
       }).then(res => {
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
-          localStorage.setItem('pinterestAccount', userLogin.username)
-          window.location.reload()
-        }else{
-          console.log(json)
-        }
+        localStorage.setItem('pinterestAccessToken', res.data.access_token)
+        localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+        localStorage.setItem('pinterestAccount', obj.loginEmail) 
+        axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
+        window.location.reload()
+      }).catch(err => {
+        console.log(err)
       })
+
+    //   let userLogin = {
+    //     username:obj.loginEmail,
+    //     password:obj.loginPassword,
+    //     grant_type:"password",
+    //     client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+    //     client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+    //   }
+    //   let jsonUser = JSON.stringify(userLogin)
+    //   console.log(userLogin)
+    //   console.log(jsonUser)
+    //   fetch(
+    //     'http://localhost:8000/account/auth/token',{
+    //     method:"POST",
+    //     headers:{
+    //       'content-type':"application/json",
+    //       // 'Authorization':`jwt ${localStorage.getItem('pinterestToken')}`
+    //     },
+    //     body:jsonUser
+    //   }).then(res => {
+    //     return res.json()
+    //   }).then(json =>{
+    //     if(json.access_token){
+    //       localStorage.setItem('pinterestAccessToken', json.access_token)
+    //       localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+    //       localStorage.setItem('pinterestAccount', userLogin.username)
+    //       window.location.reload()
+    //     }else{
+    //       console.log(json)
+    //     }
+    //   })
     }
 
     componentWillUnmount(){
@@ -181,7 +235,7 @@ export default class Auth extends React.Component{
               borderBottomColor: '#e60023',
             },
             '& .MuiOutlinedInput-root': {
-    
+              maxHeight:'50px',
               borderRadius:20,
               '&.Mui-focused fieldset': {
                 borderColor: '#e60023',
@@ -190,7 +244,7 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div >
+        return <div style={{minHeight:'100vh'}}>
         <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 

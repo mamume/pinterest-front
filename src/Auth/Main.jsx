@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
 import {
     Button,
@@ -14,7 +14,10 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
-
+import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
+import { FcGoogle } from "react-icons/fc";
+import axiosInstance from '../axios/Base'
+import axiosFetchInstance from "../axios/Fetch";
 
 export default class Main extends React.Component{
     constructor(){
@@ -45,64 +48,100 @@ export default class Main extends React.Component{
 
     responseFacebook=(response)=>{
       console.log(response.accessToken)
-      let obj = {
-        grant_type:"convert_token",
-        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-        backend:"facebook",
-        token:response.accessToken
-      }
-      let jsonObj = JSON.stringify(obj)
-      fetch(
-        'http://localhost:8000/account/auth/convert-token',{
-        method:"POST",
-        headers:{'content-type':"application/json"},
-        body:jsonObj
-      }).then(res =>{
-        console.log(res)
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+
+      axiosInstance 
+        .post('/account/auth/convert-token', {
+          grant_type:"convert_token",
+          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+          backend:"facebook",
+          token:response.accessToken
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           localStorage.setItem('pinterestAccount', response.email)
-          window.location.href = 'http://localhost:3000/'
-        }else console.log(json)
-      })
+          window.location.href = '/'
+        }).catch(err => {
+          console.log(err)
+        })
+
+    //   let obj = {
+    //     grant_type:"convert_token",
+    //     client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+    //     client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+    //     backend:"facebook",
+    //     token:response.accessToken
+    //   }
+    //   let jsonObj = JSON.stringify(obj)
+    //   fetch(
+    //     'http://localhost:8000/account/auth/convert-token',{
+    //     method:"POST",
+    //     headers:{'content-type':"application/json"},
+    //     body:jsonObj
+    //   }).then(res =>{
+    //     console.log(res)
+    //     return res.json()
+    //   }).then(json =>{
+    //     if(json.access_token){
+    //       localStorage.setItem('pinterestAccessToken', json.access_token)
+    //       localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+    //       localStorage.setItem('pinterestAccount', response.email)
+    //       window.location.href = 'http://localhost:3000/'
+    //     }else console.log(json)
+    //   })
     }
 
     responseGoogle=(response)=>{
       console.log(response)
-      let obj = {
-        grant_type:"convert_token",
-        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-        backend:"google-oauth2",
-        token:response.accessToken
-      }
-      let jsonObj = JSON.stringify(obj)
-      fetch(
-        'http://localhost:8000/account/auth/convert-token',{
-        method:"POST",
-        headers:{'content-type':"application/json"},
-        body:jsonObj
-      }).then(res =>{
-        console.log(res)
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+
+      axiosInstance
+        .post('/account/auth/convert-token', {
+          grant_type:"convert_token",
+          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+          backend:"google-oauth2",
+          token:response.accessToken
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           localStorage.setItem('pinterestAccount', response.vu.jv)
-          window.location.href = 'http://localhost:3000/'
-        }else console.log(json)
-      })
+          window.location.href = '/'
+        }).catch(err => {
+          console.log(err)
+        })
+
+      // let obj = {
+      //   grant_type:"convert_token",
+      //   client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+      //   client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+      //   backend:"google-oauth2",
+      //   token:response.accessToken
+      // }
+      // let jsonObj = JSON.stringify(obj)
+      // fetch(
+      //   'http://localhost:8000/account/auth/convert-token',{
+      //   method:"POST",
+      //   headers:{'content-type':"application/json"},
+      //   body:jsonObj
+      // }).then(res =>{
+      //   console.log(res)
+      //   return res.json()
+      // }).then(json =>{
+      //   if(json.access_token){
+      //     localStorage.setItem('pinterestAccessToken', json.access_token)
+      //     localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+      //     localStorage.setItem('pinterestAccount', response.vu.jv)
+      //     window.location.href = 'http://localhost:3000/'
+      //   }else console.log(json)
+      // })
     }
 
 
     render(){
 
-        return <Dialog sx={{'& .MuiPaper-root-MuiDialog-paper':{borderRadius:0}}} open={this.props.open}  maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle sx={{textAlign:"center"}}>
         <IconButton
           aria-label="close"
@@ -192,27 +231,68 @@ export default class Main extends React.Component{
           >
           Continue</Button>
           </div>
-          <div style={{width:"100%", marginTop:'0.5rem'}}>
-            <FacebookLogin
-              appId="1730643360462848"
-              fields="name,email,picture,first_name,last_name"
-              callback={this.responseFacebook} />
+          <div style={{width:"90%", margin:'0.25rem auto', textAlign:'center'}}>
+          <Typography variant="h6">OR</Typography>
           </div>
-          <div style={{width:"100%", marginTop:'0.5rem'}}>
-          <GoogleLogin
-            clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
-            buttonText="Sign up With Google Account"
-            onSuccess={this.responseGoogle}
-            onFailure={this.responseGoogle}
-            cookiePolicy={'single_host_origin'}
-          />
+          <div style={{width:"100%"}}>
+              <FacebookLogin
+                appId="1730643360462848"
+                fields='name,email,picture,first_name,last_name'
+                callback={this.responseFacebook}
+                render={renderProps => (
+                  <Button
+                  onClick={renderProps.onClick}
+                  variant="contained" 
+                  size='large' 
+                  fullWidth 
+                  sx={{
+                    backgroundColor:"#4267b2", 
+                    '&:hover':{backgroundColor:"#4267b2"}, 
+                    borderRadius:10,
+                    textTransform:'none',
+                    paddingLeft:'0.1rem',
+                    paddingRight:'0.5rem'
+                  }}
+                  >
+                  <FacebookTwoToneIcon sx={{marginRight:'0.5rem'}}/>
+                  Continue With Facebook</Button>
+                )}
+              />
+          </div>
+          <div style={{width:"100%", marginTop:'1rem'}}>
+            <GoogleLogin
+              clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+              render={renderProps => (
+                <Button
+                onClick={renderProps.onClick}
+                variant="contained" 
+                size='large' 
+                fullWidth 
+                sx={{
+                  backgroundColor:"rgb(255, 255, 255)", 
+                  color:'rgba(0, 0, 0, 0.54)',
+                  '&:hover':{backgroundColor:"rgb(255, 255, 255)"}, 
+                  
+                  borderRadius:10,
+                  textTransform:'none',
+                  paddingLeft:'0.1rem',
+                  paddingRight:'0.5rem'
+                }}
+                >
+                <FcGoogle style={{marginRight:'0.5rem', fontSize:'1.5rem'}}/>
+                Continue With Google</Button>
+            )}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
           </div>
           </form>
           <div style={{width:"90%", margin:'1rem auto', textAlign:'center'}}>
           <Typography variant="caption">
           By continuing you agree to pinterest's <button className="asAnchor">Terms of Service</button> and
            acknowledge you've read our <button className="asAnchor">Privacy Policy</button>
-        </Typography>
+          </Typography>
           </div>
 
           </div>
