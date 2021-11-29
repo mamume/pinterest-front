@@ -6,6 +6,8 @@ import SinglePin from '../components/pins/SinglePin'
 import Masonry from 'react-masonry-component';
 import AddButton from "../components/navigationbar/AddButton"
 
+
+
 function Homepage() {
   const [itemData, setItemData] = useState([])
   
@@ -13,7 +15,7 @@ function Homepage() {
     fetch(`http://127.0.0.1:8000/pin/pins/`)
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
+        console.log(data)
         //setItemData(itemData => [...itemData, { img: temp }])
         console.log(data)
         for ( let i=0; i < data.length; i++){

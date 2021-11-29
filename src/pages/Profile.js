@@ -11,6 +11,9 @@ import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'
 import FollowingModal from '../components/profile/FollowingModal'
 import { UserContext } from "../context";
+import Masonry from 'react-masonry-component';
+import SinglePin from '../components/pins/SinglePin'
+
 
 const useStyles = makeStyles({
   link: {
@@ -39,7 +42,7 @@ function Profile() {
   const [openFollowing, setOpenFollowing] = useState(false);
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
-
+  const [mypins, setMypins] = useState([])
   const { authedUser, headers } = useContext(UserContext)
 
   function fetchData(url) {
@@ -49,7 +52,7 @@ function Profile() {
         if (!data.length)
           setNotFound(true)
         else {
-          const { id, full_name, username, profile_pic, following_count, followers_count, bio } = data[0]
+          const { id, full_name, username, profile_pic, following_count, followers_count, bio, pins } = data[0]
           setFullName(full_name)
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
@@ -57,6 +60,7 @@ function Profile() {
           setUsername(username)
           setBioText(bio)
           setUserId(id)
+          setMypins(pins)
         }
       })
   }
@@ -185,7 +189,11 @@ function Profile() {
               <Button color="grey">Organize</Button>
             </Stack>
 
-            <HomePage />
+                <Masonry  style={{ width: "100%",paddingLeft: "80px" }}  >
+                    {mypins.map((item, index) => (
+                      <SinglePin key={item.id} img={item.content_src}  id={item.id} />
+                     ))}
+                </Masonry>
           </Fragment>
       }
     </Fragment>
