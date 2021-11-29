@@ -16,6 +16,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
+import axiosInstance from '../axios/Base'
+import axiosFetchInstance from "../axios/Fetch";
 
 export default class Main extends React.Component{
     constructor(){
@@ -46,58 +48,94 @@ export default class Main extends React.Component{
 
     responseFacebook=(response)=>{
       console.log(response.accessToken)
-      let obj = {
-        grant_type:"convert_token",
-        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-        backend:"facebook",
-        token:response.accessToken
-      }
-      let jsonObj = JSON.stringify(obj)
-      fetch(
-        'http://localhost:8000/account/auth/convert-token',{
-        method:"POST",
-        headers:{'content-type':"application/json"},
-        body:jsonObj
-      }).then(res =>{
-        console.log(res)
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+
+      axiosInstance 
+        .post('/account/auth/convert-token', {
+          grant_type:"convert_token",
+          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+          backend:"facebook",
+          token:response.accessToken
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           localStorage.setItem('pinterestAccount', response.email)
-          window.location.href = 'http://localhost:3000/'
-        }else console.log(json)
-      })
+          window.location.href = '/'
+        }).catch(err => {
+          console.log(err)
+        })
+
+    //   let obj = {
+    //     grant_type:"convert_token",
+    //     client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+    //     client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+    //     backend:"facebook",
+    //     token:response.accessToken
+    //   }
+    //   let jsonObj = JSON.stringify(obj)
+    //   fetch(
+    //     'http://localhost:8000/account/auth/convert-token',{
+    //     method:"POST",
+    //     headers:{'content-type':"application/json"},
+    //     body:jsonObj
+    //   }).then(res =>{
+    //     console.log(res)
+    //     return res.json()
+    //   }).then(json =>{
+    //     if(json.access_token){
+    //       localStorage.setItem('pinterestAccessToken', json.access_token)
+    //       localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+    //       localStorage.setItem('pinterestAccount', response.email)
+    //       window.location.href = 'http://localhost:3000/'
+    //     }else console.log(json)
+    //   })
     }
 
     responseGoogle=(response)=>{
       console.log(response)
-      let obj = {
-        grant_type:"convert_token",
-        client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-        client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-        backend:"google-oauth2",
-        token:response.accessToken
-      }
-      let jsonObj = JSON.stringify(obj)
-      fetch(
-        'http://localhost:8000/account/auth/convert-token',{
-        method:"POST",
-        headers:{'content-type':"application/json"},
-        body:jsonObj
-      }).then(res =>{
-        console.log(res)
-        return res.json()
-      }).then(json =>{
-        if(json.access_token){
-          localStorage.setItem('pinterestAccessToken', json.access_token)
-          localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+
+      axiosInstance
+        .post('/account/auth/convert-token', {
+          grant_type:"convert_token",
+          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+          backend:"google-oauth2",
+          token:response.accessToken
+        }).then(res => {
+          localStorage.setItem('pinterestAccessToken', res.data.access_token)
+          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           localStorage.setItem('pinterestAccount', response.vu.jv)
-          window.location.href = 'http://localhost:3000/'
-        }else console.log(json)
-      })
+          window.location.href = '/'
+        }).catch(err => {
+          console.log(err)
+        })
+
+      // let obj = {
+      //   grant_type:"convert_token",
+      //   client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+      //   client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+      //   backend:"google-oauth2",
+      //   token:response.accessToken
+      // }
+      // let jsonObj = JSON.stringify(obj)
+      // fetch(
+      //   'http://localhost:8000/account/auth/convert-token',{
+      //   method:"POST",
+      //   headers:{'content-type':"application/json"},
+      //   body:jsonObj
+      // }).then(res =>{
+      //   console.log(res)
+      //   return res.json()
+      // }).then(json =>{
+      //   if(json.access_token){
+      //     localStorage.setItem('pinterestAccessToken', json.access_token)
+      //     localStorage.setItem('pinterestRefreshToken', json.refresh_token)
+      //     localStorage.setItem('pinterestAccount', response.vu.jv)
+      //     window.location.href = 'http://localhost:3000/'
+      //   }else console.log(json)
+      // })
     }
 
 
