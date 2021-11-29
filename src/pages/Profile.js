@@ -40,7 +40,7 @@ function Profile() {
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
 
-  const { authedUser, headers, setAuthedUser } = useContext(UserContext)
+  const { authedUser, headers } = useContext(UserContext)
 
   function fetchData(url) {
     fetch(url, { headers })
@@ -78,26 +78,13 @@ function Profile() {
       fetchData('http://localhost:8000/profile/list')
   })
 
-  // function getAuthedData() {
-  //   fetch(`http://localhost:8000/account/details`, { headers })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       if (data.username)
-  //         return data
-  //       else
-  //         return null
-  //     })
-  // }
-
   async function handleFollow(e, id = userId) {
     let statusCode
+
     await fetch(`http://localhost:8000/account/${id}/follow`, { headers })
       .then(res => res.status)
-      .then((status) => {
-        statusCode = status
+      .then((status) => statusCode = status)
 
-      })
     if (statusCode === 201)
       setFollowed(true)
     console.log(statusCode)
@@ -107,17 +94,11 @@ function Profile() {
 
   async function handleUnfollow(e, id = userId) {
     let statusCode
+
     await fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
       .then(res => res.status)
-      .then(status => {
-        statusCode = status
-        // if (status === 200) {
-        //   setFollowed(false)
-        //   return 200
-        // }
-        // else
-        //   return 400
-      })
+      .then(status => statusCode = status)
+
     if (statusCode === 200)
       setFollowed(false)
     console.log(statusCode)
