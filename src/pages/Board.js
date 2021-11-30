@@ -5,7 +5,7 @@ import InviteModal from "../components/board/InviteModal";
 import { UserContext } from "../context";
 import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
-
+import NotFound from './NotFound'
 
 function Board() {
   const search = window.location.search;
@@ -16,6 +16,7 @@ function Board() {
   const [, setDescription] = useState('')
   const [pinItems, setPinItems] = useState([])
   const [coverImage, setCoverImage] = useState('')
+  const [notFound, setNotFound] = useState(false)
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -23,33 +24,45 @@ function Board() {
   const { headers } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/board/list?board_id=${boardId}`, { headers })
-      .then(res => res.json())
-      .then(data => {
-        setTitle(data[0].title)
-        setShare(data[0].share)
-        setDescription(data[0].description)
-        setPinItems(data[0].pins)
-        setCoverImage(data[0].cover_img)
-      })
-  }, [boardId])
+    if (boardId) {
+      fetch(`http://localhost:8000/board/list?board_id=${boardId}`, { headers })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.length)
+            setNotFound(true)
+          else {
+            setTitle(data[0].title)
+            setShare(data[0].share)
+            setDescription(data[0].description)
+            setPinItems(data[0].pins)
+            setCoverImage(data[0].cover_img)
+          }
+        })
+      // .catch(() => setNotFound(false))
+    }
+    else
+      setNotFound(true)
+  }, [boardId, headers])
 
   return (
     <Fragment>
-      <Stack direction="column" alignItems="center">
-        <Avatar src={coverImage} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-          <Typography variant="h2">{title.toUpperCase()}</Typography>
-        </Avatar>
-        {/* <Stack direction='row' alignItems="baseline" spacing> */}
-        <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
-        {/* <MenuButton
+      {notFound
+        ? <NotFound statusCode={400} message="Board is not found" />
+        : <Fragment>
+          <Stack direction="column" alignItems="center">
+            <Avatar src={coverImage} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
+              <Typography variant="h2">{title.toUpperCase()}</Typography>
+            </Avatar>
+            {/* <Stack direction='row' alignItems="baseline" spacing> */}
+            <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
+            {/* <MenuButton
             icon={<MoreHorizIcon />}
             options={["Edit Board", "Share", "Merge", "Archive"]}
             label="Board Options"
           /> */}
-        {/* </Stack> */}
+            {/* </Stack> */}
 
-        {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
+            {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
           <Stack direction='row' alignItems="center">
             <AvatarGroup max={2}>
               <Avatar alt="Remy Sharp" src="#" />
@@ -62,17 +75,17 @@ function Board() {
           </Stack>
         </Button> */}
 
-        <Modal
-          open={open}
-          onClose={handleClose}
-        >
-          <InviteModal
-            handleClose={handleClose}
-          />
-        </Modal>
+            <Modal
+              open={open}
+              onClose={handleClose}
+            >
+              <InviteModal
+                handleClose={handleClose}
+              />
+            </Modal>
 
-        <Typography>{share ? "Public" : "Private"} Board</Typography>
-        {/* <Stack direction="row" spacing mt mb>
+            <Typography>{share ? "Public" : "Private"} Board</Typography>
+            {/* <Stack direction="row" spacing mt mb>
           <Stack alignItems="center">
             <IconButton sx={boardBtn}>
               <FlareRoundedIcon fontSize="large" color="black" />
@@ -94,24 +107,25 @@ function Board() {
             <Typography variant="caption">Notes</Typography>
           </Stack>
         </Stack> */}
-      </Stack>
+          </Stack>
 
-      <Divider sx={{ marginY: 5 }} />
+          <Divider sx={{ marginY: 5 }} />
 
-      {/* <Stack direction="row" justifyContent="space-between" mt={7}> */}
-      <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-      {/* <MenuButton
+          {/* <Stack direction="row" justifyContent="space-between" mt={7}> */}
+          <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
+          {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
           label="Sort boards by"
           options={["A to Z", "Drag and drop", "Last saved to"]}
         /> */}
-      {/* </Stack> */}
+          {/* </Stack> */}
 
-      <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-        {pinItems.map((item, index) => (
-          <SinglePin key={item.id} img={item.content_src} id={item.id} />
-        ))}
-      </Masonry>
+          <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+            {pinItems.map((item, index) => (
+              <SinglePin key={item.id} img={item.content_src} id={item.id} />
+            ))}
+          </Masonry>
+        </Fragment>}
     </Fragment >
   );
 }
