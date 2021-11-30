@@ -30,7 +30,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
         }
       })
-  }, [followersNum, headers, username])
+  }, [username, headers])
 
 
   async function handleToFollow(e, id) {
