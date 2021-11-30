@@ -2,7 +2,9 @@ import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/m
 import { styled } from '@mui/material/styles';
 import { Fragment, useEffect, useState } from "react";
 import SettingsButtons from "./SettingsButtons";
-
+import axiosInstance from "../../axios/Base";
+import axiosFetchInstance from '../../axios/Fetch';
+import axios from "axios";
 const Input = styled('input')({
     display: 'none',
 });
@@ -17,6 +19,48 @@ function PublicProfile() {
     const [disabled, setDisabled] = useState(true)
     const [clear, setClear] = useState(false)
     const [change, setChange] = useState(true)
+
+
+    
+    
+    
+
+    
+
+    /*async function HandelSave(){
+            const data = {
+                first_name:fname,
+                last_name:lname ,
+                bio:bio,
+                website:website,
+                username:username,
+                profile_pic:profilePic,
+            };
+        
+            const res  = await axiosFetchInstance.patch("/account/update",data)
+            console.log(res)
+        }*/
+    
+    
+    const HandelSave = () => {
+        
+        axiosFetchInstance.patch('/account/update',{
+            first_name:fname,
+                last_name:lname,
+                bio:bio,
+                website:website,
+                username:username,
+                profile_pic:profilePic,
+                email:'admin@gmail.com',
+                password:'admin'
+            }).then((res) => {
+                console.log(res.data)
+            }).catch(err => {
+            console.log(err)
+            })
+    }
+
+   
 
     useEffect(() => {
         if (fname || lname || bio || website || username || profilePic)
@@ -106,7 +150,9 @@ function PublicProfile() {
                 setClear={setClear}
                 change={change}
             />
+            <button type="submit" onClick={HandelSave}>click</button>
         </Fragment >
+        
     );
 }
 
