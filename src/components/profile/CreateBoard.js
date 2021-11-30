@@ -2,11 +2,11 @@ import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Che
 import { Fragment } from "react";
 import ModalStyles from "../ModalStyles";
 
-function CreateBoard({ openCreateBoard, onCloseCreateBoard }) {
+function CreateBoard({ openCreateBoard, closeCreateBoard }) {
   return (
     <Modal
       open={openCreateBoard}
-      onClose={onCloseCreateBoard}
+      onClose={closeCreateBoard}
     >
       <Box sx={ModalStyles}>
         <Box sx={{ marginBottom: 5 }}>

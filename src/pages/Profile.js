@@ -75,6 +75,7 @@ function Profile() {
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
+          console.log(boards)
         }
       })
   }, [headers, followed])
@@ -183,19 +184,19 @@ function Profile() {
             <Divider sx={{ marginY: 5 }} />
             <Stack direction='row' justifyContent="space-between" mt={3}>
               <Typography fontWeight="bold" variant="h6">Boards</Typography>
-              <Button color="grey">Create Board</Button>
+              <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>
             </Stack>
 
             <CreateBoard
-              openCreateBoard={handleOpenCreateBoard}
-              onCloseCreateBoard={handleCloseCreateBoard}
+              openCreateBoard={openCreateBoard}
+              closeCreateBoard={handleCloseCreateBoard}
             />
 
             {Boolean(boardItems.length)
               ? <Fragment>
                 <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
                   {boardItems.map((item) => (
-                    <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
+                    <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
                   ))}
                 </Masonry>
               </Fragment>

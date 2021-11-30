@@ -50,8 +50,7 @@ function Board() {
         ? <NotFound statusCode={400} message="Board is not found" />
         : <Fragment>
           <Stack direction="column" alignItems="center">
-            <Avatar src={coverImage} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-              <Typography variant="h2">{title.toUpperCase()}</Typography>
+            <Avatar src={coverImage || '/images/board_placeholder.png'} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
             </Avatar>
             {/* <Stack direction='row' alignItems="baseline" spacing> */}
             <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
@@ -120,11 +119,14 @@ function Board() {
         /> */}
           {/* </Stack> */}
 
-          <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-            {pinItems.map((item, index) => (
-              <SinglePin key={item.id} img={item.content_src} id={item.id} />
-            ))}
-          </Masonry>
+          {Boolean(pinItems.length)
+            ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+              {pinItems.map((item, index) => (
+                <SinglePin key={item.id} img={item.content_src} id={item.id} />
+              ))}
+            </Masonry>
+            : <Typography textAlign="center">There are no Pins</Typography>
+          }
         </Fragment>}
     </Fragment >
   );
