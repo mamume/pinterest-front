@@ -111,7 +111,7 @@ function Profile() {
           : <Fragment>
             <Stack direction="column" alignItems="center">
               <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                <Typography variant="h2">{fullName.toUpperCase()}</Typography>
+                <Typography variant="h2">{fullName[0].toUpperCase()}</Typography>
               </Avatar>
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
@@ -176,25 +176,29 @@ function Profile() {
               />
             </Stack> */}
 
-            <Divider sx={{ marginY: 5 }} />
-            <Typography fontWeight="bold" variant="h6">Boards</Typography>
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {boardItems.map((item) => (
-                <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
-              ))}
-            </Masonry>
+            {Boolean(boardItems.length) && <Fragment>
+              <Divider sx={{ marginY: 5 }} />
+              <Typography fontWeight="bold" variant="h6">Boards</Typography>
+              <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                {boardItems.map((item) => (
+                  <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
+                ))}
+              </Masonry></Fragment>
+            }
 
-            <Divider sx={{ marginY: 5 }} />
-            {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
-            <Typography fontWeight="bold" variant="h6">Pins</Typography>
-            {/* <Button color="grey">Organize</Button> */}
-            {/* </Stack> */}
+            {Boolean(pinItems.length) && <Fragment>
+              <Divider sx={{ marginY: 5 }} />
+              {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
+              <Typography fontWeight="bold" variant="h6">Pins</Typography>
+              {/* <Button color="grey">Organize</Button> */}
+              {/* </Stack> */}
 
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {pinItems.map((item, index) => (
-                <SinglePin key={item.id} img={item.content_src} id={item.id} />
-              ))}
-            </Masonry>
+              <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                {pinItems.map((item, index) => (
+                  <SinglePin key={item.id} img={item.content_src} id={item.id} />
+                ))}
+              </Masonry>
+            </Fragment>}
           </Fragment>
       }
     </Fragment>
