@@ -1,16 +1,26 @@
-import React from 'react';
-import './pin_styles.css'
+import React, { useState, useEffect } from "react";
+import { Router, Route, browserHistory, IndexRoute} from 'react-router'
+import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
+//mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
+import "./pin_styles.css"
 
-class Pin extends React.Component {
-    state = {
-
+export function withRouter( Child ) {
+    return ( props ) => {
+      const location = useLocation();
+      const navigate = useNavigate();
+      return <Child { ...props } navigate={ navigate } location={ location } />;
     }
-    handelfocus = () => {
+  }
+
+
+
+
+    const handelfocus = () => {
         let ftarget = document.getElementById("comment_controllers")
         ftarget.classList.add("comment_vis")
     }
 
-    handelclick = () => {
+    const handelclick = () => {
         let btarget = document.getElementById("comment_controllers")
         console.log(btarget)
 
@@ -18,7 +28,7 @@ class Pin extends React.Component {
         btarget.classList.add("comment_hide")
     }
 
-    handelchange = (event) => {
+    const handelchange = (event) => {
         let target = document.getElementsByClassName("comment_done")
         target.item(0).disabled = false;
         target.item(0).classList.add("comment_done_edite")
@@ -28,42 +38,63 @@ class Pin extends React.Component {
         }
     }
 
-    commentclick = () => {
+    const commentclick = () => {
         let dis = document.getElementById("comment_area_container")
         console.log(dis);
         dis.classList.toggle("comment_area_container");
         console.log("done")
     }
+    
+    
+    const Pin =() =>{
+        const [pin, setPin] = useState({})
+        let data = useLocation();
+        let param = useParams();
+        console.log(param.id)
 
-    render() {
+        useEffect(() => {
+            fetch(`http://127.0.0.1:8000/pin/${param.id}`)
+              .then(res => res.json())
+              .then(data => {
+                // console.log(data)
+                //setItemData(itemData => [...itemData, { img: temp }])
+                console.log(data)
+                console.log(data.content_src)
+                setPin({img:data.content_src, title: data.title, desc: data.description })
+               
+                
+              })
+          }, [])
 
+    
         return (
             <React.Fragment>
-                <div className="pin-container">
-                    <div className="sides">
-                        <div className="left-side">
+                <div className="container">
+                    <div className="sides row">
+                        
+                        <div className="left-side col-md-5">
                             <div className="modals_pin_pin">
                                 <div className="pin_image_pin">
-                                    <img src="/images/movie.png" alt="pin_image" />
+                                    <img src={ pin.img} alt="pin_image" />
                                 </div>
                             </div>
 
                         </div>
-                        <div className="right-side">
-                            <div className="section1">
-                                <div className="icons">
+                        <div className="right-side col-md-5">
+                            <div className="section1 row">
+                                <div className="icons col-6">
                                     <div className="icon_more">
-                                        <i className="fas fa-ellipsis-h"></i>
+                                        <i class="fas fa-ellipsis-h"></i>
                                     </div>
                                     <div className="upload">
-                                        <i className="fas fa-upload"></i>
+                                        <i class="fas fa-upload"></i>
                                     </div>
                                     <div className="favorite">
-                                        <i className="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     </div>
                                 </div>
 
-                                <div className="select_board">
+                                <div className="select_board col-6">
                                     <select defaultValue="Select" name="pin_size" id="board_btn">
                                         <option value="">Select</option>
                                         <option value="small">small</option>
@@ -75,14 +106,14 @@ class Pin extends React.Component {
 
                             </div>
 
-                            <div className="section2">
-                                <div className="section2_header">
-                                    <h1 className="pin_title_for_pin">test pin</h1>
-                                    <div className="pin_description_for_pin">a simpled description for a new pin we went to our friend to see what is going too happen and we went so far to get it</div>
+                            <div className="section2 row">
+                                <div className="section2_header col-12">
+                                    <div className="pin_title_for_pin h1">{pin.title}</div>
+                                    <div className="pin_description_for_pin">{pin.desc}</div>
                                 </div>
-                                <div className="user_details">
-                                    <div className="user_icon"><span>m</span></div>
-                                    <div className="user_name"><span>momen awad</span></div>
+                                <div className="user_details row">
+                                    <div className="user_icon col-1"><span>m</span></div>
+                                    <div className="user_name col-4"><span>momen awad</span></div>
                                 </div>
 
                                 <div className="note">
@@ -92,15 +123,15 @@ class Pin extends React.Component {
                                     <div className="note_details">
                                         what do you want to remember about this pin?
                                     </div>
-                                    <div className="add_note"><span>Add note</span></div>
+                                    <div className="add_note" ><span>Add note</span></div>
                                 </div>
 
 
                                 <div className="section3">
                                     <div className="comment_head">
                                         <h3>comments</h3>
-                                        <div className="comment_icon" onClick={this.commentclick}>
-                                            <i className="fas fa-chevron-down"></i>
+                                        <div className="comment_icon" onClick={commentclick}>
+                                            <i class="fas fa-chevron-down"></i>
                                         </div>
                                     </div>
                                     <div className="comment_area_container" id="comment_area_container">
@@ -111,11 +142,11 @@ class Pin extends React.Component {
                                         <div className="comment_area">
                                             <div className="persons_icon"><span>A</span></div>
                                             <div className="text">
-                                                <input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={this.handelfocus} onChange={this.handelchange} />
+                                                <input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
                                             </div>
                                         </div>
                                         <div className="comment_controllers" id="comment_controllers">
-                                            <input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={this.handelclick} />
+                                            <input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
                                             <input type="button" value="Done" name="comment_done" className="comment_done" disabled />
                                         </div>
                                     </div>
@@ -126,9 +157,9 @@ class Pin extends React.Component {
                             <div className="bord_name">
                                 <div className="bord_items">
                                     <div className="comment_icon"><span>M</span></div>
-                                    <div className="bord_content">
-                                        <span>you saved to bord name</span>
-                                    </div>
+                                        <div className="bord_content">
+                                            <span>you saved to bord name</span>
+                                        </div>
                                 </div>
                             </div>
 
@@ -138,9 +169,11 @@ class Pin extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                
+                
             </React.Fragment>
         );
     }
-}
 
-export default Pin;
+export default Pin

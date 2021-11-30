@@ -1,57 +1,75 @@
-import React from 'react'
+import React from "react";
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from "react-router";
 
-function SinglePin({img}) {
+
+export function withRouter(Child) {
+    return (props) => {
+        const location = useLocation();
+        const navigate = useNavigate();
+        return <Child {...props} navigate={navigate} location={location} />;
+    }
+}
+
+function SinglePin({ img, external_link, id, url }) {
+    const newTo = {
+        pathname: url ? url : `pin/${id}`,
+        state: { id: id }
+    };
     return (
-        <Wrapper>  
+        <Wrapper>
             <CardWrapper>
-                <div className="modal">
+                <Link to={newTo}>
+                    <div className="myModal">
 
-                    <div className="modal_header">
-                        <Button>Save</Button>
+                        <div className="my_modal_header">
+                            <Button>Save</Button>
+                        </div>
+                        <div className="my_modal_footer">
+                            <a href={external_link}>
+                                <div className="my_ext">
+                                    <IconButton>
+                                        <CallMadeIcon />
+                                    </IconButton>
+                                    <span>{external_link}</span>
+                                </div>
+
+                            </a>
+
+                            <div className="my_send">
+                                <IconButton>
+                                    <DownloadIcon />
+                                </IconButton>
+                            </div>
+
+                            <div className="my_options">
+                                <IconButton>
+                                    <MoreVertIcon />
+                                </IconButton>
+                            </div>
+
+                        </div>
                     </div>
-                    <div className="modal_footer">
-                        <div className="ext">
-                            <IconButton>
-                                <CallMadeIcon/>
-                            </IconButton>
-                            <span>placeholdermanthisisaplaceholder</span>
-                        </div>
 
-                        <div className="send">
-                            <IconButton>
-                                <DownloadIcon/>
-                            </IconButton>
-                        </div>
-
-                        <div className="options">
-                            <IconButton>
-                                <MoreVertIcon/>
-                            </IconButton>
-                        </div>
-
-                    </div>
-                </div>
-                {/*<img src="https://images.unsplash.com/photo-1637484581501-05bc3d6725be?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />*/}
-                <img src={img} />
-            </CardWrapper>   
-
-
+                    <img src={img} alt="" />
+                </Link>
+            </CardWrapper>
         </Wrapper>
     )
 }
 
-export default SinglePin
+export default withRouter(SinglePin)
 
 const Wrapper = styled.div`
     display: inline-flex;
     padding: 8px;
-    
+
     img{
         display: flex;
         justify-content: center;
@@ -63,14 +81,14 @@ const Wrapper = styled.div`
 
 const CardWrapper = styled.div`
     width: 250px;
-    
+
     border-radius: 16px;
     background-color: #efefef;
     position: relative;
     overflow: hidden;
     margin: auto;
 
-    .modal{
+    .myModal{
         width: 100%;
         opacity: 0;
         transition-duration: 1s;
@@ -78,31 +96,37 @@ const CardWrapper = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        
+
         height:100%;
 
     }
 
-    .modal:hover{
+    .myModal:hover{
         opacity: 100%;
-        
+
     }
-    .modal_header{
+    .my_modal_header{
         display: flex;
         justify-content: flex-end;
         padding: 8px;
     }
 
-    .modal_footer{
+    .my_modal_footer{
         display: flex;
         width: 100%;
         justify-content: space-evenly;
         position: fixed;
         bottom: 0;
         padding: 10px 0px;
+
+        a{
+            text-decoration: none;
+        }
+
+
     }
 
-    .ext{
+    .my_ext{
         height: 32px;
         width: 130px;
         background-color: #efefef;
@@ -111,11 +135,13 @@ const CardWrapper = styled.div`
         justify-content: flex-start;
         align-items: center;
     }
-    .ext span{
+    .my_ext span{
+        display: inline-block;
+        white-space: nowrap;
         overflow: hidden;
     }
 
-    .send, .options{
+    .my_send, .my_options{
         height: 32px;
         background-color: #efefef;
         border-radius: 50%;

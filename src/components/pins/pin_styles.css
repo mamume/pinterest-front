@@ -1,5 +1,9 @@
-
-
+html, body, #app, #app>div {
+    height: 100%;
+}
+html, body {
+    overflow: auto;
+}
 .pin-container{
     width:100%;
     height:100%;
@@ -13,20 +17,25 @@
 }
 
 .sides{
-    width: 1061px;
+    /*width: 1061px;
     min-height: 708px;
     background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 16px;
-    /*overflow: hidden;*/
+    
+    overflow: hidden;*/
     padding: 35px;
     display: flex;
     border:2px solid #EFEFEF;
-    margin-top: 100px;
+    margin: 50px;
+    border-radius: 16px;
+    position: relative;
+    min-height: auto;
+    
 }
+
 
 .right-side{
     width: 50%;
@@ -189,7 +198,7 @@
     justify-content: center;
     align-items: center;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
 }
 
@@ -305,7 +314,7 @@
     display: flex;
     flex-direction: row;
     position: absolute;
-    bottom: 50px;
+    bottom: 5px;
 }
 
 .bord_items{
@@ -326,7 +335,8 @@
     width: 100%;
     position: relative;
     top: 25px;
-    
+    margin-bottom: 30px;
+
 }
 
 .comment_area_container{
@@ -399,4 +409,29 @@
 .pin_image_pin img{
     object-fit: contain;
     max-width: -moz-available;
+}
+
+.add_note_after_click{
+    width:100vw;
+    height: 100vh;
+    z-index: 10000000;
+    background-color: rgba(12, 11, 11, 0.5);
+}
+.t{
+    background-color: rgba(12, 11, 11, 0.5);
+    z-index:100000;
+    width: 100vw;
+    height: 100vh;
+
+}
+.d{
+    background-color: #ffff;
+    max-width: 540px;
+    min-height: 405px;
+    position:relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 32px;
+
 }
