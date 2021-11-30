@@ -44,20 +44,40 @@ function PublicProfile() {
     
     const HandelSave = () => {
         
-        axiosFetchInstance.patch('/account/update',{
+
+
+        const data = {
             first_name:fname,
-                last_name:lname,
-                bio:bio,
-                website:website,
-                username:username,
-                profile_pic:profilePic,
-                email:'admin@gmail.com',
-                password:'admin'
-            }).then((res) => {
+            last_name:lname ,
+            bio:bio,
+            website:website,
+            username:username,
+            // profile_pic:profilePic,
+        };
+        let jsonUser = JSON.stringify(data)
+        axiosFetchInstance
+            .patch('/account/update',jsonUser).then((res) => {
                 console.log(res.data)
             }).catch(err => {
             console.log(err)
             })
+        // fetch(
+        //         'http://localhost:8000/account/update',{
+        //         method:"PATCH",
+        //         headers:{
+        //         'content-type':"application/json",
+        //         'Authorization':`Bearer ${localStorage.getItem('pinterestAccessToken')}`
+        //         },
+        //         body:jsonUser
+        //     }).then(res => {
+        //         return res.json()
+        //     }).then(json =>{
+        //         if(json.msg){
+        //             console.log(json.msg)
+        //         }else{
+        //         console.log(json.error)
+        //         }
+        //     })
     }
 
    
