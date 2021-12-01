@@ -8,11 +8,12 @@ function AddButton() {
         <Fragment>
             <Link to="/create_pin">
                 <IconButton color="primary" aria-label="add to shopping cart" style={{
-                    position: "fixed",
-                    bottom: 90,
-                    right: 50,
+                    position: "absolute",
+                    bottom: "90px",
+                    right: "50px",
                     padding: "15px",
                     color: "black",
+                    zIndex: 10000
                     //border: "0.02px solid black",
 
 
