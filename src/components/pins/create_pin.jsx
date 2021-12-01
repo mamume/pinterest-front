@@ -7,7 +7,8 @@ import { UserContext } from "../../context";
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router';
-
+import { IconButton, Modal } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -70,7 +71,7 @@ const MoreOptions = () => {
 }
 
 
-const Create = (props) => {
+const Create = ({ open, onClose }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const [boardId, setBoardId] = useState(params.get('board_id'))
@@ -86,11 +87,14 @@ const Create = (props) => {
     const { authedUser, headers } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
+    // const [open, setOpen] = useState(false)
+    // const onClose = () => setOpen(false)
+    // const onOpen = () => setOpen(true)
     // let param = useParams();
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log(props)
-    }, [])
+    //     console.log(props)
+    // }, [])
     const handlePost = () => {
         const fd = new FormData()
         //headers["content-type"] =  'multipart/form-data' ;
@@ -155,82 +159,90 @@ const Create = (props) => {
     const [showLable, setShowLabel] = useState(true);
     const [showModalPin, setShowModalPin] = useState(false);
     return (
-        <div>
-            <div className="add_pin_modal">
-                <div className="add_pin_container">
-                    <div className="side" id="left_side">
-                        <div className="section1">
-                            <div className="pin_mock_icon_container" onClick={MoreOptions}>
-                                <i className="fas fa-ellipsis-h"></i>
+        <Modal
+            open={open}
+            onClose={onClose}
+        >
+            <div>
+                <div className="add_pin_modal">
+                    <div className="add_pin_container">
+                        <div className="side" id="left_side">
+                            <IconButton onClick={onClose} sx={{ display: "flex" }}>
+                                <CloseIcon color="primary" />
+                            </IconButton>
+                            <div className="section1">
+                                <div className="pin_mock_icon_container" onClick={MoreOptions}>
+                                    <i className="fas fa-ellipsis-h"></i>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div className="section2">
-                            <label htmlFor="upload_img" id="upload_img_label"
-                                style={{
-                                    display: showLable ? "block" : "none"
-                                }}
-                            >
-                                <div className="upload_img_container">
-                                    <div className="dotted_border">
-                                        <div className="pin_mock_icon_container">
-                                            <img src="/images/up-arrow.png" alt="upload_img" className="pin_mock_icon" onChange={(e) => { handleImageChange(e) }} />
+                            <div className="section2">
+                                <label htmlFor="upload_img" id="upload_img_label"
+                                    style={{
+                                        display: showLable ? "block" : "none"
+                                    }}
+                                >
+                                    <div className="upload_img_container">
+                                        <div className="dotted_border">
+                                            <div className="pin_mock_icon_container">
+                                                <img src="/images/up-arrow.png" alt="upload_img" className="pin_mock_icon" onChange={(e) => { handleImageChange(e) }} />
+                                            </div>
+                                            <div>click to upload</div>
+                                            <div id="recommend">Recmmendation: use high-quality .jpg files <br />less than 20 MB</div>
                                         </div>
-                                        <div>click to upload</div>
-                                        <div id="recommend">Recmmendation: use high-quality .jpg files <br />less than 20 MB</div>
+
+
+
+
+
                                     </div>
+                                    <input onChange={event => handleImageChange(event)} type="file" name="upload_img" id="upload_img" value="" />
 
-
-
-
-
+                                </label>
+                                <div className="modals_pin"
+                                    style={{
+                                        display: showModalPin ? "block" : "none"
+                                    }}
+                                >
+                                    <div className="pin_image">
+                                        <img onLoad={check_size} src={pinDetails.img_blob} alt="pin_image" />
+                                    </div>
                                 </div>
-                                <input onChange={event => handleImageChange(event)} type="file" name="upload_img" id="upload_img" value="" />
 
-                            </label>
-                            <div className="modals_pin"
-                                style={{
-                                    display: showModalPin ? "block" : "none"
-                                }}
-                            >
-                                <div className="pin_image">
-                                    <img onLoad={check_size} src={pinDetails.img_blob} alt="pin_image" />
-                                </div>
+
                             </div>
 
-
                         </div>
+                        <div className="side" id="right_side">
+                            <div className="section1">
+                                <div className="select_size">
+                                    <select defaultValue="Select" name="pin_size" id="pin size">
+                                        <option value="">Select</option>
+                                        <option value="option1">option1</option>
+                                        <option value="option2">option2</option>
+                                        <option value="option3">option3</option>
+                                    </select>
+                                    <Button onClick={handlePost}>Save</Button>
 
-                    </div>
-                    <div className="side" id="right_side">
-                        <div className="section1">
-                            <div className="select_size">
-                                <select defaultValue="Select" name="pin_size" id="pin size">
-                                    <option value="">Select</option>
-                                    <option value="option1">option1</option>
-                                    <option value="option2">option2</option>
-                                    <option value="option3">option3</option>
-                                </select>
-                                <Button onClick={handlePost}>Save</Button>
-
+                                </div>
+                            </div>
+                            <div className="section2">
+                                <input placeholder="Add your title" type="text" className="new_pin_input pin_title" id="pin_title" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} onChange={(e) => { handleTitleChange(e) }} />
+                                <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
+                                <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} />
+                                <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
+                                <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
                             </div>
                         </div>
-                        <div className="section2">
-                            <input placeholder="Add your title" type="text" className="new_pin_input pin_title" id="pin_title" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} onChange={(e) => { handleTitleChange(e) }} />
-                            <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
-                            <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} />
-                            <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
-                            <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
+                        <div className="more_options_btn">
+                            <div className="m_delete">Delete</div>
+                            <div className="m_duplicate"><span>Duplicate</span></div>
                         </div>
-                    </div>
-                    <div className="more_options_btn">
-                        <div className="m_delete">Delete</div>
-                        <div className="m_duplicate"><span>Duplicate</span></div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 }
 
