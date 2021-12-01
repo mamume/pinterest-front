@@ -286,7 +286,7 @@ const collectFromThird=(obj)=>{
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -305,7 +305,7 @@ const collectFromThird=(obj)=>{
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -376,7 +376,7 @@ const collectFromThird=(obj)=>{
           {authedUser?
           (<Fragment>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -389,7 +389,7 @@ const collectFromThird=(obj)=>{
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
@@ -414,7 +414,7 @@ const collectFromThird=(obj)=>{
               <MoreIcon />
             </IconButton>
           </Box>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -422,7 +422,7 @@ const collectFromThird=(obj)=>{
             sx={{ ml: 2 }}
           >
             <KeyboardArrowDownIcon />
-          </IconButton>
+          </IconButton> */}
      
 
           </Fragment>): (<Fragment>
