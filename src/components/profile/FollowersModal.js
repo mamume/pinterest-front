@@ -25,10 +25,14 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
     fetch(`http://localhost:8000/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
-        setFollowers([])
-        for (let person of data) {
-          setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-        }
+        console.log(data)
+        // setFollowers([])
+        // console.log(data.map(user => user.follower[0].id))
+        // let followersIds = data.map(user => user.follower[0].id)
+        setFollowers(data.map(user => user.follower[0].id))
+        // for (let person of data) {
+        // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
+        // }
       })
   }, [username, headers])
 
@@ -66,7 +70,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           </Typography>
         </Box>
         <Stack spacing={2}>
-          {followers.map(follower => (
+          {/* {followers.map(follower => (
             <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
               <a className={classes.link} href={`/profile?username=${follower.username}`}>
                 <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
@@ -75,7 +79,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
                 <Typography fontWeight="bold">{follower.full_name}</Typography>
               </a>
             </Stack>
-          ))}
+          ))} */}
         </Stack>
       </Box>
     </Modal>
