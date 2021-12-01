@@ -29,7 +29,7 @@ import LoginUnSaved from "./LoginUnSaved";
 //import './Auth.css';
 import axiosInstance from './axios/Base.jsx';
 import axiosFetchInstance from "./axios/Fetch.jsx";
-import test from '../../test.jpg'
+//import test from '../../test.jpg'
 
 
 
