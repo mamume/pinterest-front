@@ -17,7 +17,7 @@ import { UserContext } from "./context";
 
 function App() {
   const [authedUser, setAuthedUser] = useState({})
-  const [headers] = useState({
+  const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
@@ -37,9 +37,9 @@ function App() {
   return (
     <Fragment>
       <CssBaseline />
-      {authedUser
+      {true
         ? <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />

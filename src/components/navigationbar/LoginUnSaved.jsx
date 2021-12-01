@@ -17,8 +17,8 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from 'react-google-login';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
-import axiosInstance from '../axios/Base'
-import axiosFetchInstance from "../axios/Fetch";
+import axiosInstance from './axios/Base'
+import axiosFetchInstance from "./axios/Fetch";
 
 export default class LoginUnSaved extends React.Component{
     constructor(){

@@ -16,8 +16,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
-import axiosInstance from '../axios/Base'
-import axiosFetchInstance from "../axios/Fetch";
+import axiosInstance from './axios/Base'
+import axiosFetchInstance from "./axios/Fetch";
 
 export default class Main extends React.Component{
     constructor(){

@@ -48,7 +48,10 @@ function Profile() {
         if (user.followed_user === username)
           setFollowed(true)
       }
-  }, [authedUser, username])
+      console.log(authedUser)
+
+  }
+  , [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
@@ -70,7 +73,7 @@ function Profile() {
           setBioText(bio)
           setUserId(id)
           setPinItems(pins)
-          setBoardItems(boards)
+          //setBoardItems(boards)
         }
       })
   }, [headers, followed])
@@ -178,11 +181,12 @@ function Profile() {
 
             <Divider sx={{ marginY: 5 }} />
             <Typography fontWeight="bold" variant="h6">Boards</Typography>
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {boardItems.map((item) => (
+            {/*<Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+              {boardItems.length && boardItems.map((item) => (
                 <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
               ))}
             </Masonry>
+            */}
 
             <Divider sx={{ marginY: 5 }} />
             {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}

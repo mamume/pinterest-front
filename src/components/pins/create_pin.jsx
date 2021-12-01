@@ -1,6 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
-import "./create_pin_styles.css"
+import { useState,  useContext  } from 'react';
+import "./create_pin_styles.css";
+import Button from '@mui/material/Button';
+import axiosInstance from '../navigationbar/axios/Base';
+import { UserContext } from "../../context";
+import axios from 'axios';
+import {Navigate, useNavigate} from 'react-router-dom'
+
 
 
 
@@ -25,6 +31,7 @@ function upload_img (event,pinDetails, setpinDetails, setShowLabel,setShowModalP
     }       
 }
 
+
 const check_size = (event) =>{
     const imgSize = event.target
     imgSize.classList.add("pin_max_width");
@@ -39,7 +46,6 @@ const check_size = (event) =>{
 
 const handelFocus = (event) =>{
     let ftitle = event.target
-    console.log(ftitle)
     ftitle.classList.add("pin_title_on_focus");
     console.log("changed")
 }
@@ -71,6 +77,63 @@ const Create = () => {
         festination : "",
         img_blob : ""
     });
+    let history = useNavigate();
+    const { authedUser, headers } = useContext(UserContext)
+    const [title, setTitle] = useState("")
+    const [image, setImage] = useState("")
+    const handlePost = () =>{
+        const fd = new FormData()
+        //headers["content-type"] =  'multipart/form-data' ;
+        //headers["content-type"] ='multipart/form-data; boundary=something' ;
+        console.log(headers.Authorization)
+        console.log(authedUser)
+        fd.append('content_src', image, image.name)
+        fd.append('title', title)
+        fd.append('content_type', 'image')
+        fd.append('owner', authedUser.id)
+        const config = {
+            headers: headers
+        };
+        /*const requestOptions = {
+            method: 'POST',
+            headers: headers ,
+            body: fd
+        }; */
+        fetch('http://localhost:8000/pin/create', {
+            method: 'POST',
+            body: fd,
+            headers: {'Authorization': headers.Authorization}
+        })
+        //axios.post('http://localhost:8000/pin/create', fd)
+        .then(response => response.json())
+        .then(data => {
+            history('/')
+            
+        });
+        
+        
+    }
+
+    const handleImageChange =(e)=> {
+        setImage(e.target.files[0])
+        console.log(e.target.files[0])
+    }
+    
+    function handleTitleChange(event) {
+        setTitle(event.target.value)
+        console.log(event.target.value);
+      }
+
+   /* const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'React POST Request Example' })
+    };
+    fetch('https://reqres.in/api/posts', requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({ postId: data.id }));
+}
+*/
 
     const [showLable,setShowLabel] = useState(true);
     const [showModalPin,setShowModalPin] = useState(false);
@@ -95,7 +158,7 @@ const Create = () => {
                                     <div className="upload_img_container">
                                         <div className="dotted_border">
                                             <div className="pin_mock_icon_container">
-                                                <img src="/images/up-arrow.png" alt="upload_img" className="pin_mock_icon"/>
+                                                <img src="/images/up-arrow.png" alt="upload_img" className="pin_mock_icon" onChange={(e)=>{handleImageChange(e) }}/>
                                             </div>
                                             <div>click to upload</div>
                                             <div id="recommend">Recmmendation: use high-quality .jpg files <br />less than 20 MB</div>
@@ -106,7 +169,7 @@ const Create = () => {
                                         
 
                                     </div>
-                                    <input onChange={event => upload_img(event,pinDetails,setpinDetails,setShowLabel,setShowModalPin)} type="file" name="upload_img" id="upload_img" value="" />
+                                    <input onChange={event => handleImageChange(event)} type="file" name="upload_img" id="upload_img" value="" />
 
                                 </label>
                                 <div className="modals_pin"
@@ -132,15 +195,16 @@ const Create = () => {
                                     <option value="option2">option2</option>
                                     <option value="option3">option3</option>
                                 </select>
-                                <div className="save_pin">save</div>
+                                <Button onClick={handlePost}>Save</Button>
+                                
                             </div>
                         </div>
                         <div className="section2">
-                            <input placeholder="Add your title" type="text" className="new_pin_input pin_title" id="pin_title" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)}/>
-                            <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)}/>
-                            <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event)=> handelClick(event)} />
-                            <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)}/>
-                            <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)}/>
+                            <input placeholder="Add your title" type="text" className="new_pin_input pin_title" id="pin_title" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)} onChange={(e)=>{handleTitleChange(e)}}  />
+                            <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)} />
+                            <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event)=> handelClick(event)}  />
+                            <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)} />
+                            <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event)=> handelFocus(event)} onBlur={(event)=> handelBlur(event)} />
                         </div>
                     </div>
                     <div className="more_options_btn">
