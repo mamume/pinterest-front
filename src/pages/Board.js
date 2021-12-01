@@ -1,4 +1,4 @@
-import { Divider, Modal, Stack, Typography } from "@mui/material";
+import { Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import InviteModal from "../components/board/InviteModal";
@@ -110,14 +110,16 @@ function Board() {
 
           <Divider sx={{ marginY: 5 }} />
 
-          {/* <Stack direction="row" justifyContent="space-between" mt={7}> */}
-          <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-          {/* <MenuButton
+          <Stack direction="row" justifyContent="space-between">
+            <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
+            <Button color="grey">Create Pin</Button>
+
+            {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
           label="Sort boards by"
           options={["A to Z", "Drag and drop", "Last saved to"]}
         /> */}
-          {/* </Stack> */}
+          </Stack>
 
           {Boolean(pinItems.length)
             ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
@@ -125,7 +127,7 @@ function Board() {
                 <SinglePin key={item.id} img={item.content_src} id={item.id} />
               ))}
             </Masonry>
-            : <Typography textAlign="center">There are no Pins</Typography>
+            : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
           }
         </Fragment>}
     </Fragment >
