@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 function Board() {
   const search = window.location.search;
   const params = new URLSearchParams(search);
-  const [boardId, setBoardId] = useState(params.get('board_id'))
+  const [boardId] = useState(params.get('board_id'))
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
   const [, setDescription] = useState('')
