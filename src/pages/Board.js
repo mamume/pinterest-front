@@ -38,7 +38,6 @@ function Board() {
             setCoverImage(data[0].cover_img)
           }
         })
-      // .catch(() => setNotFound(false))
     }
     else
       setNotFound(true)
