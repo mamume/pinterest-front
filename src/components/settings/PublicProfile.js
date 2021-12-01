@@ -169,6 +169,7 @@ function PublicProfile() {
                 disabled={disabled}
                 setClear={setClear}
                 change={change}
+                
             />
             <button type="submit" onClick={HandelSave}>click</button>
         </Fragment >
