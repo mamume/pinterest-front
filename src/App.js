@@ -12,6 +12,8 @@ import { Fragment, useEffect, useState } from "react";
 import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 import { UserContext } from "./context";
+import PwReset from './Auth/PwReset'
+import PwResetConfirm from './Auth/PwResetConfirm'
 
 
 
@@ -50,6 +52,8 @@ function App() {
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
                   <Route path='/pin/:id' element={<Pin />}> </Route>
+                  <Route path="/password-reset" element={<PwReset />} />
+                  <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
                 </Routes>
               </Router>
             </Container>

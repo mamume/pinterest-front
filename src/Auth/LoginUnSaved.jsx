@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     Button,
     TextField,
@@ -199,7 +200,7 @@ export default class LoginUnSaved extends React.Component{
 
           />
           <DialogContentText ml={1} sx={{textAlign:"left"}}>
-            <Typography variant="subtitle2"><button className="asAnchor">Forgot your password?</button>
+            <Typography variant="subtitle2"><Link to="/password-reset"><button className="asAnchor">Forgot your password?</button></Link>
             </Typography>
           </DialogContentText>
 
