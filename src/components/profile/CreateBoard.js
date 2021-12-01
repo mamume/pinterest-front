@@ -1,4 +1,4 @@
-import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox, FormControl } from "@mui/material";
+import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
 import ModalStyles from "../ModalStyles";
 import { UserContext } from "../../context";
