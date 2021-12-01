@@ -9,6 +9,7 @@ import FollowingModal from '../components/profile/FollowingModal'
 import { UserContext } from "../context";
 import Masonry from 'react-masonry-component';
 import SinglePin from '../components/pins/SinglePin'
+import CreateBoard from '../components/profile/CreateBoard'
 
 
 const useStyles = makeStyles({
@@ -38,6 +39,9 @@ function Profile() {
   const [openFollowing, setOpenFollowing] = useState(false);
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
+  const [openCreateBoard, setOpenCreateBoard] = useState(false);
+  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
+  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
   const { authedUser, headers } = useContext(UserContext)
@@ -71,6 +75,7 @@ function Profile() {
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
+          console.log(boards)
         }
       })
   }, [headers, followed])
@@ -111,7 +116,7 @@ function Profile() {
           : <Fragment>
             <Stack direction="column" alignItems="center">
               <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                <Typography variant="h2">{fullName.toUpperCase()}</Typography>
+                {/* <Typography variant="h2">{fullName[0].toUpperCase()}</Typography> */}
               </Avatar>
 
               <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
@@ -177,12 +182,26 @@ function Profile() {
             </Stack> */}
 
             <Divider sx={{ marginY: 5 }} />
-            <Typography fontWeight="bold" variant="h6">Boards</Typography>
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {boardItems.map((item) => (
-                <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
-              ))}
-            </Masonry>
+            <Stack direction='row' justifyContent="space-between" mt={3}>
+              <Typography fontWeight="bold" variant="h6">Boards</Typography>
+              <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>
+            </Stack>
+
+            <CreateBoard
+              openCreateBoard={openCreateBoard}
+              closeCreateBoard={handleCloseCreateBoard}
+            />
+
+            {Boolean(boardItems.length)
+              ? <Fragment>
+                <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                  {boardItems.map((item) => (
+                    <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
+                  ))}
+                </Masonry>
+              </Fragment>
+              : <Typography textAlign="center">There are no Boards</Typography>
+            }
 
             <Divider sx={{ marginY: 5 }} />
             {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
@@ -190,11 +209,15 @@ function Profile() {
             {/* <Button color="grey">Organize</Button> */}
             {/* </Stack> */}
 
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {pinItems.map((item, index) => (
-                <SinglePin key={item.id} img={item.content_src} id={item.id} />
-              ))}
-            </Masonry>
+            {Boolean(pinItems.length)
+              ? <Fragment>
+                <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                  {pinItems.map((item, index) => (
+                    <SinglePin key={item.id} img={item.content_src} id={item.id} />
+                  ))}
+                </Masonry>
+              </Fragment>
+              : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
           </Fragment>
       }
     </Fragment>
