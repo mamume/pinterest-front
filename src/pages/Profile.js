@@ -82,9 +82,9 @@ function Profile() {
   }, [headers, followed])
 
   useEffect(() => {
-    if (fullName && profilePic && username && bioText && userId)
+    if (username && userId)
       setLoaded(true)
-  }, [fullName, profilePic, username, bioText, userId])
+  }, [username, userId])
 
   async function handleFollow(e, id = userId) {
     let statusCode
