@@ -9,6 +9,8 @@ import FollowingModal from '../components/profile/FollowingModal'
 import { UserContext } from "../context";
 import Masonry from 'react-masonry-component';
 import SinglePin from '../components/pins/SinglePin'
+import CreateBoard from '../components/profile/CreateBoard'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const useStyles = makeStyles({
@@ -38,9 +40,13 @@ function Profile() {
   const [openFollowing, setOpenFollowing] = useState(false);
   const handleOpenFollowing = () => setOpenFollowing(true);
   const handleCloseFollowing = () => setOpenFollowing(false);
+  const [openCreateBoard, setOpenCreateBoard] = useState(false);
+  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
+  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
   const { authedUser, headers } = useContext(UserContext)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     if (authedUser.following)
@@ -73,10 +79,15 @@ function Profile() {
           setBioText(bio)
           setUserId(id)
           setPinItems(pins)
-          //setBoardItems(boards)
+          setBoardItems(boards)
         }
       })
   }, [headers, followed])
+
+  useEffect(() => {
+    if (username && userId)
+      setLoaded(true)
+  }, [username, userId])
 
   async function handleFollow(e, id = userId) {
     let statusCode
@@ -87,7 +98,6 @@ function Profile() {
 
     if (statusCode === 201)
       setFollowed(true)
-    console.log(statusCode)
 
     return statusCode
   }
@@ -101,7 +111,6 @@ function Profile() {
 
     if (statusCode === 200)
       setFollowed(false)
-    console.log(statusCode)
     return statusCode
   }
 
@@ -111,61 +120,63 @@ function Profile() {
       {
         notFound
           ? <NotFound statusCode="400" message="User Not Found" />
-          : <Fragment>
-            <Stack direction="column" alignItems="center">
-              <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                <Typography variant="h2">{fullName.toUpperCase()}</Typography>
-              </Avatar>
+          : loaded
+            ? (
+              <Fragment>
+                <Stack direction="column" alignItems="center">
+                  <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
+                    {/* <Typography variant="h2">{fullName[0].toUpperCase()}</Typography> */}
+                  </Avatar>
 
-              <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
-              <Typography>@{username}</Typography>
-              <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
-              <Typography fontWeight="bold">
-                <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
-                  {followersNum} followers
-                </Button>
-                ·
-                <Button disabled={!followingNum} disableRipple variant="text" onClick={handleOpenFollowing} color="black">
-                  {followingNum} following
-                </Button>
-              </Typography>
+                  <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
+                  <Typography>@{username}</Typography>
+                  <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
+                  <Typography fontWeight="bold">
+                    <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
+                      {followersNum} followers
+                    </Button>
+                    ·
+                    <Button disabled={!followingNum} disableRipple variant="text" onClick={handleOpenFollowing} color="black">
+                      {followingNum} following
+                    </Button>
+                  </Typography>
 
-              <FollowersModal
-                handleClose={handleCloseFollowers}
-                followersNum={followersNum}
-                username={username}
-                handleFollow={handleFollow}
-                handleUnfollow={handleUnfollow}
-                open={openFollowers}
-                onClose={handleCloseFollowers}
-              />
+                  <FollowersModal
+                    handleClose={handleCloseFollowers}
+                    followersNum={followersNum}
+                    username={username}
+                    handleFollow={handleFollow}
+                    handleUnfollow={handleUnfollow}
+                    open={openFollowers}
+                    onClose={handleCloseFollowers}
+                  />
 
-              <FollowingModal
-                handleClose={handleCloseFollowing}
-                followingNum={followingNum}
-                username={username}
-                handleFollow={handleFollow}
-                handleUnfollow={handleUnfollow}
-                open={openFollowing}
-                onClose={handleCloseFollowing}
-              />
+                  <FollowingModal
+                    handleClose={handleCloseFollowing}
+                    followingNum={followingNum}
+                    username={username}
+                    handleFollow={handleFollow}
+                    handleUnfollow={handleUnfollow}
+                    open={openFollowing}
+                    onClose={handleCloseFollowing}
+                  />
 
-              <Stack direction="row" spacing={1} mt>
-                <ShareButton />
-                {authedUser.username === username
-                  ? (<Link to="/settings" className={classes.link}>
-                    <Button color="grey">Edit Profile</Button>
-                  </Link>)
-                  : <Fragment>
-                    {followed
-                      ? <Button color="black" onClick={handleUnfollow}>Unfollow</Button>
-                      : <Button onClick={handleFollow}>Follow</Button>
-                    }</Fragment>
-                }
-              </Stack>
-            </Stack>
+                  <Stack direction="row" spacing={1} mt>
+                    <ShareButton />
+                    {authedUser.username === username
+                      ? (<Link to="/settings" className={classes.link}>
+                        <Button color="grey">Edit Profile</Button>
+                      </Link>)
+                      : <Fragment>
+                        {followed
+                          ? <Button color="black" onClick={handleUnfollow}>Unfollow</Button>
+                          : <Button onClick={handleFollow}>Follow</Button>
+                        }</Fragment>
+                    }
+                  </Stack>
+                </Stack>
 
-            {/* <Stack direction="row" justifyContent="space-between" mt={7}>
+                {/* <Stack direction="row" justifyContent="space-between" mt={7}>
               <MenuButton
                 icon={<MenuRoundedIcon fontSize="large" />}
                 label="Sort boards by"
@@ -179,27 +190,46 @@ function Profile() {
               />
             </Stack> */}
 
-            <Divider sx={{ marginY: 5 }} />
-            <Typography fontWeight="bold" variant="h6">Boards</Typography>
-            {/*<Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {boardItems.length && boardItems.map((item) => (
-                <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img} id={item.id} />
-              ))}
-            </Masonry>
-            */}
+                <Divider sx={{ marginY: 5 }} />
+                <Stack direction='row' justifyContent="space-between" mt={3}>
+                  <Typography fontWeight="bold" variant="h6">Boards</Typography>
+                  <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>
+                </Stack>
 
-            <Divider sx={{ marginY: 5 }} />
-            {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
-            <Typography fontWeight="bold" variant="h6">Pins</Typography>
-            {/* <Button color="grey">Organize</Button> */}
-            {/* </Stack> */}
+                <CreateBoard
+                  openCreateBoard={openCreateBoard}
+                  closeCreateBoard={handleCloseCreateBoard}
+                />
 
-            <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {pinItems.map((item, index) => (
-                <SinglePin key={item.id} img={item.content_src} id={item.id} />
-              ))}
-            </Masonry>
-          </Fragment>
+                {Boolean(boardItems.length)
+                  ? <Fragment>
+                    <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                      {boardItems.map((item) => (
+                        <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
+                      ))}
+                    </Masonry>
+                  </Fragment>
+                  : <Typography textAlign="center">There are no Boards</Typography>
+                }
+
+                <Divider sx={{ marginY: 5 }} />
+                {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
+                <Typography fontWeight="bold" variant="h6">Pins</Typography>
+                {/* <Button color="grey">Organize</Button> */}
+                {/* </Stack> */}
+
+                {Boolean(pinItems.length)
+                  ? <Fragment>
+                    <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                      {pinItems.map((item, index) => (
+                        <SinglePin key={item.id} img={item.content_src} id={item.id} />
+                      ))}
+                    </Masonry>
+                  </Fragment>
+                  : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
+              </Fragment>
+            )
+            : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress alignItems="center" /></Stack>
       }
     </Fragment>
   );

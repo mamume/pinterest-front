@@ -30,29 +30,29 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
         }
       })
-  }, [followersNum, headers, username])
+  }, [username, headers])
 
 
-  async function handleToFollow(e, id) {
-    const status = await handleFollow(e, id)
-    console.log(status)
-    if (status === 201) {
-      e.target.innerText = "Unfollow"
-      e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
-      e.target.onclick = (e) => handleToUnfollow(e, id)
-    }
-  }
+  // async function handleToFollow(e, id) {
+  //   const status = await handleFollow(e, id)
+  //   console.log(status)
+  //   if (status === 201) {
+  //     e.target.innerText = "Unfollow"
+  //     e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
+  //     e.target.onclick = (e) => handleToUnfollow(e, id)
+  //   }
+  // }
 
-  async function handleToUnfollow(e, id) {
-    const status = await handleUnfollow(e, id)
-    console.log(status)
-    if (status === 200) {
-      console.log(e.target.onclick)
-      e.target.innerText = "Follow"
-      e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
-      e.target.onclick = (e) => handleToFollow(e, id)
-    }
-  }
+  // async function handleToUnfollow(e, id) {
+  //   const status = await handleUnfollow(e, id)
+  //   console.log(status)
+  //   if (status === 200) {
+  //     console.log(e.target.onclick)
+  //     e.target.innerText = "Follow"
+  //     e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
+  //     e.target.onclick = (e) => handleToFollow(e, id)
+  //   }
+  // }
 
   return (
     <Modal

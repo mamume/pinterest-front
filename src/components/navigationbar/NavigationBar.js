@@ -70,8 +70,12 @@ export default function PrimarySearchAppBar() {
 
   useEffect( () => {
     console.log(authedUser)
+    try {
+      setProfilePicture(authedUser.profile_pic)
+    }
+    catch(err) {
+    }
     
-    setProfilePicture(authedUser.profile_pic)
   }, [authedUser]);
 
   const isMenuOpen = Boolean(anchorEl);

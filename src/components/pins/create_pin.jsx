@@ -1,11 +1,13 @@
 import React from 'react';
-import { useState,  useContext  } from 'react';
+import { useState,  useContext, useEffect  } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
 import axiosInstance from '../navigationbar/axios/Base';
 import { UserContext } from "../../context";
 import axios from 'axios';
 import {Navigate, useNavigate} from 'react-router-dom'
+import { useParams} from 'react-router';
+
 
 
 
@@ -68,7 +70,10 @@ const MoreOptions = () => {
 }
 
 
-const Create = () => {
+const Create = (props) => {
+    const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const [boardId, setBoardId] = useState(params.get('board_id'))
     const [pinDetails, setpinDetails] = useState({
         author: "",
         board : "",
@@ -81,6 +86,11 @@ const Create = () => {
     const { authedUser, headers } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
+    // let param = useParams();
+    useEffect(() => {
+        
+        console.log(props)
+    }, [])
     const handlePost = () =>{
         const fd = new FormData()
         //headers["content-type"] =  'multipart/form-data' ;
@@ -91,6 +101,13 @@ const Create = () => {
         fd.append('title', title)
         fd.append('content_type', 'image')
         fd.append('owner', authedUser.id)
+        if(boardId){
+            fd.append('board', boardId)
+        }
+        for(var pair of fd.entries()) {
+            console.log(pair[0]+ ', '+ pair[1]); 
+         }
+        
         const config = {
             headers: headers
         };

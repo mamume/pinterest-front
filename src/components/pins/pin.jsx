@@ -4,6 +4,7 @@ import { NavigateFunction, useLocation, useNavigate, useParams } from "react-rou
 //mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 
+
 export function withRouter( Child ) {
     return ( props ) => {
       const location = useLocation();
