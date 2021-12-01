@@ -6,6 +6,8 @@ import { UserContext } from "../context";
 import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 function Board() {
   const search = window.location.search;
@@ -17,6 +19,7 @@ function Board() {
   const [pinItems, setPinItems] = useState([])
   const [coverImage, setCoverImage] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [loaded, setLoaded] = useState(false)
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -43,24 +46,30 @@ function Board() {
       setNotFound(true)
   }, [boardId, headers])
 
+  useEffect(() => {
+    title && setLoaded(true)
+  }, [title])
+
   return (
     <Fragment>
       {notFound
         ? <NotFound statusCode={400} message="Board is not found" />
-        : <Fragment>
-          <Stack direction="column" alignItems="center">
-            <Avatar src={coverImage || '/images/board_placeholder.png'} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-            </Avatar>
-            {/* <Stack direction='row' alignItems="baseline" spacing> */}
-            <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
-            {/* <MenuButton
+        : loaded
+          ? (
+            <Fragment>
+              <Stack direction="column" alignItems="center">
+                <Avatar src={coverImage || '/images/board_placeholder.png'} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
+                </Avatar>
+                {/* <Stack direction='row' alignItems="baseline" spacing> */}
+                <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
+                {/* <MenuButton
             icon={<MoreHorizIcon />}
             options={["Edit Board", "Share", "Merge", "Archive"]}
             label="Board Options"
           /> */}
-            {/* </Stack> */}
+                {/* </Stack> */}
 
-            {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
+                {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
           <Stack direction='row' alignItems="center">
             <AvatarGroup max={2}>
               <Avatar alt="Remy Sharp" src="#" />
@@ -73,17 +82,17 @@ function Board() {
           </Stack>
         </Button> */}
 
-            <Modal
-              open={open}
-              onClose={handleClose}
-            >
-              <InviteModal
-                handleClose={handleClose}
-              />
-            </Modal>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <InviteModal
+                    handleClose={handleClose}
+                  />
+                </Modal>
 
-            <Typography>{share ? "Public" : "Private"} Board</Typography>
-            {/* <Stack direction="row" spacing mt mb>
+                <Typography>{share ? "Public" : "Private"} Board</Typography>
+                {/* <Stack direction="row" spacing mt mb>
           <Stack alignItems="center">
             <IconButton sx={boardBtn}>
               <FlareRoundedIcon fontSize="large" color="black" />
@@ -105,30 +114,33 @@ function Board() {
             <Typography variant="caption">Notes</Typography>
           </Stack>
         </Stack> */}
-          </Stack>
+              </Stack>
 
-          <Divider sx={{ marginY: 5 }} />
+              <Divider sx={{ marginY: 5 }} />
 
-          <Stack direction="row" justifyContent="space-between">
-            <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-            <Button color="grey">Create Pin</Button>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
+                <Button color="grey">Create Pin</Button>
 
-            {/* <MenuButton
+                {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
           label="Sort boards by"
           options={["A to Z", "Drag and drop", "Last saved to"]}
         /> */}
-          </Stack>
+              </Stack>
 
-          {Boolean(pinItems.length)
-            ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-              {pinItems.map((item, index) => (
-                <SinglePin key={item.id} img={item.content_src} id={item.id} />
-              ))}
-            </Masonry>
-            : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
-          }
-        </Fragment>}
+              {Boolean(pinItems.length)
+                ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+                  {pinItems.map((item, index) => (
+                    <SinglePin key={item.id} img={item.content_src} id={item.id} />
+                  ))}
+                </Masonry>
+                : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
+              }
+            </Fragment>
+          )
+          : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress alignItems="center" /></Stack>
+      }
     </Fragment >
   );
 }
