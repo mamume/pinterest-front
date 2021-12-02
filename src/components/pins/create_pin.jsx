@@ -84,7 +84,7 @@ const Create = ({ open, onClose }) => {
         img_blob: ""
     });
     let history = useNavigate();
-    const { authedUser, headers } = useContext(UserContext)
+    const { authedUser, headers, host } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
     // const [open, setOpen] = useState(false)
@@ -120,7 +120,7 @@ const Create = ({ open, onClose }) => {
             headers: headers ,
             body: fd
         }; */
-        fetch('http://localhost:8000/pin/create', {
+        fetch(`${host}/pin/create`, {
             method: 'POST',
             body: fd,
             headers: { 'Authorization': headers.Authorization }

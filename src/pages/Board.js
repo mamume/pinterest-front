@@ -7,7 +7,7 @@ import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 function Board() {
@@ -25,19 +25,19 @@ function Board() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const { headers } = useContext(UserContext)
+  const { headers, host } = useContext(UserContext)
   const [newTo, setNewTo] = useState({})
 
-  
+
 
   // useEffect(()=>{
-    
-    
+
+
   // }, []) 
 
   useEffect(() => {
     if (boardId) {
-      fetch(`http://localhost:8000/board/list?board_id=${boardId}`, { headers })
+      fetch(`${host}/board/list?board_id=${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
           // setNewTo({ 
@@ -54,7 +54,7 @@ function Board() {
             setCoverImage(data[0].cover_img)
           }
         })
-        
+
     }
     else
       setNotFound(true)

@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 
 function Profile() {
   const classes = useStyles()
+  const { authedUser, headers, host } = useContext(UserContext)
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
   const [followersNum, setFollwersNum] = useState(0)
@@ -45,7 +46,6 @@ function Profile() {
   const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
-  const { authedUser, headers } = useContext(UserContext)
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -54,15 +54,15 @@ function Profile() {
         if (user.followed_user === username)
           setFollowed(true)
       }
-      console.log(authedUser)
+    console.log(authedUser)
 
   }
-  , [authedUser, username])
+    , [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const url = params.get('username') ? `http://localhost:8000/profile/list?username=${params.get('username')}` : 'http://localhost:8000/profile/list'
+    const url = params.get('username') ? `${host}/profile/list?username=${params.get('username')}` : `${host}/profile/list`
 
     fetch(url, { headers })
       .then(res => res.json())
@@ -92,7 +92,7 @@ function Profile() {
   async function handleFollow(e, id = userId) {
     let statusCode
 
-    await fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+    await fetch(`${host}/account/${id}/follow`, { headers })
       .then(res => res.status)
       .then((status) => statusCode = status)
 
@@ -105,7 +105,7 @@ function Profile() {
   async function handleUnfollow(e, id = userId) {
     let statusCode
 
-    await fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+    await fetch(`${host}/account/${id}/unfollow`, { headers })
       .then(res => res.status)
       .then(status => statusCode = status)
 

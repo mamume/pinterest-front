@@ -23,9 +23,10 @@ function App() {
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const [host] = useState('http://3.135.88.239:8000')
 
   useEffect(() => {
-    fetch(`http://localhost:8000/account/details`, { headers })
+    fetch(`${host}/account/details`, { headers })
       .then(res => res.json())
       .then(data => {
         if (data.username)
@@ -33,7 +34,7 @@ function App() {
         else
           setAuthedUser(null)
       })
-  }, [headers])
+  }, [headers, host])
 
 
   return (
@@ -41,7 +42,7 @@ function App() {
       <CssBaseline />
       {true
         ? <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders }}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
