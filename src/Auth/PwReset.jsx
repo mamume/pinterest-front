@@ -29,7 +29,7 @@ class ResetPassInput extends React.Component {
         axiosInstance
             .post('/account/password-reset-request', {
                 "email": this.state.email,
-                "redirect_url": "http://3.132.156.164:3000/password-reset/confirm"
+                "redirect_url": "http://3.132.156.164/password-reset/confirm"
             })
             .then(res => {
                 if (res.data.success) {
