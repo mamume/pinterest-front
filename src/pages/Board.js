@@ -8,6 +8,7 @@ import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router";
 
 
 function Board() {
@@ -28,6 +29,7 @@ function Board() {
   const [authorized, setAuthorized] = useState(true)
 
   const { headers, host, authedUser } = useContext(UserContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (boardId) {
@@ -65,7 +67,11 @@ function Board() {
   }, [isAuthedBoard, share])
 
   function deleteBoard() {
-
+    fetch(`${host}/board/list/${boardId}/`, {
+      headers,
+      method: 'DELETE'
+    })
+      .then(navigate('/profile'))
   }
 
   return (
