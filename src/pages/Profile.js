@@ -26,6 +26,7 @@ import LinkStyles from "../styles/Styles";
 function Profile() {
   const classes = LinkStyles()
   const { authedUser, headers, host } = useContext(UserContext)
+
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
   const [followersNum, setFollwersNum] = useState(0)
@@ -36,17 +37,18 @@ function Profile() {
   const [notFound, setNotFound] = useState(false)
   const [followed, setFollowed] = useState(false)
   const [openFollowers, setOpenFollowers] = useState(false);
-  const handleOpenFollowars = () => setOpenFollowers(true);
-  const handleCloseFollowers = () => setOpenFollowers(false);
   const [openFollowing, setOpenFollowing] = useState(false);
-  const handleOpenFollowing = () => setOpenFollowing(true);
-  const handleCloseFollowing = () => setOpenFollowing(false);
   const [openCreateBoard, setOpenCreateBoard] = useState(false);
-  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
-  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
   const [loaded, setLoaded] = useState(false)
+
+  const handleOpenFollowars = () => setOpenFollowers(true);
+  const handleCloseFollowers = () => setOpenFollowers(false);
+  const handleOpenFollowing = () => setOpenFollowing(true);
+  const handleCloseFollowing = () => setOpenFollowing(false);
+  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
+  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
 
   useEffect(() => {
     if (authedUser.following)
