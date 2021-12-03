@@ -19,13 +19,14 @@ import PwResetConfirm from './Auth/PwResetConfirm'
 
 function App() {
   const [authedUser, setAuthedUser] = useState({})
-  const [headers] = useState({
+  const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const [host] = useState('http://3.135.88.239')
 
   useEffect(() => {
-    fetch(`http://localhost:8000/account/details`, { headers })
+    fetch(`${host}/account/details`, { headers })
       .then(res => res.json())
       .then(data => {
         if (data.username)
@@ -33,15 +34,15 @@ function App() {
         else
           setAuthedUser(null)
       })
-  }, [headers])
+  }, [headers, host])
 
 
   return (
     <Fragment>
       <CssBaseline />
-      {authedUser
+      {true
         ? <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
@@ -51,6 +52,7 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
+                  <Route path="/create_pin/:boardId" element={<Create />} />
                   <Route path='/pin/:id' element={<Pin />}> </Route>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
@@ -59,7 +61,7 @@ function App() {
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-        : <Auth />
+        : (<div>Please login</div>)
       }
     </Fragment>
   );

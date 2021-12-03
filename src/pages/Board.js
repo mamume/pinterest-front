@@ -7,6 +7,7 @@ import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
+import { Link } from 'react-router-dom';
 
 
 function Board() {
@@ -24,13 +25,25 @@ function Board() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const { headers } = useContext(UserContext)
+  const { headers, host } = useContext(UserContext)
+  const [newTo, setNewTo] = useState({})
+
+
+
+  // useEffect(()=>{
+
+
+  // }, []) 
 
   useEffect(() => {
     if (boardId) {
-      fetch(`http://localhost:8000/board/list?board_id=${boardId}`, { headers })
+      fetch(`${host}/board/list?board_id=${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
+          // setNewTo({ 
+          //   pathname: "/create_pin", 
+          //   board_id: boardId 
+          // })
           if (!data.length)
             setNotFound(true)
           else {
@@ -41,6 +54,7 @@ function Board() {
             setCoverImage(data[0].cover_img)
           }
         })
+
     }
     else
       setNotFound(true)
@@ -120,7 +134,9 @@ function Board() {
 
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-                <Button color="grey">Create Pin</Button>
+                <Link to={`/create_pin?board_id=${boardId}`}>
+                  <Button color="grey">Create Pin</Button>
+                </Link>
 
                 {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}

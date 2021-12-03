@@ -19,10 +19,10 @@ const useStyles = makeStyles({
 function FollowingModal({ username, open, onClose, followingNum }) {
   const [following, setFollowing] = useState([])
   const classes = useStyles()
-  const { headers } = useContext(UserContext)
+  const { headers, host } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/following?username=${username}`, { headers })
+    fetch(`${host}/profile/following?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
         setFollowing([])

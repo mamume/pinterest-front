@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { Container, Button } from "@mui/material";
 import Main from "./Main";
 import First from "./First"
@@ -279,3 +279,4 @@ export default class Auth extends React.Component{
 
     }
 }
+*/

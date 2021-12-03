@@ -5,7 +5,7 @@ import { UserContext } from "../../context";
 import { useNavigate } from 'react-router-dom';
 
 function CreateBoard({ openCreateBoard, closeCreateBoard }) {
-  const { authedUser, headers } = useContext(UserContext)
+  const { authedUser, headers, host } = useContext(UserContext)
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
       owner: authedUser.id
     }
 
-    fetch(`http://localhost:8000/board/list/`, {
+    fetch(`${host}/board/list/`, {
       headers,
       method: 'POST',
       body: JSON.stringify(data)
