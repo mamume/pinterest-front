@@ -13,6 +13,7 @@ import Pin from './components/pins/pin'
 import { UserContext } from "./context";
 import PwReset from './Auth/PwReset'
 import PwResetConfirm from './Auth/PwResetConfirm'
+import Auth from './Auth/Auth'
 
 
 

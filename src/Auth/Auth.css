@@ -23,16 +23,11 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
-<<<<<<< HEAD:src/Auth/Auth.css
 a{
     color: black;
     text-decoration: none;
 }
 a:hover{
-=======
-
-a:hover {
->>>>>>> main:src/components/navigationbar/Auth.css
     text-decoration: underline;
 }
 

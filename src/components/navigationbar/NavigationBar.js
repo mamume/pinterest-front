@@ -46,7 +46,7 @@ export default function PrimarySearchAppBar(props) {
   useEffect(() => {
     // console.log(authedUser)
     try {
-      setProfilePicture(authedUser.profile_pic)
+      // setProfilePicture(authedUser.profile_pic)
     }
     catch (err) {
     }
@@ -95,9 +95,8 @@ export default function PrimarySearchAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const {runAuth} = props;
 
-  const { authedUser, setHeaders } = useContext(UserContext);
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -236,7 +235,7 @@ export default function PrimarySearchAppBar(props) {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  {authedUser ? <Avatar alt="Remy Sharp" src={profilePic} /> : ""}
+                  {authedUser ? <Avatar alt="Remy Sharp" src={""} /> : ""}
                 </IconButton>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
