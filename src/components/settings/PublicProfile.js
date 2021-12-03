@@ -16,7 +16,7 @@ function PublicProfile() {
     const [profilePic, setProfilePic] = useState('')
     const [disabled, setDisabled] = useState(true)
     const [clear, setClear] = useState(false)
-    const [change, setChange] = useState(true)
+    const [change] = useState(true)
 
     useEffect(() => {
         if (fname || lname || bio || website || username || profilePic)

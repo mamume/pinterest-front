@@ -1,11 +1,12 @@
-import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox, FormControl } from "@mui/material";
+import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
-import ModalStyles from "../ModalStyles";
 import { UserContext } from "../../context";
 import { useNavigate } from 'react-router-dom';
+import Styles from "../../styles/Styles";
 
 function CreateBoard({ openCreateBoard, closeCreateBoard }) {
-  const { authedUser, headers } = useContext(UserContext)
+  const classes = Styles()
+  const { authedUser, headers, host } = useContext(UserContext)
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
       owner: authedUser.id
     }
 
-    fetch(`http://localhost:8000/board/list/`, {
+    fetch(`${host}/board/list/`, {
       headers,
       method: 'POST',
       body: JSON.stringify(data)
@@ -33,7 +34,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
       open={openCreateBoard}
       onClose={closeCreateBoard}
     >
-      <Box sx={ModalStyles}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 5 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             Create Board

@@ -1,26 +1,23 @@
 import styled from 'styled-components';
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Button from '@mui/material/Button';
-import {Fragment, useContext} from 'react'
+import { makeStyles } from "@mui/styles";
+import { Link } from 'react-router-dom';
+//import {Redirect } from 'react-router';
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
 
-import { makeStyles } from "@mui/styles"
-import { Link } from 'react-router-dom'
+
 
 
 const useStyles = makeStyles({
@@ -31,16 +28,35 @@ const useStyles = makeStyles({
       textDecoration: "inherit",
     }
   },
-})
+});
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { authedUser, setHeaders } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
+
+
+
+
+
+  //const [formData, setFormData] = useState({email: "", password: "", age:"", username={}, gender: "", country: "", language: "", loginEmail: "", loginPassword: ""})
+
+  useEffect(() => {
+    // console.log(authedUser)
+    try {
+      setProfilePicture(authedUser.profile_pic)
+    }
+    catch (err) {
+    }
+
+  }, [authedUser]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const {runAuth} = props;
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -53,6 +69,27 @@ export default function PrimarySearchAppBar(props) {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+
+  const handleLogout = () => {
+    localStorage.clear()
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    // return <Navigate to='/'/>;
+    setHeaders({
+      'content-type': "application/json",
+      'Authorization': ''
+    })
+
+  }
+
+
+
+  // useEffect( ()=> {
+
+  //   //setUpdate(1);
+
+  // },[headers])
+
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -84,6 +121,11 @@ export default function PrimarySearchAppBar(props) {
           Profile
         </MenuItem>
       </Link>
+
+      <MenuItem onClick={handleLogout}>
+        Logout
+      </MenuItem>
+
     </Menu>
   );
 
@@ -104,7 +146,7 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -123,7 +165,7 @@ export default function PrimarySearchAppBar(props) {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -141,6 +183,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
+
       <AppBar position="static" color="text">
         <Toolbar>
           <Link to="/">
@@ -167,11 +210,10 @@ export default function PrimarySearchAppBar(props) {
 
             </SearchBarWrapper>
           </SearchWrapper>
-
-          {/*
-          
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
+          {authedUser ?
+            (<Fragment>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -184,32 +226,32 @@ export default function PrimarySearchAppBar(props) {
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <Avatar alt="Remy Sharp" src='/avatar/1.jpg' />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-          <IconButton
+            </IconButton> */}
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  {authedUser ? <Avatar alt="Remy Sharp" src={profilePic} /> : ""}
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+              {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -217,75 +259,39 @@ export default function PrimarySearchAppBar(props) {
             sx={{ ml: 2 }}
           >
             <KeyboardArrowDownIcon />
-          </IconButton>
-          */}
-          {authedUser ? <Avatar alt="Remy Sharp" src={""} /> : ""}
-          <Fragment>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          </IconButton> */}
 
-                <IconButton
 
-                  size="large"
+            </Fragment>) : (<Fragment>
 
-                  aria-label="show more"
-
-                  aria-controls={mobileMenuId}
-
-                  aria-haspopup="true"
-
-                  onClick={handleMobileMenuOpen}
-
-                  color="inherit"
-
-                >
-
-                  <MoreIcon />
-
-                </IconButton>
-
-              </Box>
-
-              {/* <IconButton
-
-            size="large"
-
-            edge="start"
-
-            color="inherit"
-
-            aria-label="open drawer"
-
-            sx={{ ml: 2 }}
-
-          >
-
-            <KeyboardArrowDownIcon />
-
-          </IconButton> */}
+              <Button onClick={() => runAuth("signup")}>Signup</Button>
+              <Button onClick={() => runAuth("login")}>Signin</Button>
+            </Fragment>)}
 
 
 
 
-            </Fragment>) : (<Fragment>
 
-
-
-              <Button onClick={() => runAuth("signup")}>Signup</Button>
-
-              <Button onClick={() => runAuth("login")}>Signin</Button>
-
-            </Fragment>)
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      
+
     </Box>
   );
-}
+};
+
+
 
 const SearchWrapper = styled.div`
     flex: 1;
+`
+const LogoWrapper = styled.div`
+    .MuiSvgIcon-root{
+        color: #e60023;
+        font-size: 32px;
+        cursor: pointer;
+    }
 `
 
 const SearchBarWrapper = styled.div`
@@ -316,13 +322,5 @@ const SearchBarWrapper = styled.div`
     input:focus{
         outline: none;
     }
-
 `
 
-const LogoWrapper = styled.div`
-    .MuiSvgIcon-root{
-        color: #e60023;
-        font-size: 32px;
-        cursor: pointer;
-    }
-`
