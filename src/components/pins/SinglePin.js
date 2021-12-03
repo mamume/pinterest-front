@@ -25,13 +25,16 @@ function SinglePin({ img, external_link, id, url }) {
     return (
         <Wrapper>
             <CardWrapper>
-                <Link to={newTo}>
-                    <div className="myModal">
+                
+                    <div className="myModal" style={{border: "5px solid red"}}>
 
                         <div className="my_modal_header">
                             <Button>Save</Button>
                         </div>
-                        <div className="my_modal_footer">
+                        <Link to={newTo}>
+                            <div style={{ display: "flex", height: "60%"}}></div>
+                        </Link>
+                        <div className="my_modal_footer" >
                             <a href={external_link}>
                                 <div className="my_ext">
                                     <IconButton>
@@ -56,9 +59,8 @@ function SinglePin({ img, external_link, id, url }) {
 
                         </div>
                     </div>
-
-                    <img src={img} alt="" />
-                </Link>
+                    
+                        <img src={img} alt="" />
             </CardWrapper>
         </Wrapper>
     )
@@ -76,6 +78,7 @@ const Wrapper = styled.div`
         width: 100%;
         border-radius: 20px;
         object-fit: cover;
+        
     }
 `
 
@@ -103,6 +106,8 @@ const CardWrapper = styled.div`
 
     .myModal:hover{
         opacity: 100%;
+        postion: absolute;
+        z-index: 1000;
 
     }
     .my_modal_header{
