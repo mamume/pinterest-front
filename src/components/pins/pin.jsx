@@ -3,7 +3,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
 //mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
-import UserContext from '../../context'
+import { UserContext } from '../../context'
 
 
 export function withRouter(Child) {
