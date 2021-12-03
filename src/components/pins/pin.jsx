@@ -24,7 +24,7 @@ const handelfocus = () => {
 
 const handelclick = () => {
     let btarget = document.getElementById("comment_controllers")
-    console.log(btarget)
+    // console.log(btarget)
 
     btarget.classList.remove("comment_vis")
     btarget.classList.add("comment_hide")
@@ -42,9 +42,9 @@ const handelchange = (event) => {
 
 const commentclick = () => {
     let dis = document.getElementById("comment_area_container")
-    console.log(dis);
+    // console.log(dis);
     dis.classList.toggle("comment_area_container");
-    console.log("done")
+    // console.log("done")
 }
 
 
@@ -60,8 +60,8 @@ const Pin = () => {
             .then(data => {
                 // console.log(data)
                 //setItemData(itemData => [...itemData, { img: temp }])
-                console.log(data)
-                console.log(data.content_src)
+                // console.log(data)
+                // console.log(data.content_src)
                 setPin({ img: data.content_src, title: data.title, desc: data.description })
 
 

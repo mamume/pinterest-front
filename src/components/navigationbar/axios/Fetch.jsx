@@ -58,10 +58,10 @@ axiosFetchInstance.interceptors.response.use(
                         return axiosFetchInstance(originalRequest);
 
                     }).catch((err) => {
-                        console.log(err)
+                        // console.log(err)
                     })
             } else {
-                console.log('refresh token not available')
+                // console.log('refresh token not available')
                 window.location.href = '/'
             }
         }

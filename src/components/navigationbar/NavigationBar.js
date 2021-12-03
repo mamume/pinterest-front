@@ -69,7 +69,7 @@ export default function PrimarySearchAppBar() {
   //const [formData, setFormData] = useState({email: "", password: "", age:"", username={}, gender: "", country: "", language: "", loginEmail: "", loginPassword: ""})
 
   useEffect( () => {
-    console.log(authedUser)
+    // console.log(authedUser)
     try {
       setProfilePicture(authedUser.profile_pic)
     }
@@ -83,7 +83,7 @@ export default function PrimarySearchAppBar() {
   
   const switchScreen=(screen)=>{
     setCscreen(screen)
-    console.log(Cscreen)
+    // console.log(Cscreen)
   };
   const CssTextField = {
     '& label.Mui-focused': {
@@ -104,7 +104,7 @@ export default function PrimarySearchAppBar() {
   };
   const handleClickOpen = (type) => {
     setOpen(true)
-    console.log("here")
+    // console.log("here")
     if(type==="signup"){
       switchScreen("main")
     }else if(type==="login"){
@@ -153,7 +153,7 @@ const collectFromThird=(obj)=>{
       localStorage.setItem('pinterestAccount', email)
       window.location.href = '/'
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
     })
 };
 
@@ -173,7 +173,7 @@ const collectFromThird=(obj)=>{
       axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
       window.location.reload()
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
     })
 };
 
@@ -194,7 +194,7 @@ const collectFromThird=(obj)=>{
           axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
           window.location.reload()
         }).catch(err => {
-          console.log(err)
+          // console.log(err)
         })
   };
 

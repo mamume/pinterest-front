@@ -17,12 +17,12 @@ function Homepage() {
 
 
   useEffect(() => {
-    console.log(headers)
-    console.log(itemData)
+    // console.log(headers)
+    // console.log(itemData)
     fetch(`${host}/pin/pins/`, { headers })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         //setItemData(itemData => [...itemData, { img: temp }])
         for (let i = 0; i < data.length; i++) {
           setItemData(itemData =>

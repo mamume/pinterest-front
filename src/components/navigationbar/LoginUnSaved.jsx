@@ -46,7 +46,7 @@ export default class LoginUnSaved extends React.Component{
     
 
     responseFacebook=(response)=>{
-      console.log(response.accessToken)
+      // console.log(response.accessToken)
 
       axiosInstance 
         .post('/account/auth/convert-token', {
@@ -62,7 +62,7 @@ export default class LoginUnSaved extends React.Component{
           localStorage.setItem('pinterestAccount', response.email)
           window.location.href = '/'
         }).catch(err => {
-          console.log(err)
+          // console.log(err)
         })
 
     //   let obj = {
@@ -92,7 +92,7 @@ export default class LoginUnSaved extends React.Component{
     }
 
     responseGoogle=(response)=>{
-      console.log(response)
+      // console.log(response)
 
       axiosInstance
         .post('/account/auth/convert-token', {
@@ -108,7 +108,7 @@ export default class LoginUnSaved extends React.Component{
           localStorage.setItem('pinterestAccount', response.vu.jv)
           window.location.href = '/'
         }).catch(err => {
-          console.log(err)
+          // console.log(err)
         })
 
       // let obj = {

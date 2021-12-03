@@ -25,7 +25,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
     fetch(`${host}/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         // setFollowers([])
         // console.log(data.map(user => user.follower[0].id))
         // let followersIds = data.map(user => user.follower[0].id)

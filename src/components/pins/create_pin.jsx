@@ -50,13 +50,13 @@ const check_size = (event) => {
 const handelFocus = (event) => {
     let ftitle = event.target
     ftitle.classList.add("pin_title_on_focus");
-    console.log("changed")
+    // console.log("changed")
 }
 
 const handelBlur = (event) => {
     let ftitle = event.target
     ftitle.classList.remove("pin_title_on_focus");
-    console.log("changed")
+    // console.log("changed")
 
 }
 
@@ -99,8 +99,8 @@ const Create = ({ open, onClose }) => {
         const fd = new FormData()
         //headers["content-type"] =  'multipart/form-data' ;
         //headers["content-type"] ='multipart/form-data; boundary=something' ;
-        console.log(headers.Authorization)
-        console.log(authedUser)
+        // console.log(headers.Authorization)
+        // console.log(authedUser)
         fd.append('content_src', image, image.name)
         fd.append('title', title)
         fd.append('content_type', 'image')
@@ -109,7 +109,7 @@ const Create = ({ open, onClose }) => {
             fd.append('board_id', boardId)
         }
         for (var pair of fd.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            // console.log(pair[0] + ', ' + pair[1]);
         }
 
         const config = {
@@ -137,12 +137,12 @@ const Create = ({ open, onClose }) => {
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
-        console.log(e.target.files[0])
+        // console.log(e.target.files[0])
     }
 
     function handleTitleChange(event) {
         setTitle(event.target.value)
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
 
     /* const requestOptions = {

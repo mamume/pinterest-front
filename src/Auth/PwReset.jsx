@@ -37,7 +37,7 @@ class ResetPassInput extends React.Component {
                     this.props.switch("sent")
                 }
             }).catch(err => {
-                console.log(err)
+                // console.log(err)
                 this.props.getError(err)
             })
     }

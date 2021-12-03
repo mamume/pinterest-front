@@ -54,7 +54,7 @@ function Profile() {
         if (user.followed_user === username)
           setFollowed(true)
       }
-    console.log(authedUser)
+    // console.log(authedUser)
 
   }
     , [authedUser, username])

@@ -75,10 +75,10 @@ class PwResetConfirmInput extends React.Component{
         axiosInstance
             .patch('/account/password-reset-complete', jsonObj)
             .then(res => {
-            console.log(res.error)
+            // console.log(res.error)
                 if(res.data.success) this.props.collectResult(res.data.success, "done")
                 if(res.data.password) this.props.collectResult("invalid password", "done")
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch(err => {
                 this.props.collectResult("link has been expired", "done")
