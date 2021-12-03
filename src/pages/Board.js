@@ -31,18 +31,18 @@ function Board() {
 
   useEffect(() => {
     if (boardId) {
-      fetch(`${host}/board/list?board_id=${boardId}`, { headers })
+      fetch(`${host}/board/list/${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
-          if (!data.length)
+          if (!data.id)
             setNotFound(true)
           else {
-            setTitle(data[0].title)
-            setShare(data[0].share)
-            setDescription(data[0].description)
-            setPinItems(data[0].pins)
-            setCoverImage(data[0].cover_img)
-            setOwnerId(data[0].owner)
+            setTitle(data.title)
+            setShare(data.share)
+            setDescription(data.description)
+            setPinItems(data.pins)
+            setCoverImage(data.cover_img)
+            setOwnerId(data.owner)
           }
         })
     }
@@ -63,6 +63,10 @@ function Board() {
       ? setAuthorized(false)
       : setAuthorized(true)
   }, [isAuthedBoard, share])
+
+  function deleteBoard() {
+
+  }
 
   return (
     <Fragment>
@@ -151,7 +155,12 @@ function Board() {
                         onClose={() => setOpenCreatePin(false)}
                       />
 
-                      <Button sx={{ position: "absolute", bottom: "10px", right: "20px" }} variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button
+                        sx={{ position: "absolute", bottom: "10px", right: "20px" }}
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={deleteBoard}
+                      >
                         Delete Board
                       </Button>
                     </Fragment>
