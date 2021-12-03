@@ -5,7 +5,6 @@ import theme from './theme/Theme'
 import Settings from "./pages/Settings"
 import Homepage from "./pages/Homepage";
 import Board from './pages/Board'
-import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
