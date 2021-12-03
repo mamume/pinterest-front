@@ -10,58 +10,57 @@ import { useLocation, useNavigate } from "react-router";
 
 
 export function withRouter(Child) {
-    return (props) => {
-        const location = useLocation();
-        const navigate = useNavigate();
-        return <Child {...props} navigate={navigate} location={location} />;
-    }
+  return (props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    return <Child {...props} navigate={navigate} location={location} />;
+  }
 }
 
 function SinglePin({ img, external_link, id, url }) {
-    const newTo = {
-        pathname: url ? url : `/pin/${id}`,
-        state: { id: id }
-    };
-    return (
-        <Wrapper>
-            <CardWrapper>
-                <Link to={newTo}>
-                    <div className="myModal">
+  const newTo = {
+    pathname: url ? url : `/pin/${id}`,
+    state: { id: id }
+  };
+  return (
+    <Wrapper>
+      <CardWrapper>
+        <Link to={newTo}>
+          <div className="myModal">
 
-                        <div className="my_modal_header">
-                            <Button>Save</Button>
-                        </div>
-                        <div className="my_modal_footer">
-                            <a href={external_link}>
-                                <div className="my_ext">
-                                    <IconButton>
-                                        <CallMadeIcon />
-                                    </IconButton>
-                                    <span>{external_link}</span>
-                                </div>
+            <div className="my_modal_header">
+              <Button>Save</Button>
+            </div>
+            <div className="my_modal_footer">
+              {/* <a href={external_link}> */}
+              <div className="my_ext">
+                <IconButton>
+                  <CallMadeIcon />
+                </IconButton>
+                <span>{external_link}</span>
+              </div>
+              {/* </a> */}
 
-                            </a>
+              <div className="my_send">
+                <IconButton>
+                  <DownloadIcon />
+                </IconButton>
+              </div>
 
-                            <div className="my_send">
-                                <IconButton>
-                                    <DownloadIcon />
-                                </IconButton>
-                            </div>
+              <div className="my_options">
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </div>
 
-                            <div className="my_options">
-                                <IconButton>
-                                    <MoreVertIcon />
-                                </IconButton>
-                            </div>
+            </div>
+          </div>
 
-                        </div>
-                    </div>
-
-                    <img src={img} alt="" />
-                </Link>
-            </CardWrapper>
-        </Wrapper>
-    )
+          <img src={img} alt="" />
+        </Link>
+      </CardWrapper>
+    </Wrapper>
+  )
 }
 
 export default withRouter(SinglePin)
