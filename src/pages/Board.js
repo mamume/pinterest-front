@@ -26,24 +26,13 @@ function Board() {
   const handleClose = () => setOpen(false);
 
   const { headers, host } = useContext(UserContext)
-  const [newTo, setNewTo] = useState({})
 
-
-
-  // useEffect(()=>{
-
-
-  // }, []) 
 
   useEffect(() => {
     if (boardId) {
       fetch(`${host}/board/list?board_id=${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
-          // setNewTo({ 
-          //   pathname: "/create_pin", 
-          //   board_id: boardId 
-          // })
           if (!data.length)
             setNotFound(true)
           else {
@@ -58,7 +47,7 @@ function Board() {
     }
     else
       setNotFound(true)
-  }, [boardId, headers])
+  }, [boardId, headers, host])
 
   useEffect(() => {
     title && setLoaded(true)
