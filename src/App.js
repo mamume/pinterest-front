@@ -26,6 +26,7 @@ function App() {
   const AuthRef = useRef();
   const runAuth = (type)=>{
     AuthRef.current.handleClickOpen(type)
+    console.log(AuthRef.current.state.open)
   }
   const [host] = useState('http://localhost:8000')
 
@@ -40,10 +41,11 @@ function App() {
       })
   }, [headers, host])
 
-
+  if(authedUser == null) AuthRef.current.state.open = true
   return (
     <Fragment>
       <CssBaseline />
+      <Auth ref={AuthRef} />
       {true
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
@@ -66,7 +68,7 @@ function App() {
           </UserContext.Provider>
         </ThemeProvider>
         
-        : (<div>Please login</div>)
+        : AuthRef.current.state.open = true
       }
     <Auth ref={AuthRef} />
     </Fragment>
