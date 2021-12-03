@@ -54,7 +54,7 @@ function Board() {
 
   useEffect(() => {
     ownerId === authedUser.id && setIsAuthedBoard(true)
-  }, [])
+  }, [authedUser.id, ownerId])
 
   return (
     <Fragment>
