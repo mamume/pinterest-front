@@ -32,6 +32,7 @@ function Profile() {
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
   const [loaded, setLoaded] = useState(false)
+  const [isAuthedProfile, setIsAuthedProfile] = useState(false)
 
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
@@ -39,6 +40,14 @@ function Profile() {
   const handleCloseFollowing = () => setOpenFollowing(false);
   const handleOpenCreateBoard = () => setOpenCreateBoard(true);
   const handleCloseCreateBoard = () => setOpenCreateBoard(false);
+
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const [url] = useState(
+    params.get('username')
+      ? `${host}/profile/list?username=${params.get('username')}`
+      : `${host}/profile/list`
+  )
 
   useEffect(() => {
     if (authedUser.following)
@@ -49,10 +58,6 @@ function Profile() {
   }, [authedUser, username])
 
   useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    const url = params.get('username') ? `${host}/profile/list?username=${params.get('username')}` : `${host}/profile/list`
-
     fetch(url, { headers })
       .then(res => res.json())
       .then(data => {
@@ -69,14 +74,12 @@ function Profile() {
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
+
+          username === authedUser.username && setIsAuthedProfile(true)
+          username && userId && setLoaded(true)
         }
       })
-  }, [headers, followed, host])
-
-  useEffect(() => {
-    if (username && userId)
-      setLoaded(true)
-  }, [username, userId])
+  }, [authedUser.username, headers, url, userId])
 
   async function handleFollow(e, id = userId) {
     let statusCode
@@ -152,7 +155,7 @@ function Profile() {
 
                   <Stack direction="row" spacing={1} mt>
                     <ShareButton />
-                    {authedUser.username === username
+                    {isAuthedProfile
                       ? (<Link to="/settings" className={classes.link}>
                         <Button color="grey">Edit Profile</Button>
                       </Link>)
