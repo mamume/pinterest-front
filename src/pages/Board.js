@@ -8,6 +8,7 @@ import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom';
+import Styles from '../styles/Styles'
 
 
 function Board() {
@@ -26,6 +27,8 @@ function Board() {
   const handleClose = () => setOpen(false);
 
   const { headers, host } = useContext(UserContext)
+
+  const classes = Styles()
 
 
   useEffect(() => {
@@ -123,7 +126,7 @@ function Board() {
 
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-                <Link to={`/create_pin?board_id=${boardId}`}>
+                <Link className={classes.link} to={`/create_pin?board_id=${boardId}`}>
                   <Button color="grey">Create Pin</Button>
                 </Link>
 
