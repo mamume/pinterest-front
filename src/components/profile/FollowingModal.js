@@ -4,7 +4,7 @@ import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
-function FollowingModal({ username, open, onClose, followingNum, handleFollow, handleUnfollow }) {
+function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow }) {
   const classes = Styles()
   const { headers, host, authedUser } = useContext(UserContext)
 

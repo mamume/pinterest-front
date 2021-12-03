@@ -140,7 +140,6 @@ function Profile() {
                   </Typography>
 
                   <FollowersModal
-                    handleClose={handleCloseFollowers}
                     followersNum={followersNum}
                     username={userName}
                     handleFollow={handleFollow}
@@ -150,8 +149,6 @@ function Profile() {
                   />
 
                   <FollowingModal
-                    handleClose={handleCloseFollowing}
-                    followingNum={followingNum}
                     username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
