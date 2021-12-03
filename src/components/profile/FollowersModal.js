@@ -5,11 +5,11 @@ import Styles from "../../styles/Styles";
 
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
+  const classes = Styles()
   const { headers, host, authedUser } = useContext(UserContext)
 
   const [followers, setFollowers] = useState([])
   const [authedFollowingIds, setAuthedFollowingIds] = useState([])
-  const classes = Styles()
 
   useEffect(() => {
     fetch(`${host}/profile/followers?username=${username}`, { headers })
