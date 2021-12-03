@@ -82,7 +82,7 @@ function Profile() {
           setBoardItems(boards)
         }
       })
-  }, [headers, followed])
+  }, [headers, followed, host])
 
   useEffect(() => {
     if (username && userId)

@@ -1,7 +1,5 @@
 import { Fragment } from "react";
 import React, { useState, useEffect, useContext } from "react";
-import temp from '../images/1.jpg'
-import temp1 from '../images/2.jpg'
 import SinglePin from '../components/pins/SinglePin'
 import Masonry from 'react-masonry-component';
 import AddButton from "../components/navigationbar/AddButton"
@@ -33,7 +31,7 @@ function Homepage() {
 
       })
 
-  }, [])
+  }, [headers, host])
 
   return (
     <Fragment >

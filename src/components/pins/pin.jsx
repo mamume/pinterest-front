@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-import { NavigateFunction, useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 //mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 import { UserContext } from '../../context'
@@ -50,7 +49,7 @@ const commentclick = () => {
 
 const Pin = () => {
     const [pin, setPin] = useState({})
-    let data = useLocation();
+    // let data = useLocation();
     let param = useParams();
     const { host } = useContext(UserContext)
 
@@ -66,7 +65,7 @@ const Pin = () => {
 
 
             })
-    }, [])
+    }, [host, param.id])
 
 
     return (

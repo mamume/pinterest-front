@@ -1,12 +1,9 @@
 import React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
-import axiosInstance from '../navigationbar/axios/Base';
 import { UserContext } from "../../context";
-import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom'
-import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom'
 import { IconButton, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -14,25 +11,25 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-function upload_img(event, pinDetails, setpinDetails, setShowLabel, setShowModalPin) {
-    if (event.target.files && event.target.files[0]) {
-        if (/image\/*/.test(event.target.files[0].type)) {
-            const reader = new FileReader();
+// function upload_img(event, pinDetails, setpinDetails, setShowLabel, setShowModalPin) {
+//     if (event.target.files && event.target.files[0]) {
+//         if (/image\/*/.test(event.target.files[0].type)) {
+//             const reader = new FileReader();
 
 
-            reader.onload = () => {
-                setpinDetails({
-                    ...pinDetails,
-                    img_blob: reader.result
-                });
-                setShowLabel(false);
-                setShowModalPin(true);
-            }
+//             reader.onload = () => {
+//                 setpinDetails({
+//                     ...pinDetails,
+//                     img_blob: reader.result
+//                 });
+//                 setShowLabel(false);
+//                 setShowModalPin(true);
+//             }
 
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
-}
+//             reader.readAsDataURL(event.target.files[0]);
+//         }
+//     }
+// }
 
 
 const check_size = (event) => {
@@ -74,8 +71,8 @@ const MoreOptions = () => {
 const Create = ({ open, onClose }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const [boardId, setBoardId] = useState(params.get('board_id'))
-    const [pinDetails, setpinDetails] = useState({
+    const [boardId] = useState(params.get('board_id'))
+    const [pinDetails] = useState({
         author: "",
         board: "",
         title: "",
@@ -108,13 +105,13 @@ const Create = ({ open, onClose }) => {
         if (boardId) {
             fd.append('board_id', boardId)
         }
-        for (var pair of fd.entries()) {
-            // console.log(pair[0] + ', ' + pair[1]);
-        }
+        // for (var pair of fd.entries()) {
+        // console.log(pair[0] + ', ' + pair[1]);
+        // }
 
-        const config = {
-            headers: headers
-        };
+        // const config = {
+        //     headers: headers
+        // };
         /*const requestOptions = {
             method: 'POST',
             headers: headers ,
@@ -156,8 +153,8 @@ const Create = ({ open, onClose }) => {
  }
  */
 
-    const [showLable, setShowLabel] = useState(true);
-    const [showModalPin, setShowModalPin] = useState(false);
+    const [showLable] = useState(true);
+    const [showModalPin] = useState(false);
     return (
         <Modal
             open={open}

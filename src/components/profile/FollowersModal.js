@@ -1,24 +1,22 @@
-import { Avatar, Modal, Stack, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Modal, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
 import ModalStyles from '../ModalStyles'
 import { UserContext } from "../../context";
 
-const useStyles = makeStyles({
-  link: {
-    textDecoration: "inherit",
-    color: "inherit",
-    '&:hover': {
-      textDecoration: "inherit",
-    }
-  },
-})
+// const useStyles = makeStyles({
+//   link: {
+//     textDecoration: "inherit",
+//     color: "inherit",
+//     '&:hover': {
+//       textDecoration: "inherit",
+//     }
+//   },
+// })
 
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
-  const [followers, setFollowers] = useState([])
-  const classes = useStyles()
+  const [, setFollowers] = useState([])
   const { headers, host } = useContext(UserContext)
 
   useEffect(() => {
@@ -34,7 +32,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
         // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
         // }
       })
-  }, [username, headers])
+  }, [username, headers, host])
 
 
   // async function handleToFollow(e, id) {
