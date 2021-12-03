@@ -1,12 +1,13 @@
-import { Modal, Stack, Typography, Box, Avatar } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { Modal, Stack, Typography, Box, Avatar, Button } from "@mui/material";
+import { useContext, useEffect, useState, Fragment } from "react";
 import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
   const [followers, setFollowers] = useState([])
-  const { headers, host } = useContext(UserContext)
+  const [authedFollowingIds, setAuthedFollowingIds] = useState([])
+  const { headers, host, authedUser } = useContext(UserContext)
   const classes = Styles()
 
   useEffect(() => {
@@ -21,6 +22,18 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
         })))
       })
   }, [username, headers, host])
+
+  useEffect(() => {
+    fetch(
+      `${host}/profile/following?username=${authedUser.username}`,
+      { headers }
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setAuthedFollowingIds(data.map(user => (user.following[0].id)))
+      })
+  }, [authedUser.username, headers, host])
 
 
   // async function handleToFollow(e, id) {
@@ -55,16 +68,25 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
             {followersNum} Followers
           </Typography>
         </Box>
-        <Stack spacing={2}>
+        <Stack spacing={3}>
           {followers.map(follower => (
-            <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
-              <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Avatar sx={{ width: 56, height: 56 }} src={follower.profilePic} />
-              </a>
-              <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Typography fontWeight="bold">{follower.fullName}</Typography>
-              </a>
-            </Stack>
+            <Fragment key={follower.id}>
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                    <Avatar sx={{ width: 56, height: 56 }} src={follower.profilePic} />
+                  </a>
+                  <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                    <Typography fontWeight="bold">{follower.fullName}</Typography>
+                  </a>
+                </Stack>
+                {follower.id !== authedUser.id && (
+                  authedFollowingIds.includes(follower.id)
+                    ? <Button variant="text" color="warning">Unfollow</Button>
+                    : <Button variant="text">Follow</Button>
+                )}
+              </Stack>
+            </Fragment>
           ))}
         </Stack>
       </Box>
