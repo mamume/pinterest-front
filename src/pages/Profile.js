@@ -219,7 +219,7 @@ function Profile() {
                 {Boolean(pinItems.length)
                   ? <Fragment>
                     <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                      {pinItems.map((item, index) => (
+                      {pinItems.map((item) => (
                         <SinglePin key={item.id} img={item.content_src} id={item.id} />
                       ))}
                     </Masonry>
