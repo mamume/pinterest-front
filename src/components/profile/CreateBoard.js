@@ -34,7 +34,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
       open={openCreateBoard}
       onClose={closeCreateBoard}
     >
-      <Box sx={classes.modal}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 5 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             Create Board
