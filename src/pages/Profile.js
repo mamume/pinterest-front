@@ -227,7 +227,7 @@ function Profile() {
                   : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
               </Fragment>
             )
-            : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress alignItems="center" /></Stack>
+            : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress /></Stack>
       }
     </Fragment>
   );
