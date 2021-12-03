@@ -4,16 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
-// const useStyles = makeStyles({
-//   link: {
-//     textDecoration: "inherit",
-//     color: "inherit",
-//     '&:hover': {
-//       textDecoration: "inherit",
-//     }
-//   },
-// })
-
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
   const [, setFollowers] = useState([])
