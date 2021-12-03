@@ -15,7 +15,7 @@ export default class Auth extends React.Component{
         super();
         this.state = {
             open:false,
-            Cscreen:"",
+            Cscreen:"main",
             email:"",
             password:"",
             age:"",
