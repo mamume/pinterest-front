@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from "react-router-dom";
 import CreatePin from '../pins/create_pin'
 
 function AddButton() {
