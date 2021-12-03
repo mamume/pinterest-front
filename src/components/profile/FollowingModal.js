@@ -1,28 +1,17 @@
 import { Avatar, Modal, Stack, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
-import ModalStyles from '../ModalStyles'
 import { UserContext } from "../../context";
-
-const useStyles = makeStyles({
-  link: {
-    textDecoration: "inherit",
-    color: "inherit",
-    '&:hover': {
-      textDecoration: "inherit",
-    }
-  },
-})
+import Styles from "../../styles/Styles";
 
 
 function FollowingModal({ username, open, onClose, followingNum }) {
   const [following, setFollowing] = useState([])
-  const classes = useStyles()
-  const { headers } = useContext(UserContext)
+  const classes = Styles()
+  const { headers, host } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/following?username=${username}`, { headers })
+    fetch(`${host}/profile/following?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
         setFollowing([])
@@ -30,14 +19,14 @@ function FollowingModal({ username, open, onClose, followingNum }) {
           setFollowing(prevFollowing => [...prevFollowing, person.following[0]])
         }
       })
-  }, [username, followingNum, headers])
+  }, [username, followingNum, headers, host])
 
   return (
     <Modal
       open={open}
       onClose={onClose}
     >
-      <Box sx={ModalStyles}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             Following

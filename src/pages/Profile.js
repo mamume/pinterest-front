@@ -1,7 +1,6 @@
 import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import { makeStyles } from "@mui/styles";
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'
@@ -11,20 +10,22 @@ import Masonry from 'react-masonry-component';
 import SinglePin from '../components/pins/SinglePin'
 import CreateBoard from '../components/profile/CreateBoard'
 import CircularProgress from '@mui/material/CircularProgress';
+import LinkStyles from "../styles/Styles";
 
 
-const useStyles = makeStyles({
-  link: {
-    textDecoration: "inherit",
-    color: "inherit",
-    '&:hover': {
-      textDecoration: "inherit",
-    }
-  },
-})
+// const useStyles = makeStyles({
+//   link: {
+//     textDecoration: "inherit",
+//     color: "inherit",
+//     '&:hover': {
+//       textDecoration: "inherit",
+//     }
+//   },
+// })
 
 function Profile() {
-  const classes = useStyles()
+  const classes = LinkStyles()
+  const { authedUser, headers, host } = useContext(UserContext)
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
   const [followersNum, setFollwersNum] = useState(0)
@@ -45,7 +46,6 @@ function Profile() {
   const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
-  const { authedUser, headers } = useContext(UserContext)
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -54,15 +54,13 @@ function Profile() {
         if (user.followed_user === username)
           setFollowed(true)
       }
-      console.log(authedUser)
-
   }
-  , [authedUser, username])
+    , [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const url = params.get('username') ? `http://localhost:8000/profile/list?username=${params.get('username')}` : 'http://localhost:8000/profile/list'
+    const url = params.get('username') ? `${host}/profile/list?username=${params.get('username')}` : `${host}/profile/list`
 
     fetch(url, { headers })
       .then(res => res.json())
@@ -82,7 +80,7 @@ function Profile() {
           setBoardItems(boards)
         }
       })
-  }, [headers, followed])
+  }, [headers, followed, host])
 
   useEffect(() => {
     if (username && userId)
@@ -92,7 +90,7 @@ function Profile() {
   async function handleFollow(e, id = userId) {
     let statusCode
 
-    await fetch(`http://localhost:8000/account/${id}/follow`, { headers })
+    await fetch(`${host}/account/${id}/follow`, { headers })
       .then(res => res.status)
       .then((status) => statusCode = status)
 
@@ -105,7 +103,7 @@ function Profile() {
   async function handleUnfollow(e, id = userId) {
     let statusCode
 
-    await fetch(`http://localhost:8000/account/${id}/unfollow`, { headers })
+    await fetch(`${host}/account/${id}/unfollow`, { headers })
       .then(res => res.status)
       .then(status => statusCode = status)
 
@@ -229,7 +227,7 @@ function Profile() {
                   : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
               </Fragment>
             )
-            : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress alignItems="center" /></Stack>
+            : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress /></Stack>
       }
     </Fragment>
   );

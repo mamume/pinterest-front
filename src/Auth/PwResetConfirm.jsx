@@ -1,28 +1,27 @@
 import React from 'react';
-import NavigationBar from '../components/navigationbar/NavigationBar'
 import { Link } from 'react-router-dom';
 import axiosInstance from './axios/Base';
-import { 
-    Container, 
-    Grid, 
-    Button, 
-    TextField, 
-    Typography, 
+import {
+    Container,
+    Grid,
+    Button,
+    TextField,
+    Typography,
     DialogTitle,
     DialogContentText
 } from "@mui/material";
 
 
-class PwResetConfirmDone extends React.Component{
-    constructor(){
+class PwResetConfirmDone extends React.Component {
+    constructor() {
         super();
         this.state = {}
     }
 
-    render(){
+    render() {
         return <Grid container direction="row" justifyContent="center" alignItem="center" mt={5}>
 
-            <Grid item xs={12} sm={8} md={5} sx={{textAlign:"center"}}>
+            <Grid item xs={12} sm={8} md={5} sx={{ textAlign: "center" }}>
                 <DialogContentText>
                     <Typography variant='h4'>
                         {this.props.msg}
@@ -32,53 +31,53 @@ class PwResetConfirmDone extends React.Component{
                     LinkComponent={Link}
                     to="/"
                     size="large"
-                    variant="contained"  
+                    variant="contained"
                     sx={{
-                        backgroundColor:"#e60023", 
-                        '&:hover':{backgroundColor:"#e60023"}, 
-                        borderRadius:10,
-                        textTransform:'none',
+                        backgroundColor: "#e60023",
+                        '&:hover': { backgroundColor: "#e60023" },
+                        borderRadius: 10,
+                        textTransform: 'none',
                     }}
                 >
-                Home</Button>
+                    Home</Button>
             </Grid>
         </Grid>
     }
 }
 
 
-class PwResetConfirmInput extends React.Component{
-    constructor(){
+class PwResetConfirmInput extends React.Component {
+    constructor() {
         super();
         this.state = {
-            password:"",
-            passwordConfirm:""
+            password: "",
+            passwordConfirm: ""
         };
     }
 
-    collectInput=(e)=>{
-      
-        this.setState({[e.target.name]:e.target.value});
-        
+    collectInput = (e) => {
+
+        this.setState({ [e.target.name]: e.target.value });
+
     }
 
-    sendData=()=>{
+    sendData = () => {
         let url_string = window.location.href;
         let url = new URL(url_string);
         let obj = {
-            uid64:url.searchParams.get("uid64"),
-            token:url.searchParams.get("token"),
-            password:this.state.password,
-            password_confirm:this.state.passwordConfirm
+            uid64: url.searchParams.get("uid64"),
+            token: url.searchParams.get("token"),
+            password: this.state.password,
+            password_confirm: this.state.passwordConfirm
         }
-        let jsonObj = JSON.stringify(obj) 
+        let jsonObj = JSON.stringify(obj)
         axiosInstance
             .patch('/account/password-reset-complete', jsonObj)
             .then(res => {
-            console.log(res.error)
-                if(res.data.success) this.props.collectResult(res.data.success, "done")
-                if(res.data.password) this.props.collectResult("invalid password", "done")
-                console.log(res.data)
+                // console.log(res.error)
+                if (res.data.success) this.props.collectResult(res.data.success, "done")
+                if (res.data.password) this.props.collectResult("invalid password", "done")
+                // console.log(res.data)
             })
             .catch(err => {
                 this.props.collectResult("link has been expired", "done")
@@ -86,103 +85,103 @@ class PwResetConfirmInput extends React.Component{
             })
     }
 
-    render(){
+    render() {
         return <Grid container direction="row" justifyContent="center" alignItem="center" mt={5}>
-        <Grid item xs={12} sm={8} md={5} sx={{textAlign:"center"}}>
-            <DialogTitle>
-                <Typography variant='h4'>
-                    Pick a new password
-                </Typography>
-            </DialogTitle>
-            <DialogContentText mb={0} sx={{textAlign:"left"}}>
-                <Typography variant="subtitle2">New password
-                </Typography>
-            </DialogContentText>
-            <TextField
-                autoFocus
-                required
-                sx={this.props.inputStyle}
-                fullWidth
-                margin="dense"
-                name="password"
-                id="password"
-                label="New password"
-                type="password"
-                variant="outlined"
-                value={this.state.password}
-                onChange={this.collectInput}
-            />
-            <DialogContentText mt={2} sx={{textAlign:"left"}}>
-                <Typography variant="subtitle2">Type it again
-                </Typography>
-            </DialogContentText>
-            <TextField
-                required
-                sx={this.props.inputStyle}
-                fullWidth
-                margin="dense"
-                name="passwordConfirm"
-                id="passwordConfirm"
-                label="re-password"
-                type="password"
-                variant="outlined"
-                value={this.state.passwordConfirm}
-                onChange={this.collectInput}
-            />
-            <div style={{width:"100%", textAlign:"right", marginTop:"0.75rem"}}>
-                <Button
-                    onClick={this.sendData}
-                    size="large"
-                    variant="contained"  
-                    sx={{
-                        backgroundColor:"#e60023", 
-                        '&:hover':{backgroundColor:"#e60023"}, 
-                        borderRadius:10,
-                        textTransform:'none',
-                    }}
-                >
-                Change password</Button>
-            </div>
-        </Grid>
+            <Grid item xs={12} sm={8} md={5} sx={{ textAlign: "center" }}>
+                <DialogTitle>
+                    <Typography variant='h4'>
+                        Pick a new password
+                    </Typography>
+                </DialogTitle>
+                <DialogContentText mb={0} sx={{ textAlign: "left" }}>
+                    <Typography variant="subtitle2">New password
+                    </Typography>
+                </DialogContentText>
+                <TextField
+                    autoFocus
+                    required
+                    sx={this.props.inputStyle}
+                    fullWidth
+                    margin="dense"
+                    name="password"
+                    id="password"
+                    label="New password"
+                    type="password"
+                    variant="outlined"
+                    value={this.state.password}
+                    onChange={this.collectInput}
+                />
+                <DialogContentText mt={2} sx={{ textAlign: "left" }}>
+                    <Typography variant="subtitle2">Type it again
+                    </Typography>
+                </DialogContentText>
+                <TextField
+                    required
+                    sx={this.props.inputStyle}
+                    fullWidth
+                    margin="dense"
+                    name="passwordConfirm"
+                    id="passwordConfirm"
+                    label="re-password"
+                    type="password"
+                    variant="outlined"
+                    value={this.state.passwordConfirm}
+                    onChange={this.collectInput}
+                />
+                <div style={{ width: "100%", textAlign: "right", marginTop: "0.75rem" }}>
+                    <Button
+                        onClick={this.sendData}
+                        size="large"
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#e60023",
+                            '&:hover': { backgroundColor: "#e60023" },
+                            borderRadius: 10,
+                            textTransform: 'none',
+                        }}
+                    >
+                        Change password</Button>
+                </div>
+            </Grid>
         </Grid>
     }
-    
+
 }
 
 
- export default class PwResetConfirm extends React.Component{
-    constructor(){
+export default class PwResetConfirm extends React.Component {
+    constructor() {
         super();
         this.state = {
-            Cscreen:"input",
-            result:""
+            Cscreen: "input",
+            result: ""
         }
     };
 
-    collectResult=(res, scr)=>{
-        this.setState({result:res})
-        this.setState({Cscreen:scr})
+    collectResult = (res, scr) => {
+        this.setState({ result: res })
+        this.setState({ Cscreen: scr })
     }
 
-    render(){
+    render() {
         const CssTextField = {
             '& label.Mui-focused': {
-              color: '#e60023',
+                color: '#e60023',
             },
             '& .MuiInput-underline:after': {
-              borderBottomColor: '#e60023',
+                borderBottomColor: '#e60023',
             },
             '& .MuiOutlinedInput-root': {
-              maxHeight:'50px',
-              borderRadius:20,
-              '&.Mui-focused fieldset': {
-                borderColor: '#e60023',
-                borderWidth:3,
-                
-              },
+                maxHeight: '50px',
+                borderRadius: 20,
+                '&.Mui-focused fieldset': {
+                    borderColor: '#e60023',
+                    borderWidth: 3,
+
+                },
             },
         };
-         return <Container>
+        return <Container>
             {
                 this.state.Cscreen === "input" &&
                 <PwResetConfirmInput inputStyle={CssTextField} collectResult={this.collectResult} />
@@ -191,6 +190,6 @@ class PwResetConfirmInput extends React.Component{
                 this.state.Cscreen === "done" &&
                 <PwResetConfirmDone msg={this.state.result} />
             }
-         </Container>
+        </Container>
     }
- }
+}

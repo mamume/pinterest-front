@@ -1,11 +1,10 @@
 import { ThemeProvider } from "@mui/material/styles";
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import theme from './theme/Theme'
+import theme from './styles/Theme'
 import Settings from "./pages/Settings"
 import Homepage from "./pages/Homepage";
 import Board from './pages/Board'
-import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
@@ -23,9 +22,10 @@ function App() {
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const [host] = useState('http://localhost:8000')
 
   useEffect(() => {
-    fetch(`http://localhost:8000/account/details`, { headers })
+    fetch(`${host}/account/details`, { headers })
       .then(res => res.json())
       .then(data => {
         if (data.username)
@@ -33,7 +33,7 @@ function App() {
         else
           setAuthedUser(null)
       })
-  }, [headers])
+  }, [headers, host])
 
 
   return (
@@ -41,7 +41,7 @@ function App() {
       <CssBaseline />
       {true
         ? <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders }}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar />
@@ -51,7 +51,7 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
-                  <Route path="/create_pin/:boardId" element={<Create />} />
+                  {/* <Route path="/create_pin/:boardId" element={<Create />} /> */}
                   <Route path='/pin/:id' element={<Pin />}> </Route>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />

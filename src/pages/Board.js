@@ -1,18 +1,18 @@
-import { Button, Divider, Modal, Stack, Typography } from "@mui/material";
+import { Button, Divider, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
-import InviteModal from "../components/board/InviteModal";
 import { UserContext } from "../context";
 import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
-import {Link} from 'react-router-dom';
+import CreatePin from '../components/pins/create_pin'
 
 
 function Board() {
   const search = window.location.search;
   const params = new URLSearchParams(search);
+
   const [boardId] = useState(params.get('board_id'))
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
@@ -21,29 +21,15 @@ function Board() {
   const [coverImage, setCoverImage] = useState('')
   const [notFound, setNotFound] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [openCreatePin, setOpenCreatePin] = useState(false)
 
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-
-  const { headers } = useContext(UserContext)
-  const [newTo, setNewTo] = useState({})
-
-  
-
-  // useEffect(()=>{
-    
-    
-  // }, []) 
+  const { headers, host } = useContext(UserContext)
 
   useEffect(() => {
     if (boardId) {
-      fetch(`http://localhost:8000/board/list?board_id=${boardId}`, { headers })
+      fetch(`${host}/board/list?board_id=${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
-          // setNewTo({ 
-          //   pathname: "/create_pin", 
-          //   board_id: boardId 
-          // })
           if (!data.length)
             setNotFound(true)
           else {
@@ -54,11 +40,11 @@ function Board() {
             setCoverImage(data[0].cover_img)
           }
         })
-        
+
     }
     else
       setNotFound(true)
-  }, [boardId, headers])
+  }, [boardId, headers, host])
 
   useEffect(() => {
     title && setLoaded(true)
@@ -96,14 +82,14 @@ function Board() {
           </Stack>
         </Button> */}
 
-                <Modal
+                {/* <Modal
                   open={open}
                   onClose={handleClose}
                 >
                   <InviteModal
                     handleClose={handleClose}
                   />
-                </Modal>
+                </Modal> */}
 
                 <Typography>{share ? "Public" : "Private"} Board</Typography>
                 {/* <Stack direction="row" spacing mt mb>
@@ -134,9 +120,19 @@ function Board() {
 
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-                <Link to={`/create_pin?board_id=${boardId}`}>
-                  <Button color="grey">Create Pin</Button>
-                </Link>
+                {/* <Link className={classes.link} to={`/create_pin?board_id=${boardId}`}> */}
+                <Button
+                  color="grey"
+                  onClick={() => setOpenCreatePin(true)}
+                >
+                  Create Pin
+                </Button>
+
+                <CreatePin
+                  open={openCreatePin}
+                  onClose={() => setOpenCreatePin(false)}
+                />
+                {/* </Link> */}
 
                 {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
@@ -147,7 +143,7 @@ function Board() {
 
               {Boolean(pinItems.length)
                 ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                  {pinItems.map((item, index) => (
+                  {pinItems.map((item) => (
                     <SinglePin key={item.id} img={item.content_src} id={item.id} />
                   ))}
                 </Masonry>
@@ -155,7 +151,7 @@ function Board() {
               }
             </Fragment>
           )
-          : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress alignItems="center" /></Stack>
+          : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress /></Stack>
       }
     </Fragment >
   );

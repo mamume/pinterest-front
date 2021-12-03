@@ -3,20 +3,16 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Button from '@mui/material/Button';
 import { makeStyles } from "@mui/styles";
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 //import {Redirect } from 'react-router';
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
@@ -47,7 +43,7 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { authedUser, headers, setHeaders } = useContext(UserContext);
+  const { authedUser, setHeaders } = useContext(UserContext);
   const [Cscreen, setCscreen] = useState("");
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -56,34 +52,32 @@ export default function PrimarySearchAppBar() {
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [country, setCountry] = useState("");
-  const [language, setLanguage] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [update, setUpdate] = useState(0);
   const [profilePic, setProfilePicture] = useState("");
-  
-  
+
+
 
 
 
   //const [formData, setFormData] = useState({email: "", password: "", age:"", username={}, gender: "", country: "", language: "", loginEmail: "", loginPassword: ""})
 
-  useEffect( () => {
-    console.log(authedUser)
+  useEffect(() => {
+    // console.log(authedUser)
     try {
       setProfilePicture(authedUser.profile_pic)
     }
-    catch(err) {
+    catch (err) {
     }
-    
+
   }, [authedUser]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  
-  const switchScreen=(screen)=>{
+
+  const switchScreen = (screen) => {
     setCscreen(screen)
-    console.log(Cscreen)
+    // console.log(Cscreen)
   };
   const CssTextField = {
     '& label.Mui-focused': {
@@ -93,109 +87,110 @@ export default function PrimarySearchAppBar() {
       borderBottomColor: '#e60023',
     },
     '& .MuiOutlinedInput-root': {
-      maxHeight:'50px',
-      borderRadius:20,
+      maxHeight: '50px',
+      borderRadius: 20,
       '&.Mui-focused fieldset': {
         borderColor: '#e60023',
-        borderWidth:3,
-        
+        borderWidth: 3,
+
       },
     },
   };
   const handleClickOpen = (type) => {
     setOpen(true)
-    console.log("here")
-    if(type==="signup"){
+    // console.log("here")
+    if (type === "signup") {
       switchScreen("main")
-    }else if(type==="login"){
-      if(localStorage.pinterestAccount){
-        setLoginEmail(localStorage.getItem('pinterestAccount'))  
+    } else if (type === "login") {
+      if (localStorage.pinterestAccount) {
+        setLoginEmail(localStorage.getItem('pinterestAccount'))
         // console.log(localStorage.getItem('pinterestAccount'))
         //console.log(this.state.loginEmail)
         switchScreen("savedLogin")
-      }else switchScreen("unsavedLogin")
+      } else switchScreen("unsavedLogin")
     }
-};
-const handleClose = ()=>{
+  };
+  const handleClose = () => {
     setOpen(false);
-};
-const collectFromMain = (obj) =>{
+  };
+  const collectFromMain = (obj) => {
 
     setEmail(obj.email);
     setPassword(obj.password);
     setAge(obj.age);
-};
+  };
 
-const collectFromFirst=(obj)=>{
-  
-  setUsername( obj.username)
-};
+  const collectFromFirst = (obj) => {
 
-const collectFromSecond=(obj)=>{
-  setGender(obj.gender)    
-};
+    setUsername(obj.username)
+  };
 
-const collectFromThird=(obj)=>{
-  setCountry(obj.country)
-  // this.setState({language:obj.lang})
-  axiosInstance
-    .post('/account/signup',{
-      email:email,
-      password:password,
-      username:username,
-      age:age,
-      gender:gender,
-      country:country,
-    }).then(res => {
-      localStorage.setItem('pinterestAccessToken', res.data.access_token)
-      localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
-      axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
-      localStorage.setItem('pinterestAccount', email)
-      window.location.href = '/'
-    }).catch(err => {
-      console.log(err)
-    })
-};
+  const collectFromSecond = (obj) => {
+    setGender(obj.gender)
+  };
 
-  const collectFromLoginUnSaved=(obj)=>{
+  const collectFromThird = (obj) => {
+    setCountry(obj.country)
+    // this.setState({language:obj.lang})
+    axiosInstance
+      .post('/account/signup', {
+        email: email,
+        password: password,
+        username: username,
+        age: age,
+        gender: gender,
+        country: country,
+      }).then(res => {
+        localStorage.setItem('pinterestAccessToken', res.data.access_token)
+        localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+        axiosFetchInstance.defaults.headers['Authorization'] = res.data.access_token
+        localStorage.setItem('pinterestAccount', email)
+        window.location.href = '/'
+      }).catch(err => {
+        // console.log(err)
+      })
+  };
+
+  const collectFromLoginUnSaved = (obj) => {
 
     axiosInstance
-    .post('/account/auth/token', {
-      username:obj.loginEmail,
-      password:obj.loginPassword,
-      grant_type:"password",
-      client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-      client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-    }).then(res => {
-      localStorage.setItem('pinterestAccessToken', res.data.access_token)
-      localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
-      localStorage.setItem('pinterestAccount', obj.loginEmail) 
-      axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
-      window.location.reload()
-    }).catch(err => {
-      console.log(err)
-    })
-};
+      .post('/account/auth/token', {
+        username: obj.loginEmail,
+        password: obj.loginPassword,
+        grant_type: "password",
+        client_id: "cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret: "tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+      }).then(res => {
+        localStorage.setItem('pinterestAccessToken', res.data.access_token)
+        localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+        localStorage.setItem('pinterestAccount', obj.loginEmail)
+        axiosFetchInstance.defaults.headers['Authorization'] = res.data.access_token
+        window.location.reload()
+      }).catch(err => {
+        // console.log(err)
+      })
+  };
 
-  const collectFromLoginSaved=(password)=>{
-      setLoginPassword(password)
+  const collectFromLoginSaved = (password) => {
+    setLoginPassword(password)
 
-      axiosInstance
-        .post('/account/auth/token', {
-          username:loginEmail,
-          password:loginPassword,
-          grant_type:"password",
-          client_id:"cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
-          client_secret:"tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
-        }).then(res => {
-          localStorage.setItem('pinterestAccessToken', res.data.access_token)
-          localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
-          localStorage.setItem('pinterestAccount', loginEmail) 
-          axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
-          window.location.reload()
-        }).catch(err => {
-          console.log(err)
-        })
+    axiosInstance
+      .post('/account/auth/token', {
+        username: loginEmail,
+        password: loginPassword,
+        grant_type: "password",
+        client_id: "cPvFU0PqYK7nzAS8eJ0uwDHzq1voXNJB2Qs0xDWF",
+        client_secret: "tjtDy1W4XoZ2EcF54X5ISKg0AAky7zksIqPmov2WSkxqDuWVWw6izZPhxJNLDtPCHBsw3xyr8huAT6xUQmQ62H2hP48yQwBkRLe8COfPF8c8eETQEHMoZR8ryeVk2TJ5",
+      }).then(res => {
+        localStorage.setItem('pinterestAccessToken', res.data.access_token)
+        localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
+        localStorage.setItem('pinterestAccount', loginEmail)
+        axiosFetchInstance.defaults.headers['Authorization'] = res.data.access_token
+        window.location.reload()
+      })
+    // .catch(err => {
+    // console.log(err)
+    // })
   };
 
 
@@ -213,10 +208,10 @@ const collectFromThird=(obj)=>{
     handleMobileMenuClose();
   };
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     localStorage.clear()
-     setAnchorEl(null);
-     handleMobileMenuClose();
+    setAnchorEl(null);
+    handleMobileMenuClose();
     // return <Navigate to='/'/>;
     setHeaders({
       'content-type': "application/json",
@@ -225,15 +220,15 @@ const collectFromThird=(obj)=>{
 
   }
 
-  
+
 
   // useEffect( ()=> {
- 
+
   //   //setUpdate(1);
 
   // },[headers])
 
- 
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -261,10 +256,10 @@ const collectFromThird=(obj)=>{
           Profile
         </MenuItem>
       </Link>
-      
-        <MenuItem onClick={handleLogout}>
-          Logout
-        </MenuItem>
+
+      <MenuItem onClick={handleLogout}>
+        Logout
+      </MenuItem>
 
     </Menu>
   );
@@ -324,29 +319,29 @@ const collectFromThird=(obj)=>{
   return (
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
       {
-        Cscreen==="main" &&
-        <Main switch={switchScreen} handle={handleClickOpen} open={open} close={handleClose} collect={collectFromMain} inputStyle={CssTextField}/> 
-        }
-        {
-        Cscreen==="first" && 
+        Cscreen === "main" &&
+        <Main switch={switchScreen} handle={handleClickOpen} open={open} close={handleClose} collect={collectFromMain} inputStyle={CssTextField} />
+      }
+      {
+        Cscreen === "first" &&
         <First switch={switchScreen} handle={handleClickOpen} open={open} collect={collectFromFirst} inputStyle={CssTextField} email={email} />
-        }
-        {
-        Cscreen==="second" && 
+      }
+      {
+        Cscreen === "second" &&
         <Second switch={switchScreen} open={open} collect={collectFromSecond} />
-        }
-        {
-        Cscreen==="third" && 
+      }
+      {
+        Cscreen === "third" &&
         <Third switch={switchScreen} open={open} close={handleClose} collect={collectFromThird} />
-        }
-        {
-        Cscreen==="savedLogin" &&
-        <LoginSaved switch={switchScreen} open={open} close={handleClose} collect={collectFromLoginSaved} email={loginEmail} inputStyle={CssTextField}/> 
-        }
-        {
-        Cscreen==="unsavedLogin" &&
-        <LoginUnSaved switch={switchScreen} open={open} close={handleClose} collect={collectFromLoginUnSaved} inputStyle={CssTextField}/> 
-        }
+      }
+      {
+        Cscreen === "savedLogin" &&
+        <LoginSaved switch={switchScreen} open={open} close={handleClose} collect={collectFromLoginSaved} email={loginEmail} inputStyle={CssTextField} />
+      }
+      {
+        Cscreen === "unsavedLogin" &&
+        <LoginUnSaved switch={switchScreen} open={open} close={handleClose} collect={collectFromLoginUnSaved} inputStyle={CssTextField} />
+      }
       <AppBar position="static" color="text">
         <Toolbar>
           <Link to="/">
@@ -373,10 +368,10 @@ const collectFromThird=(obj)=>{
 
             </SearchBarWrapper>
           </SearchWrapper>
-          {authedUser?
-          (<Fragment>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {/* <IconButton
+          {authedUser ?
+            (<Fragment>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -390,31 +385,31 @@ const collectFromThird=(obj)=>{
                 <MailIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              {authedUser? <Avatar alt="Remy Sharp" src={profilePic} />: ""}
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-          {/* <IconButton
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  {authedUser ? <Avatar alt="Remy Sharp" src={profilePic} /> : ""}
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+              {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -423,23 +418,23 @@ const collectFromThird=(obj)=>{
           >
             <KeyboardArrowDownIcon />
           </IconButton> */}
-     
 
-          </Fragment>): (<Fragment>
 
-            <Button onClick={()=> handleClickOpen("signup")}>Signup</Button>
-          <Button onClick={()=> handleClickOpen("login")}>Signin</Button>
-          </Fragment>)}
+            </Fragment>) : (<Fragment>
 
-          
-          
-      
-          
+              <Button onClick={() => handleClickOpen("signup")}>Signup</Button>
+              <Button onClick={() => handleClickOpen("login")}>Signin</Button>
+            </Fragment>)}
+
+
+
+
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      
+
     </Box>
   );
 };
@@ -485,5 +480,5 @@ const SearchBarWrapper = styled.div`
     input:focus{
         outline: none;
     }
-` 
+`
 

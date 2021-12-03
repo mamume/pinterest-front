@@ -10,60 +10,60 @@ import { useLocation, useNavigate } from "react-router";
 
 
 export function withRouter(Child) {
-    return (props) => {
-        const location = useLocation();
-        const navigate = useNavigate();
-        return <Child {...props} navigate={navigate} location={location} />;
-    }
+  return (props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    return <Child {...props} navigate={navigate} location={location} />;
+  }
 }
 
 function SinglePin({ img, external_link, id, url }) {
-    const newTo = {
-        pathname: url ? url : `/pin/${id}`,
-        state: { id: id }
-    };
-    return (
-        <Wrapper>
-            <CardWrapper>
-                
-                    <div className="myModal" style={{border: "5px solid red"}}>
+  const newTo = {
+    pathname: url ? url : `/pin/${id}`,
+    state: { id: id }
+  };
+  return (
+    <Wrapper>
+      <CardWrapper>
+        
+          <div className="myModal">
 
-                        <div className="my_modal_header">
-                            <Button>Save</Button>
-                        </div>
-                        <Link to={newTo}>
+            <div className="my_modal_header">
+              <Button>Save</Button>
+            </div>
+            <Link to={newTo}>
                             <div style={{ display: "flex", height: "60%"}}></div>
-                        </Link>
-                        <div className="my_modal_footer" >
-                            <a href={external_link}>
-                                <div className="my_ext">
-                                    <IconButton>
-                                        <CallMadeIcon />
-                                    </IconButton>
-                                    <span>{external_link}</span>
-                                </div>
+            </Link>
+            <div className="my_modal_footer">
+              {/* <a href={external_link}> */}
+              <div className="my_ext">
+                <IconButton>
+                  <CallMadeIcon />
+                </IconButton>
+                <span>{external_link}</span>
+              </div>
+              {/* </a> */}
 
-                            </a>
+              <div className="my_send">
+                <IconButton>
+                  <DownloadIcon />
+                </IconButton>
+              </div>
 
-                            <div className="my_send">
-                                <IconButton>
-                                    <DownloadIcon />
-                                </IconButton>
-                            </div>
+              <div className="my_options">
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </div>
 
-                            <div className="my_options">
-                                <IconButton>
-                                    <MoreVertIcon />
-                                </IconButton>
-                            </div>
+            </div>
+          </div>
 
-                        </div>
-                    </div>
-                    
-                        <img src={img} alt="" />
-            </CardWrapper>
-        </Wrapper>
-    )
+          <img src={img} alt="" />
+        
+      </CardWrapper>
+    </Wrapper>
+  )
 }
 
 export default withRouter(SinglePin)
@@ -90,6 +90,11 @@ const CardWrapper = styled.div`
     position: relative;
     overflow: hidden;
     margin: auto;
+    &:hover{
+        img{
+            opacity: 50%;
+        }
+    }
 
     .myModal{
         width: 100%;

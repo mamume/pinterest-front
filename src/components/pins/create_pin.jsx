@@ -1,12 +1,9 @@
 import React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
-import axiosInstance from '../navigationbar/axios/Base';
 import { UserContext } from "../../context";
-import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom'
-import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom'
 import { IconButton, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -14,25 +11,25 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-function upload_img(event, pinDetails, setpinDetails, setShowLabel, setShowModalPin) {
-    if (event.target.files && event.target.files[0]) {
-        if (/image\/*/.test(event.target.files[0].type)) {
-            const reader = new FileReader();
+// function upload_img(event, pinDetails, setpinDetails, setShowLabel, setShowModalPin) {
+//     if (event.target.files && event.target.files[0]) {
+//         if (/image\/*/.test(event.target.files[0].type)) {
+//             const reader = new FileReader();
 
 
-            reader.onload = () => {
-                setpinDetails({
-                    ...pinDetails,
-                    img_blob: reader.result
-                });
-                setShowLabel(false);
-                setShowModalPin(true);
-            }
+//             reader.onload = () => {
+//                 setpinDetails({
+//                     ...pinDetails,
+//                     img_blob: reader.result
+//                 });
+//                 setShowLabel(false);
+//                 setShowModalPin(true);
+//             }
 
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
-}
+//             reader.readAsDataURL(event.target.files[0]);
+//         }
+//     }
+// }
 
 
 const check_size = (event) => {
@@ -50,13 +47,13 @@ const check_size = (event) => {
 const handelFocus = (event) => {
     let ftitle = event.target
     ftitle.classList.add("pin_title_on_focus");
-    console.log("changed")
+    // console.log("changed")
 }
 
 const handelBlur = (event) => {
     let ftitle = event.target
     ftitle.classList.remove("pin_title_on_focus");
-    console.log("changed")
+    // console.log("changed")
 
 }
 
@@ -74,8 +71,8 @@ const MoreOptions = () => {
 const Create = ({ open, onClose }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
-    const [boardId, setBoardId] = useState(params.get('board_id'))
-    const [pinDetails, setpinDetails] = useState({
+    const [boardId] = useState(params.get('board_id'))
+    const [pinDetails] = useState({
         author: "",
         board: "",
         title: "",
@@ -84,7 +81,7 @@ const Create = ({ open, onClose }) => {
         img_blob: ""
     });
     let history = useNavigate();
-    const { authedUser, headers } = useContext(UserContext)
+    const { authedUser, headers, host } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
     // const [open, setOpen] = useState(false)
@@ -99,8 +96,8 @@ const Create = ({ open, onClose }) => {
         const fd = new FormData()
         //headers["content-type"] =  'multipart/form-data' ;
         //headers["content-type"] ='multipart/form-data; boundary=something' ;
-        console.log(headers.Authorization)
-        console.log(authedUser)
+        // console.log(headers.Authorization)
+        // console.log(authedUser)
         fd.append('content_src', image, image.name)
         fd.append('title', title)
         fd.append('content_type', 'image')
@@ -108,19 +105,19 @@ const Create = ({ open, onClose }) => {
         if (boardId) {
             fd.append('board_id', boardId)
         }
-        for (var pair of fd.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
+        // for (var pair of fd.entries()) {
+        // console.log(pair[0] + ', ' + pair[1]);
+        // }
 
-        const config = {
-            headers: headers
-        };
+        // const config = {
+        //     headers: headers
+        // };
         /*const requestOptions = {
             method: 'POST',
             headers: headers ,
             body: fd
         }; */
-        fetch('http://localhost:8000/pin/create', {
+        fetch(`${host}/pin/create`, {
             method: 'POST',
             body: fd,
             headers: { 'Authorization': headers.Authorization }
@@ -137,12 +134,12 @@ const Create = ({ open, onClose }) => {
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
-        console.log(e.target.files[0])
+        // console.log(e.target.files[0])
     }
 
     function handleTitleChange(event) {
         setTitle(event.target.value)
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
 
     /* const requestOptions = {
@@ -156,8 +153,8 @@ const Create = ({ open, onClose }) => {
  }
  */
 
-    const [showLable, setShowLabel] = useState(true);
-    const [showModalPin, setShowModalPin] = useState(false);
+    const [showLable] = useState(true);
+    const [showModalPin] = useState(false);
     return (
         <Modal
             open={open}

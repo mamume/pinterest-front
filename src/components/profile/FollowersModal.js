@@ -1,36 +1,30 @@
-import { Avatar, Modal, Stack, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Modal, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
-import ModalStyles from '../ModalStyles'
 import { UserContext } from "../../context";
-
-const useStyles = makeStyles({
-  link: {
-    textDecoration: "inherit",
-    color: "inherit",
-    '&:hover': {
-      textDecoration: "inherit",
-    }
-  },
-})
+import Styles from "../../styles/Styles";
 
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
-  const [followers, setFollowers] = useState([])
-  const classes = useStyles()
-  const { headers } = useContext(UserContext)
+  const [, setFollowers] = useState([])
+  const { headers, host } = useContext(UserContext)
+  const classes = Styles()
 
   useEffect(() => {
-    fetch(`http://localhost:8000/profile/followers?username=${username}`, { headers })
+    fetch(`${host}/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
-        setFollowers([])
-        for (let person of data) {
-          setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-        }
+        // console.log(data)
+        // setFollowers([])
+        // console.log(data.map(user => user.follower[0].id))
+        // let followersIds = data.map(user => user.follower[0].id)
+        setFollowers(data.map(user => user.follower[0].id))
+        // for (let person of data) {
+        // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
+        // }
+        // console.log(classes.modal)
       })
-  }, [username, headers])
+  }, [username, headers, host])
 
 
   // async function handleToFollow(e, id) {
@@ -59,14 +53,14 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
       open={open}
       onClose={onClose}
     >
-      <Box sx={ModalStyles}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             {followersNum} Followers
           </Typography>
         </Box>
         <Stack spacing={2}>
-          {followers.map(follower => (
+          {/* {followers.map(follower => (
             <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
               <a className={classes.link} href={`/profile?username=${follower.username}`}>
                 <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
@@ -75,7 +69,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
                 <Typography fontWeight="bold">{follower.full_name}</Typography>
               </a>
             </Stack>
-          ))}
+          ))} */}
         </Stack>
       </Box>
     </Modal>
