@@ -3,7 +3,7 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import { Fragment, useState } from "react";
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import ModalStyles from '../ModalStyles'
+import ModalStyles from '../../styles/ModalStyles'
 
 
 function InviteModal({ handleClose }) {

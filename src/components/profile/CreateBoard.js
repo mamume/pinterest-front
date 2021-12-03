@@ -1,6 +1,6 @@
 import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
-import ModalStyles from "../ModalStyles";
+import ModalStyles from "../../styles/ModalStyles";
 import { UserContext } from "../../context";
 import { useNavigate } from 'react-router-dom';
 

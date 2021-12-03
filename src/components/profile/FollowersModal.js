@@ -1,7 +1,7 @@
 import { Modal, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
-import ModalStyles from '../ModalStyles'
+import ModalStyles from '../../styles/ModalStyles'
 import { UserContext } from "../../context";
 
 // const useStyles = makeStyles({

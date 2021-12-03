@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import theme from './theme/Theme'
+import theme from './styles/Theme'
 import Settings from "./pages/Settings"
 import Homepage from "./pages/Homepage";
 import Board from './pages/Board'
