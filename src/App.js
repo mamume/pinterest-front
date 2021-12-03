@@ -22,7 +22,7 @@ function App() {
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
-  const [host] = useState('http://3.135.88.239')
+  const [host] = useState('http://localhost:8000')
 
   useEffect(() => {
     fetch(`${host}/account/details`, { headers })
