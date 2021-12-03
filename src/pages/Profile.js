@@ -13,55 +13,52 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinkStyles from "../styles/Styles";
 
 
-// const useStyles = makeStyles({
-//   link: {
-//     textDecoration: "inherit",
-//     color: "inherit",
-//     '&:hover': {
-//       textDecoration: "inherit",
-//     }
-//   },
-// })
-
 function Profile() {
   const classes = LinkStyles()
   const { authedUser, headers, host } = useContext(UserContext)
+
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)
   const [followersNum, setFollwersNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
-  const [username, setUsername] = useState('')
+  const [userName, setUserName] = useState('')
   const [bioText, setBioText] = useState('')
   const [userId, setUserId] = useState('')
   const [notFound, setNotFound] = useState(false)
   const [followed, setFollowed] = useState(false)
   const [openFollowers, setOpenFollowers] = useState(false);
-  const handleOpenFollowars = () => setOpenFollowers(true);
-  const handleCloseFollowers = () => setOpenFollowers(false);
   const [openFollowing, setOpenFollowing] = useState(false);
-  const handleOpenFollowing = () => setOpenFollowing(true);
-  const handleCloseFollowing = () => setOpenFollowing(false);
   const [openCreateBoard, setOpenCreateBoard] = useState(false);
-  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
-  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
   const [pinItems, setPinItems] = useState([])
   const [boardItems, setBoardItems] = useState([])
   const [loaded, setLoaded] = useState(false)
+  const [isAuthedProfile, setIsAuthedProfile] = useState(false)
+
+  const handleOpenFollowars = () => setOpenFollowers(true);
+  const handleCloseFollowers = () => setOpenFollowers(false);
+  const handleOpenFollowing = () => setOpenFollowing(true);
+  const handleCloseFollowing = () => setOpenFollowing(false);
+  const handleOpenCreateBoard = () => setOpenCreateBoard(true);
+  const handleCloseCreateBoard = () => setOpenCreateBoard(false);
+
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const usernameParam = params.get('username')
+  const [url] = useState(
+    usernameParam
+      ? `${host}/profile/list?username=${usernameParam}`
+      : `${host}/profile/list`
+  )
 
   useEffect(() => {
     if (authedUser.following)
       for (const user of authedUser.following) {
-        if (user.followed_user === username)
+        if (user.followed_user === userName)
           setFollowed(true)
       }
-  }
-    , [authedUser, username])
+  }, [authedUser.following, userName])
 
   useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    const url = params.get('username') ? `${host}/profile/list?username=${params.get('username')}` : `${host}/profile/list`
-
     fetch(url, { headers })
       .then(res => res.json())
       .then(data => {
@@ -73,19 +70,22 @@ function Profile() {
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
           setProfilePic(profile_pic)
-          setUsername(username)
+          setUserName(username)
           setBioText(bio)
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
         }
       })
-  }, [headers, followed, host])
+  }, [headers, url])
 
   useEffect(() => {
-    if (username && userId)
-      setLoaded(true)
-  }, [username, userId])
+    userName && userId && setLoaded(true)
+  }, [userName, userId])
+
+  useEffect(() => {
+    userName === authedUser.username && setIsAuthedProfile(true)
+  }, [authedUser.username, userName])
 
   async function handleFollow(e, id = userId) {
     let statusCode
@@ -127,7 +127,7 @@ function Profile() {
                   </Avatar>
 
                   <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
-                  <Typography>@{username}</Typography>
+                  <Typography>@{userName}</Typography>
                   <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
                   <Typography fontWeight="bold">
                     <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
@@ -142,7 +142,7 @@ function Profile() {
                   <FollowersModal
                     handleClose={handleCloseFollowers}
                     followersNum={followersNum}
-                    username={username}
+                    username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowers}
@@ -152,7 +152,7 @@ function Profile() {
                   <FollowingModal
                     handleClose={handleCloseFollowing}
                     followingNum={followingNum}
-                    username={username}
+                    username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowing}
@@ -161,7 +161,7 @@ function Profile() {
 
                   <Stack direction="row" spacing={1} mt>
                     <ShareButton />
-                    {authedUser.username === username
+                    {isAuthedProfile
                       ? (<Link to="/settings" className={classes.link}>
                         <Button color="grey">Edit Profile</Button>
                       </Link>)
@@ -191,7 +191,7 @@ function Profile() {
                 <Divider sx={{ marginY: 5 }} />
                 <Stack direction='row' justifyContent="space-between" mt={3}>
                   <Typography fontWeight="bold" variant="h6">Boards</Typography>
-                  <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>
+                  {isAuthedProfile && <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>}
                 </Stack>
 
                 <CreateBoard
@@ -219,7 +219,7 @@ function Profile() {
                 {Boolean(pinItems.length)
                   ? <Fragment>
                     <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                      {pinItems.map((item, index) => (
+                      {pinItems.map((item) => (
                         <SinglePin key={item.id} img={item.content_src} id={item.id} />
                       ))}
                     </Masonry>
