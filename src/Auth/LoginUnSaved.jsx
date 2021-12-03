@@ -20,10 +20,12 @@ import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
 import axiosInstance from '../axios/Base'
 import axiosFetchInstance from "../axios/Fetch";
+import SimpleReactValidator from 'simple-react-validator';
 
 export default class LoginUnSaved extends React.Component{
     constructor(){
         super()
+        this.validator = new SimpleReactValidator()
         this.state = {
             loginEmail:"",
             loginPassword:""
@@ -41,7 +43,14 @@ export default class LoginUnSaved extends React.Component{
           loginEmail:this.state.loginEmail,
           loginPassword:this.state.loginPassword,
         }
-        this.props.collect(data)  
+        if(this.validator.allValid()){
+          this.props.collect(data)
+        }else{
+          this.validator.showMessages()
+          this.forceUpdate()
+        }
+
+          
     }
     
 
@@ -172,7 +181,8 @@ export default class LoginUnSaved extends React.Component{
           <div style={{width:"70%", textAlign:"center", margin:'auto', marginTop:'0.5rem'}}>
 
           <TextField
-          autoFocus
+
+            autoFocus
             required
             sx={this.props.inputStyle}
             margin="dense"
@@ -184,8 +194,10 @@ export default class LoginUnSaved extends React.Component{
             variant="outlined"
             value={this.state.loginEmail}
             onChange={this.collectInput}
+            helperText={this.validator.message('email', this.state.loginEmail, 'required|email', {style:{color:'red'}})}
           />
           <TextField
+            error={()=> this.validator.fieldValid('email')?false:true}
             required
             sx={this.props.inputStyle}  
             margin="dense"
@@ -197,10 +209,10 @@ export default class LoginUnSaved extends React.Component{
             variant="outlined"
             value={this.state.loginPassword}
             onChange={this.collectInput}
-
+            helperText={this.validator.message('password', this.state.loginPassword, 'required|password|min:8')}
           />
           <DialogContentText ml={1} sx={{textAlign:"left"}}>
-            <Typography variant="subtitle2"><Link to="/password-reset"><button className="asAnchor">Forgot your password?</button></Link>
+            <Typography variant="subtitle2"><a href="http://localhost3000/password-reset">Forgot your password?</a>
             </Typography>
           </DialogContentText>
 

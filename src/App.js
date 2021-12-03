@@ -8,7 +8,7 @@ import Board from './pages/Board'
 import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 import { UserContext } from "./context";
@@ -23,6 +23,10 @@ function App() {
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const AuthRef = useRef();
+  const runAuth = (type)=>{
+    AuthRef.current.handleClickOpen(type)
+  }
 
   useEffect(() => {
     fetch(`http://localhost:8000/account/details`, { headers })
@@ -39,12 +43,13 @@ function App() {
   return (
     <Fragment>
       <CssBaseline />
-      {authedUser
-        ? <ThemeProvider theme={theme}>
+      
+         <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar />
+                <NavigationBar runAuth={runAuth}/>
+                
                 <Routes>
                   <Route path="/" exact element={<Homepage />} />
                   <Route path="/profile" element={<Profile />} />
@@ -59,8 +64,8 @@ function App() {
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-        : <Auth />
-      }
+        <Auth ref={AuthRef} />
+      
     </Fragment>
   );
 }

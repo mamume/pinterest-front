@@ -16,6 +16,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Button from '@mui/material/Button';
+import {Fragment, useContext} from 'react'
+import { UserContext } from "../../context";
 
 import { makeStyles } from "@mui/styles"
 import { Link } from 'react-router-dom'
@@ -31,7 +33,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -56,6 +58,9 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const {runAuth} = props;
+
+  const { authedUser, setHeaders } = useContext(UserContext);
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -214,8 +219,62 @@ export default function PrimarySearchAppBar() {
             <KeyboardArrowDownIcon />
           </IconButton>
           */}
-          <Button>Signup</Button>
-          <Button>Signin</Button>
+          {authedUser ? <Avatar alt="Remy Sharp" src={""} /> : ""}
+          <Fragment>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+
+                <IconButton
+
+                  size="large"
+
+                  aria-label="show more"
+
+                  aria-controls={mobileMenuId}
+
+                  aria-haspopup="true"
+
+                  onClick={handleMobileMenuOpen}
+
+                  color="inherit"
+
+                >
+
+                  <MoreIcon />
+
+                </IconButton>
+
+              </Box>
+
+              {/* <IconButton
+
+            size="large"
+
+            edge="start"
+
+            color="inherit"
+
+            aria-label="open drawer"
+
+            sx={{ ml: 2 }}
+
+          >
+
+            <KeyboardArrowDownIcon />
+
+          </IconButton> */}
+
+
+
+
+            </Fragment>) : (<Fragment>
+
+
+
+              <Button onClick={() => runAuth("signup")}>Signup</Button>
+
+              <Button onClick={() => runAuth("login")}>Signin</Button>
+
+            </Fragment>)
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
