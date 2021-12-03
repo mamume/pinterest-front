@@ -43,6 +43,7 @@ function App() {
 
   return (
     <Fragment>
+      <Auth ref={AuthRef} />
       <CssBaseline />
       {true
         ? <ThemeProvider theme={theme}>
@@ -66,9 +67,9 @@ function App() {
           </UserContext.Provider>
         </ThemeProvider>
         
-        : (<div>Please login</div>)
+        : ()=> runAuth('signup')
       }
-    <Auth ref={AuthRef} />
+    
     </Fragment>
   );
 }
