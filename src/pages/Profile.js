@@ -54,8 +54,7 @@ function Profile() {
         if (user.followed_user === username)
           setFollowed(true)
       }
-  }
-    , [authedUser, username])
+  }, [authedUser, username])
 
   useEffect(() => {
     const search = window.location.search;
