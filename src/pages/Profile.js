@@ -1,7 +1,6 @@
 import { Avatar, Button, Divider, Stack, Typography } from "@mui/material";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import { makeStyles } from "@mui/styles";
 import NotFound from './NotFound'
 import ShareButton from '../components/profile/ShareButton'
 import FollowersModal from '../components/profile/FollowersModal'
@@ -11,20 +10,21 @@ import Masonry from 'react-masonry-component';
 import SinglePin from '../components/pins/SinglePin'
 import CreateBoard from '../components/profile/CreateBoard'
 import CircularProgress from '@mui/material/CircularProgress';
+import LinkStyles from "../styles/Styles";
 
 
-const useStyles = makeStyles({
-  link: {
-    textDecoration: "inherit",
-    color: "inherit",
-    '&:hover': {
-      textDecoration: "inherit",
-    }
-  },
-})
+// const useStyles = makeStyles({
+//   link: {
+//     textDecoration: "inherit",
+//     color: "inherit",
+//     '&:hover': {
+//       textDecoration: "inherit",
+//     }
+//   },
+// })
 
 function Profile() {
-  const classes = useStyles()
+  const classes = LinkStyles()
   const { authedUser, headers, host } = useContext(UserContext)
   const [fullName, setFullName] = useState('')
   const [followingNum, setFollowingNum] = useState(0)

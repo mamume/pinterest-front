@@ -1,8 +1,8 @@
 import { Modal, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
-import ModalStyles from '../../styles/ModalStyles'
 import { UserContext } from "../../context";
+import Styles from "../../styles/Styles";
 
 // const useStyles = makeStyles({
 //   link: {
@@ -18,6 +18,7 @@ import { UserContext } from "../../context";
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
   const [, setFollowers] = useState([])
   const { headers, host } = useContext(UserContext)
+  const classes = Styles()
 
   useEffect(() => {
     fetch(`${host}/profile/followers?username=${username}`, { headers })
@@ -61,7 +62,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
       open={open}
       onClose={onClose}
     >
-      <Box sx={ModalStyles}>
+      <Box sx={classes.modal}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             {followersNum} Followers

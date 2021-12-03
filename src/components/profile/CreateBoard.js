@@ -1,10 +1,11 @@
 import { Box, Button, FormControlLabel, Stack, TextField, Typography, Modal, Checkbox } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
-import ModalStyles from "../../styles/ModalStyles";
 import { UserContext } from "../../context";
 import { useNavigate } from 'react-router-dom';
+import Styles from "../../styles/Styles";
 
 function CreateBoard({ openCreateBoard, closeCreateBoard }) {
+  const classes = Styles()
   const { authedUser, headers, host } = useContext(UserContext)
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
@@ -33,7 +34,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
       open={openCreateBoard}
       onClose={closeCreateBoard}
     >
-      <Box sx={ModalStyles}>
+      <Box sx={classes.modal}>
         <Box sx={{ marginBottom: 5 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             Create Board
