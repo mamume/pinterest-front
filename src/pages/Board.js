@@ -7,6 +7,7 @@ import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function Board() {
@@ -149,6 +150,10 @@ function Board() {
                         open={openCreatePin}
                         onClose={() => setOpenCreatePin(false)}
                       />
+
+                      <Button sx={{ position: "absolute", bottom: "10px", right: "20px" }} variant="outlined" startIcon={<DeleteIcon />}>
+                        Delete Board
+                      </Button>
                     </Fragment>
                   )}
                   {/* </Link> */}
