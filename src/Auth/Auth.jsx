@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import { Container, Button } from "@mui/material";
 import Main from "./Main";
 import First from "./First"
@@ -244,13 +244,13 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div style={{minHeight:'100vh'}}>
-        <div style={{margin:'5rem auto', maxWidth:'150px'}}>
+        return <div>
+        {/* <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 
             <Button onClick={()=> this.handleClickOpen("login")}>Log In</Button></div>
 
-          </div>
+          </div> */}
         {
         this.state.Cscreen==="main" &&
         <Main switch={this.switchScreen} handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
@@ -279,4 +279,3 @@ export default class Auth extends React.Component{
 
     }
 }
-*/

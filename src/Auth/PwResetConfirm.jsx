@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axiosInstance from './axios/Base';
+import axiosInstance from '../axios/Base';
 import {
     Container,
     Grid,
