@@ -13,16 +13,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinkStyles from "../styles/Styles";
 
 
-// const useStyles = makeStyles({
-//   link: {
-//     textDecoration: "inherit",
-//     color: "inherit",
-//     '&:hover': {
-//       textDecoration: "inherit",
-//     }
-//   },
-// })
-
 function Profile() {
   const classes = LinkStyles()
   const { authedUser, headers, host } = useContext(UserContext)
