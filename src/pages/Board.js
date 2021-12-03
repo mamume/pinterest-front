@@ -76,7 +76,6 @@ function Board() {
 
   return (
     <Fragment>
-      {/* {console.log(authorized, isAuthedBoard, share)} */}
       {notFound
         ? <NotFound statusCode={400} message="Board is not found" />
         : loaded
