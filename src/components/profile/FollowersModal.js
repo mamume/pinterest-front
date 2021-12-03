@@ -1,12 +1,11 @@
-import { Modal, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Modal, Stack, Typography, Box, Avatar } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
 function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
-  const [, setFollowers] = useState([])
+  const [followers, setFollowers] = useState([])
   const { headers, host } = useContext(UserContext)
   const classes = Styles()
 
@@ -14,15 +13,12 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
     fetch(`${host}/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
-        // setFollowers([])
-        // console.log(data.map(user => user.follower[0].id))
-        // let followersIds = data.map(user => user.follower[0].id)
-        setFollowers(data.map(user => user.follower[0].id))
-        // for (let person of data) {
-        // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-        // }
-        // console.log(classes.modal)
+        setFollowers(data.map(user => ({
+          id: user.follower[0].id,
+          fullName: user.follower[0].full_name,
+          profilePic: user.follower[0].profile_pic,
+          username: user.follower[0].username,
+        })))
       })
   }, [username, headers, host])
 
@@ -60,16 +56,16 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           </Typography>
         </Box>
         <Stack spacing={2}>
-          {/* {followers.map(follower => (
+          {followers.map(follower => (
             <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
               <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
+                <Avatar sx={{ width: 56, height: 56 }} src={follower.profilePic} />
               </a>
               <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Typography fontWeight="bold">{follower.full_name}</Typography>
+                <Typography fontWeight="bold">{follower.fullName}</Typography>
               </a>
             </Stack>
-          ))} */}
+          ))}
         </Stack>
       </Box>
     </Modal>
