@@ -1,19 +1,18 @@
-import { Button, Divider, Modal, Stack, Typography } from "@mui/material";
+import { Button, Divider, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
-import InviteModal from "../components/board/InviteModal";
 import { UserContext } from "../context";
 import SinglePin from "../components/pins/SinglePin";
 import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
-import { Link } from 'react-router-dom';
-import Styles from '../styles/Styles'
+import CreatePin from '../components/pins/create_pin'
 
 
 function Board() {
   const search = window.location.search;
   const params = new URLSearchParams(search);
+
   const [boardId] = useState(params.get('board_id'))
   const [title, setTitle] = useState('')
   const [share, setShare] = useState(false)
@@ -22,14 +21,9 @@ function Board() {
   const [coverImage, setCoverImage] = useState('')
   const [notFound, setNotFound] = useState(false)
   const [loaded, setLoaded] = useState(false)
-
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const [openCreatePin, setOpenCreatePin] = useState(false)
 
   const { headers, host } = useContext(UserContext)
-
-  const classes = Styles()
-
 
   useEffect(() => {
     if (boardId) {
@@ -88,14 +82,14 @@ function Board() {
           </Stack>
         </Button> */}
 
-                <Modal
+                {/* <Modal
                   open={open}
                   onClose={handleClose}
                 >
                   <InviteModal
                     handleClose={handleClose}
                   />
-                </Modal>
+                </Modal> */}
 
                 <Typography>{share ? "Public" : "Private"} Board</Typography>
                 {/* <Stack direction="row" spacing mt mb>
@@ -126,9 +120,19 @@ function Board() {
 
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
-                <Link className={classes.link} to={`/create_pin?board_id=${boardId}`}>
-                  <Button color="grey">Create Pin</Button>
-                </Link>
+                {/* <Link className={classes.link} to={`/create_pin?board_id=${boardId}`}> */}
+                <Button
+                  color="grey"
+                  onClick={() => setOpenCreatePin(true)}
+                >
+                  Create Pin
+                </Button>
+
+                <CreatePin
+                  open={openCreatePin}
+                  onClose={() => setOpenCreatePin(false)}
+                />
+                {/* </Link> */}
 
                 {/* <MenuButton
           icon={<MenuRoundedIcon fontSize="large" />}
