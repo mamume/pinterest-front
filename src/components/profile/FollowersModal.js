@@ -4,7 +4,7 @@ import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
-function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
+function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow, updateTrigger }) {
   const classes = Styles()
   const { headers, host, authedUser } = useContext(UserContext)
 
@@ -22,7 +22,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           username: user.follower[0].username,
         })))
       })
-  }, [username, headers, host])
+  }, [username, headers, host, updateTrigger])
 
   useEffect(() => {
     fetch(
@@ -33,7 +33,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
       .then(data => (
         setAuthedFollowingIds(data.map(user => (user.following[0].id)))
       ))
-  }, [authedUser.username, headers, host, authedUser.following])
+  }, [authedUser.username, headers, host, authedUser.following, updateTrigger])
 
 
   async function handleToFollow(e, id) {

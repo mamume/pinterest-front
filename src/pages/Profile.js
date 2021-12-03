@@ -33,6 +33,7 @@ function Profile() {
   const [boardItems, setBoardItems] = useState([])
   const [loaded, setLoaded] = useState(false)
   const [isAuthedProfile, setIsAuthedProfile] = useState(false)
+  const [updateTrigger, setUpdateTrigger] = useState(false)
 
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
@@ -77,7 +78,7 @@ function Profile() {
           setBoardItems(boards)
         }
       })
-  }, [headers, url, followed])
+  }, [headers, url, followed, updateTrigger])
 
   useEffect(() => {
     userName && userId && setLoaded(true)
@@ -94,8 +95,10 @@ function Profile() {
       .then(res => res.status)
       .then((status) => statusCode = status)
 
-    if (statusCode === 201)
+    if (statusCode === 201) {
       setFollowed(true)
+      setUpdateTrigger(prev => !prev)
+    }
 
     return statusCode
   }
@@ -107,8 +110,10 @@ function Profile() {
       .then(res => res.status)
       .then(status => statusCode = status)
 
-    if (statusCode === 200)
+    if (statusCode === 200) {
       setFollowed(false)
+      setUpdateTrigger(prev => !prev)
+    }
     return statusCode
   }
 
@@ -144,6 +149,7 @@ function Profile() {
                     handleUnfollow={handleUnfollow}
                     open={openFollowers}
                     onClose={handleCloseFollowers}
+                    updateTrigger={updateTrigger}
                   />
 
                   <FollowingModal
@@ -152,6 +158,7 @@ function Profile() {
                     handleUnfollow={handleUnfollow}
                     open={openFollowing}
                     onClose={handleCloseFollowing}
+                    updateTrigger={updateTrigger}
                   />
 
                   <Stack direction="row" spacing={1} mt>
