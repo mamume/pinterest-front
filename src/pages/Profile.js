@@ -77,7 +77,7 @@ function Profile() {
           setBoardItems(boards)
         }
       })
-  }, [headers, url])
+  }, [headers, url, followed])
 
   useEffect(() => {
     userName && userId && setLoaded(true)
