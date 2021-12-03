@@ -21,7 +21,7 @@ function Profile() {
   const [followingNum, setFollowingNum] = useState(0)
   const [followersNum, setFollwersNum] = useState(0)
   const [profilePic, setProfilePic] = useState('')
-  const [username, setUsername] = useState('')
+  const [userName, setUserName] = useState('')
   const [bioText, setBioText] = useState('')
   const [userId, setUserId] = useState('')
   const [notFound, setNotFound] = useState(false)
@@ -43,19 +43,20 @@ function Profile() {
 
   const search = window.location.search;
   const params = new URLSearchParams(search);
+  const usernameParam = params.get('username')
   const [url] = useState(
-    params.get('username')
-      ? `${host}/profile/list?username=${params.get('username')}`
+    usernameParam
+      ? `${host}/profile/list?username=${usernameParam}`
       : `${host}/profile/list`
   )
 
   useEffect(() => {
     if (authedUser.following)
       for (const user of authedUser.following) {
-        if (user.followed_user === username)
+        if (user.followed_user === userName)
           setFollowed(true)
       }
-  }, [authedUser, username])
+  }, [authedUser.following, userName])
 
   useEffect(() => {
     fetch(url, { headers })
@@ -69,17 +70,22 @@ function Profile() {
           setFollowingNum(following_count)
           setFollwersNum(followers_count)
           setProfilePic(profile_pic)
-          setUsername(username)
+          setUserName(username)
           setBioText(bio)
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
-
-          username === authedUser.username && setIsAuthedProfile(true)
-          username && userId && setLoaded(true)
         }
       })
-  }, [authedUser.username, headers, url, userId])
+  }, [headers, url])
+
+  useEffect(() => {
+    userName && userId && setLoaded(true)
+  }, [userName, userId])
+
+  useEffect(() => {
+    userName === authedUser.username && setIsAuthedProfile(true)
+  }, [authedUser.username, userName])
 
   async function handleFollow(e, id = userId) {
     let statusCode
@@ -121,7 +127,7 @@ function Profile() {
                   </Avatar>
 
                   <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
-                  <Typography>@{username}</Typography>
+                  <Typography>@{userName}</Typography>
                   <Typography textAlign="center" sx={{ maxWidth: "640px" }}>{bioText}</Typography>
                   <Typography fontWeight="bold">
                     <Button disabled={!followersNum} disableRipple variant="text" onClick={handleOpenFollowars} color="black">
@@ -136,7 +142,7 @@ function Profile() {
                   <FollowersModal
                     handleClose={handleCloseFollowers}
                     followersNum={followersNum}
-                    username={username}
+                    username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowers}
@@ -146,7 +152,7 @@ function Profile() {
                   <FollowingModal
                     handleClose={handleCloseFollowing}
                     followingNum={followingNum}
-                    username={username}
+                    username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowing}
@@ -185,7 +191,7 @@ function Profile() {
                 <Divider sx={{ marginY: 5 }} />
                 <Stack direction='row' justifyContent="space-between" mt={3}>
                   <Typography fontWeight="bold" variant="h6">Boards</Typography>
-                  <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>
+                  {isAuthedProfile && <Button color="grey" onClick={handleOpenCreateBoard}>Create Board</Button>}
                 </Stack>
 
                 <CreateBoard
