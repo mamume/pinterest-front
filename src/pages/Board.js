@@ -22,8 +22,10 @@ function Board() {
   const [notFound, setNotFound] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [openCreatePin, setOpenCreatePin] = useState(false)
+  const [ownerId, setOwnerId] = useState(null)
+  const [isAuthedBoard, setIsAuthedBoard] = useState(false)
 
-  const { headers, host } = useContext(UserContext)
+  const { headers, host, authedUser } = useContext(UserContext)
 
   useEffect(() => {
     if (boardId) {
@@ -38,9 +40,9 @@ function Board() {
             setDescription(data[0].description)
             setPinItems(data[0].pins)
             setCoverImage(data[0].cover_img)
+            setOwnerId(data[0].owner)
           }
         })
-
     }
     else
       setNotFound(true)
@@ -49,6 +51,10 @@ function Board() {
   useEffect(() => {
     title && setLoaded(true)
   }, [title])
+
+  useEffect(() => {
+    ownerId === authedUser.id && setIsAuthedBoard(true)
+  }, [])
 
   return (
     <Fragment>
@@ -121,17 +127,21 @@ function Board() {
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="bold">{pinItems.length} Pins</Typography>
                 {/* <Link className={classes.link} to={`/create_pin?board_id=${boardId}`}> */}
-                <Button
-                  color="grey"
-                  onClick={() => setOpenCreatePin(true)}
-                >
-                  Create Pin
-                </Button>
+                {isAuthedBoard && (
+                  <Fragment>
+                    <Button
+                      color="grey"
+                      onClick={() => setOpenCreatePin(true)}
+                    >
+                      Create Pin
+                    </Button>
 
-                <CreatePin
-                  open={openCreatePin}
-                  onClose={() => setOpenCreatePin(false)}
-                />
+                    <CreatePin
+                      open={openCreatePin}
+                      onClose={() => setOpenCreatePin(false)}
+                    />
+                  </Fragment>
+                )}
                 {/* </Link> */}
 
                 {/* <MenuButton
