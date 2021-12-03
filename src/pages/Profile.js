@@ -122,9 +122,7 @@ function Profile() {
             ? (
               <Fragment>
                 <Stack direction="column" alignItems="center">
-                  <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                    {/* <Typography variant="h2">{fullName[0].toUpperCase()}</Typography> */}
-                  </Avatar>
+                  <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image" />
 
                   <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
                   <Typography>@{userName}</Typography>
