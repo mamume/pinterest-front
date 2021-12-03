@@ -85,13 +85,13 @@ const Pin = () => {
                         <div className="section1 row">
                             <div className="icons col-6">
                                 <div className="icon_more">
-                                    <i class="fas fa-ellipsis-h"></i>
+                                    <i className="fas fa-ellipsis-h"></i>
                                 </div>
                                 <div className="upload">
-                                    <i class="fas fa-upload"></i>
+                                    <i className="fas fa-upload"></i>
                                 </div>
                                 <div className="favorite">
-                                    <i class="far fa-star"></i>
+                                    <i className="far fa-star"></i>
                                 </div>
                             </div>
 
@@ -132,7 +132,7 @@ const Pin = () => {
                                 <div className="comment_head">
                                     <h3>comments</h3>
                                     <div className="comment_icon" onClick={commentclick}>
-                                        <i class="fas fa-chevron-down"></i>
+                                        <i className="fas fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <div className="comment_area_container" id="comment_area_container">
