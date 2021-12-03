@@ -26,7 +26,7 @@ function FollowingModal({ username, open, onClose, followingNum }) {
       open={open}
       onClose={onClose}
     >
-      <Box sx={classes.modal}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             Following

@@ -22,6 +22,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
         // for (let person of data) {
         // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
         // }
+        // console.log(classes.modal)
       })
   }, [username, headers, host])
 
@@ -52,7 +53,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
       open={open}
       onClose={onClose}
     >
-      <Box sx={classes.modal}>
+      <Box className={classes.modal}>
         <Box sx={{ marginBottom: 3 }}>
           <Typography variant="h5" fontWeight="bold" textAlign="center">
             {followersNum} Followers

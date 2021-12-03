@@ -28,10 +28,10 @@ export default makeStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 445,
-    bgcolor: 'background.paper',
+    width: '445px',
+    backgroundColor: 'white',
     borderRadius: "32px",
-    boxShadow: 24,
-    p: 4
+    boxShadow: '24',
+    padding: 20
   }
 })
