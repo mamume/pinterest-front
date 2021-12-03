@@ -75,11 +75,12 @@ function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow,
 
               {following.id !== authedUser.id && (
                 authedFollowingIds.includes(following.id)
-                  ? <Button onClick={(e) => handleToUnfollow(e, following.id)} variant="text">Unfollow</Button>
-                  : <Button onClick={(e) => handleToFollow(e, following.id)} variant="text" color="info">Follow</Button>
+                  ? <Button onClick={(e) => handleToUnfollow(e, following.id)} variant="text" color="warning">Unfollow</Button>
+                  : <Button onClick={(e) => handleToFollow(e, following.id)} variant="text">Follow</Button>
               )}
             </Stack>
           ))}
+          {!following.length && <Typography textAlign="center">There are no following users</Typography>}
         </Stack>
       </Box>
     </Modal>

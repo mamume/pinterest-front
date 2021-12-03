@@ -81,6 +81,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
               </Stack>
             </Fragment>
           ))}
+          {!followers.length && <Typography textAlign="center">There are no following users</Typography>}
         </Stack>
       </Box>
     </Modal>
