@@ -51,7 +51,6 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
-                  {/* <Route path="/create_pin/:boardId" element={<Create />} /> */}
                   <Route path='/pin/:id' element={<Pin />}> </Route>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
