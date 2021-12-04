@@ -25,6 +25,7 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
   const classes = Styles()
   const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
+  const [subBoard, setSubBoard] = useState(sub_board)
   // const [update, setUpdate] = useState(false)
 
   const handlePost = () => {
@@ -41,19 +42,19 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
       .then(() => {
         // setUpdatePins(prev => !prev)
         // setUpdate(prev => !prev)
+        setSubBoard(boards.filter(board => board.id === savedBoard)[0])
         setLinked(true)
         console.log(savedBoard)
-        sub_board = boards.filter(board => board.id === savedBoard)[0]
         console.log(sub_board)
         // sub_board = { id: savedBoard, title: boards[savedBoard].title }
       })
   }
 
   useEffect(() => {
-    if (sub_board !== "None") {
+    if (subBoard !== "None") {
       setLinked(true)
     }
-  }, [sub_board])
+  }, [subBoard])
 
   return (
     <Wrapper>
@@ -65,12 +66,12 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
             {linked
               ? <Fragment>
                 <Link
-                  to={`/board?board_id=${sub_board.id}`}
+                  to={`/board?board_id=${subBoard.id}`}
                   // style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}
                   className={classes.link}
                 >
                   <Box sx={{ bgcolor: "white", borderRadius: 1, p: "5px" }}>
-                    <Typography variant="h6">{sub_board.title}</Typography>
+                    <Typography variant="h6">{subBoard.title}</Typography>
                   </Box>
                 </Link>
                 <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
