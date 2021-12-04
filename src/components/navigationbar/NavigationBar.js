@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from "@mui/styles";
 import { Link } from 'react-router-dom';
 //import {Redirect } from 'react-router';
-import React, { useState, useEffect, useContext, Fragment } from "react";
+import React, { useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
 
 
@@ -35,7 +35,7 @@ export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { authedUser, setHeaders } = useContext(UserContext);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
 
 
@@ -55,8 +55,8 @@ export default function PrimarySearchAppBar(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const {runAuth} = props;
-  
+  const { runAuth } = props;
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

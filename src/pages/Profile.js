@@ -33,6 +33,7 @@ function Profile() {
   const [boardItems, setBoardItems] = useState([])
   const [loaded, setLoaded] = useState(false)
   const [isAuthedProfile, setIsAuthedProfile] = useState(false)
+  const [updateTrigger, setUpdateTrigger] = useState(false)
 
   const handleOpenFollowars = () => setOpenFollowers(true);
   const handleCloseFollowers = () => setOpenFollowers(false);
@@ -77,7 +78,7 @@ function Profile() {
           setBoardItems(boards)
         }
       })
-  }, [headers, url])
+  }, [headers, url, followed, updateTrigger])
 
   useEffect(() => {
     userName && userId && setLoaded(true)
@@ -94,8 +95,10 @@ function Profile() {
       .then(res => res.status)
       .then((status) => statusCode = status)
 
-    if (statusCode === 201)
+    if (statusCode === 201) {
       setFollowed(true)
+      setUpdateTrigger(prev => !prev)
+    }
 
     return statusCode
   }
@@ -107,8 +110,10 @@ function Profile() {
       .then(res => res.status)
       .then(status => statusCode = status)
 
-    if (statusCode === 200)
+    if (statusCode === 200) {
       setFollowed(false)
+      setUpdateTrigger(prev => !prev)
+    }
     return statusCode
   }
 
@@ -122,9 +127,7 @@ function Profile() {
             ? (
               <Fragment>
                 <Stack direction="column" alignItems="center">
-                  <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
-                    {/* <Typography variant="h2">{fullName[0].toUpperCase()}</Typography> */}
-                  </Avatar>
+                  <Avatar src={profilePic} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image" />
 
                   <Typography mt fontWeight="bold" variant="h4">{fullName}</Typography>
                   <Typography>@{userName}</Typography>
@@ -140,23 +143,22 @@ function Profile() {
                   </Typography>
 
                   <FollowersModal
-                    handleClose={handleCloseFollowers}
                     followersNum={followersNum}
                     username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowers}
                     onClose={handleCloseFollowers}
+                    updateTrigger={updateTrigger}
                   />
 
                   <FollowingModal
-                    handleClose={handleCloseFollowing}
-                    followingNum={followingNum}
                     username={userName}
                     handleFollow={handleFollow}
                     handleUnfollow={handleUnfollow}
                     open={openFollowing}
                     onClose={handleCloseFollowing}
+                    updateTrigger={updateTrigger}
                   />
 
                   <Stack direction="row" spacing={1} mt>

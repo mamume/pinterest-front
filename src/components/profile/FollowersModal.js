@@ -4,11 +4,12 @@ import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
-function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
+function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow, updateTrigger }) {
+  const classes = Styles()
+  const { headers, host, authedUser } = useContext(UserContext)
+
   const [followers, setFollowers] = useState([])
   const [authedFollowingIds, setAuthedFollowingIds] = useState([])
-  const { headers, host, authedUser } = useContext(UserContext)
-  const classes = Styles()
 
   useEffect(() => {
     fetch(`${host}/profile/followers?username=${username}`, { headers })
@@ -21,7 +22,7 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
           username: user.follower[0].username,
         })))
       })
-  }, [username, headers, host])
+  }, [username, headers, host, updateTrigger])
 
   useEffect(() => {
     fetch(
@@ -29,33 +30,25 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
       { headers }
     )
       .then(res => res.json())
-      .then(data => {
-        console.log(data)
+      .then(data => (
         setAuthedFollowingIds(data.map(user => (user.following[0].id)))
-      })
-  }, [authedUser.username, headers, host])
+      ))
+  }, [authedUser.username, headers, host, authedUser.following, updateTrigger])
 
 
-  // async function handleToFollow(e, id) {
-  //   const status = await handleFollow(e, id)
-  //   console.log(status)
-  //   if (status === 201) {
-  //     e.target.innerText = "Unfollow"
-  //     e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
-  //     e.target.onclick = (e) => handleToUnfollow(e, id)
-  //   }
-  // }
+  async function handleToFollow(e, id) {
+    const status = await handleFollow(e, id)
+    if (status === 201) {
+      setAuthedFollowingIds(prev => [...prev, id])
+    }
+  }
 
-  // async function handleToUnfollow(e, id) {
-  //   const status = await handleUnfollow(e, id)
-  //   console.log(status)
-  //   if (status === 200) {
-  //     console.log(e.target.onclick)
-  //     e.target.innerText = "Follow"
-  //     e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
-  //     e.target.onclick = (e) => handleToFollow(e, id)
-  //   }
-  // }
+  async function handleToUnfollow(e, id) {
+    const status = await handleUnfollow(e, id)
+    if (status === 200) {
+      setAuthedFollowingIds(prev => prev.filter(userId => userId !== id))
+    }
+  }
 
   return (
     <Modal
@@ -82,12 +75,13 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
                 </Stack>
                 {follower.id !== authedUser.id && (
                   authedFollowingIds.includes(follower.id)
-                    ? <Button onClick={(e) => handleUnfollow(e, follower.id)} variant="text" color="warning">Unfollow</Button>
-                    : <Button onClick={(e) => handleFollow(e, follower.id)} variant="text">Follow</Button>
+                    ? <Button onClick={(e) => handleToUnfollow(e, follower.id)} variant="text" color="warning">Unfollow</Button>
+                    : <Button onClick={(e) => handleToFollow(e, follower.id)} variant="text">Follow</Button>
                 )}
               </Stack>
             </Fragment>
           ))}
+          {!followers.length && <Typography textAlign="center">There are no following users</Typography>}
         </Stack>
       </Box>
     </Modal>
