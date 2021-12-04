@@ -71,15 +71,14 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const handleLogout = () => {
-    localStorage.clear()
+    localStorage.setItem("pinterestAccessToken", "")
+    localStorage.setItem("pinterestRefreshToken", "")
     setAnchorEl(null);
     handleMobileMenuClose();
     // return <Navigate to='/'/>;
-    setHeaders({
-      'content-type': "application/json",
-      'Authorization': ''
-    })
 
+    window.location.href = "/"
+    
   }
 
 

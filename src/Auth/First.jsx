@@ -12,10 +12,24 @@ import {
     IconButton
 } from "@mui/material";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import axiosInstance from '../axios/Base'
+import SimpleReactValidator from 'simple-react-validator';
+
 
 export default class First extends React.Component{
     constructor(){
         super();
+        this.validator = new SimpleReactValidator({
+          autoForceUpdate:this,
+          validators:{
+            username:{
+              message:"invalid user name",
+              rule:(val, validator)=>{
+                return validator.helpers.testRegex(val, /^[a-z0-9_\.]+$/)
+              }
+            }
+          }
+        })
         this.state = {
             username:""
         }
@@ -31,8 +45,19 @@ export default class First extends React.Component{
       let data = {
         username:this.state.username,
       }
-      this.props.collect(data)
-      this.props.switch('second')
+      if(this.validator.allValid()){
+        axiosInstance
+          .post("/account/checkuser", {"username":this.state.username})
+          .then(res =>{
+            if(res.data.success){
+              this.props.collect(data)
+              this.props.switch('second')
+            }else this.validator.showMessageFor("username")
+          })
+
+      }else{
+        this.validator.showMessages()
+      }
 
       
     }
@@ -91,6 +116,7 @@ export default class First extends React.Component{
             variant="outlined"
             value={this.state.username}
             onChange={this.collectInput}
+            helperText={this.validator.message('email', this.state.username, "required|username")}
           />
 
           <DialogContentText mt={3} >

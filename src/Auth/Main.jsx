@@ -17,14 +17,23 @@ import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
 import axiosInstance from '../axios/Base'
 import axiosFetchInstance from "../axios/Fetch";
+import SimpleReactValidator from 'simple-react-validator';
+
 
 export default class Main extends React.Component {
   constructor() {
     super();
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate:this,
+      messages:{
+        usedEmail:"Email used try another email"
+      }
+    })
     this.state = {
       email: "",
       password: "",
-      age: ""
+      age: "",
+      emailError:false
     }
 
   }
@@ -40,9 +49,23 @@ export default class Main extends React.Component {
       password: this.state.password,
       age: this.state.age,
     }
-    this.props.collect(data)
-    this.props.switch('first')
+    if(this.validator.allValid()){
+      axiosInstance
+        .post('/account/checkmail', {"email":this.state.email})
+        .then(res =>{
+          if(res.data.success){
+            this.props.collect(data)
+            this.props.switch('first')
+          }else{ 
+            this.setState({emailError:true})
+            this.validator.showMessageFor("email")
+          }
+        })
 
+    }else{
+      this.validator.showMessages()
+      this.forceUpdate()
+    }
   }
 
   responseFacebook = (response) => {
@@ -187,6 +210,11 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.email}
               onChange={this.collectInput}
+              helperText={
+                this.state.emailError?
+                this.validator.message("email", this.state.email, "required|usedEmail"):
+                this.validator.message('email', this.state.email, "required|email")
+              }
             />
             <TextField
               required
@@ -200,6 +228,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.password}
               onChange={this.collectInput}
+              helperText={this.validator.message('password', this.state.password, "required|password|min:8")}
 
             />
             <TextField

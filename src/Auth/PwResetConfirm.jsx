@@ -10,6 +10,7 @@ import {
     DialogTitle,
     DialogContentText
 } from "@mui/material";
+import SimpleReactValidator from 'simple-react-validator';
 
 
 class PwResetConfirmDone extends React.Component {
@@ -49,6 +50,10 @@ class PwResetConfirmDone extends React.Component {
 class PwResetConfirmInput extends React.Component {
     constructor() {
         super();
+        this.validator = new SimpleReactValidator({
+            autoForceUpdate:this,
+
+        })
         this.state = {
             password: "",
             passwordConfirm: ""
@@ -71,18 +76,20 @@ class PwResetConfirmInput extends React.Component {
             password_confirm: this.state.passwordConfirm
         }
         let jsonObj = JSON.stringify(obj)
-        axiosInstance
-            .patch('/account/password-reset-complete', jsonObj)
-            .then(res => {
-                // console.log(res.error)
-                if (res.data.success) this.props.collectResult(res.data.success, "done")
-                if (res.data.password) this.props.collectResult("invalid password", "done")
-                // console.log(res.data)
-            })
-            .catch(err => {
-                this.props.collectResult("link has been expired", "done")
+        if(this.validator.allValid()){
+            axiosInstance
+                .patch('/account/password-reset-complete', jsonObj)
+                .then(res => {
+                    // console.log(res.error)
+                    if (res.data.success) this.props.collectResult(res.data.success, "done")
+                    if (res.data.password) this.props.collectResult("invalid password", "done")
+                    // console.log(res.data)
+                })
+                .catch(err => {
+                    this.props.collectResult("link has been expired", "done")
 
-            })
+                })
+            }else this.validator.showMessages()
     }
 
     render() {
@@ -110,6 +117,7 @@ class PwResetConfirmInput extends React.Component {
                     variant="outlined"
                     value={this.state.password}
                     onChange={this.collectInput}
+                    helperText={this.validator.message("password", this.state.password, "required|string|min:8")}
                 />
                 <DialogContentText mt={2} sx={{ textAlign: "left" }}>
                     <Typography variant="subtitle2">Type it again
@@ -127,6 +135,7 @@ class PwResetConfirmInput extends React.Component {
                     variant="outlined"
                     value={this.state.passwordConfirm}
                     onChange={this.collectInput}
+                    helperText={this.validator.message('passwordConfirm', this.state.passwordConfirm, `required|string:${this.state.password}`, {messages: {string: 'Passwords need to match!'}})}
                 />
                 <div style={{ width: "100%", textAlign: "right", marginTop: "0.75rem" }}>
                     <Button
