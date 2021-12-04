@@ -17,7 +17,7 @@ import { UserContext } from "../../context";
 
 
 
-function SinglePin({ img, external_link, id, url, boards, sub_board, setSaveFlag }) {
+function SinglePin({ img, external_link, id, url, boards, sub_board }) {
   const newTo = {
     pathname: url ? url : `/pin/${id}`,
     state: { id: id }
@@ -27,8 +27,6 @@ function SinglePin({ img, external_link, id, url, boards, sub_board, setSaveFlag
   const [linked, setLinked] = useState(false)
 
   const handlePost = () => {
-    console.log(savedBoard)
-    console.log(id)
     const fd = new FormData()
     fd.append('pin_id', id)
     fd.append('board_id', savedBoard)
@@ -42,8 +40,6 @@ function SinglePin({ img, external_link, id, url, boards, sub_board, setSaveFlag
       .then(response => response.json())
       .then(data => {
         setLinked(true)
-        setSaveFlag((saveFlag) => { return (!saveFlag) })
-
       });
   }
 

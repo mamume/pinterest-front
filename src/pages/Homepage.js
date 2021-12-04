@@ -9,34 +9,47 @@ import { Stack } from "@mui/material";
 
 
 function Homepage() {
-  const [itemData, setItemData] = useState([])
+  const [pins, setPins] = useState([])
   const [loaded, setLoaded] = useState(false)
   const { authedUser, headers, host } = useContext(UserContext)
   const [boards, setBoards] = useState([])
-  const [, setSaveFlag] = useState(false)
+
+  // useEffect(() => {
+  //   if (authedUser.id) {
+  //     Promise.all([fetch(`${host}/pin/pins/`, { headers }), fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })])
+  //       .then(async ([pins, boardsData]) => {
+  //         pins = await pins.json()
+  //         boardsData = await boardsData.json()
+
+  //         for (let i = 0; i < pins.length; i++) {
+  //           setItemData(itemData =>
+  //             [...itemData, { img: pins[i].content_src, external_link: pins[i].external_website, id: pins[i].id, sub_board: pins[i].board }]
+  //           )
+  //         }
+
+  //         setBoards(boards => [...boards, ...boardsData])
+  //       })
+  //   }
+  // }, [authedUser.id, headers, host])
 
   useEffect(() => {
-    if (authedUser && authedUser.id) {
-      Promise.all([fetch(`${host}/pin/pins/`, { headers }), fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })])
-        .then(async ([pins, boardsData]) => {
-          pins = await pins.json()
-          boardsData = await boardsData.json()
-
-          for (let i = 0; i < pins.length; i++) {
-            setItemData(itemData =>
-              [...itemData, { img: pins[i].content_src, external_link: pins[i].external_website, id: pins[i].id, sub_board: pins[i].board }]
-            )
-          }
-
-          setBoards(boards => [...boards, ...boardsData])
+    if (authedUser.id) {
+      Promise.all([
+        fetch(`${host}/pin/pins/`, { headers }).then(res => res.json()),
+        fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers }).then(res => res.json())
+      ])
+        .then(dataArr => {
+          console.log(dataArr)
+          const [pins, boards] = dataArr
+          setPins(pins)
+          setBoards(boards)
         })
     }
-
-  }, [authedUser, headers, host])
+  }, [authedUser.id, host, headers])
 
   useEffect(() => {
-    itemData.length && setLoaded(true)
-  }, [itemData.length])
+    pins.length && setLoaded(true)
+  }, [pins.length])
 
   return (
     <Fragment>
@@ -46,8 +59,8 @@ function Homepage() {
             <Fragment>
               < AddButton />
               <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                {itemData.map((item, index) => (
-                  <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} boards={boards} sub_board={item.sub_board} setSaveFlage={setSaveFlag} />
+                {pins.map((pin) => (
+                  <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards} sub_board={pin.board} />
                 ))}
               </Masonry>
             </Fragment>
