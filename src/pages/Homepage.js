@@ -8,53 +8,35 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from "@mui/material";
 
 
-
 function Homepage() {
   const [itemData, setItemData] = useState([])
   const [loaded, setLoaded] = useState(false)
   const { authedUser, headers, host } = useContext(UserContext)
   const [boards, setBoards] = useState([])
-  const [saveFlag, setSaveFlag] = useState(false)
+  const [, setSaveFlag] = useState(false)
 
+  useEffect(() => {
+    if (authedUser && authedUser.id) {
+      Promise.all([fetch(`${host}/pin/pins/`, { headers }), fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })])
+        .then(async ([pins, boardsData]) => {
+          pins = await pins.json()
+          boardsData = await boardsData.json()
 
+          for (let i = 0; i < pins.length; i++) {
+            setItemData(itemData =>
+              [...itemData, { img: pins[i].content_src, external_link: pins[i].external_website, id: pins[i].id, sub_board: pins[i].board }]
+            )
+          }
 
-  
+          setBoards(boards => [...boards, ...boardsData])
+        })
+    }
 
+  }, [authedUser, headers, host])
 
-
-
-  useEffect(  () => {
-    // console.log(headers)
-    // console.log(itemData)
-    if (authedUser && authedUser.id){
-
-    
-    Promise.all([fetch(`${host}/pin/pins/`, { headers }), fetch(`${host}/board/list?owner_id=${authedUser.id}`,{ headers })])
-    .then(  async ([pins, boardsData]) =>{
-      pins = await pins.json()
-      console.log(pins)
-      boardsData = await boardsData.json()
-
-      for (let i = 0; i < pins.length; i++) {
-        setItemData(itemData =>
-          [...itemData, { img: pins[i].content_src, external_link: pins[i].external_website, id: pins[i].id, sub_board: pins[i].board }]
-        )
-      }
-      console.log(itemData)
-
-      setBoards(boards =>[...boards, ...boardsData])
-      
-    })
-  }
-
-  }, [headers, host, authedUser, saveFlag])
   useEffect(() => {
     itemData.length && setLoaded(true)
   }, [itemData.length])
-
-
-
-
 
   return (
     <Fragment>
@@ -65,7 +47,7 @@ function Homepage() {
               < AddButton />
               <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
                 {itemData.map((item, index) => (
-                  <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} boards={boards} sub_board={item.sub_board} setSaveFlage= {setSaveFlag} />
+                  <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} boards={boards} sub_board={item.sub_board} setSaveFlage={setSaveFlag} />
                 ))}
               </Masonry>
             </Fragment>

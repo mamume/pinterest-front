@@ -6,9 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom'
-import { useLocation, useNavigate } from "react-router";
 import Select from '@mui/material/Select';
-import NativeSelect from '@mui/material/NativeSelect';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,118 +17,118 @@ import { UserContext } from "../../context";
 
 
 
-function SinglePin({ img, external_link, id, url, boards,sub_board, setSaveFlag }) {
+function SinglePin({ img, external_link, id, url, boards, sub_board, setSaveFlag }) {
   const newTo = {
     pathname: url ? url : `/pin/${id}`,
     state: { id: id }
   };
-  const { authedUser, headers, host } = useContext(UserContext)
-  const[savedBoard, setSavedBoard] = useState("");
+  const { headers, host } = useContext(UserContext)
+  const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
 
-  const handlePost = () =>{
-      console.log(savedBoard)
-      console.log(id)
-      const fd = new FormData()
-    fd.append('pin_id', id )
-    fd.append('board_id', savedBoard )
+  const handlePost = () => {
+    console.log(savedBoard)
+    console.log(id)
+    const fd = new FormData()
+    fd.append('pin_id', id)
+    fd.append('board_id', savedBoard)
 
     fetch(`${host}/pin/link_board`, {
-        method: 'POST',
-        body: fd,
-        headers: { 'Authorization': headers.Authorization }
-})
-//axios.post('http://localhost:8000/pin/create', fd)
-    .then(response => response.json())
-    .then(data => {
+      method: 'POST',
+      body: fd,
+      headers: { 'Authorization': headers.Authorization }
+    })
+      //axios.post('http://localhost:8000/pin/create', fd)
+      .then(response => response.json())
+      .then(data => {
         setLinked(true)
-        setSaveFlag((saveFlag) => { return(!saveFlag) })
-        
-    });
+        setSaveFlag((saveFlag) => { return (!saveFlag) })
+
+      });
   }
 
-  useEffect( () => {
-    if(sub_board && (sub_board != "None" )){
-        setLinked(true)
+  useEffect(() => {
+    if (sub_board && (sub_board !== "None")) {
+      setLinked(true)
     }
-  },[linked])
-  
+  }, [sub_board])
+
   return (
     <Wrapper>
       <CardWrapper>
-        
-          <div className="myModal">
 
-            <div className="my_modal_header">
-                <div className="One">
-                    {sub_board?
-                     [ (!linked)?
-                     (
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label" style={{color: "#455a64"}}>Board</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                onChange={(e)=>setSavedBoard(e.target.value)}
-                                label="Board"
-                                style={{backgroundColor: "white"}}
-                            >
-                                {boards?boards.map( item =>{
-                                    
-                
-                                    return (<MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>)
-                            }): <div></div>}
-                            </Select>  
-                        </FormControl>
-                     )
-                     :(<Link to= {`/board?board_id=${sub_board.id}`} style={{display: "inline-block",width: "130px", overflow: "hidden", whiteSpace: "nowrap",color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px"}}>{sub_board.title}</Link>)
+        <div className="myModal">
 
-                    ] 
-                     :(<div></div>)}
-                 
-                   
-                    
+          <div className="my_modal_header">
+            <div className="One">
+              {sub_board ?
+                [(!linked) ?
+                  (
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label" style={{ color: "#455a64" }}>Board</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        onChange={(e) => setSavedBoard(e.target.value)}
+                        label="Board"
+                        style={{ backgroundColor: "white" }}
+                      >
+                        {boards ? boards.map(item => {
 
-                </div>
-                <div className="Two"></div>
-                <div className="Three">
-                    {(linked==false) ?(<Button onClick={handlePost}>Save</Button>) :
-                    (<Button style={{color: "white", backgroundColor: "black"}}>Saved</Button>)
-                    }
-                    
 
-                </div>
+                          return (<MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>)
+                        }) : <div></div>}
+                      </Select>
+                    </FormControl>
+                  )
+                  : (<Link to={`/board?board_id=${sub_board.id}`} style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}>{sub_board.title}</Link>)
+
+                ]
+                : (<div></div>)}
+
+
+
+
             </div>
-            <Link to={newTo}>
-                            <div style={{ display: "flex", height: "60%"}}></div>
-            </Link>
-            <div className="my_modal_footer">
-              {/* <a href={external_link}> */}
-              <div className="my_ext">
-                <IconButton>
-                  <CallMadeIcon />
-                </IconButton>
-                <span>{external_link}</span>
-              </div>
-              {/* </a> */}
+            <div className="Two"></div>
+            <div className="Three">
+              {(linked === false) ? (<Button onClick={handlePost}>Save</Button>) :
+                (<Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>)
+              }
 
-              <div className="my_send">
-                <IconButton>
-                  <DownloadIcon />
-                </IconButton>
-              </div>
-
-              <div className="my_options">
-                <IconButton>
-                  <MoreVertIcon />
-                </IconButton>
-              </div>
 
             </div>
           </div>
+          <Link to={newTo}>
+            <div style={{ display: "flex", height: "60%" }}></div>
+          </Link>
+          <div className="my_modal_footer">
+            {/* <a href={external_link}> */}
+            <div className="my_ext">
+              <IconButton>
+                <CallMadeIcon />
+              </IconButton>
+              <span>{external_link}</span>
+            </div>
+            {/* </a> */}
 
-          <img src={img} alt="" />
-        
+            <div className="my_send">
+              <IconButton>
+                <DownloadIcon />
+              </IconButton>
+            </div>
+
+            <div className="my_options">
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            </div>
+
+          </div>
+        </div>
+
+        <img src={img} alt="" />
+
       </CardWrapper>
     </Wrapper>
   )

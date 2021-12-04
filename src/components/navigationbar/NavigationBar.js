@@ -34,7 +34,7 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { authedUser, setHeaders } = useContext(UserContext);
+  const { authedUser } = useContext(UserContext);
   // const [open, setOpen] = useState(false);
 
 
