@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import CallMadeIcon from '@mui/icons-material/CallMade';
@@ -7,21 +7,54 @@ import DownloadIcon from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom'
 import { useLocation, useNavigate } from "react-router";
+import Select from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context";
 
 
-export function withRouter(Child) {
-  return (props) => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    return <Child {...props} navigate={navigate} location={location} />;
-  }
-}
 
-function SinglePin({ img, external_link, id, url }) {
+
+
+function SinglePin({ img, external_link, id, url, boards,sub_board, setSaveFlag }) {
   const newTo = {
     pathname: url ? url : `/pin/${id}`,
     state: { id: id }
   };
+  const { authedUser, headers, host } = useContext(UserContext)
+  const[savedBoard, setSavedBoard] = useState("");
+  const [linked, setLinked] = useState(false)
+
+  const handlePost = () =>{
+      console.log(savedBoard)
+      console.log(id)
+      const fd = new FormData()
+    fd.append('pin_id', id )
+    fd.append('board_id', savedBoard )
+
+    fetch(`${host}/pin/link_board`, {
+        method: 'POST',
+        body: fd,
+        headers: { 'Authorization': headers.Authorization }
+})
+//axios.post('http://localhost:8000/pin/create', fd)
+    .then(response => response.json())
+    .then(data => {
+        setLinked(true)
+        setSaveFlag((saveFlag) => { return(!saveFlag) })
+        
+    });
+  }
+
+  useEffect( () => {
+    if(sub_board && (sub_board != "None" )){
+        setLinked(true)
+    }
+  },[linked])
+  
   return (
     <Wrapper>
       <CardWrapper>
@@ -29,7 +62,44 @@ function SinglePin({ img, external_link, id, url }) {
           <div className="myModal">
 
             <div className="my_modal_header">
-              <Button>Save</Button>
+                <div className="One">
+                    {sub_board?
+                     [ (!linked)?
+                     (
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" style={{color: "#455a64"}}>Board</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                onChange={(e)=>setSavedBoard(e.target.value)}
+                                label="Board"
+                                style={{backgroundColor: "white"}}
+                            >
+                                {boards?boards.map( item =>{
+                                    
+                
+                                    return (<MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>)
+                            }): <div></div>}
+                            </Select>  
+                        </FormControl>
+                     )
+                     :(<Link to= {`/board?board_id=${sub_board.id}`} style={{display: "inline-block",width: "130px", overflow: "hidden", whiteSpace: "nowrap",color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px"}}>{sub_board.title}</Link>)
+
+                    ] 
+                     :(<div></div>)}
+                 
+                   
+                    
+
+                </div>
+                <div className="Two"></div>
+                <div className="Three">
+                    {(linked==false) ?(<Button onClick={handlePost}>Save</Button>) :
+                    (<Button style={{color: "white", backgroundColor: "black"}}>Saved</Button>)
+                    }
+                    
+
+                </div>
             </div>
             <Link to={newTo}>
                             <div style={{ display: "flex", height: "60%"}}></div>
@@ -66,7 +136,7 @@ function SinglePin({ img, external_link, id, url }) {
   )
 }
 
-export default withRouter(SinglePin)
+export default SinglePin
 
 const Wrapper = styled.div`
     display: inline-flex;
@@ -117,8 +187,17 @@ const CardWrapper = styled.div`
     }
     .my_modal_header{
         display: flex;
-        justify-content: flex-end;
         padding: 8px;
+    }
+
+    .my_modal_header .One{
+        flex-grow: 10;
+    }
+    .my_modal_header .Two{
+        flex-grow:30 ;
+    }
+    .my_modal_header .Three{
+        flex-grow: 10;
     }
 
     .my_modal_footer{

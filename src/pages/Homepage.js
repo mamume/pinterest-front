@@ -10,35 +10,41 @@ import { UserContext } from "../context";
 function Homepage() {
   const [itemData, setItemData] = useState([])
   const { authedUser, headers, host } = useContext(UserContext)
+  const [boards, setBoards] = useState([])
+  const [saveFlag, setSaveFlag] = useState(false)
+
+
+  
 
 
 
 
-  useEffect(() => {
+  useEffect(  () => {
     // console.log(headers)
     // console.log(itemData)
-    fetch(`${host}/pin/pins/`, { headers })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        //setItemData(itemData => [...itemData, { img: temp }])
-        for (let i = 0; i < data.length; i++) {
-          setItemData(itemData =>
-            [...itemData, { img: data[i].content_src, external_link: data[i].external_website, id: data[i].id }]
-          )
-        }
+    if (authedUser && authedUser.id){
 
-        fetch(`${host}/board/list`,{ headers })
-          .then( res => res.json())
-          .then(data => {
-            console.log(data)
-            console.log(authedUser)
-          })
+    
+    Promise.all([fetch(`${host}/pin/pins/`, { headers }), fetch(`${host}/board/list?owner_id=${authedUser.id}`,{ headers })])
+    .then(  async ([pins, boardsData]) =>{
+      pins = await pins.json()
+      console.log(pins)
+      boardsData = await boardsData.json()
 
+      for (let i = 0; i < pins.length; i++) {
+        setItemData(itemData =>
+          [...itemData, { img: pins[i].content_src, external_link: pins[i].external_website, id: pins[i].id, sub_board: pins[i].board }]
+        )
+      }
+      console.log(itemData)
 
-      })
+      setBoards(boards =>[...boards, ...boardsData])
+      
+    })
+  }
 
-  }, [headers, host])
+  }, [headers, host, authedUser, saveFlag])
+
 
   return (
     <Fragment >
@@ -47,7 +53,7 @@ function Homepage() {
           <AddButton />
           <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
             {itemData.map((item, index) => (
-              <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} />
+              <SinglePin key={item.id} img={item.img} external_link={item.external_link} id={item.id} boards={boards} sub_board={item.sub_board} setSaveFlage= {setSaveFlag} />
             ))}
           </Masonry>
         </Fragment>

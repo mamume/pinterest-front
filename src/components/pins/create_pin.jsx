@@ -117,21 +117,26 @@ const Create = ({ open, onClose }) => {
             headers: headers ,
             body: fd
         }; */
-        fetch(`${host}/pin/create`, {
-            method: 'POST',
-            body: fd,
-            headers: { 'Authorization': headers.Authorization }
+        console.log(host)
+        if(host){
+
+            fetch(`${host}/pin/create`, {
+                method: 'POST',
+                body: fd,
+                headers: { 'Authorization': headers.Authorization }
         })
-            //axios.post('http://localhost:8000/pin/create', fd)
+        //axios.post('http://localhost:8000/pin/create', fd)
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 history('/')
-
+                
             });
-
-
+            
+            
+        }
     }
-
+    
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
         // console.log(e.target.files[0])
