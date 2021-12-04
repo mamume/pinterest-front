@@ -13,6 +13,7 @@ function Homepage() {
   const [loaded, setLoaded] = useState(false)
   const { authedUser, headers, host } = useContext(UserContext)
   const [boards, setBoards] = useState([])
+  // const [updatePins, setUpdatePins] = useState(false)
 
   // useEffect(() => {
   //   if (authedUser.id) {
@@ -32,24 +33,44 @@ function Homepage() {
   //   }
   // }, [authedUser.id, headers, host])
 
+  // useEffect(() => {
+  //   if (authedUser.id) {
+  //     Promise.all([
+  //       fetch(`${host}/pin/pins/`, { headers }).then(res => res.json()),
+  //       fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers }).then(res => res.json())
+  //     ])
+  //       .then(dataArr => {
+  //         console.log(dataArr)
+  //         const [pins, boards] = dataArr
+  //         setPins(pins)
+  //         setBoards(boards)
+  //       })
+  //   }
+  // }, [authedUser.id, host, headers])
+
   useEffect(() => {
-    if (authedUser.id) {
-      Promise.all([
-        fetch(`${host}/pin/pins/`, { headers }).then(res => res.json()),
-        fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers }).then(res => res.json())
-      ])
-        .then(dataArr => {
-          console.log(dataArr)
-          const [pins, boards] = dataArr
-          setPins(pins)
-          setBoards(boards)
+    // console.log(updatePins)
+    if (authedUser.id)
+      fetch(`${host}/pin/pins/`, { headers })
+        .then(res => res.json())
+        .then(data => {
+          setPins(data)
+          console.log(data)
         })
-    }
   }, [authedUser.id, host, headers])
 
   useEffect(() => {
-    pins.length && setLoaded(true)
-  }, [pins.length])
+    if (authedUser.id)
+      fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+        .then(res => res.json())
+        .then(data => setBoards(data))
+  }, [authedUser.id, host, headers])
+
+  useEffect(() => {
+    pins.length && boards.length
+      ? setLoaded(true)
+      : setLoaded(false)
+  }, [pins.length, boards.length])
 
   return (
     <Fragment>
@@ -57,7 +78,7 @@ function Homepage() {
         ? authedUser
           ? (
             <Fragment>
-              < AddButton />
+              <AddButton />
               <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
                 {pins.map((pin) => (
                   <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards} sub_board={pin.board} />

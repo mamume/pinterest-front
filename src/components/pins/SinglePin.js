@@ -10,12 +10,10 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
-
-
-
-
+import { Stack, Typography, Box } from '@mui/material';
+import Styles from '../../styles/Styles'
 
 function SinglePin({ img, external_link, id, url, boards, sub_board }) {
   const newTo = {
@@ -23,8 +21,11 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
     state: { id: id }
   };
   const { headers, host } = useContext(UserContext)
+
+  const classes = Styles()
   const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
+  // const [update, setUpdate] = useState(false)
 
   const handlePost = () => {
     const fd = new FormData()
@@ -36,15 +37,20 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
       body: fd,
       headers: { 'Authorization': headers.Authorization }
     })
-      //axios.post('http://localhost:8000/pin/create', fd)
       .then(response => response.json())
-      .then(data => {
+      .then(() => {
+        // setUpdatePins(prev => !prev)
+        // setUpdate(prev => !prev)
         setLinked(true)
-      });
+        console.log(savedBoard)
+        sub_board = boards.filter(board => board.id === savedBoard)[0]
+        console.log(sub_board)
+        // sub_board = { id: savedBoard, title: boards[savedBoard].title }
+      })
   }
 
   useEffect(() => {
-    if (sub_board && (sub_board !== "None")) {
+    if (sub_board !== "None") {
       setLinked(true)
     }
   }, [sub_board])
@@ -52,61 +58,63 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
   return (
     <Wrapper>
       <CardWrapper>
-
         <div className="myModal">
+          {/* <div className="my_modal_header"> */}
+          <Stack direction='row' justifyContent="space-between" p={1} spacing={1}>
+            {/* <div> */}
+            {linked
+              ? <Fragment>
+                <Link
+                  to={`/board?board_id=${sub_board.id}`}
+                  // style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}
+                  className={classes.link}
+                >
+                  <Box sx={{ bgcolor: "white", borderRadius: 1, p: "5px" }}>
+                    <Typography variant="h6">{sub_board.title}</Typography>
+                  </Box>
+                </Link>
+                <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
+              </Fragment>
 
-          <div className="my_modal_header">
-            <div className="One">
-              {sub_board ?
-                [(!linked) ?
-                  (
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label" style={{ color: "#455a64" }}>Board</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        onChange={(e) => setSavedBoard(e.target.value)}
-                        label="Board"
-                        style={{ backgroundColor: "white" }}
-                      >
-                        {boards ? boards.map(item => {
-
-
-                          return (<MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>)
-                        }) : <div></div>}
-                      </Select>
-                    </FormControl>
-                  )
-                  : (<Link to={`/board?board_id=${sub_board.id}`} style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}>{sub_board.title}</Link>)
-
-                ]
-                : (<div></div>)}
-
-
-
-
-            </div>
-            <div className="Two"></div>
-            <div className="Three">
-              {(linked === false) ? (<Button onClick={handlePost}>Save</Button>) :
-                (<Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>)
-              }
-
-
-            </div>
-          </div>
+              : <Fragment>
+                <FormControl size="small" fullWidth>
+                  <InputLabel id="select-board" style={{ color: "#455a64" }}>Board</InputLabel>
+                  <Select
+                    labelId="select-board"
+                    onChange={(e) => setSavedBoard(e.target.value)}
+                    label="Board"
+                    style={{ backgroundColor: "white" }}
+                    value={savedBoard}
+                    size="small"
+                  >
+                    {boards.map((item, index) => (
+                      <MenuItem value={item.id} key={index}>{item.title}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <Button onClick={handlePost}>Save</Button>
+              </Fragment>
+            }
+            {/* </div> */}
+            {/* <div className="Two"></div> */}
+            {/* <div className="Three"> */}
+            {/* {linked
+                ? <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
+                : <Button onClick={handlePost}>Save</Button>
+              } */}
+            {/* </div> */}
+          </Stack>
+          {/* </div> */}
           <Link to={newTo}>
             <div style={{ display: "flex", height: "60%" }}></div>
           </Link>
           <div className="my_modal_footer">
-            {/* <a href={external_link}> */}
             <div className="my_ext">
               <IconButton>
                 <CallMadeIcon />
               </IconButton>
               <span>{external_link}</span>
             </div>
-            {/* </a> */}
 
             <div className="my_send">
               <IconButton>
@@ -119,12 +127,10 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
                 <MoreVertIcon />
               </IconButton>
             </div>
-
           </div>
         </div>
 
         <img src={img} alt="" />
-
       </CardWrapper>
     </Wrapper>
   )
@@ -142,7 +148,6 @@ const Wrapper = styled.div`
         width: 100%;
         border-radius: 20px;
         object-fit: cover;
-        
     }
 `
 
