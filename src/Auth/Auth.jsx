@@ -1,5 +1,5 @@
-/*import React from "react";
-import { Container, Button } from "@mui/material";
+import React from "react";
+// import { Container, Button } from "@mui/material";
 import Main from "./Main";
 import First from "./First"
 import Second from "./Second";
@@ -15,7 +15,7 @@ export default class Auth extends React.Component{
         super();
         this.state = {
             open:false,
-            Cscreen:"",
+            Cscreen:"main",
             email:"",
             password:"",
             age:"",
@@ -25,11 +25,7 @@ export default class Auth extends React.Component{
             language:"",
             loginEmail:"",
             loginPassword:""
-
-
-            
-
-        }
+          }
     }
 
     handleClickOpen = (type) => {
@@ -38,10 +34,11 @@ export default class Auth extends React.Component{
           this.switchScreen("main")
         }else if(type==="login"){
           if(localStorage.pinterestAccount){
-            this.state.loginEmail = localStorage.getItem('pinterestAccount')
+            // this.state.loginEmail = localStorage.getItem('pinterestAccount')
             // console.log(localStorage.getItem('pinterestAccount'))
             console.log(this.state.loginEmail)
-            this.setState({loginEmail:this.state.loginEmail})
+            this.setState({loginEmail:localStorage.getItem('pinterestAccount')})
+            // this.setState({loginEmail:this.state.loginEmail})
             this.switchScreen("savedLogin")
           }else this.switchScreen("unsavedLogin")
         }
@@ -50,34 +47,43 @@ export default class Auth extends React.Component{
         this.setState({open:false});
     }
     collectFromMain = (obj) =>{
-        this.setState({email:obj.email});
-        this.setState({password:obj.password});
-        this.setState({age:obj.age});
+        this.setState({
+          email:obj.email,
+          password:obj.password,
+          age:obj.age
+        });
+
     } 
 
-    collectFromFirst=(obj)=>{
+    collectFromFirst=(username)=>{
       
-      this.state.username = obj.username
-      this.setState({username:this.state.username})
+      // this.state.username = obj.username
+      // this.setState({username:this.state.username})
+      this.setState({username:username})
     }
 
     collectFromSecond=(obj)=>{
       this.setState({gender:obj.gender})    
     }
 
-    collectFromThird=(obj)=>{
-      this.state.country = obj.country
-      this.setState({country:this.state.country});
+    collectFromThird=(country)=>{
+      // this.state.country = obj.country
+      // this.setState({country:this.state.country});
       // this.setState({language:obj.lang})
+      this.setState({country:country})
+      console.log(this.state.username)
+      const user = {
+        email:this.state.email,
+        password:this.state.password,
+        username:this.state.username,
+        age:this.state.age,
+        gender:this.state.gender,
+        country:country
+      }
+      console.log(user)
+      const jsonUser = JSON.stringify(user)
       axiosInstance
-        .post('/account/signup',{
-          email:this.state.email,
-          password:this.state.password,
-          username:this.state.username,
-          age:this.state.age,
-          gender:this.state.gender,
-          country:this.state.country,
-        }).then(res => {
+        .post('/account/signup',jsonUser).then(res => {
           localStorage.setItem('pinterestAccessToken', res.data.access_token)
           localStorage.setItem('pinterestRefreshToken', res.data.refresh_token)
           axiosFetchInstance.defaults.headers['Authorization'] =  res.data.access_token
@@ -116,8 +122,10 @@ export default class Auth extends React.Component{
 
     }
     collectFromLoginSaved=(password)=>{
-      this.state.loginPassword = password
-      this.setState({loginPassword:this.state.loginPassword})
+      // this.state.loginPassword = password
+      // this.setState({loginPassword:this.state.loginPassword})
+      this.setState({loginPassword:password})
+
 
       axiosInstance
         .post('/account/auth/token', {
@@ -244,13 +252,13 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div style={{minHeight:'100vh'}}>
-        <div style={{margin:'5rem auto', maxWidth:'150px'}}>
+        return <div>
+        {/* <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 
             <Button onClick={()=> this.handleClickOpen("login")}>Log In</Button></div>
 
-          </div>
+          </div> */}
         {
         this.state.Cscreen==="main" &&
         <Main switch={this.switchScreen} handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
@@ -279,4 +287,3 @@ export default class Auth extends React.Component{
 
     }
 }
-*/

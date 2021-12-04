@@ -89,7 +89,7 @@ export default class LoginSaved extends React.Component{
             onChange={this.collectInput}
           />
           <DialogContentText ml={1} sx={{textAlign:"left"}}>
-            <Typography variant="subtitle2"><button className="asAnchor">Forgot your password?</button>
+            <Typography variant="subtitle2"><a href="http://localhost3000/password-reset">Forgot your password?</a>
             </Typography>
           </DialogContentText>
 

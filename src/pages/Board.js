@@ -7,6 +7,8 @@ import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router";
 
 
 function Board() {
@@ -27,21 +29,22 @@ function Board() {
   const [authorized, setAuthorized] = useState(true)
 
   const { headers, host, authedUser } = useContext(UserContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (boardId) {
-      fetch(`${host}/board/list?board_id=${boardId}`, { headers })
+      fetch(`${host}/board/list/${boardId}`, { headers })
         .then(res => res.json())
         .then(data => {
-          if (!data.length)
+          if (!data.id)
             setNotFound(true)
           else {
-            setTitle(data[0].title)
-            setShare(data[0].share)
-            setDescription(data[0].description)
-            setPinItems(data[0].pins)
-            setCoverImage(data[0].cover_img)
-            setOwnerId(data[0].owner)
+            setTitle(data.title)
+            setShare(data.share)
+            setDescription(data.description)
+            setPinItems(data.pins)
+            setCoverImage(data.cover_img)
+            setOwnerId(data.owner)
           }
         })
     }
@@ -63,9 +66,16 @@ function Board() {
       : setAuthorized(true)
   }, [isAuthedBoard, share])
 
+  function deleteBoard() {
+    fetch(`${host}/board/list/${boardId}/`, {
+      headers,
+      method: 'DELETE'
+    })
+      .then(navigate('/profile'))
+  }
+
   return (
     <Fragment>
-      {/* {console.log(authorized, isAuthedBoard, share)} */}
       {notFound
         ? <NotFound statusCode={400} message="Board is not found" />
         : loaded
@@ -149,6 +159,15 @@ function Board() {
                         open={openCreatePin}
                         onClose={() => setOpenCreatePin(false)}
                       />
+
+                      <Button
+                        sx={{ position: "absolute", bottom: "10px", right: "20px" }}
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={deleteBoard}
+                      >
+                        Delete Board
+                      </Button>
                     </Fragment>
                   )}
                   {/* </Link> */}

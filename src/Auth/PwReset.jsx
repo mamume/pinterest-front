@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axiosInstance from './axios/Base';
+import axiosInstance from '../axios/Base';
 import {
     Container,
     Grid,
@@ -9,12 +9,22 @@ import {
     Typography,
     DialogTitle,
 } from "@mui/material";
+import SimpleReactValidator from 'simple-react-validator';
+
 
 
 class ResetPassInput extends React.Component {
     constructor() {
         super();
-        this.state = { email: '' }
+        this.validator = new SimpleReactValidator({
+            autoForceUpdate:this,
+            validators:{
+                invalidmail:{
+                    message:"email isn't in our database"
+                }
+            }
+        })
+        this.state = { email: '', emailError:false }
     };
 
     collectInput = (e) => {
@@ -25,6 +35,7 @@ class ResetPassInput extends React.Component {
 
     sendData = () => {
 
+        if(this.validator.allValid()){
         axiosInstance
             .post('/account/password-reset-request', {
                 "email": this.state.email,
@@ -37,8 +48,10 @@ class ResetPassInput extends React.Component {
                 }
             }).catch(err => {
                 // console.log(err)
-                this.props.getError(err)
+                this.setState({emailError:true})
+                this.validator.showMessageFor("email")
             })
+        }else this.validator.showMessages()
     }
 
     render() {
@@ -68,6 +81,11 @@ class ResetPassInput extends React.Component {
                             variant="outlined"
                             value={this.state.email}
                             onChange={this.collectInput}
+                            helperText={
+                                this.state.emailError?
+                                this.validator.message("email", this.state.email, "required|invalidmail"):
+                                this.validator.message("email", this.state.email, "required|email")
+                            }
                         />
                     </Grid>
                     <Grid item xs={12} sm={2} sx={{ textAlign: "center" }}>

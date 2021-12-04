@@ -1,52 +1,54 @@
-import { Modal, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { useContext, useEffect, useState } from "react";
+import { Modal, Stack, Typography, Box, Avatar, Button } from "@mui/material";
+import { useContext, useEffect, useState, Fragment } from "react";
 import { UserContext } from "../../context";
 import Styles from "../../styles/Styles";
 
 
-function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow }) {
-  const [, setFollowers] = useState([])
-  const { headers, host } = useContext(UserContext)
+function FollowersModal({ open, onClose, followersNum, username, handleFollow, handleUnfollow, updateTrigger }) {
   const classes = Styles()
+  const { headers, host, authedUser } = useContext(UserContext)
+
+  const [followers, setFollowers] = useState([])
+  const [authedFollowingIds, setAuthedFollowingIds] = useState([])
 
   useEffect(() => {
     fetch(`${host}/profile/followers?username=${username}`, { headers })
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
-        // setFollowers([])
-        // console.log(data.map(user => user.follower[0].id))
-        // let followersIds = data.map(user => user.follower[0].id)
-        setFollowers(data.map(user => user.follower[0].id))
-        // for (let person of data) {
-        // setFollowers(prevFollowers => [...prevFollowers, person.follower[0]])
-        // }
-        // console.log(classes.modal)
+        setFollowers(data.map(user => ({
+          id: user.follower[0].id,
+          fullName: user.follower[0].full_name,
+          profilePic: user.follower[0].profile_pic,
+          username: user.follower[0].username,
+        })))
       })
-  }, [username, headers, host])
+  }, [username, headers, host, updateTrigger])
+
+  useEffect(() => {
+    fetch(
+      `${host}/profile/following?username=${authedUser.username}`,
+      { headers }
+    )
+      .then(res => res.json())
+      .then(data => (
+        setAuthedFollowingIds(data.map(user => (user.following[0].id)))
+      ))
+  }, [authedUser.username, headers, host, authedUser.following, updateTrigger])
 
 
-  // async function handleToFollow(e, id) {
-  //   const status = await handleFollow(e, id)
-  //   console.log(status)
-  //   if (status === 201) {
-  //     e.target.innerText = "Unfollow"
-  //     e.target.className = e.target.className.replace('Primary', 'Black').replace('1vntq7r', 'uwuvhs')
-  //     e.target.onclick = (e) => handleToUnfollow(e, id)
-  //   }
-  // }
+  async function handleToFollow(e, id) {
+    const status = await handleFollow(e, id)
+    if (status === 201) {
+      setAuthedFollowingIds(prev => [...prev, id])
+    }
+  }
 
-  // async function handleToUnfollow(e, id) {
-  //   const status = await handleUnfollow(e, id)
-  //   console.log(status)
-  //   if (status === 200) {
-  //     console.log(e.target.onclick)
-  //     e.target.innerText = "Follow"
-  //     e.target.className = e.target.className.replace('Black', 'Primary').replace('uwuvhs', '1vntq7r')
-  //     e.target.onclick = (e) => handleToFollow(e, id)
-  //   }
-  // }
+  async function handleToUnfollow(e, id) {
+    const status = await handleUnfollow(e, id)
+    if (status === 200) {
+      setAuthedFollowingIds(prev => prev.filter(userId => userId !== id))
+    }
+  }
 
   return (
     <Modal
@@ -59,17 +61,27 @@ function FollowersModal({ open, onClose, followersNum, username, handleFollow, h
             {followersNum} Followers
           </Typography>
         </Box>
-        <Stack spacing={2}>
-          {/* {followers.map(follower => (
-            <Stack direction="row" alignItems="center" spacing={1} key={follower.id}>
-              <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Avatar sx={{ width: 56, height: 56 }} src={follower.profile_pic}>{follower.username[0].toUpperCase()}</Avatar>
-              </a>
-              <a className={classes.link} href={`/profile?username=${follower.username}`}>
-                <Typography fontWeight="bold">{follower.full_name}</Typography>
-              </a>
-            </Stack>
-          ))} */}
+        <Stack spacing={3}>
+          {followers.map(follower => (
+            <Fragment key={follower.id}>
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                    <Avatar sx={{ width: 56, height: 56 }} src={follower.profilePic} />
+                  </a>
+                  <a className={classes.link} href={`/profile?username=${follower.username}`}>
+                    <Typography fontWeight="bold">{follower.fullName}</Typography>
+                  </a>
+                </Stack>
+                {follower.id !== authedUser.id && (
+                  authedFollowingIds.includes(follower.id)
+                    ? <Button onClick={(e) => handleToUnfollow(e, follower.id)} variant="text" color="warning">Unfollow</Button>
+                    : <Button onClick={(e) => handleToFollow(e, follower.id)} variant="text">Follow</Button>
+                )}
+              </Stack>
+            </Fragment>
+          ))}
+          {!followers.length && <Typography textAlign="center">There are no following users</Typography>}
         </Stack>
       </Box>
     </Modal>

@@ -7,12 +7,13 @@ import Homepage from "./pages/Homepage";
 import Board from './pages/Board'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 import { UserContext } from "./context";
 import PwReset from './Auth/PwReset'
 import PwResetConfirm from './Auth/PwResetConfirm'
+import Auth from './Auth/Auth'
 
 
 
@@ -22,6 +23,11 @@ function App() {
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const AuthRef = useRef();
+  const runAuth = (type)=>{
+    AuthRef.current.handleClickOpen(type)
+    console.log(AuthRef.current.state.open)
+  }
   const [host] = useState('http://localhost:8000')
 
   useEffect(() => {
@@ -35,16 +41,19 @@ function App() {
       })
   }, [headers, host])
 
-
+  if(authedUser == null) AuthRef.current.state.open = true
   return (
     <Fragment>
+      <Auth ref={AuthRef} />
       <CssBaseline />
+      <Auth ref={AuthRef} />
       {true
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar />
+                <NavigationBar runAuth={runAuth}/>
+                
                 <Routes>
                   <Route path="/" exact element={<Homepage />} />
                   <Route path="/profile" element={<Profile />} />
@@ -59,8 +68,10 @@ function App() {
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-        : (<div>Please login</div>)
+        
+        : AuthRef.current.state.open = true
       }
+    
     </Fragment>
   );
 }

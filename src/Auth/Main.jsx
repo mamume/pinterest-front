@@ -15,22 +15,32 @@ import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { FcGoogle } from "react-icons/fc";
-import axiosInstance from './axios/Base'
-import axiosFetchInstance from "./axios/Fetch";
+import axiosInstance from '../axios/Base'
+import axiosFetchInstance from "../axios/Fetch";
+import SimpleReactValidator from 'simple-react-validator';
+
 
 export default class Main extends React.Component {
   constructor() {
     super();
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate:this,
+      validators:{
+        usedEmail:{
+          message:"Email used try another email"
+        }
+      }
+    })
     this.state = {
       email: "",
       password: "",
-      age: ""
+      age: "",
+      emailError:false
     }
 
   }
   collectInput = (e) => {
-
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value, emailError:false })
 
   }
 
@@ -40,9 +50,23 @@ export default class Main extends React.Component {
       password: this.state.password,
       age: this.state.age,
     }
-    this.props.collect(data)
-    this.props.switch('first')
+    if(this.validator.allValid()){
+      axiosInstance
+        .post('/account/checkmail', {"email":this.state.email})
+        .then(res =>{
+          console.log(res)
+          if(res.data.success){
+            this.props.collect(data)
+            this.props.switch('first')
+          }else{ 
+            this.setState({emailError:true})
+          }
+        })
 
+    }else{
+      this.validator.showMessages()
+      this.forceUpdate()
+    }
   }
 
   responseFacebook = (response) => {
@@ -187,6 +211,11 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.email}
               onChange={this.collectInput}
+              helperText={
+                this.state.emailError?
+                "Email exists":
+                this.validator.message('email', this.state.email, "required|email")
+              }
             />
             <TextField
               required
@@ -200,6 +229,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.password}
               onChange={this.collectInput}
+              helperText={this.validator.message('password', this.state.password, "required|min:8")}
 
             />
             <TextField
@@ -213,6 +243,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.age}
               onChange={this.collectInput}
+              helperText={this.validator.message('age', this.state.email, "required|in")}
 
 
             />
