@@ -25,8 +25,10 @@ export default class Main extends React.Component {
     super();
     this.validator = new SimpleReactValidator({
       autoForceUpdate:this,
-      messages:{
-        usedEmail:"Email used try another email"
+      validators:{
+        usedEmail:{
+          message:"Email used try another email"
+        }
       }
     })
     this.state = {
@@ -38,8 +40,7 @@ export default class Main extends React.Component {
 
   }
   collectInput = (e) => {
-
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value, emailError:false })
 
   }
 
@@ -53,12 +54,12 @@ export default class Main extends React.Component {
       axiosInstance
         .post('/account/checkmail', {"email":this.state.email})
         .then(res =>{
+          console.log(res)
           if(res.data.success){
             this.props.collect(data)
             this.props.switch('first')
           }else{ 
             this.setState({emailError:true})
-            this.validator.showMessageFor("email")
           }
         })
 
@@ -212,7 +213,7 @@ export default class Main extends React.Component {
               onChange={this.collectInput}
               helperText={
                 this.state.emailError?
-                this.validator.message("email", this.state.email, "required|usedEmail"):
+                "Email exists":
                 this.validator.message('email', this.state.email, "required|email")
               }
             />
@@ -228,7 +229,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.password}
               onChange={this.collectInput}
-              helperText={this.validator.message('password', this.state.password, "required|password|min:8")}
+              helperText={this.validator.message('password', this.state.password, "required|min:8")}
 
             />
             <TextField
@@ -242,6 +243,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.age}
               onChange={this.collectInput}
+              helperText={this.validator.message('age', this.state.email, "required|in")}
 
 
             />

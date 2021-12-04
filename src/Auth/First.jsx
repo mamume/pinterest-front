@@ -31,32 +31,31 @@ export default class First extends React.Component{
           }
         })
         this.state = {
-            username:""
+            username:"",
+            usernameError:false
         }
     }
 
     collectInput=(e)=>{
       
-      this.setState({[e.target.name]:e.target.value})
+      this.setState({[e.target.name]:e.target.value, usernameError:false})
       
     }
 
     sendData=()=>{
-      let data = {
-        username:this.state.username,
-      }
+
       if(this.validator.allValid()){
         axiosInstance
           .post("/account/checkuser", {"username":this.state.username})
           .then(res =>{
             if(res.data.success){
-              this.props.collect(data)
+              this.props.collect(this.state.username)
               this.props.switch('second')
             }else this.validator.showMessageFor("username")
           })
 
       }else{
-        this.validator.showMessages()
+        this.setState({usernameError:true})
       }
 
       
@@ -116,7 +115,7 @@ export default class First extends React.Component{
             variant="outlined"
             value={this.state.username}
             onChange={this.collectInput}
-            helperText={this.validator.message('email', this.state.username, "required|username")}
+            helperText={this.state.usernameError?"User name exists":""}
           />
 
           <DialogContentText mt={3} >
