@@ -243,7 +243,7 @@ export default class Main extends React.Component {
               variant="outlined"
               value={this.state.age}
               onChange={this.collectInput}
-              helperText={this.validator.message('age', this.state.email, "required|in")}
+              helperText={this.validator.message('age', this.state.age, "required|min:2")}
 
 
             />
