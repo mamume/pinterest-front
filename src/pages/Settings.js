@@ -47,7 +47,7 @@ function Setting() {
         >
           <List>
             <Link to="" className={classes.link}>
-              <ListItemButton selected={location.pathname === "/settings/public-profile"}>
+              <ListItemButton selected={location.pathname === "/settings"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
