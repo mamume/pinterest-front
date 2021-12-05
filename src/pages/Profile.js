@@ -11,6 +11,7 @@ import SinglePin from '../components/pins/SinglePin'
 import CreateBoard from '../components/profile/CreateBoard'
 import CircularProgress from '@mui/material/CircularProgress';
 import Styles from "../styles/Styles";
+import BoardThumbnail from "../components/profile/BoardThumbnail";
 
 
 function Profile() {
@@ -76,6 +77,7 @@ function Profile() {
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
+          console.log(data[0])
         }
       })
   }, [headers, url, followed, updateTrigger])
@@ -204,9 +206,14 @@ function Profile() {
                 {Boolean(boardItems.length)
                   ? <Masonry className={classes.masonry}>
                     {boardItems.map((item, index) => (
-                      <SinglePin url={`/board?board_id=${item.id}`} key={index} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
+                      <BoardThumbnail board={item} key={index} />
                     ))}
                   </Masonry>
+                  // ? <Masonry className={classes.masonry}>
+                  //   {boardItems.map((item, index) => (
+                  //     <SinglePin url={`/board?board_id=${item.id}`} key={index} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
+                  //   ))}
+                  // </Masonry>
 
                   : <Typography textAlign="center">There are no Boards</Typography>
                 }
@@ -218,7 +225,7 @@ function Profile() {
                 {/* </Stack> */}
 
                 {Boolean(pinItems.length)
-                  ? <Masonry>
+                  ? <Masonry className={classes.masonry}>
                     {pinItems.map((item) => (
                       <SinglePin key={item.id} img={item.content_src} id={item.id} />
                     ))}

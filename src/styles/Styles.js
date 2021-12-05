@@ -34,5 +34,12 @@ export default makeStyles({
   masonry: {
     margin: 'auto',
     width: '90%'
+  },
+  boardThumbnail: {
+    width: 300,
+    height: 157,
+    borderRadius: 16,
+    backgroundColor: "whitesmoke",
+    // border: "1px lightgray solid",
   }
 })
