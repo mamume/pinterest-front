@@ -44,7 +44,6 @@ function Board() {
             setPinItems(data.pins)
             setCoverImage(data.cover_img)
             setOwnerId(data.owner)
-            console.log(data.pins)
           }
         })
     }
