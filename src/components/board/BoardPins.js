@@ -38,7 +38,7 @@ function BoardPin({ pins, boardId }) {
   }
 
   return (
-    <Masonry>
+    <Masonry className={classes.masonry}>
       {
         boardPins.map((pin, index) => (
           <ImageListItem key={index} sx={{ margin: 1 }}>

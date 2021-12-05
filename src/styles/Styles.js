@@ -30,5 +30,9 @@ export default makeStyles({
       cursor: "pointer",
       opacity: 0.9,
     }
+  },
+  masonry: {
+    margin: 'auto',
+    width: '90%'
   }
 })

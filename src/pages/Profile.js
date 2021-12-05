@@ -10,11 +10,11 @@ import Masonry from 'react-masonry-component';
 import SinglePin from '../components/pins/SinglePin'
 import CreateBoard from '../components/profile/CreateBoard'
 import CircularProgress from '@mui/material/CircularProgress';
-import LinkStyles from "../styles/Styles";
+import Styles from "../styles/Styles";
 
 
 function Profile() {
-  const classes = LinkStyles()
+  const classes = Styles()
   const { authedUser, headers, host } = useContext(UserContext)
 
   const [fullName, setFullName] = useState('')
@@ -202,13 +202,12 @@ function Profile() {
                 />
 
                 {Boolean(boardItems.length)
-                  ? <Fragment>
-                    <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                      {boardItems.map((item) => (
-                        <SinglePin url={`/board?board_id=${item.id}`} key={item.id} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
-                      ))}
-                    </Masonry>
-                  </Fragment>
+                  ? <Masonry className={classes.masonry}>
+                    {boardItems.map((item, index) => (
+                      <SinglePin url={`/board?board_id=${item.id}`} key={index} img={item.cover_img || '/images/board_placeholder.png'} id={item.id} />
+                    ))}
+                  </Masonry>
+
                   : <Typography textAlign="center">There are no Boards</Typography>
                 }
 
@@ -219,13 +218,11 @@ function Profile() {
                 {/* </Stack> */}
 
                 {Boolean(pinItems.length)
-                  ? <Fragment>
-                    <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                      {pinItems.map((item) => (
-                        <SinglePin key={item.id} img={item.content_src} id={item.id} />
-                      ))}
-                    </Masonry>
-                  </Fragment>
+                  ? <Masonry>
+                    {pinItems.map((item) => (
+                      <SinglePin key={item.id} img={item.content_src} id={item.id} />
+                    ))}
+                  </Masonry>
                   : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
               </Fragment>
             )
