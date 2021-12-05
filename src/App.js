@@ -24,7 +24,7 @@ function App() {
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
   const AuthRef = useRef();
-  const runAuth = (type)=>{
+  const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
     console.log(AuthRef.current.state.open)
   }
@@ -41,7 +41,7 @@ function App() {
       })
   }, [headers, host])
 
-  if(authedUser == null) AuthRef.current.state.open = true
+  if (authedUser == null) AuthRef.current.state.open = true
   return (
     <Fragment>
       <Auth ref={AuthRef} />
@@ -52,9 +52,10 @@ function App() {
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar runAuth={runAuth}/>
-                
+                <NavigationBar runAuth={runAuth} />
+
                 <Routes>
+
                   <Route path="/" exact element={<Homepage />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings/*" element={<Settings />} />
@@ -68,10 +69,10 @@ function App() {
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-        
+
         : AuthRef.current.state.open = true
       }
-    
+
     </Fragment>
   );
 }

@@ -19,5 +19,16 @@ export default makeStyles({
     borderRadius: "32px",
     boxShadow: '24',
     padding: 20
+  },
+  pin: {
+    borderRadius: 16,
+    border: "1px lightgray solid",
+    minHeight: 236,
+    maxWidth: 236,
+    minWidth: 236,
+    '&:hover': {
+      cursor: "pointer",
+      opacity: 0.9,
+    }
   }
 })
