@@ -26,7 +26,6 @@ function App() {
   const AuthRef = useRef();
   const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
-    console.log(AuthRef.current.state.open)
   }
   const [host] = useState('http://localhost:8000')
 

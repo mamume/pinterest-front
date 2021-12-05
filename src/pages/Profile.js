@@ -77,7 +77,6 @@ function Profile() {
           setUserId(id)
           setPinItems(pins)
           setBoardItems(boards)
-          console.log(data[0])
         }
       })
   }, [headers, url, followed, updateTrigger])
