@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context'
 
 function AccountSettings() {
-    const { authedUser, setHeaders } = useContext(UserContext)
+    const { authedUser, setAuthedUser } = useContext(UserContext)
     const countryOptions = useMemo(() => countryList().getData(), [])
     const navigate = useNavigate();
 
@@ -19,9 +19,11 @@ function AccountSettings() {
     const [gender, setGender] = useState('male')
 
     useEffect(() => {
-        setEmail(authedUser.email)
-        setCountry(authedUser.country)
-        setGender(authedUser.gender)
+        if (authedUser) {
+            setEmail(authedUser.email)
+            setCountry(authedUser.country)
+            setGender(authedUser.gender)
+        }
     }, [authedUser])
 
     const HSave = () => {
@@ -49,6 +51,8 @@ function AccountSettings() {
         localStorage.removeItem('pinterestAccessToken')
         localStorage.removeItem('pinterestRefreshToken')
         localStorage.removeItem('pinterestAccount')
+        navigate('/')
+        setAuthedUser(null)
     }
 
     useEffect(() => {
