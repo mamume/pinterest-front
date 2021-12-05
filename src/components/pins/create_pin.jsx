@@ -129,7 +129,9 @@ const Create = ({ open, onClose }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                history('/')
+                onClose()
+                history(`/pin/${data.id}`)
+                
                 
             });
             
