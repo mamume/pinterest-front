@@ -34,19 +34,11 @@ function AccountSettings() {
         };
         let jsonUser = JSON.stringify(data)
         axiosFetchInstance
-            .patch('/account/update', jsonUser).then((res) => {
-                console.log(res.data)
-            }).catch(err => {
-                console.log(err)
-            });
+            .patch('/account/update', jsonUser)
     }
 
     const HDelete = async () => {
-        await axiosFetchInstance.delete('/account/delete').then((res) => {
-            console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
+        await axiosFetchInstance.delete('/account/delete')
 
         localStorage.removeItem('pinterestAccessToken')
         localStorage.removeItem('pinterestRefreshToken')

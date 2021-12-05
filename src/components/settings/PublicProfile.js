@@ -42,11 +42,7 @@ function PublicProfile() {
         imageData && data.append('profile_pic', imageData)
 
         axiosFetchInstance
-            .patch('/account/update', data).then((res) => {
-                console.log(res.data)
-            }).catch(err => {
-                console.log(err)
-            })
+            .patch('/account/update', data)
     }
 
     useEffect(() => {
@@ -141,7 +137,6 @@ function PublicProfile() {
                 handleSave={handleSave}
             />
         </Fragment >
-
     );
 }
 

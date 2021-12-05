@@ -26,7 +26,6 @@ function App() {
   const AuthRef = useRef();
   const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
-    console.log(AuthRef.current.state.open)
   }
   const [host] = useState('http://localhost:8000')
 
@@ -50,7 +49,7 @@ function App() {
       {true
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
-            <Container sx={{ paddingTop: 9 }} >
+            <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar runAuth={runAuth} />
 

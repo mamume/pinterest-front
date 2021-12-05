@@ -30,5 +30,20 @@ export default makeStyles({
       cursor: "pointer",
       opacity: 0.9,
     }
+  },
+  masonry: {
+    margin: 'auto',
+    width: '90%'
+  },
+  boardThumbnail: {
+    width: 250,
+    height: 157,
+    borderRadius: 16,
+    backgroundColor: "whitesmoke",
+    margin: "7px 7px",
+    '&:hover': {
+      cursor: 'pointer',
+      opacity: 0.9,
+    }
   }
 })
