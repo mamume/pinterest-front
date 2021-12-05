@@ -50,21 +50,21 @@ function Homepage() {
 
   useEffect(() => {
     // console.log(updatePins)
-    if (authedUser.id)
+    if (authedUser)
       fetch(`${host}/pin/pins/`, { headers })
         .then(res => res.json())
         .then(data => {
           setPins(data)
           console.log(data)
         })
-  }, [authedUser.id, host, headers])
+  }, [authedUser, host, headers])
 
   useEffect(() => {
-    if (authedUser.id)
+    if (authedUser)
       fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
         .then(res => res.json())
         .then(data => setBoards(data))
-  }, [authedUser.id, host, headers])
+  }, [authedUser, host, headers])
 
   useEffect(() => {
     pins.length && boards.length
