@@ -128,7 +128,7 @@ function Setting() {
             </ListItemButton> */}
           </List>
         </Drawer>
-        <Stack spacing={2} sx={{ width: "490px" }}>
+        <Stack mt={3} spacing={2} sx={{ width: "490px" }}>
           <Routes>
             <Route path="" element={<PublicProfile />}
             />
