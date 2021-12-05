@@ -40,6 +40,9 @@ export default makeStyles({
     height: 157,
     borderRadius: 16,
     backgroundColor: "whitesmoke",
-    // border: "1px lightgray solid",
+    '&:hover': {
+      cursor: 'pointer',
+      opacity: 0.9,
+    }
   }
 })
