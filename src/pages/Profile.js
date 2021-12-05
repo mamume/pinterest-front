@@ -7,11 +7,11 @@ import FollowersModal from '../components/profile/FollowersModal'
 import FollowingModal from '../components/profile/FollowingModal'
 import { UserContext } from "../context";
 import Masonry from 'react-masonry-component';
-import SinglePin from '../components/pins/SinglePin'
 import CreateBoard from '../components/profile/CreateBoard'
 import CircularProgress from '@mui/material/CircularProgress';
 import Styles from "../styles/Styles";
 import BoardThumbnail from "../components/profile/BoardThumbnail";
+import ProfilePins from "../components/profile/ProfilePins";
 
 
 function Profile() {
@@ -225,11 +225,7 @@ function Profile() {
                 {/* </Stack> */}
 
                 {Boolean(pinItems.length)
-                  ? <Masonry className={classes.masonry}>
-                    {pinItems.map((item) => (
-                      <SinglePin key={item.id} img={item.content_src} id={item.id} />
-                    ))}
-                  </Masonry>
+                  ? <ProfilePins pins={pinItems} />
                   : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
               </Fragment>
             )

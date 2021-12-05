@@ -2,45 +2,38 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from "react-router";
-import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
-import Box from '@mui/material/Box'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'; import Box from '@mui/material/Box'
 import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
 import Masonry from 'react-masonry-component';
 
-function BoardPin({ pins, boardId }) {
+function ProfilePins({ pins }) {
   const { headers, host } = useContext(UserContext)
   const classes = Styles()
   const navigate = useNavigate()
 
-  const [boardPins, setBoardPins] = useState(pins)
+  const [pinItems, setPinItems] = useState(pins)
 
   function openPin(id) {
     navigate(`/pin/${id}`)
   }
 
-  function removeFromBoard(id) {
-    const newPins = pins.filter(pin => pin.id !== id)
-    const pinsIds = newPins.map(pin => pin.id)
+  function removeFromPin(id) {
+    const newPins = pinItems.filter(pin => pin.id !== id)
 
-    const data = {
-      pins: pinsIds
-    }
-
-    fetch(`${host}/board/update/${boardId}/`, {
+    fetch(`${host}/profile/pins-delete/${id}/`, {
       headers,
-      method: "PATCH",
-      body: JSON.stringify(data)
+      method: "DELETE"
     })
       .then(res => res.json())
-      .then(setBoardPins(newPins))
+      .then(setPinItems(newPins))
   }
 
   return (
     <Masonry className={classes.masonry}>
       {
-        boardPins.map((pin, index) => (
+        pinItems.map((pin, index) => (
           <ImageListItem key={index} sx={{ margin: 1 }}>
             <img
               className={classes.pin}
@@ -53,8 +46,8 @@ function BoardPin({ pins, boardId }) {
               sx={{ bgcolor: "inherit", m: 1 }}
               position="top"
               actionIcon={
-                <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
-                  <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
+                <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromPin(pin.id)}>
+                  <IconButton color="error"><DeleteRoundedIcon /></IconButton>
                 </Box>
               }
             />
@@ -65,4 +58,4 @@ function BoardPin({ pins, boardId }) {
   );
 }
 
-export default BoardPin;
+export default ProfilePins;

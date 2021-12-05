@@ -62,9 +62,9 @@ function FollowingModal({ username, open, onClose, handleFollow, handleUnfollow,
           </Typography>
         </Box>
         <Stack spacing={2}>
-          {following.map(following => (
-            <Stack direction="row" justifyContent="space-between">
-              <Stack direction="row" alignItems="center" spacing={1} key={following.id}>
+          {following.map((following, index) => (
+            <Stack key={index} direction="row" justifyContent="space-between">
+              <Stack direction="row" alignItems="center" spacing={1}>
                 <a className={classes.link} href={`/profile?username=${following.username}`}>
                   <Avatar sx={{ width: 56, height: 56 }} src={following.profilePic} />
                 </a>
