@@ -1,86 +1,53 @@
 import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
 import SettingsButtons from "./SettingsButtons";
-import axiosInstance from "../../axios/Base";
 import axiosFetchInstance from '../../axios/Fetch';
-import axios from "axios";
+import { UserContext } from '../../context'
+
 const Input = styled('input')({
     display: 'none',
 });
 
 function PublicProfile() {
-    const [fname, setFname] = useState('fname')
+    const { authedUser } = useContext(UserContext)
+
+    const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
     const [bio, setBio] = useState('')
     const [website, setWebsite] = useState('')
     const [username, setUsername] = useState('')
     const [profilePic, setProfilePic] = useState('')
+    const [imageData, setImageData] = useState(null)
     const [disabled, setDisabled] = useState(true)
     const [clear, setClear] = useState(false)
     const [change] = useState(true)
 
+    useEffect(() => {
+        setFname(authedUser.first_name)
+        setLname(authedUser.last_name)
+        setBio(authedUser.bio)
+        setWebsite(authedUser.website)
+        setUsername(authedUser.username)
+        setProfilePic(authedUser.profile_pic)
+    }, [authedUser])
 
-    
-    
-    
+    const handleSave = () => {
+        const data = new FormData()
+        data.append('first_name', fname)
+        data.append('last_name', lname)
+        data.append('bio', bio)
+        data.append('website', website)
+        data.append('username', username)
+        imageData && data.append('profile_pic', imageData)
 
-    
-
-    /*async function HandelSave(){
-            const data = {
-                first_name:fname,
-                last_name:lname ,
-                bio:bio,
-                website:website,
-                username:username,
-                profile_pic:profilePic,
-            };
-        
-            const res  = await axiosFetchInstance.patch("/account/update",data)
-            console.log(res)
-        }*/
-    
-    
-    const HandelSave = () => {
-        
-
-
-        const data = {
-            first_name:fname,
-            last_name:lname ,
-            bio:bio,
-            website:website,
-            username:username,
-            // profile_pic:profilePic,
-        };
-        let jsonUser = JSON.stringify(data)
         axiosFetchInstance
-            .patch('/account/update',jsonUser).then((res) => {
+            .patch('/account/update', data).then((res) => {
                 console.log(res.data)
             }).catch(err => {
-            console.log(err)
+                console.log(err)
             })
-        // fetch(
-        //         'http://localhost:8000/account/update',{
-        //         method:"PATCH",
-        //         headers:{
-        //         'content-type':"application/json",
-        //         'Authorization':`Bearer ${localStorage.getItem('pinterestAccessToken')}`
-        //         },
-        //         body:jsonUser
-        //     }).then(res => {
-        //         return res.json()
-        //     }).then(json =>{
-        //         if(json.msg){
-        //             console.log(json.msg)
-        //         }else{
-        //         console.log(json.error)
-        //         }
-        //     })
     }
-
-   
 
     useEffect(() => {
         if (fname || lname || bio || website || username || profilePic)
@@ -101,6 +68,16 @@ function PublicProfile() {
         }
     }, [clear])
 
+    function readImage(image) {
+        setImageData(image)
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            setProfilePic(e.target.result)
+        }
+        reader.readAsDataURL(image)
+    }
+
     return (
         <Fragment>
             <Typography variant="h5">Public Profile</Typography>
@@ -111,11 +88,9 @@ function PublicProfile() {
                 <Avatar
                     sx={{ width: 75, height: 75 }}
                     src={profilePic}
-                >
-                    <Typography variant="h4">M</Typography>
-                </Avatar>
+                />
                 <label htmlFor="contained-button-file">
-                    <Input accept="image/*" id="contained-button-file" type="file" onChange={e => setProfilePic(e.target.files[0])} />
+                    <Input accept="image/*" id="contained-button-file" type="file" onChange={(e) => readImage(e.target.files[0])} />
                     <Button color="grey" variant="contained" component="span">
                         Change
                     </Button>
@@ -137,43 +112,36 @@ function PublicProfile() {
                 />
             </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField
-                    placeholder="Describe Yourself"
-                    label="Short Bio"
-                    fullWidth
-                    value={bio}
-                    onChange={e => setBio(e.target.value)}
-                />
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField
-                    placeholder="Add a link to drive traffic to your site"
-                    label="Website"
-                    fullWidth
-                    value={website}
-                    onChange={e => setWebsite(e.target.value)}
-                />
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={2}>
-                <TextField
-                    fullWidth
-                    label="Username"
-                    helperText={`www.pinterest.com/${username}`}
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                />
-            </Stack>
+            <TextField
+                placeholder="Describe Yourself"
+                label="Short Bio"
+                fullWidth
+                value={bio}
+                onChange={e => setBio(e.target.value)}
+            />
+            <TextField
+                placeholder="Add a link to drive traffic to your site"
+                label="Website"
+                fullWidth
+                value={website}
+                onChange={e => setWebsite(e.target.value)}
+            />
+            <TextField
+                fullWidth
+                label="Username"
+                helperText={`www.pinterest.com/${username}`}
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+            />
 
             <SettingsButtons
                 disabled={disabled}
                 setClear={setClear}
                 change={change}
-                
+                handleSave={handleSave}
             />
-            <button type="submit" onClick={HandelSave}>click</button>
         </Fragment >
-        
+
     );
 }
 
