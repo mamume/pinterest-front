@@ -2,6 +2,9 @@ import { MenuItem, Button, InputLabel, Select, Stack, TextField, Typography, For
 import { Fragment, useEffect, useMemo, useState } from "react";
 import SettingsButtons from "./SettingsButtons";
 import countryList from 'react-select-country-list'
+import axiosFetchInstance from "../../axios/Fetch";
+import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
+
 
 function AccountSettings() {
     const [clear, setClear] = useState(false)
@@ -11,7 +14,43 @@ function AccountSettings() {
     const [country, setCountry] = useState('')
     const [gender, setGender] = useState('male')
     const countryOptions = useMemo(() => countryList().getData(), [])
+    const navigate = useNavigate();
+    
 
+    const HSave = () => {
+        
+
+        const data = {
+            email:email,
+            gender:gender ,
+            country:country
+        };
+        let jsonUser = JSON.stringify(data)
+        axiosFetchInstance
+            .patch('/account/update',jsonUser).then((res) => {
+                console.log(res.data)
+            }).catch(err => {
+            console.log(err)
+        });
+
+        
+    }
+    
+    const HDelete = async () => {
+        
+        
+        await axiosFetchInstance.delete('/account/delete').then((res)=> {
+            console.log(res.data)
+        }).catch(err => {
+            console.log(err)
+        })
+        
+
+        navigate("/");
+        
+        
+    }
+    
     useEffect(() => {
         if (email || country || gender)
             setDisabled(false)
@@ -28,6 +67,8 @@ function AccountSettings() {
             setClear(false)
         }
     }, [clear])
+    
+
 
     return (
         <Fragment>
@@ -70,7 +111,7 @@ function AccountSettings() {
             <Typography sx={{ fontWeight: 'bold' }}>Delete Account</Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                 <Typography>Delete your account and account data</Typography>
-                <Button color="error" variant="contained" component="span">
+                <Button color="error" variant="contained" component="span" onClick={HDelete}>
                     Delete Account
                 </Button>
             </Stack>
@@ -79,7 +120,9 @@ function AccountSettings() {
                 disabled={disabled}
                 setClear={setClear}
                 change={change}
+                save={HSave}
             />
+            
         </Fragment >
     );
 }

@@ -70,7 +70,7 @@ function Setting() {
               </ListItemButton>
             </Link>
 
-            <ListItemButton>
+            {/* <ListItemButton>
               <ListItemText
                 primaryTypographyProps={{
                   variant: "button"
@@ -125,7 +125,7 @@ function Setting() {
                 }}
               >
                 Apps</ListItemText>
-            </ListItemButton>
+            </ListItemButton> */}
           </List>
         </Drawer>
         <Stack spacing={2} sx={{ width: "490px" }}>
