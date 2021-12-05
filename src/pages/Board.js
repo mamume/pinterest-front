@@ -2,13 +2,12 @@ import { Button, Divider, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import { UserContext } from "../context";
-import SinglePin from "../components/pins/SinglePin";
-import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router";
+import BoardPins from "../components/board/BoardPins";
 
 
 function Board() {
@@ -45,6 +44,7 @@ function Board() {
             setPinItems(data.pins)
             setCoverImage(data.cover_img)
             setOwnerId(data.owner)
+            console.log(data.pins)
           }
         })
     }
@@ -180,14 +180,11 @@ function Board() {
                 </Stack>
 
                 {Boolean(pinItems.length)
-                  ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                    {pinItems.map((item) => (
-                      <SinglePin key={item.id} img={item.content_src} id={item.id} />
-                    ))}
-                  </Masonry>
+                  ? <BoardPins boardId={boardId} pins={pinItems} />
+
                   : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
                 }
-              </Fragment>
+              </Fragment >
             )
             : <NotFound message="Private Board" />
           : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress /></Stack>
