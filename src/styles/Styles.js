@@ -39,6 +39,8 @@ export default makeStyles({
     width: 250,
     height: 157,
     borderRadius: 16,
+
+    overflow: "hidden",
     backgroundColor: "whitesmoke",
     margin: "7px 7px",
     '&:hover': {

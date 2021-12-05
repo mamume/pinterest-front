@@ -6,12 +6,16 @@ import { useNavigate } from "react-router";
 
 function BoardThumbnail({ board }) {
   const classes = Styles()
-  const [pins, setPins] = useState(board.pins.slice(0, 3))
+  const [pins, setPins] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log(pins)
+    setPins(board.pins.slice(0, 3))
+    console.log(pins)
     if (board.pins.length === 0)
       setPins({ content_src: "/images/board_placeholder.png" })
+
   }, [board.pins.length])
 
   function openBoard() {
@@ -26,7 +30,7 @@ function BoardThumbnail({ board }) {
         cols={3}
         onClick={openBoard}
       >
-        {pins.map((pin, index) => (
+        { pins.length  && pins.map((pin, index) => (
           <ImageListItem key={index}>
             <img
               src={pin.content_src}
