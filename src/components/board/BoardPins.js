@@ -53,7 +53,7 @@ function BoardPin({ pins, boardId }) {
               sx={{ bgcolor: "inherit", m: 1 }}
               position="top"
               actionIcon={
-                <Box sx={{ bgcolor: "lightgray", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
+                <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
                   <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
                 </Box>
               }
