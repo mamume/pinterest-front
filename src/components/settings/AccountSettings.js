@@ -8,7 +8,7 @@ import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
 
 function AccountSettings() {
     const [clear, setClear] = useState(false)
-    const [change, setChange] = useState(true)
+    const [change] = useState(true)
     const [disabled, setDisabled] = useState(true)
     const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')

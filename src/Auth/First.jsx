@@ -12,27 +12,51 @@ import {
     IconButton
 } from "@mui/material";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import axiosInstance from '../axios/Base'
+import SimpleReactValidator from 'simple-react-validator';
+
 
 export default class First extends React.Component{
     constructor(){
         super();
+        this.validator = new SimpleReactValidator({
+          autoForceUpdate:this,
+          validators:{
+            username:{
+              message:"invalid user name",
+              rule:(val, validator)=>{
+                return validator.helpers.testRegex(val, /^[a-z0-9_\.]+$/)
+              }
+            }
+          }
+        })
         this.state = {
-            username:""
+            username:"",
+            usernameError:false
         }
     }
 
     collectInput=(e)=>{
       
-      this.setState({[e.target.name]:e.target.value})
+      this.setState({[e.target.name]:e.target.value, usernameError:false})
       
     }
 
     sendData=()=>{
-      let data = {
-        username:this.state.username,
+
+      if(this.validator.allValid()){
+        axiosInstance
+          .post("/account/checkuser", {"username":this.state.username})
+          .then(res =>{
+            if(res.data.success){
+              this.props.collect(this.state.username)
+              this.props.switch('second')
+            }else this.validator.showMessageFor("username")
+          })
+
+      }else{
+        this.setState({usernameError:true})
       }
-      this.props.collect(data)
-      this.props.switch('second')
 
       
     }
@@ -91,6 +115,7 @@ export default class First extends React.Component{
             variant="outlined"
             value={this.state.username}
             onChange={this.collectInput}
+            helperText={this.state.usernameError?"User name exists":""}
           />
 
           <DialogContentText mt={3} >

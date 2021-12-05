@@ -1,29 +1,37 @@
 import { ThemeProvider } from "@mui/material/styles";
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import theme from './theme/Theme'
+import theme from './styles/Theme'
 import Settings from "./pages/Settings"
 import Homepage from "./pages/Homepage";
 import Board from './pages/Board'
-import Auth from './Auth/Auth'
 import NavigationBar from './components/navigationbar/NavigationBar'
 import { Container, CssBaseline } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import Create from './components/pins/create_pin'
 import Pin from './components/pins/pin'
 import { UserContext } from "./context";
+import PwReset from './Auth/PwReset'
+import PwResetConfirm from './Auth/PwResetConfirm'
+import Auth from './Auth/Auth'
 
 
 
 function App() {
   const [authedUser, setAuthedUser] = useState({})
-  const [headers] = useState({
+  const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const AuthRef = useRef();
+  const runAuth = (type)=>{
+    AuthRef.current.handleClickOpen(type)
+    console.log(AuthRef.current.state.open)
+  }
+  const [host] = useState('http://localhost:8000')
 
   useEffect(() => {
-    fetch(`http://localhost:8000/account/details`, { headers })
+    fetch(`${host}/account/details`, { headers })
       .then(res => res.json())
       .then(data => {
         if (data.username)
@@ -31,18 +39,21 @@ function App() {
         else
           setAuthedUser(null)
       })
-  }, [headers])
+  }, [headers, host])
 
-
+  if(authedUser == null) AuthRef.current.state.open = true
   return (
     <Fragment>
+      <Auth ref={AuthRef} />
       <CssBaseline />
-      {authedUser
+      <Auth ref={AuthRef} />
+      {true
         ? <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser }}>
+          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar />
+                <NavigationBar runAuth={runAuth}/>
+                
                 <Routes>
                   <Route path="/" exact element={<Homepage />} />
                   <Route path="/profile" element={<Profile />} />
@@ -50,13 +61,17 @@ function App() {
                   <Route path="/board/" element={<Board />} />
                   <Route path="/create_pin/" element={<Create />} />
                   <Route path='/pin/:id' element={<Pin />}> </Route>
+                  <Route path="/password-reset" element={<PwReset />} />
+                  <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
                 </Routes>
               </Router>
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-        : <Auth />
+        
+        : AuthRef.current.state.open = true
       }
+    
     </Fragment>
   );
 }

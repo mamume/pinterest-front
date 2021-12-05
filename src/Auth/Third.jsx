@@ -35,11 +35,8 @@ export default class Third extends React.Component{
       }
     
       sendData=()=>{
-          let data = {
-              lang:this.state.lang,
-              country:this.state.country
-          }
-          this.props.collect(data)
+
+          this.props.collect(this.state.country)
       }
 
     render(){
