@@ -50,7 +50,7 @@ function App() {
       {true
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
-            <Container sx={{ paddingTop: 9 }} >
+            <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar runAuth={runAuth} />
 

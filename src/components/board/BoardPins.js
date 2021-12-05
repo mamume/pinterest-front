@@ -1,4 +1,3 @@
-import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
@@ -8,6 +7,7 @@ import Box from '@mui/material/Box'
 import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
+import Masonry from 'react-masonry-component';
 
 function BoardPin({ pins, boardId }) {
   const { headers, host } = useContext(UserContext)
@@ -38,28 +38,30 @@ function BoardPin({ pins, boardId }) {
   }
 
   return (
-    <ImageList cols={4} variant="masonry">
-      {boardPins.map((pin, index) => (
-        <ImageListItem key={index} >
-          <img
-            className={classes.pin}
-            src={`${pin.content_src}`}
-            alt={pin.title}
-            loading="lazy"
-            onClick={() => openPin(pin.id)}
-          />
-          <ImageListItemBar
-            sx={{ bgcolor: "inherit", m: 1 }}
-            position="top"
-            actionIcon={
-              <Box sx={{ bgcolor: "lightgray", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
-                <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
-              </Box>
-            }
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+    <Masonry>
+      {
+        boardPins.map((pin, index) => (
+          <ImageListItem key={index} sx={{ margin: 1 }}>
+            <img
+              className={classes.pin}
+              src={`${pin.content_src}`}
+              alt={pin.title}
+              loading="lazy"
+              onClick={() => openPin(pin.id)}
+            />
+            <ImageListItemBar
+              sx={{ bgcolor: "inherit", m: 1 }}
+              position="top"
+              actionIcon={
+                <Box sx={{ bgcolor: "lightgray", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
+                  <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
+                </Box>
+              }
+            />
+          </ImageListItem>
+        ))
+      }
+    </Masonry>
   );
 }
 
