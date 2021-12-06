@@ -3,6 +3,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Styles from "../../styles/Styles";
 import { useNavigate } from "react-router";
+import { ImageListItemBar } from "@mui/material";
 
 function BoardThumbnail({ board, isAuthedProfile }) {
   const classes = Styles()
@@ -41,6 +42,9 @@ function BoardThumbnail({ board, isAuthedProfile }) {
             />
           </ImageListItem>
         ))}
+        <ImageListItemBar
+          title={board.share || isAuthedProfile ? board.title : "Private Board"}
+        />
       </ImageList>
     </Fragment>
   );
