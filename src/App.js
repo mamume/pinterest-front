@@ -46,7 +46,7 @@ function App() {
       <Auth ref={AuthRef} />
       <CssBaseline />
       <Auth ref={AuthRef} />
-      {true
+      {authedUser
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container maxWidth="xl" sx={{ paddingTop: 9 }} >

@@ -9,7 +9,7 @@ import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
 import Masonry from 'react-masonry-component';
 
-function BoardPin({ pins, boardId }) {
+function BoardPin({ pins, boardId, isAuthedBoard }) {
   const { headers, host } = useContext(UserContext)
   const classes = Styles()
   const navigate = useNavigate()
@@ -49,15 +49,16 @@ function BoardPin({ pins, boardId }) {
               loading="lazy"
               onClick={() => openPin(pin.id)}
             />
-            <ImageListItemBar
-              sx={{ bgcolor: "inherit", m: 1 }}
-              position="top"
-              actionIcon={
-                <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
-                  <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
-                </Box>
-              }
-            />
+            {isAuthedBoard &&
+              <ImageListItemBar
+                sx={{ bgcolor: "inherit", m: 1 }}
+                position="top"
+                actionIcon={
+                  <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
+                    <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
+                  </Box>
+                }
+              />}
           </ImageListItem>
         ))
       }

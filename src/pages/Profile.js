@@ -224,7 +224,7 @@ function Profile() {
                 {/* </Stack> */}
 
                 {Boolean(pinItems.length)
-                  ? <ProfilePins pins={pinItems} />
+                  ? <ProfilePins pins={pinItems} isAuthedProfile={isAuthedProfile} />
                   : <Typography textAlign="center" mb={3}>There are no pins</Typography>}
               </Fragment>
             )
