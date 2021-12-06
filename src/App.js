@@ -19,15 +19,66 @@ import Auth from './Auth/Auth'
 
 function App() {
   const [authedUser, setAuthedUser] = useState({})
+  const [host] = useState('http://localhost:8000')
+  const [pins, setPins] = useState([])
+  const [boards, setBoards] = useState([])
   const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+
+  const removeItem = (id) => {
+    // let idx;
+    setPins(pins => pins.filter(item => item.id !== id))
+    // for (let i =0 ; i < pins.length; i++){
+    //   if( pins[i].id == id){
+    //     idx = i;
+    //   }
+    // }
+    // if(idx){
+
+    //   setPins(pins => pins.splice(idx, 1))
+    // }
+  }
+
+  const addItem = (item) => {
+    console.log(item)
+    item.content_src = `${host}${item.content_src}`
+    setPins(pins => [...pins, item])
+
+  }
+  
+
+  useEffect(() => {
+    if (authedUser)
+      fetch(`${host}/pin/pins/`, { headers })
+        .then(res => res.json())
+        .then(data => {
+          setPins(data)
+          console.log(data)
+        })
+  }, [authedUser, host, headers])
+
+  useEffect(() => {
+    try {
+      if (authedUser) {
+        fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+          .then(res => res.json())
+          .then(data => setBoards(data))
+
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+
+  }, [authedUser, host, headers])
   const AuthRef = useRef();
   const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
   }
-  const [host] = useState('http://localhost:8000')
+  
 
   useEffect(() => {
     fetch(`${host}/account/details`, { headers })
@@ -52,15 +103,15 @@ function App() {
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar runAuth={runAuth} />
+                <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
                 {authedUser
                       ? 
                     <Routes>
 
-                      <Route path="/" exact element={<Homepage />} />
-                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem}  />} />
+                      <Route path="/profile" element={<Profile  />} />
                       <Route path="/settings/*" element={<Settings />} />
-                      <Route path="/board/" element={<Board />} />
+                      <Route path="/board/" element={<Board addItem={addItem} />} />
                       <Route path="/create_pin/" element={<Create />} />
                       <Route path='/pin/:id' element={<Pin />}> </Route>
                     </Routes>

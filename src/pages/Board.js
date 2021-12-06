@@ -11,7 +11,7 @@ import BoardPins from "../components/board/BoardPins";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import EditBoard from "../components/board/EditBoard";
 
-function Board() {
+function Board({addItem}) {
   const search = window.location.search;
   const params = new URLSearchParams(search);
 
@@ -168,6 +168,9 @@ function Board() {
                       </Button>
 
                       <CreatePin
+                        pinItems= {pinItems}
+                        setPinItems={setPinItems}
+                        addItem={addItem}
                         open={openCreatePin}
                         onClose={() => setOpenCreatePin(false)}
                       />

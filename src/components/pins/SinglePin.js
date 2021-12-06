@@ -60,8 +60,8 @@ function SinglePin({ pinItem, img, external_link, id, boards, sub_board, removeI
         setSubBoard(boards.filter(board => board.id === savedBoard)[0])
         setLinked(true)
         //console.log(savedBoard)
-        console.log(subBoard)
-        console.log(authedUser)
+        // console.log(subBoard)
+        // console.log(authedUser)
         // sub_board = { id: savedBoard, title: boards[savedBoard].title }
       })
   }

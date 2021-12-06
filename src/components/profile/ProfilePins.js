@@ -19,7 +19,7 @@ function ProfilePins({ pins, isAuthedProfile }) {
   const [pinModal, setPinModal] = useState('')
 
   function openPinModal(pin) {
-    console.log(pin)
+    // console.log(pin)
     setPinModal(pin)
     setOpenPin(true)
   }
@@ -40,7 +40,7 @@ function ProfilePins({ pins, isAuthedProfile }) {
   }
 
   const saveImage = (image, title) => {
-    console.log(image)
+    // console.log(image)
     saveAs(image, `${title}.jpg`)
   }
 

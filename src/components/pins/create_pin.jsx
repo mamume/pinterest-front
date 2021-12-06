@@ -68,7 +68,7 @@ const MoreOptions = () => {
 }
 
 
-const Create = ({ open, onClose, addItem }) => {
+const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const [boardId] = useState(params.get('board_id'))
@@ -117,7 +117,7 @@ const Create = ({ open, onClose, addItem }) => {
             headers: headers ,
             body: fd
         }; */
-        console.log(host)
+        // console.log(host)
         if(host){
 
             fetch(`${host}/pin/create`, {
@@ -128,8 +128,11 @@ const Create = ({ open, onClose, addItem }) => {
         //axios.post('http://localhost:8000/pin/create', fd)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 addItem(data)
+                if(setPinItems){
+                    setPinItems(pinItems=>[...pinItems, data])
+                }
                 onClose()
                 //history(`/pin/${data.id}`)
                 
@@ -165,6 +168,7 @@ const Create = ({ open, onClose, addItem }) => {
     const [showModalPin] = useState(false);
     return (
         <Modal
+        style={{zIndex: 1000001}}
             open={open}
             onClose={onClose}
         >

@@ -74,6 +74,7 @@ export default class Third extends React.Component{
         <FormControl fullWidth >
             <InputLabel id="demo-simple-select-label">Country</InputLabel>
             <Select
+                style={{zIndex:  1000005}}
                 labelId="country-selector-label"
                 id="contry-selector"
                 name="country"
@@ -83,7 +84,7 @@ export default class Third extends React.Component{
                 onChange={this.collectInput}
             >
                 {countryArr.map((item)=>{
-                    return <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                    return <MenuItem style={{zIndex: 1000005 }}  key={item.value} value={item.value}>{item.label}</MenuItem>
                 })}
 
             </Select>

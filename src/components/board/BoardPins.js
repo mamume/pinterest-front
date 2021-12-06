@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Masonry from 'react-masonry-component';
 import { saveAs } from 'file-saver'
 import DownloadIcon from '@mui/icons-material/Download';
@@ -13,6 +13,11 @@ import Pin from '../pins/pin';
 function BoardPin({ pins, boardId, isAuthedBoard }) {
   const { headers, host } = useContext(UserContext)
   const classes = Styles()
+
+  useEffect( () =>{
+
+    setBoardPins(pins)
+  }, [pins])
 
   const [boardPins, setBoardPins] = useState(pins)
   const [openPin, setOpenPin] = useState(false)
@@ -46,7 +51,7 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
   }
 
   const saveImage = (image, title) => {
-    console.log(image)
+    // console.log(image)
     saveAs(image, `${title}.jpg`) // Put your image url here.
   }
 
