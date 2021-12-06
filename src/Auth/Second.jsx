@@ -64,7 +64,7 @@ export default class Second extends React.Component{
         />
         </DialogTitle>
         <DialogContent sx={{textAlign:"center"}}>
-       
+       <div style={{width:'80%', margin:'auto', textAlign:'center'}}>
         <DialogContentText my={5} >
         <Typography variant="h4" sx={{color:'black'}}>How do you identify?</Typography>
         </DialogContentText>  
@@ -86,7 +86,6 @@ export default class Second extends React.Component{
         </RadioGroup>
         </FormControl>
 
-        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>  
         <Button
           onClick={this.sendData}
           variant="contained" 
