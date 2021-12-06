@@ -18,7 +18,7 @@ function Homepage() {
   const [boards, setBoards] = useState([])
 
   const removeItem = (id) => {
-    let idx;
+    // let idx;
     setPins(pins => pins.filter( item => item.id !== id))
     // for (let i =0 ; i < pins.length; i++){
     //   if( pins[i].id == id){

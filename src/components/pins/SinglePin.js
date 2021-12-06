@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom'
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -22,10 +21,10 @@ import { saveAs } from 'file-saver'
 
 
 function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem }) {
-  const newTo = {
-    pathname: url ? url : `/pin/${id}`,
-    state: { id: id }
-  };
+  // const newTo = {
+  //   pathname: url ? url : `/pin/${id}`,
+  //   state: { id: id }
+  // };
   const downloadImage = () => {
     saveAs(img, 'image.jpg') // Put your image url here.
   }
@@ -42,7 +41,7 @@ function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem 
   // onClose={onClose}
   //       open={open}
   // const [update, setUpdate] = useState(false)
-  
+
 
   const handlePost = () => {
     const fd = new FormData()
@@ -70,10 +69,10 @@ function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem 
   useEffect(() => {
     console.log(authedUser)
     console.log(subBoard)
-    if (subBoard !== "None" && authedUser.id ==subBoard.owner) {
+    if (subBoard !== "None" && authedUser.id === subBoard.owner) {
       setLinked(true)
     }
-  }, [subBoard])
+  }, [authedUser, subBoard])
 
   return (
     <Wrapper>
@@ -126,21 +125,21 @@ function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem 
           </Stack>
           {/* </div> */}
           {/* <Link to={newTo}> */}
-            
-            <div style={{ display: "flex", height: "100%" }} onClick={onOpen} className="my_image_div"></div>
-            <Pin open={open} onClose={onClose} id={id} removeItem={removeItem} />
+
+          <div style={{ display: "flex", height: "100%" }} onClick={onOpen} className="my_image_div"></div>
+          <Pin open={open} onClose={onClose} id={id} removeItem={removeItem} />
           {/* </Link> */}
           <div className="my_modal_footer">
-            {external_link &&  ( <a href={external_link}><div className="my_ext" style={{position: "absolute", float:"left", bottom:"15px", left: "15px"}} >
+            {external_link && (<a href={external_link}><div className="my_ext" style={{ position: "absolute", float: "left", bottom: "15px", left: "15px" }} >
               <IconButton>
                 <CallMadeIcon />
               </IconButton>
               <span>{external_link}</span>
             </div> </a>)}
 
-            <div className="my_send" style={{position: "absolute", float:"right", bottom:"15px", right: "15px"}}>
+            <div className="my_send" style={{ position: "absolute", float: "right", bottom: "15px", right: "15px" }}>
               <IconButton onClick={downloadImage}>
-                <DownloadIcon  />
+                <DownloadIcon />
               </IconButton>
             </div>
 
