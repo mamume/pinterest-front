@@ -205,7 +205,7 @@ function Profile() {
                 {Boolean(boardItems.length)
                   ? <Masonry className={classes.masonry}>
                     {boardItems.map((item, index) => (
-                      <BoardThumbnail board={item} key={index} />
+                      <BoardThumbnail isAuthedProfile={isAuthedProfile} board={item} key={index} />
                     ))}
                   </Masonry>
                   // ? <Masonry className={classes.masonry}>

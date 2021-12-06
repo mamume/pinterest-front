@@ -91,37 +91,46 @@ function App() {
       })
   }, [headers, host])
 
-  if (authedUser == null) AuthRef.current.state.open = true
+  if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
+ 
+
   return (
     <Fragment>
-      
-      <CssBaseline />
       <Auth ref={AuthRef} />
-         <ThemeProvider theme={theme}>
+      <CssBaseline />
+      
+    <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
-            <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
+                <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
+                {authedUser
+                      ? 
+                    <Routes>
 
-      {authedUser?
-                <Routes>
-
-                  <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem} removeItem={removeItem}/>} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/settings/*" element={<Settings />} />
-                  <Route path="/board/" element={<Board />} />
-                  <Route path="/create_pin/" element={<Create />} />
-                  <Route path='/pin/:id' element={<Pin />}> </Route>
+                      <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem}  />} />
+                      <Route path="/profile" element={<Profile  />} />
+                      <Route path="/settings/*" element={<Settings />} />
+                      <Route path="/board/" element={<Board addItem={addItem} />} />
+                      <Route path="/create_pin/" element={<Create />} />
+                      <Route path='/pin/:id' element={<Pin />}> </Route>
+                    </Routes>
+                  :
+                  
+                  <Routes>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
-                </Routes>
-              : <div></div>
-              // : AuthRef.current.state.open = true
-            }
+                  </Routes>
+                }
+
               </Router>
             </Container>
           </UserContext.Provider>
+
+    
         </ThemeProvider>
+
+
       
     </Fragment>
   );
