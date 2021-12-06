@@ -36,21 +36,36 @@ export default function PrimarySearchAppBar(props) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { authedUser, headers } = useContext(UserContext);
   const [searchValue, setSearchValue] = useState("")
+  const [submitted, setSubmitted] = useState(false)
+  const [reserve, setReserve] = useState("")
   // const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState("")
 
   const handleSubmit = (e) =>{
+    setSubmitted( true)
     e.preventDefault();
     let res = []
+    setReserve(props.pins)
+    let reserve = [...props.pins]
     for(let i = 0; i< props.pins.length; i++){
       if( props.pins[i].title == searchValue){
         res.push(props.pins[i])
       }  
     }
     props.setPins(res);
-    setSearchValue("")
 
   }
+
+  useEffect( () => {
+    setReserve(...props.pins)
+  }, [])
+
+  useEffect( () => {
+    if(searchValue === "" && submitted){
+      props.setPins(reserve)
+      setSubmitted(false)
+    }
+  },[searchValue])
 
 
 

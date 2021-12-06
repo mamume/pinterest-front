@@ -165,6 +165,7 @@ const Create = ({ open, onClose, addItem }) => {
     const [showModalPin] = useState(false);
     return (
         <Modal
+        style={{zIndex: 1000001}}
             open={open}
             onClose={onClose}
         >

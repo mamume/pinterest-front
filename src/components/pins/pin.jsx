@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
-import { Modal, Box, Stack } from '@mui/material';
+import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
 import Styles from "../../styles/Styles";
 
 
@@ -34,21 +34,30 @@ const commentclick = () => {
 }
 
 
-const Pin = ({ open, onClose, id, removeItem }) => {
-	const [pin, setPin] = useState({})
+const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
+	const [pin, setPin] = useState(pinItem)
 	const classes = Styles();
 	const { authedUser, headers, host } = useContext(UserContext)
+	const [owner, setOwner] = useState({})
 
+
+	// useEffect(() => {
+	// 	fetch(`${host}/pin/${id}`)
+	// 		.then(res => res.json())
+	// 		.then(data => {
+	// 			// console.log(data)
+	// 			setPin(data)
+	// 		})
+	// }, [host, id])
 
 	useEffect(() => {
-		fetch(`${host}/pin/${id}`)
-			.then(res => res.json())
-			.then(data => {
-				setPin({ img: data.content_src, title: data.title, desc: data.description, owner: data.owner })
-				console.log(data)
-				console.log(authedUser)
-			})
-	}, [authedUser, host, id])
+		if (pin) {
+			console.log(pin.owner)
+			fetch(`${host}/profile/list/${pin.owner}`, { headers })
+				.then(res => res.json())
+				.then(data => setOwner(data))
+		}
+	}, [headers, host, pin])
 
 	const handleDelete = () => {
 		fetch(`${host}/profile/pins-delete/${id}/`, {
@@ -68,6 +77,7 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 			open={open}
 			onClose={onClose}
 			style={{ zIndex: "90000000000000" }}
+			sx={{ overflow: "auto" }}
 		>
 			<Box
 				sx={{
@@ -75,11 +85,12 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: '900px',
+					maxWidth: '1000px',
 					backgroundColor: 'white',
 					borderRadius: "32px",
 					boxShadow: '24px',
-					padding: "20px 0px",
+					padding: "20px 10px",
+					marginTop: "20% auto"
 				}}
 			>
 				{/* <div className="container"> */}
@@ -88,13 +99,13 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 				{/* <div className="left-side col-md-5"> */}
 				{/* <div className="modals_pin_pin"> */}
 				{/* <div className="pin_image_pin"> */}
-				<Stack direction="row" justifyContent="space-evenly">
-					<img src={pin.img} style={{ maxHeight: 500, borderRadius: 16 }} alt="pin_image" />
+				<Stack direction="row" justifyContent="space-around" spacing={5}>
+					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
 
 					{/* </div> */}
-					<Stack>
+					<Stack spacing={2} width={300}>
 						{/* <div className="right-side col-md-5"> */}
 						{/* <div className="section1 row">
 							<div className="icons col-6">
@@ -110,67 +121,75 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 						{/* </div> */}
 
 						{/* <div > */}
-						{(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+						<Stack direction="row" justifyContent="flex-end">
+							{(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+						</Stack>
 						{/* </div> */}
 
 						{/* </div> */}
 
-						<div className="section2 row">
-							<div className="section2_header col-12">
-								<div className="pin_title_for_pin h1">{pin.title}</div>
-								<div className="pin_description_for_pin">{pin.desc}</div>
+						{/* <div className="section2 row">
+							<div className="section2_header col-12"> */}
+						<Stack direction="row" alignItems="center" spacing>
+							<Avatar src={owner.profile_pic} />
+							<Typography>{owner.full_name}</Typography>
+						</Stack>
+						<Typography variant="h6">{pin.title}</Typography>
+						<Typography variant="body1">{pin.description}</Typography>
+						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
+						{/* </div> */}
+						{/* <div className="user_details row">
+							<div className="user_icon col-1"><span>m</span></div>
+							<div className="user_name col-4"><span>momen awad</span></div>
+						</div> */}
+
+
+						{/* <div className="note">
+							<div className="note_head">
+								Note to self
 							</div>
-							<div className="user_details row">
-								<div className="user_icon col-1"><span>m</span></div>
-								<div className="user_name col-4"><span>momen awad</span></div>
+							<div className="note_details">
+								what do you want to remember about this pin?
 							</div>
-
-							<div className="note">
-								<div className="note_head">
-									Note to self
-								</div>
-								<div className="note_details">
-									what do you want to remember about this pin?
-								</div>
-								<div className="add_note" ><span>Add note</span></div>
-							</div>
+							<div className="add_note" ><span>Add note</span></div>
+						</div> */}
 
 
-							<div className="section3">
-								<div className="comment_head">
-									<h3>comments</h3>
-									<div className="comment_icon" onClick={commentclick}>
-										<i className="fas fa-chevron-down"></i>
-									</div>
-								</div>
-								<div className="comment_area_container" id="comment_area_container">
-									<div className="comment_area_header">
-										share feedback, ask a question or give a high five
-									</div>
-
-									<div className="comment_area">
-										<div className="persons_icon"><span>A</span></div>
-										<div className="text">
-											<input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
-										</div>
-									</div>
-									<div className="comment_controllers" id="comment_controllers">
-										<input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
-										<input type="button" value="Done" name="comment_done" className="comment_done" disabled />
-									</div>
+						{/* <div className="section3">
+							<div className="comment_head">
+								<h3>comments</h3>
+								<div className="comment_icon" onClick={commentclick}>
+									<i className="fas fa-chevron-down"></i>
 								</div>
 							</div>
+							<div className="comment_area_container" id="comment_area_container">
+								<div className="comment_area_header">
+									share feedback, ask a question or give a high five
+								</div>
+
+								<div className="comment_area">
+									<div className="persons_icon"><span>A</span></div>
+									<div className="text">
+										<input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
+									</div>
+								</div>
+								<div className="comment_controllers" id="comment_controllers">
+									<input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
+									<input type="button" value="Done" name="comment_done" className="comment_done" disabled />
+								</div>
+							</div>
+						</div> */}
 
 
-						</div>
-						<div className="bord_name">
+						{/* </div> */}
+						{/* <div className="bord_name">
 							<div className="bord_items">
 								<div className="comment_icon"><span>M</span></div>
 								<div className="bord_content">
 									<span>you saved to bord name</span>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</Stack>
 				</Stack>
 
