@@ -97,13 +97,13 @@ function App() {
       
       <CssBaseline />
       <Auth ref={AuthRef} />
-      {authedUser
-        ? <ThemeProvider theme={theme}>
+         <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
-                <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
+            <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
 
+      {authedUser?
                 <Routes>
 
                   <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem} removeItem={removeItem}/>} />
@@ -115,13 +115,13 @@ function App() {
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
                 </Routes>
+              : <div></div>
+              // : AuthRef.current.state.open = true
+            }
               </Router>
             </Container>
           </UserContext.Provider>
         </ThemeProvider>
-
-        : AuthRef.current.state.open = true
-      }
       
     </Fragment>
   );

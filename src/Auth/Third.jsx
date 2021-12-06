@@ -49,7 +49,7 @@ export default class Third extends React.Component{
             }
         );
 
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} style={{zIndex: 1000001}}>
         <DialogTitle  mt={1}>
         <IconButton
           aria-label="close"
@@ -76,12 +76,13 @@ export default class Third extends React.Component{
        
         <DialogContentText my={10} >
         <Typography variant="h4" sx={{color:'black'}}>Pick your language and country/region</Typography>
-        </DialogContentText>
+        </DialogContentText >
         <div style={{width:"85%", textAlign:"center", margin:'auto'}}>  
-        <div style={{width:'100%', marginBottom:'1rem'}}>    
-        <FormControl fullWidth >
-            <InputLabel id="demo-simple-select-label">Country</InputLabel>
+        <div style={{width:'100%', marginBottom:'1rem', zIndex: "1000003 !important "}} style={{}}>    
+        <FormControl fullWidth  >
+            <InputLabel id="demo-simple-select-label" >Country</InputLabel>
             <Select
+                style={{zIndex:  1000005}}
                 labelId="country-selector-label"
                 id="contry-selector"
                 name="country"
@@ -91,7 +92,7 @@ export default class Third extends React.Component{
                 onChange={this.collectInput}
             >
                 {countryArr.map((item)=>{
-                    return <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                    return <MenuItem style={{zIndex: 1000005 }}  key={item.value} value={item.value}>{item.label}</MenuItem>
                 })}
 
             </Select>
