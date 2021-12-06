@@ -173,7 +173,7 @@ function Board() {
                       />
 
                       <Button
-                        sx={{ position: "absolute", bottom: "10px", right: "20px" }}
+                        sx={{ bgcolor: "white", position: "absolute", bottom: "10px", right: "20px", zIndex: "11" }}
                         variant="outlined"
                         startIcon={<DeleteIcon />}
                         onClick={deleteBoard}
