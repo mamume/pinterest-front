@@ -16,15 +16,16 @@ function ProfilePins({ pins, isAuthedProfile }) {
 
   const [pinItems, setPinItems] = useState(pins)
   const [openPin, setOpenPin] = useState(false)
-  const [pinModalId, setPinModalId] = useState('')
+  const [pinModal, setPinModal] = useState('')
 
-  function openPinModal(id) {
-    setPinModalId(id)
+  function openPinModal(pin) {
+    console.log(pin)
+    setPinModal(pin)
     setOpenPin(true)
   }
   function closePinModal() {
     setOpenPin(false)
-    setPinModalId('')
+    setPinModal('')
   }
 
   function removeFromProfile(id) {
@@ -54,7 +55,7 @@ function ProfilePins({ pins, isAuthedProfile }) {
                 src={`${pin.content_src}`}
                 alt={pin.title}
                 loading="lazy"
-                onClick={() => openPinModal(pin.id)}
+                onClick={() => openPinModal(pin)}
               />
               {isAuthedProfile &&
                 <ImageListItemBar
@@ -77,7 +78,7 @@ function ProfilePins({ pins, isAuthedProfile }) {
           ))
         }
       </Masonry >
-      <Pin open={openPin} onClose={closePinModal} id={pinModalId} removeItem={() => removeFromProfile(pinModalId)} />
+      <Pin open={openPin} onClose={closePinModal} pinItem={pinModal} removeItem={() => removeFromProfile(pinModal.id)} />
     </>
   );
 }

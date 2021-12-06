@@ -96,7 +96,7 @@ function App() {
     <Fragment>
       
       <CssBaseline />
-      
+      <Auth ref={AuthRef} />
       {authedUser
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
@@ -122,7 +122,7 @@ function App() {
 
         : AuthRef.current.state.open = true
       }
-      <Auth ref={AuthRef} />
+      
     </Fragment>
   );
 }

@@ -1,7 +1,8 @@
 .css-hz1bth-MuiDialog-container{
-    max-height: 108% !important;
-    overflow-y: auto !important;
     height: auto !important;
+}
+.css-zw3mfo-MuiModal-root-MuiDialog-root{
+    position: absolute !important;
 }
 
 .css-22jxwj-MuiPaper-root-MuiDialog-paper {
@@ -9,12 +10,8 @@
     padding-right: 0rem !important;
     padding-left: 0rem !important;
     min-width: 30%;
-    margin-top: 1rem !important;
-    /* max-height: none !important; */
+    max-height: none !important;
 
-
-
-    
 
 }
 

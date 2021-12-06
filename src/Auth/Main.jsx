@@ -166,8 +166,7 @@ export default class Main extends React.Component {
   render() {
 
     return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
-      <DialogTitle sx={{ textAlign: "center" }}>
-        <IconButton
+              <IconButton
           aria-label="close"
           onClick={this.props.close}
           sx={{
@@ -180,7 +179,9 @@ export default class Main extends React.Component {
         >
           <CloseIcon />
         </IconButton>
-      </DialogTitle>
+      {/* <DialogTitle sx={{ textAlign: "center" }}>
+
+      </DialogTitle> */}
       <DialogContent sx={{ textAlign: "center"}}>
         <DialogContentText sx={{ margin: '0 0 1rem 0' }}>
           <PinterestIcon fontSize="large"
@@ -319,7 +320,7 @@ export default class Main extends React.Component {
               />
             </div>
           </form>
-          <div style={{ width: "90%", margin: '1rem auto', textAlign: 'center' }}>
+          <div style={{ width: "90%", margin: '1rem auto' , textAlign: 'center' }}>
             <Typography variant="caption">
               By continuing you agree to pinterest's <button className="asAnchor">Terms of Service</button> and
               acknowledge you've read our <button className="asAnchor">Privacy Policy</button>
