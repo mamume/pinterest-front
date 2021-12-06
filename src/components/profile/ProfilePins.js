@@ -8,7 +8,7 @@ import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
 import Masonry from 'react-masonry-component';
 
-function ProfilePins({ pins }) {
+function ProfilePins({ pins, isAuthedProfile }) {
   const { headers, host } = useContext(UserContext)
   const classes = Styles()
   const navigate = useNavigate()
@@ -42,15 +42,16 @@ function ProfilePins({ pins }) {
               loading="lazy"
               onClick={() => openPin(pin.id)}
             />
-            <ImageListItemBar
-              sx={{ bgcolor: "inherit", m: 1 }}
-              position="top"
-              actionIcon={
-                <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromPin(pin.id)}>
-                  <IconButton color="error"><DeleteRoundedIcon /></IconButton>
-                </Box>
-              }
-            />
+            {isAuthedProfile &&
+              <ImageListItemBar
+                sx={{ bgcolor: "inherit", m: 1 }}
+                position="top"
+                actionIcon={
+                  <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromPin(pin.id)}>
+                    <IconButton color="error"><DeleteRoundedIcon /></IconButton>
+                  </Box>
+                }
+              />}
           </ImageListItem>
         ))
       }
