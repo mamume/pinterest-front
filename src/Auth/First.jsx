@@ -116,7 +116,7 @@ export default class First extends React.Component{
             variant="outlined"
             value={this.state.username}
             onChange={this.collectInput}
-            helperText={this.state.usernameError?"User name exists":""}
+            // helperText={this.state.usernameError?"User name exists":""}
             helperText={this.validator.message('username', this.state.username, "required|min:8")}
           />
 
