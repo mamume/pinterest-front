@@ -45,15 +45,16 @@ export default class First extends React.Component{
     sendData=()=>{
 
       if(this.validator.allValid()){
-        axiosInstance
-          .post("/account/checkuser", {"username":this.state.username})
-          .then(res =>{
-            if(res.data.success){
-              this.props.collect(this.state.username)
-              this.props.switch('second')
-            }else this.validator.showMessageFor("username")
-          })
-
+        // axiosInstance
+        //   .post("/account/checkuser", {"username":this.state.username})
+        //   .then(res =>{
+        //     if(res.data.success){
+        //       this.props.collect(this.state.username)
+        //       this.props.switch('second')
+        //     }else this.validator.showMessageFor("username")
+        //   })
+        this.props.collect(this.state.username)
+        this.props.switch('second')
       }else{
         this.setState({usernameError:true})
       }
@@ -116,6 +117,7 @@ export default class First extends React.Component{
             value={this.state.username}
             onChange={this.collectInput}
             helperText={this.state.usernameError?"User name exists":""}
+            helperText={this.validator.message('username', this.state.username, "required|min:8")}
           />
 
           <DialogContentText mt={3} >
