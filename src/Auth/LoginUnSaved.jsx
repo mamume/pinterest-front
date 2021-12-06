@@ -212,7 +212,7 @@ export default class LoginUnSaved extends React.Component {
             helperText={this.validator.message('password', this.state.loginPassword, 'required|password|min:8')}
           />
           <DialogContentText ml={1} sx={{ textAlign: "left" }}>
-            <Typography variant="subtitle2"><a href="http://localhost3000/password-reset">Forgot your password?</a>
+            <Typography variant="subtitle2"><a href="http://localhost:3000/password-reset">Forgot your password?</a>
             </Typography>
           </DialogContentText>
 

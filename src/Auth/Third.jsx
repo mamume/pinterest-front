@@ -24,7 +24,6 @@ export default class Third extends React.Component{
         super();
         this.state = {
             country:"EG",
-            lang:"en_US"
         }
     }
 
@@ -41,14 +40,7 @@ export default class Third extends React.Component{
 
     render(){
         let countryArr = countryList().getData()
-        let langList = require('lang-list')
-        let languagesArr = langList.getList(
-            { 
-                supportedLangs: ['ar_AR', 'en_US', 'fr_FR', 'es_ES'], 
-                strict: true
-            }
-        );
-
+        
         return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle  mt={1}>
         <IconButton

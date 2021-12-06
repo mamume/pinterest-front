@@ -40,37 +40,46 @@ function App() {
       })
   }, [headers, host])
 
-  if (authedUser == null) AuthRef.current.state.open = true
+  if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
+ 
+
   return (
     <Fragment>
-      
-      <CssBaseline />
       <Auth ref={AuthRef} />
-      {authedUser
-        ? <ThemeProvider theme={theme}>
+      <CssBaseline />
+      
+    <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
             <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
               <Router>
                 <NavigationBar runAuth={runAuth} />
+                {authedUser
+                      ? 
+                    <Routes>
 
-                <Routes>
-
-                  <Route path="/" exact element={<Homepage />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/settings/*" element={<Settings />} />
-                  <Route path="/board/" element={<Board />} />
-                  <Route path="/create_pin/" element={<Create />} />
-                  <Route path='/pin/:id' element={<Pin />}> </Route>
+                      <Route path="/" exact element={<Homepage />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/settings/*" element={<Settings />} />
+                      <Route path="/board/" element={<Board />} />
+                      <Route path="/create_pin/" element={<Create />} />
+                      <Route path='/pin/:id' element={<Pin />}> </Route>
+                    </Routes>
+                  :
+                  
+                  <Routes>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
-                </Routes>
+                  </Routes>
+                }
+
               </Router>
             </Container>
           </UserContext.Provider>
+
+    
         </ThemeProvider>
 
-        : AuthRef.current.state.open = true
-      }
+
       
     </Fragment>
   );
