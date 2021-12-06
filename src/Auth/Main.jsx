@@ -181,7 +181,7 @@ export default class Main extends React.Component {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ textAlign: "center" }}>
+      <DialogContent sx={{ textAlign: "center"}}>
         <DialogContentText sx={{ margin: '0 0 1rem 0' }}>
           <PinterestIcon fontSize="large"
             sx={{

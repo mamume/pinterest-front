@@ -252,7 +252,7 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div>
+        return <div >
         {/* <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 

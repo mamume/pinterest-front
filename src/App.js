@@ -44,9 +44,9 @@ function App() {
   if(authedUser == null) AuthRef.current.state.open = true
   return (
     <Fragment>
-      <Auth ref={AuthRef} />
+      
       <CssBaseline />
-      <Auth ref={AuthRef} />
+      
       {true
         ? <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
@@ -71,7 +71,7 @@ function App() {
         
         : AuthRef.current.state.open = true
       }
-    
+      <Auth ref={AuthRef} />
     </Fragment>
   );
 }
