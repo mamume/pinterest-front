@@ -58,7 +58,7 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
 
   return (
     <Wrapper>
-      <CardWrapper>
+      <CardWrapper className={classes.pin}>
         <div className="myModal">
           {/* <div className="my_modal_header"> */}
           <Stack direction='row' justifyContent="space-between" p={1} spacing={1}>
@@ -131,7 +131,7 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
           </div>
         </div>
 
-        <img src={img} alt="" />
+        <img style={{ minHeight: 236, }} src={img} alt="" />
       </CardWrapper>
     </Wrapper>
   )
@@ -147,7 +147,7 @@ const Wrapper = styled.div`
         display: flex;
         justify-content: center;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 16px;
         object-fit: cover;
     }
 `

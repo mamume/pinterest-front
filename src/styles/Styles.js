@@ -22,7 +22,7 @@ export default makeStyles({
   },
   pin: {
     borderRadius: 16,
-    border: "1px lightgray solid",
+    border: "1px #f5f5f5 solid",
     minHeight: 236,
     maxWidth: 236,
     minWidth: 236,
