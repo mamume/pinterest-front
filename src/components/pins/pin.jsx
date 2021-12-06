@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
 //mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
-import { IconButton, Modal, Box } from '@mui/material';
+import { Modal, Box } from '@mui/material';
 import Styles from "../../styles/Styles";
 
 
@@ -43,8 +42,6 @@ const commentclick = () => {
 const Pin = ({ open, onClose, id, removeItem }) => {
     const [pin, setPin] = useState({})
     // let data = useLocation();
-    let history = useNavigate();
-    let param = useParams();
     const classes = Styles();
     const { authedUser, headers, host } = useContext(UserContext)
 
@@ -64,6 +61,7 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 
             })
     }, [authedUser, host, id])
+
     const handleDelete = () => {
         fetch(`${host}/profile/pins-delete/${id}/`, {
             headers,
@@ -112,7 +110,7 @@ const Pin = ({ open, onClose, id, removeItem }) => {
 
                                 <div >
                                     {/* <div className="save_pin_pin"><span>delete</span></div> */}
-                                    {(authedUser.id == pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+                                    {(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
                                     {/* <div className="save_pin_pin"><span>save</span></div> */}
                                 </div>
 
