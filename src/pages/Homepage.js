@@ -6,9 +6,12 @@ import AddButton from "../components/navigationbar/AddButton"
 import { UserContext } from "../context";
 import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from "@mui/material";
+import Styles from '../styles/Styles'
 
 
 function Homepage() {
+  const classes = Styles()
+
   const [pins, setPins] = useState([])
   const [loaded, setLoaded] = useState(false)
   const { authedUser, headers, host } = useContext(UserContext)
@@ -79,7 +82,7 @@ function Homepage() {
           ? (
             <Fragment>
               <AddButton />
-              <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
+              <Masonry className={classes.masonry} >
                 {pins.map((pin) => (
                   <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards} sub_board={pin.board} />
                 ))}
