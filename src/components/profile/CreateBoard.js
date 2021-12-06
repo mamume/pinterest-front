@@ -44,7 +44,7 @@ function CreateBoard({ openCreateBoard, closeCreateBoard }) {
         <Stack spacing={3} marginY={1}>
           <TextField fullWidth label="Name" placeholder='Like "Places to Go" or "Recipes to Make"' onChange={e => setTitle(e.target.value)} />
           <FormControlLabel control={
-            <Checkbox checked={share} onChange={e => setShare(e.target.checked)} color="black" />}
+            <Checkbox checked={!share} onChange={e => setShare(!e.target.checked)} color="black" />}
             label={
               <Fragment>
                 <Typography fontWeight="bold">Keep this board secret</Typography>
