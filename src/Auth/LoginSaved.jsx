@@ -35,7 +35,7 @@ export default class LoginSaved extends React.Component{
 
 
     render(){
-        return <Dialog open={this.props.open}  maxWidth='sm' fullWidth={false}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle>
           <IconButton
             aria-label="close"
@@ -52,7 +52,7 @@ export default class LoginSaved extends React.Component{
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{textAlign:"center"}}>
-        <div style={{width:"90%", textAlign:"center", margin:'auto'}}>
+        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>
           <PinterestIcon fontSize="large" 
           sx={{
             color:'#e60023',
@@ -113,6 +113,8 @@ export default class LoginSaved extends React.Component{
 
         <Divider/> 
 
+        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>
+
          <DialogContentText mt={2}> 
           <Typography variant="caption">
           <button className="asAnchor" onClick={()=> this.props.switch('unsavedLogin')}>Not you? log in with a deffrent account</button>
@@ -122,7 +124,8 @@ export default class LoginSaved extends React.Component{
           <Typography variant="caption">
           <button className="asAnchor" onClick={()=> this.props.switch('main')}>Need an account? sign up now</button>
         </Typography>
-        </DialogContentText>    
+        </DialogContentText>  
+        </div>  
 
         </DialogContent>
 
