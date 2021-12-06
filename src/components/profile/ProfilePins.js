@@ -7,6 +7,8 @@ import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
 import Masonry from 'react-masonry-component';
+import { saveAs } from 'file-saver'
+import DownloadIcon from '@mui/icons-material/Download';
 
 function ProfilePins({ pins, isAuthedProfile }) {
   const { headers, host } = useContext(UserContext)
@@ -30,6 +32,11 @@ function ProfilePins({ pins, isAuthedProfile }) {
       .then(setPinItems(newPins))
   }
 
+  const saveImage = (image, title) => {
+    console.log(image)
+    saveAs(image, `${title}.jpg`) // Put your image url here.
+  }
+
   return (
     <Masonry className={classes.masonry}>
       {
@@ -47,11 +54,18 @@ function ProfilePins({ pins, isAuthedProfile }) {
                 sx={{ bgcolor: "inherit", m: 1 }}
                 position="top"
                 actionIcon={
-                  <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromPin(pin.id)}>
-                    <IconButton color="error"><DeleteRoundedIcon /></IconButton>
-                  </Box>
+                  <IconButton disableRipple sx={{ bgcolor: "white" }} onClick={() => removeFromPin(pin.id)} color="error"><DeleteRoundedIcon /></IconButton>
                 }
               />}
+            <ImageListItemBar
+              sx={{ bgcolor: "inherit", m: 1 }}
+              position="bottom"
+              actionIcon={
+                <IconButton disableRipple sx={{ bgcolor: "white" }} onClick={() => saveImage(pin.content_src, pin.title)}>
+                  <DownloadIcon />
+                </IconButton>
+              }
+            />
           </ImageListItem>
         ))
       }

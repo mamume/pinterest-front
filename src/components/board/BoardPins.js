@@ -3,11 +3,12 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from "react-router";
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
-import Box from '@mui/material/Box'
 import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
 import Masonry from 'react-masonry-component';
+import { saveAs } from 'file-saver'
+import DownloadIcon from '@mui/icons-material/Download';
 
 function BoardPin({ pins, boardId, isAuthedBoard }) {
   const { headers, host } = useContext(UserContext)
@@ -37,6 +38,11 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
       .then(setBoardPins(newPins))
   }
 
+  const saveImage = (image, title) => {
+    console.log(image)
+    saveAs(image, `${title}.jpg`) // Put your image url here.
+  }
+
   return (
     <Masonry className={classes.masonry}>
       {
@@ -54,11 +60,18 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
                 sx={{ bgcolor: "inherit", m: 1 }}
                 position="top"
                 actionIcon={
-                  <Box sx={{ bgcolor: "white", borderRadius: "50%" }} onClick={() => removeFromBoard(pin.id)}>
-                    <IconButton color="error"><RemoveCircleRoundedIcon /></IconButton>
-                  </Box>
+                  <IconButton disableRipple sx={{ bgcolor: "white" }} onClick={() => removeFromBoard(pin.id)} color="error"><RemoveCircleRoundedIcon /></IconButton>
                 }
               />}
+            <ImageListItemBar
+              sx={{ bgcolor: "inherit", m: 1 }}
+              position="bottom"
+              actionIcon={
+                <IconButton disableRipple sx={{ bgcolor: "white" }} onClick={() => saveImage(pin.content_src, pin.title)}>
+                  <DownloadIcon />
+                </IconButton>
+              }
+            />
           </ImageListItem>
         ))
       }
