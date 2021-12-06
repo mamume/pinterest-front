@@ -45,7 +45,7 @@ export default function PrimarySearchAppBar(props) {
   //const [formData, setFormData] = useState({email: "", password: "", age:"", username={}, gender: "", country: "", language: "", loginEmail: "", loginPassword: ""})
 
   useEffect(() => {
-    console.log(authedUser)
+    // console.log(authedUser)
     try {
        setProfilePicture(authedUser.profile_pic)
     }

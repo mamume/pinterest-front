@@ -3,40 +3,39 @@ import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
 import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
-import Styles from "../../styles/Styles";
+// import Styles from "../../styles/Styles";
 
 
-const handelfocus = () => {
-	let ftarget = document.getElementById("comment_controllers")
-	ftarget.classList.add("comment_vis")
-}
+// const handelfocus = () => {
+// 	let ftarget = document.getElementById("comment_controllers")
+// 	ftarget.classList.add("comment_vis")
+// }
 
-const handelclick = () => {
-	let btarget = document.getElementById("comment_controllers")
+// const handelclick = () => {
+// 	let btarget = document.getElementById("comment_controllers")
 
-	btarget.classList.remove("comment_vis")
-	btarget.classList.add("comment_hide")
-}
+// 	btarget.classList.remove("comment_vis")
+// 	btarget.classList.add("comment_hide")
+// }
 
-const handelchange = (event) => {
-	let target = document.getElementsByClassName("comment_done")
-	target.item(0).disabled = false;
-	target.item(0).classList.add("comment_done_edite")
-	if (event.target.value === "") {
-		target.item(0).disabled = true;
-		target.item(0).classList.remove("comment_done_edite")
-	}
-}
+// const handelchange = (event) => {
+// 	let target = document.getElementsByClassName("comment_done")
+// 	target.item(0).disabled = false;
+// 	target.item(0).classList.add("comment_done_edite")
+// 	if (event.target.value === "") {
+// 		target.item(0).disabled = true;
+// 		target.item(0).classList.remove("comment_done_edite")
+// 	}
+// }
 
-const commentclick = () => {
-	let dis = document.getElementById("comment_area_container")
-	dis.classList.toggle("comment_area_container");
-}
+// const commentclick = () => {
+// 	let dis = document.getElementById("comment_area_container")
+// 	dis.classList.toggle("comment_area_container");
+// }
 
 
 const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 	const [pin, setPin] = useState(pinItem)
-	const classes = Styles();
 	const { authedUser, headers, host } = useContext(UserContext)
 	const [owner, setOwner] = useState({})
 
