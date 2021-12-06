@@ -88,16 +88,17 @@ function Board() {
                   </Avatar>
                   <Stack direction='row' alignItems="baseline" spacing>
                     <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
-                    <IconButton color="info" onClick={() => setOpenEditBoard(true)}>
-                      <EditTwoToneIcon />
-                    </IconButton>
-                    <EditBoard
-                      openEditBoard={openEditBoard}
-                      closeEditBoard={() => setOpenEditBoard(false)}
-                      boardTitle={title}
-                      boardShare={share}
-                      boardId={boardId}
-                    />
+                    {isAuthedBoard && <>
+                      <IconButton color="info" onClick={() => setOpenEditBoard(true)}>
+                        <EditTwoToneIcon />
+                      </IconButton>
+                      <EditBoard
+                        openEditBoard={openEditBoard}
+                        closeEditBoard={() => setOpenEditBoard(false)}
+                        boardTitle={title}
+                        boardShare={share}
+                        boardId={boardId}
+                      /></>}
                     {/* <MenuButton
                       icon={<MoreHorizIcon />}
                       options={["Edit Board", "Share", "Merge", "Archive"]}
