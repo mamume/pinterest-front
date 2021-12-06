@@ -1,56 +1,52 @@
 import { MenuItem, Button, InputLabel, Select, Stack, TextField, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import SettingsButtons from "./SettingsButtons";
 import countryList from 'react-select-country-list'
 import axiosFetchInstance from "../../axios/Fetch";
-import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context'
 
 function AccountSettings() {
+    const { authedUser, setAuthedUser } = useContext(UserContext)
+    const countryOptions = useMemo(() => countryList().getData(), [])
+    const navigate = useNavigate();
+
     const [clear, setClear] = useState(false)
     const [change] = useState(true)
     const [disabled, setDisabled] = useState(true)
     const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')
     const [gender, setGender] = useState('male')
-    const countryOptions = useMemo(() => countryList().getData(), [])
-    const navigate = useNavigate();
-    
+
+    useEffect(() => {
+        if (authedUser) {
+            setEmail(authedUser.email)
+            setCountry(authedUser.country)
+            setGender(authedUser.gender)
+        }
+    }, [authedUser])
 
     const HSave = () => {
-        
-
         const data = {
-            email:email,
-            gender:gender ,
-            country:country
+            email: email,
+            gender: gender,
+            country: country
         };
         let jsonUser = JSON.stringify(data)
         axiosFetchInstance
-            .patch('/account/update',jsonUser).then((res) => {
-                console.log(res.data)
-            }).catch(err => {
-            console.log(err)
-        });
-
-        
+            .patch('/account/update', jsonUser)
     }
-    
+
     const HDelete = async () => {
-        
-        
-        await axiosFetchInstance.delete('/account/delete').then((res)=> {
-            console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
-        
+        await axiosFetchInstance.delete('/account/delete')
 
-        navigate("/");
-        
-        
+        localStorage.removeItem('pinterestAccessToken')
+        localStorage.removeItem('pinterestRefreshToken')
+        localStorage.removeItem('pinterestAccount')
+        navigate('/')
+        setAuthedUser(null)
     }
-    
+
     useEffect(() => {
         if (email || country || gender)
             setDisabled(false)
@@ -67,8 +63,6 @@ function AccountSettings() {
             setClear(false)
         }
     }, [clear])
-    
-
 
     return (
         <Fragment>
@@ -120,9 +114,9 @@ function AccountSettings() {
                 disabled={disabled}
                 setClear={setClear}
                 change={change}
-                save={HSave}
+                handleSave={HSave}
             />
-            
+
         </Fragment >
     );
 }

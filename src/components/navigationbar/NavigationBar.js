@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from "@mui/styles";
 import { Link } from 'react-router-dom';
 //import {Redirect } from 'react-router';
-import React, { useEffect, useContext, Fragment } from "react";
+import React, { useEffect, useContext, Fragment, useState } from "react";
 import { UserContext } from "../../context";
 
 
@@ -34,8 +34,9 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { authedUser, setHeaders } = useContext(UserContext);
+  const { authedUser, headers } = useContext(UserContext);
   // const [open, setOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState("")
 
 
 
@@ -44,14 +45,14 @@ export default function PrimarySearchAppBar(props) {
   //const [formData, setFormData] = useState({email: "", password: "", age:"", username={}, gender: "", country: "", language: "", loginEmail: "", loginPassword: ""})
 
   useEffect(() => {
-    // console.log(authedUser)
+    console.log(authedUser)
     try {
-      // setProfilePicture(authedUser.profile_pic)
+       setProfilePicture(authedUser.profile_pic)
     }
     catch (err) {
     }
 
-  }, [authedUser]);
+  }, [authedUser, headers]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -180,7 +181,7 @@ export default function PrimarySearchAppBar(props) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000000 }}>
 
       <AppBar position="static" color="text">
         <Toolbar>
@@ -234,7 +235,7 @@ export default function PrimarySearchAppBar(props) {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  {authedUser ? <Avatar alt="Remy Sharp" src={""} /> : ""}
+                  {authedUser ? <Avatar alt="Remy Sharp" src={profilePicture} /> : <div></div>}
                 </IconButton>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

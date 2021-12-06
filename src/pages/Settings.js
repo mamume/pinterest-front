@@ -47,7 +47,7 @@ function Setting() {
         >
           <List>
             <Link to="" className={classes.link}>
-              <ListItemButton selected={location.pathname === "/settings/public-profile"}>
+              <ListItemButton selected={location.pathname === "/settings"}>
                 <ListItemText
                   primaryTypographyProps={{
                     variant: "button"
@@ -128,7 +128,7 @@ function Setting() {
             </ListItemButton> */}
           </List>
         </Drawer>
-        <Stack spacing={2} sx={{ width: "490px" }}>
+        <Stack m={3} spacing={2} sx={{ width: "490px" }}>
           <Routes>
             <Route path="" element={<PublicProfile />}
             />

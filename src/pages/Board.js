@@ -1,15 +1,15 @@
-import { Button, Divider, Stack, Typography } from "@mui/material";
+import { Button, Divider, IconButton, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import { UserContext } from "../context";
-import SinglePin from "../components/pins/SinglePin";
-import Masonry from 'react-masonry-component';
 import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router";
-
+import BoardPins from "../components/board/BoardPins";
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import EditBoard from "../components/board/EditBoard";
 
 function Board() {
   const search = window.location.search;
@@ -24,6 +24,7 @@ function Board() {
   const [notFound, setNotFound] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [openCreatePin, setOpenCreatePin] = useState(false)
+  const [openEditBoard, setOpenEditBoard] = useState(false)
   const [ownerId, setOwnerId] = useState(null)
   const [isAuthedBoard, setIsAuthedBoard] = useState(false)
   const [authorized, setAuthorized] = useState(true)
@@ -85,14 +86,25 @@ function Board() {
                 <Stack direction="column" alignItems="center">
                   <Avatar src={coverImage || '/images/board_placeholder.png'} sx={{ width: 120, height: 120 }} size='large' alt="Profile Image">
                   </Avatar>
-                  {/* <Stack direction='row' alignItems="baseline" spacing> */}
-                  <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
-                  {/* <MenuButton
-            icon={<MoreHorizIcon />}
-            options={["Edit Board", "Share", "Merge", "Archive"]}
-            label="Board Options"
-          /> */}
-                  {/* </Stack> */}
+                  <Stack direction='row' alignItems="baseline" spacing>
+                    <Typography mt fontWeight="bold" variant="h4">{title}</Typography>
+                    {isAuthedBoard && <>
+                      <IconButton color="info" onClick={() => setOpenEditBoard(true)}>
+                        <EditTwoToneIcon />
+                      </IconButton>
+                      <EditBoard
+                        openEditBoard={openEditBoard}
+                        closeEditBoard={() => setOpenEditBoard(false)}
+                        boardTitle={title}
+                        boardShare={share}
+                        boardId={boardId}
+                      /></>}
+                    {/* <MenuButton
+                      icon={<MoreHorizIcon />}
+                      options={["Edit Board", "Share", "Merge", "Archive"]}
+                      label="Board Options"
+                    /> */}
+                  </Stack>
 
                   {/* <Button onClick={handleOpen} color="text" disableElevation sx={{ margin: 0, padding: 0, borderRadius: "16px" }}>
           <Stack direction='row' alignItems="center">
@@ -161,7 +173,7 @@ function Board() {
                       />
 
                       <Button
-                        sx={{ position: "absolute", bottom: "10px", right: "20px" }}
+                        sx={{ bgcolor: "white", position: "absolute", bottom: "10px", right: "20px", zIndex: "11" }}
                         variant="outlined"
                         startIcon={<DeleteIcon />}
                         onClick={deleteBoard}
@@ -180,14 +192,11 @@ function Board() {
                 </Stack>
 
                 {Boolean(pinItems.length)
-                  ? <Masonry style={{ width: "100%", paddingLeft: "80px" }}  >
-                    {pinItems.map((item) => (
-                      <SinglePin key={item.id} img={item.content_src} id={item.id} />
-                    ))}
-                  </Masonry>
+                  ? <BoardPins isAuthedBoard={isAuthedBoard} boardId={boardId} pins={pinItems} />
+
                   : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
                 }
-              </Fragment>
+              </Fragment >
             )
             : <NotFound message="Private Board" />
           : <Stack direction="row" justifyContent="center" mt={10}><CircularProgress /></Stack>

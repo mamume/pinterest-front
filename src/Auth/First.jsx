@@ -25,7 +25,7 @@ export default class First extends React.Component{
             username:{
               message:"invalid user name",
               rule:(val, validator)=>{
-                return validator.helpers.testRegex(val, /^[a-z0-9_\.]+$/)
+                return validator.helpers.testRegex(val, /^[a-z0-9_.]+$/)
               }
             }
           }

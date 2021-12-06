@@ -3,7 +3,9 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CreatePin from '../pins/create_pin'
 
-function AddButton() {
+
+
+function AddButton({ addItem }) {
   const [open, setOpen] = useState(false)
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
@@ -17,6 +19,7 @@ function AddButton() {
         padding: "15px",
         color: "black",
         zIndex: 10000,
+        backgroundColor: "white"
       }} sx={{ boxShadow: 3, }}>
         <AddIcon sx={{
           fontSize: 20,
@@ -27,6 +30,7 @@ function AddButton() {
       </IconButton>
 
       <CreatePin
+        addItem={addItem}
         onClose={onClose}
         open={open}
       />

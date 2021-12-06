@@ -68,7 +68,7 @@ const MoreOptions = () => {
 }
 
 
-const Create = ({ open, onClose }) => {
+const Create = ({ open, onClose, addItem }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const [boardId] = useState(params.get('board_id'))
@@ -117,21 +117,29 @@ const Create = ({ open, onClose }) => {
             headers: headers ,
             body: fd
         }; */
-        fetch(`${host}/pin/create`, {
-            method: 'POST',
-            body: fd,
-            headers: { 'Authorization': headers.Authorization }
+        console.log(host)
+        if(host){
+
+            fetch(`${host}/pin/create`, {
+                method: 'POST',
+                body: fd,
+                headers: { 'Authorization': headers.Authorization }
         })
-            //axios.post('http://localhost:8000/pin/create', fd)
+        //axios.post('http://localhost:8000/pin/create', fd)
             .then(response => response.json())
             .then(data => {
-                history('/')
-
+                console.log(data)
+                addItem(data)
+                onClose()
+                //history(`/pin/${data.id}`)
+                
+                
             });
-
-
+            
+            
+        }
     }
-
+    
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
         // console.log(e.target.files[0])
