@@ -3,16 +3,9 @@ import { useLocation, useNavigate, useParams } from "react-router";
 //mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 import { UserContext } from '../../context'
-
-
-export function withRouter(Child) {
-    return (props) => {
-        const location = useLocation();
-        const navigate = useNavigate();
-        return <Child {...props} navigate={navigate} location={location} />;
-    }
-}
-
+import Button from '@mui/material/Button';
+import { IconButton, Modal, Box } from '@mui/material';
+import Styles from "../../styles/Styles";
 
 
 
@@ -47,36 +40,59 @@ const commentclick = () => {
 }
 
 
-const Pin = () => {
+const Pin = ({open, onClose, id, removeItem}) => {
     const [pin, setPin] = useState({})
     // let data = useLocation();
+    let history = useNavigate();
     let param = useParams();
-    const { host } = useContext(UserContext)
+    const classes = Styles();
+    const { authedUser, headers, host } = useContext(UserContext)
+    
 
     useEffect(() => {
-        fetch(`${host}/pin/${param.id}`)
+        fetch(`${host}/pin/${id}`)
             .then(res => res.json())
             .then(data => {
                 // console.log(data)
                 //setItemData(itemData => [...itemData, { img: temp }])
                 // console.log(data)
                 // console.log(data.content_src)
-                setPin({ img: data.content_src, title: data.title, desc: data.description })
+                setPin({ img: data.content_src, title: data.title, desc: data.description, owner: data.owner })
+                console.log(data)
+                console.log(authedUser)
 
 
             })
-    }, [host, param.id])
+    }, [host,])
+
+    const handleDelete = () => {
+        fetch(`${host}/profile/pins-delete/${id}/`, {
+            headers,
+            method: "DELETE"
+          })
+            .then(res => res.json())
+            .catch(data => {
+                
+                removeItem(id);
+                onClose();
+            })
+    }
 
 
     return (
-        <React.Fragment>
+        <Modal
+            open={open}
+            onClose={onClose}
+            style={{zIndex:"90000000000000"}}
+        >
+            <Box className={classes.modal} sx={{width: "700px !important", maxHeight: "600px !important"}} >
             <div className="container">
                 <div className="sides row">
 
                     <div className="left-side col-md-5">
                         <div className="modals_pin_pin">
                             <div className="pin_image_pin">
-                                <img src={pin.img} alt="pin_image" />
+                                <img src={pin.img} style={{height: "inherit", width: "inherit"}} alt="pin_image" />
                             </div>
                         </div>
 
@@ -95,14 +111,10 @@ const Pin = () => {
                                 </div>
                             </div>
 
-                            <div className="select_board col-6">
-                                <select defaultValue="Select" name="pin_size" id="board_btn">
-                                    <option value="">Select</option>
-                                    <option value="small">small</option>
-                                    <option value="medium">meduim</option>
-                                    <option value="large">large</option>
-                                </select>
-                                <div className="save_pin_pin"><span>save</span></div>
+                            <div >
+                                {/* <div className="save_pin_pin"><span>delete</span></div> */}
+                                { (authedUser.id == pin.owner) && <Button  onClick ={handleDelete} variant = "outline" color= "primary" sx={{color: "white !important", backgroundColor: " #e33225 !important"}}>Delete</Button> }
+                                {/* <div className="save_pin_pin"><span>save</span></div> */}
                             </div>
 
                         </div>
@@ -171,9 +183,11 @@ const Pin = () => {
                 </div>
             </div>
 
+            </Box>
 
 
-        </React.Fragment>
+
+        </Modal>
     );
 }
 

@@ -16,6 +16,25 @@ function Homepage() {
   const [loaded, setLoaded] = useState(false)
   const { authedUser, headers, host } = useContext(UserContext)
   const [boards, setBoards] = useState([])
+
+  const removeItem = (id) => {
+    let idx;
+    setPins(pins => pins.filter( item => item.id !== id))
+    // for (let i =0 ; i < pins.length; i++){
+    //   if( pins[i].id == id){
+    //     idx = i;
+    //   }
+    // }
+    // if(idx){
+
+    //   setPins(pins => pins.splice(idx, 1))
+    // }
+  } 
+
+  const addItem = (item) =>{
+    setPins( pins => [...pins, item])
+
+  }
   // const [updatePins, setUpdatePins] = useState(false)
 
   // useEffect(() => {
@@ -60,17 +79,26 @@ function Homepage() {
           setPins(data)
           console.log(data)
         })
-  }, [authedUser, host, headers])
+  }, [authedUser, host, headers, pins])
 
   useEffect(() => {
-    if (authedUser)
+    try{
+      if (authedUser){
       fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
         .then(res => res.json())
         .then(data => setBoards(data))
+
+    }
+  }
+  catch(err){
+    console.log(err)
+  }
+  
+  
   }, [authedUser, host, headers])
 
   useEffect(() => {
-    pins.length && boards.length
+    pins.length /*&& boards.length*/
       ? setLoaded(true)
       : setLoaded(false)
   }, [pins.length, boards.length])
@@ -81,10 +109,10 @@ function Homepage() {
         ? authedUser
           ? (
             <Fragment>
-              <AddButton />
-              <Masonry className={classes.masonry} >
+              <AddButton addItem={addItem} />
+              <Masonry  className={classes.masonry}  >
                 {pins.map((pin) => (
-                  <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards} sub_board={pin.board} />
+                  <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || [] } sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
             </Fragment>

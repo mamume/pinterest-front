@@ -3,7 +3,9 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CreatePin from '../pins/create_pin'
 
-function AddButton() {
+
+
+function AddButton({addItem}) {
   const [open, setOpen] = useState(false)
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
@@ -27,6 +29,7 @@ function AddButton() {
       </IconButton>
 
       <CreatePin
+        addItem = {addItem}
         onClose={onClose}
         open={open}
       />

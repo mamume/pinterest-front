@@ -68,7 +68,7 @@ const MoreOptions = () => {
 }
 
 
-const Create = ({ open, onClose }) => {
+const Create = ({ open, onClose, addItem }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const [boardId] = useState(params.get('board_id'))
@@ -129,8 +129,9 @@ const Create = ({ open, onClose }) => {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                addItem(data)
                 onClose()
-                history(`/pin/${data.id}`)
+                //history(`/pin/${data.id}`)
                 
                 
             });

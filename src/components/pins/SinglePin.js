@@ -14,19 +14,35 @@ import React, { useState, useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
 import { Stack, Typography, Box } from '@mui/material';
 import Styles from '../../styles/Styles'
+import Pin from './pin';
+import { saveAs } from 'file-saver'
 
-function SinglePin({ img, external_link, id, url, boards, sub_board }) {
+
+
+
+
+function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem }) {
   const newTo = {
     pathname: url ? url : `/pin/${id}`,
     state: { id: id }
   };
-  const { headers, host } = useContext(UserContext)
+  const downloadImage = () => {
+    saveAs(img, 'image.jpg') // Put your image url here.
+  }
+  const { authedUser, headers, host } = useContext(UserContext)
 
   const classes = Styles()
   const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
   const [subBoard, setSubBoard] = useState(sub_board)
+  const [open, setOpen] = useState(false)
+  const onClose = () => setOpen(false)
+  const onOpen = () => setOpen(true)
+
+  // onClose={onClose}
+  //       open={open}
   // const [update, setUpdate] = useState(false)
+  
 
   const handlePost = () => {
     const fd = new FormData()
@@ -44,14 +60,17 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
         // setUpdate(prev => !prev)
         setSubBoard(boards.filter(board => board.id === savedBoard)[0])
         setLinked(true)
-        console.log(savedBoard)
-        console.log(sub_board)
+        //console.log(savedBoard)
+        console.log(subBoard)
+        console.log(authedUser)
         // sub_board = { id: savedBoard, title: boards[savedBoard].title }
       })
   }
 
   useEffect(() => {
-    if (subBoard !== "None") {
+    console.log(authedUser)
+    console.log(subBoard)
+    if (subBoard !== "None" && authedUser.id ==subBoard.owner) {
       setLinked(true)
     }
   }, [subBoard])
@@ -106,28 +125,30 @@ function SinglePin({ img, external_link, id, url, boards, sub_board }) {
             {/* </div> */}
           </Stack>
           {/* </div> */}
-          <Link to={newTo}>
-            <div style={{ display: "flex", height: "60%" }}></div>
-          </Link>
+          {/* <Link to={newTo}> */}
+            
+            <div style={{ display: "flex", height: "100%" }} onClick={onOpen} className="my_image_div"></div>
+            <Pin open={open} onClose={onClose} id={id} removeItem={removeItem} />
+          {/* </Link> */}
           <div className="my_modal_footer">
-            <div className="my_ext">
+            {external_link &&  ( <a href={external_link}><div className="my_ext" style={{position: "absolute", float:"left", bottom:"15px", left: "15px"}} >
               <IconButton>
                 <CallMadeIcon />
               </IconButton>
               <span>{external_link}</span>
-            </div>
+            </div> </a>)}
 
-            <div className="my_send">
-              <IconButton>
-                <DownloadIcon />
+            <div className="my_send" style={{position: "absolute", float:"right", bottom:"15px", right: "15px"}}>
+              <IconButton onClick={downloadImage}>
+                <DownloadIcon  />
               </IconButton>
             </div>
 
-            <div className="my_options">
+            {/* <div className="my_options">
               <IconButton>
                 <MoreVertIcon />
               </IconButton>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -159,6 +180,7 @@ const CardWrapper = styled.div`
     background-color: #efefef;
     position: relative;
     overflow: hidden;
+    space: no-wrap;
     margin: auto;
     &:hover{
         img{
@@ -198,6 +220,11 @@ const CardWrapper = styled.div`
     }
     .my_modal_header .Three{
         flex-grow: 10;
+    }
+
+    .my_image_div:hover{
+      cursor: pointer;
+
     }
 
     .my_modal_footer{
