@@ -117,7 +117,7 @@ const Create = ({ open, onClose, addItem }) => {
             headers: headers ,
             body: fd
         }; */
-        console.log(host)
+        // console.log(host)
         if(host){
 
             fetch(`${host}/pin/create`, {
@@ -128,7 +128,7 @@ const Create = ({ open, onClose, addItem }) => {
         //axios.post('http://localhost:8000/pin/create', fd)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 addItem(data)
                 onClose()
                 //history(`/pin/${data.id}`)
