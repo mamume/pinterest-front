@@ -60,17 +60,21 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 	}, [headers, host, pin])
 
 	const handleDelete = () => {
-		fetch(`${host}/profile/pins-delete/${id}/`, {
+		fetch(`${host}/profile/pins-delete/${pin.id}/`, {
 			headers,
 			method: "DELETE"
 		})
 			.then(res => res.json())
 			.catch(() => {
 
-				removeItem(id);
+				removeItem(pin.id);
 				onClose();
 			})
 	}
+
+	useEffect(() => {
+		setPin(pinItem)
+	}, [pinItem])
 
 	return (
 		<Modal
