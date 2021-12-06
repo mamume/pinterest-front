@@ -20,7 +20,7 @@ import { saveAs } from 'file-saver'
 
 
 
-function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
+function SinglePin({ pinItem, img, external_link, id, boards, sub_board, removeItem }) {
   // const newTo = {
   //   pathname: url ? url : `/pin/${id}`,
   //   state: { id: id }
@@ -67,8 +67,8 @@ function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
   }
 
   useEffect(() => {
-    console.log(authedUser)
-    console.log(subBoard)
+    // console.log(authedUser)
+    // console.log(subBoard)
     if (subBoard !== "None" && authedUser.id === subBoard.owner) {
       setLinked(true)
     }
@@ -127,7 +127,7 @@ function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
           {/* <Link to={newTo}> */}
 
           <div style={{ display: "flex", height: "100%" }} onClick={onOpen} className="my_image_div"></div>
-          <Pin open={open} onClose={onClose} id={id} removeItem={removeItem} />
+          <Pin pinItem={pinItem} open={open} onClose={onClose} id={id} removeItem={removeItem} />
           {/* </Link> */}
           <div className="my_modal_footer">
             {external_link && (<a href={external_link}><div className="my_ext" style={{ position: "absolute", float: "left", bottom: "15px", left: "15px" }} >

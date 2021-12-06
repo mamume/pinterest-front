@@ -1,191 +1,203 @@
 import React, { useState, useEffect, useContext } from "react";
-//mport "../../../node_modules/bootstrap/dist/css/bootstrap.css"
 import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
-import { Modal, Box } from '@mui/material';
+import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
 import Styles from "../../styles/Styles";
 
 
-
 const handelfocus = () => {
-    let ftarget = document.getElementById("comment_controllers")
-    ftarget.classList.add("comment_vis")
+	let ftarget = document.getElementById("comment_controllers")
+	ftarget.classList.add("comment_vis")
 }
 
 const handelclick = () => {
-    let btarget = document.getElementById("comment_controllers")
-    // console.log(btarget)
+	let btarget = document.getElementById("comment_controllers")
 
-    btarget.classList.remove("comment_vis")
-    btarget.classList.add("comment_hide")
+	btarget.classList.remove("comment_vis")
+	btarget.classList.add("comment_hide")
 }
 
 const handelchange = (event) => {
-    let target = document.getElementsByClassName("comment_done")
-    target.item(0).disabled = false;
-    target.item(0).classList.add("comment_done_edite")
-    if (event.target.value === "") {
-        target.item(0).disabled = true;
-        target.item(0).classList.remove("comment_done_edite")
-    }
+	let target = document.getElementsByClassName("comment_done")
+	target.item(0).disabled = false;
+	target.item(0).classList.add("comment_done_edite")
+	if (event.target.value === "") {
+		target.item(0).disabled = true;
+		target.item(0).classList.remove("comment_done_edite")
+	}
 }
 
 const commentclick = () => {
-    let dis = document.getElementById("comment_area_container")
-    // console.log(dis);
-    dis.classList.toggle("comment_area_container");
-    // console.log("done")
+	let dis = document.getElementById("comment_area_container")
+	dis.classList.toggle("comment_area_container");
 }
 
 
-const Pin = ({ open, onClose, id, removeItem }) => {
-    const [pin, setPin] = useState({})
-    // let data = useLocation();
-    const classes = Styles();
-    const { authedUser, headers, host } = useContext(UserContext)
+const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
+	const [pin, setPin] = useState(pinItem)
+	const classes = Styles();
+	const { authedUser, headers, host } = useContext(UserContext)
+	const [owner, setOwner] = useState({})
 
 
-    useEffect(() => {
-        fetch(`${host}/pin/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data)
-                //setItemData(itemData => [...itemData, { img: temp }])
-                // console.log(data)
-                // console.log(data.content_src)
-                setPin({ img: data.content_src, title: data.title, desc: data.description, owner: data.owner })
-                console.log(data)
-                console.log(authedUser)
+	// useEffect(() => {
+	// 	fetch(`${host}/pin/${id}`)
+	// 		.then(res => res.json())
+	// 		.then(data => {
+	// 			// console.log(data)
+	// 			setPin(data)
+	// 		})
+	// }, [host, id])
+
+	useEffect(() => {
+		if (pin) {
+			console.log(pin.owner)
+			fetch(`${host}/profile/list/${pin.owner}`, { headers })
+				.then(res => res.json())
+				.then(data => setOwner(data))
+		}
+	}, [headers, host, pin])
+
+	const handleDelete = () => {
+		fetch(`${host}/profile/pins-delete/${id}/`, {
+			headers,
+			method: "DELETE"
+		})
+			.then(res => res.json())
+			.catch(() => {
+
+				removeItem(id);
+				onClose();
+			})
+	}
+
+	return (
+		<Modal
+			open={open}
+			onClose={onClose}
+			style={{ zIndex: "90000000000000" }}
+			sx={{ overflow: "auto" }}
+		>
+			<Box
+				sx={{
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					maxWidth: '1000px',
+					backgroundColor: 'white',
+					borderRadius: "32px",
+					boxShadow: '24px',
+					padding: "20px 10px",
+					marginTop: "20% auto"
+				}}
+			>
+				{/* <div className="container"> */}
+				{/* <div className="sides row"> */}
+
+				{/* <div className="left-side col-md-5"> */}
+				{/* <div className="modals_pin_pin"> */}
+				{/* <div className="pin_image_pin"> */}
+				<Stack direction="row" justifyContent="space-around" spacing={5}>
+					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px" }} alt="pin_image" />
+					{/* </div> */}
+					{/* </div> */}
+
+					{/* </div> */}
+					<Stack spacing={2} width={300}>
+						{/* <div className="right-side col-md-5"> */}
+						{/* <div className="section1 row">
+							<div className="icons col-6">
+								<div className="icon_more"> */}
+						{/* <i className="fas fa-ellipsis-h"></i> */}
+						{/* </div> */}
+						{/* <div className="upload">
+									<i className="fas fa-upload"></i>
+								</div>
+								<div className="favorite">
+									<i className="far fa-star"></i>
+								</div> */}
+						{/* </div> */}
+
+						{/* <div > */}
+						<Stack direction="row" justifyContent="flex-end">
+							{(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+						</Stack>
+						{/* </div> */}
+
+						{/* </div> */}
+
+						{/* <div className="section2 row">
+							<div className="section2_header col-12"> */}
+						<Stack direction="row" alignItems="center" spacing>
+							<Avatar src={owner.profile_pic} />
+							<Typography>{owner.full_name}</Typography>
+						</Stack>
+						<Typography variant="h6">{pin.title}</Typography>
+						<Typography variant="body1">{pin.description}</Typography>
+						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
+						{/* </div> */}
+						{/* <div className="user_details row">
+							<div className="user_icon col-1"><span>m</span></div>
+							<div className="user_name col-4"><span>momen awad</span></div>
+						</div> */}
 
 
-            })
-    }, [authedUser, host, id])
-
-    const handleDelete = () => {
-        fetch(`${host}/profile/pins-delete/${id}/`, {
-            headers,
-            method: "DELETE"
-        })
-            .then(res => res.json())
-            .catch(data => {
-
-                removeItem(id);
-                onClose();
-            })
-    }
+						{/* <div className="note">
+							<div className="note_head">
+								Note to self
+							</div>
+							<div className="note_details">
+								what do you want to remember about this pin?
+							</div>
+							<div className="add_note" ><span>Add note</span></div>
+						</div> */}
 
 
-    return (
-        <Modal
-            open={open}
-            onClose={onClose}
-            style={{ zIndex: "90000000000000" }}
-        >
-            <Box className={classes.modal} sx={{ width: "700px !important", maxHeight: "600px !important" }} >
-                <div className="container">
-                    <div className="sides row">
+						{/* <div className="section3">
+							<div className="comment_head">
+								<h3>comments</h3>
+								<div className="comment_icon" onClick={commentclick}>
+									<i className="fas fa-chevron-down"></i>
+								</div>
+							</div>
+							<div className="comment_area_container" id="comment_area_container">
+								<div className="comment_area_header">
+									share feedback, ask a question or give a high five
+								</div>
 
-                        <div className="left-side col-md-5">
-                            <div className="modals_pin_pin">
-                                <div className="pin_image_pin">
-                                    <img src={pin.img} style={{ height: "inherit", width: "inherit" }} alt="pin_image" />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className="right-side col-md-5">
-                            <div className="section1 row">
-                                <div className="icons col-6">
-                                    <div className="icon_more">
-                                        <i className="fas fa-ellipsis-h"></i>
-                                    </div>
-                                    <div className="upload">
-                                        <i className="fas fa-upload"></i>
-                                    </div>
-                                    <div className="favorite">
-                                        <i className="far fa-star"></i>
-                                    </div>
-                                </div>
-
-                                <div >
-                                    {/* <div className="save_pin_pin"><span>delete</span></div> */}
-                                    {(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
-                                    {/* <div className="save_pin_pin"><span>save</span></div> */}
-                                </div>
-
-                            </div>
-
-                            <div className="section2 row">
-                                <div className="section2_header col-12">
-                                    <div className="pin_title_for_pin h1">{pin.title}</div>
-                                    <div className="pin_description_for_pin">{pin.desc}</div>
-                                </div>
-                                <div className="user_details row">
-                                    <div className="user_icon col-1"><span>m</span></div>
-                                    <div className="user_name col-4"><span>momen awad</span></div>
-                                </div>
-
-                                <div className="note">
-                                    <div className="note_head">
-                                        Note to self
-                                    </div>
-                                    <div className="note_details">
-                                        what do you want to remember about this pin?
-                                    </div>
-                                    <div className="add_note" ><span>Add note</span></div>
-                                </div>
+								<div className="comment_area">
+									<div className="persons_icon"><span>A</span></div>
+									<div className="text">
+										<input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
+									</div>
+								</div>
+								<div className="comment_controllers" id="comment_controllers">
+									<input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
+									<input type="button" value="Done" name="comment_done" className="comment_done" disabled />
+								</div>
+							</div>
+						</div> */}
 
 
-                                <div className="section3">
-                                    <div className="comment_head">
-                                        <h3>comments</h3>
-                                        <div className="comment_icon" onClick={commentclick}>
-                                            <i className="fas fa-chevron-down"></i>
-                                        </div>
-                                    </div>
-                                    <div className="comment_area_container" id="comment_area_container">
-                                        <div className="comment_area_header">
-                                            share feedback, ask a question or give a high five
-                                        </div>
+						{/* </div> */}
+						{/* <div className="bord_name">
+							<div className="bord_items">
+								<div className="comment_icon"><span>M</span></div>
+								<div className="bord_content">
+									<span>you saved to bord name</span>
+								</div>
+							</div>
+						</div> */}
+					</Stack>
+				</Stack>
 
-                                        <div className="comment_area">
-                                            <div className="persons_icon"><span>A</span></div>
-                                            <div className="text">
-                                                <input type="text" placeholder="Add a comment" name="comment" className="comment-btn" onFocus={handelfocus} onChange={handelchange} />
-                                            </div>
-                                        </div>
-                                        <div className="comment_controllers" id="comment_controllers">
-                                            <input type="button" value="Cancel" name="comment_canceled" className="comment_canceled" onClick={handelclick} />
-                                            <input type="button" value="Done" name="comment_done" className="comment_done" disabled />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div className="bord_name">
-                                <div className="bord_items">
-                                    <div className="comment_icon"><span>M</span></div>
-                                    <div className="bord_content">
-                                        <span>you saved to bord name</span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                    </div>
-                </div>
-
-            </Box>
-
-
-
-        </Modal>
-    );
+				{/* </div> */}
+				{/* </div> */}
+			</Box>
+		</Modal >
+	);
 }
 
 export default Pin

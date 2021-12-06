@@ -54,7 +54,7 @@ export default class Main extends React.Component {
       axiosInstance
         .post('/account/checkmail', {"email":this.state.email})
         .then(res =>{
-          console.log(res)
+          // console.log(res)
           if(res.data.success){
             this.props.collect(data)
             this.props.switch('first')
