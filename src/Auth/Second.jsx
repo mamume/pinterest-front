@@ -82,8 +82,6 @@ export default class Second extends React.Component{
             <FormControlLabel value="male" control={<Radio  sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'0.75rem'}} />} 
             label={<Typography variant="h6" sx={{color:checked==='male'?"#e60023":'black'}}>Male</Typography>}  />
     
-            <FormControlLabel value="other" control={<Radio sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'0.75rem'}} />}
-             label={<Typography variant="h6" sx={{color:checked==='other'?"#e60023":'black'}}>Other</Typography>}  />
             
         </RadioGroup>
         </FormControl>

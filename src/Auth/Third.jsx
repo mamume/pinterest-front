@@ -97,23 +97,7 @@ export default class Third extends React.Component{
             </Select>
         </FormControl>
         </div>
-        <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label" >Language</InputLabel>
-            <Select
-                labelId="language-selector-label"
-                id="language-selector"
-                label='Language'
-                name="lang"
-                // defaultValue="en_US"
-                value={this.state.lang}
-                onChange={this.collectInput}
-                
-            >   
-                {languagesArr.map((item)=>{
-                    return <MenuItem key={item.code} value={item.code}>{item.native}</MenuItem>
-                })}
-            </Select>
-        </FormControl>
+       
           
         <Button
           onClick={this.sendData}
