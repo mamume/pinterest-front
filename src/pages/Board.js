@@ -192,7 +192,7 @@ function Board() {
                 </Stack>
 
                 {Boolean(pinItems.length)
-                  ? <BoardPins boardId={boardId} pins={pinItems} />
+                  ? <BoardPins isAuthedBoard={isAuthedBoard} boardId={boardId} pins={pinItems} />
 
                   : <Typography textAlign="center">There aren’t any Pins on this board yet</Typography>
                 }
