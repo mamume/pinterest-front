@@ -5,7 +5,7 @@ import CreatePin from '../pins/create_pin'
 
 
 
-function AddButton({addItem}) {
+function AddButton({ addItem }) {
   const [open, setOpen] = useState(false)
   const onClose = () => setOpen(false)
   const onOpen = () => setOpen(true)
@@ -19,6 +19,7 @@ function AddButton({addItem}) {
         padding: "15px",
         color: "black",
         zIndex: 10000,
+        backgroundColor: "white"
       }} sx={{ boxShadow: 3, }}>
         <AddIcon sx={{
           fontSize: 20,
@@ -29,7 +30,7 @@ function AddButton({addItem}) {
       </IconButton>
 
       <CreatePin
-        addItem = {addItem}
+        addItem={addItem}
         onClose={onClose}
         open={open}
       />
