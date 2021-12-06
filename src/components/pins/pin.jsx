@@ -53,24 +53,28 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 	useEffect(() => {
 		if (pin) {
 			console.log(pin.owner)
-			fetch(`${host}/profile/list/${pin.owner}`, { headers })
+			fetch(`${host}/profile/details/${pin.owner}`, { headers })
 				.then(res => res.json())
 				.then(data => setOwner(data))
 		}
 	}, [headers, host, pin])
 
 	const handleDelete = () => {
-		fetch(`${host}/profile/pins-delete/${id}/`, {
+		fetch(`${host}/profile/pins-delete/${pin.id}/`, {
 			headers,
 			method: "DELETE"
 		})
 			.then(res => res.json())
 			.catch(() => {
 
-				removeItem(id);
+				removeItem(pin.id);
 				onClose();
 			})
 	}
+
+	useEffect(() => {
+		setPin(pinItem)
+	}, [pinItem])
 
 	return (
 		<Modal
@@ -132,7 +136,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 							<div className="section2_header col-12"> */}
 						<Stack direction="row" alignItems="center" spacing>
 							<Avatar src={owner.profile_pic} />
-							<Typography>{owner.full_name}</Typography>
+							<Typography>{owner.full_name || owner.username}</Typography>
 						</Stack>
 						<Typography variant="h6">{pin.title}</Typography>
 						<Typography variant="body1">{pin.description}</Typography>

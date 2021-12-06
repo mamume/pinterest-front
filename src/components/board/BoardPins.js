@@ -16,16 +16,16 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
 
   const [boardPins, setBoardPins] = useState(pins)
   const [openPin, setOpenPin] = useState(false)
-  const [pinModalId, setPinModalId] = useState('')
+  const [pinModal, setPinModal] = useState('')
 
-  function openPinModal(id) {
-    setPinModalId(id)
+  function openPinModal(pin) {
+    setPinModal(pin)
     setOpenPin(true)
   }
 
   function closePinModal() {
     setOpenPin(false)
-    setPinModalId('')
+    setPinModal('')
   }
 
   function removeFromBoard(id) {
@@ -61,7 +61,7 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
                 src={`${pin.content_src}`}
                 alt={pin.title}
                 loading="lazy"
-                onClick={() => openPinModal(pin.id)}
+                onClick={() => openPinModal(pin)}
               />
               {isAuthedBoard &&
                 <ImageListItemBar
@@ -84,7 +84,7 @@ function BoardPin({ pins, boardId, isAuthedBoard }) {
           ))
         }
       </Masonry>
-      <Pin open={openPin} onClose={closePinModal} id={pinModalId} removeItem={() => removeFromBoard(pinModalId)} />
+      <Pin open={openPin} onClose={closePinModal} pinItem={pinModal} removeItem={() => removeFromBoard(pinModal.id)} />
     </>
   );
 }
