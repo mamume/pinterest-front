@@ -77,24 +77,16 @@ function Homepage() {
         .then(res => res.json())
         .then(data => {
           setPins(data)
-          console.log(data)
         })
   }, [authedUser, host, headers])
 
   useEffect(() => {
-    try {
-      if (authedUser) {
-        fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
-          .then(res => res.json())
-          .then(data => setBoards(data))
+    if (authedUser) {
+      fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+        .then(res => res.json())
+        .then(data => setBoards(data))
 
-      }
     }
-    catch (err) {
-      console.log(err)
-    }
-
-
   }, [authedUser, host, headers])
 
   useEffect(() => {
@@ -112,7 +104,7 @@ function Homepage() {
               <AddButton addItem={addItem} />
               <Masonry className={classes.masonry}  >
                 {pins.map((pin) => (
-                  <SinglePin key={pin.id} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
+                  <SinglePin key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
             </Fragment>

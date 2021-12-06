@@ -36,7 +36,7 @@ export default class Auth extends React.Component{
           if(localStorage.pinterestAccount){
             // this.state.loginEmail = localStorage.getItem('pinterestAccount')
             // console.log(localStorage.getItem('pinterestAccount'))
-            console.log(this.state.loginEmail)
+            // console.log(this.state.loginEmail)
             this.setState({loginEmail:localStorage.getItem('pinterestAccount')})
             // this.setState({loginEmail:this.state.loginEmail})
             this.switchScreen("savedLogin")
@@ -71,7 +71,7 @@ export default class Auth extends React.Component{
       // this.setState({country:this.state.country});
       // this.setState({language:obj.lang})
       this.setState({country:country})
-      console.log(this.state.username)
+      // console.log(this.state.username)
       const user = {
         email:this.state.email,
         password:this.state.password,
@@ -80,7 +80,7 @@ export default class Auth extends React.Component{
         gender:this.state.gender,
         country:country
       }
-      console.log(user)
+      // console.log(user)
       const jsonUser = JSON.stringify(user)
       axiosInstance
         .post('/account/signup',jsonUser).then(res => {
