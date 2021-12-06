@@ -2,7 +2,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from "react-router";
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'; import Box from '@mui/material/Box'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import Styles from '../../styles/Styles'
 import { UserContext } from '../../context'
 import { useContext, useState } from 'react';
