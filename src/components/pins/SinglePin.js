@@ -20,7 +20,7 @@ import { saveAs } from 'file-saver'
 
 
 
-function SinglePin({ img, external_link, id, url, boards, sub_board, removeItem }) {
+function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
   // const newTo = {
   //   pathname: url ? url : `/pin/${id}`,
   //   state: { id: id }
