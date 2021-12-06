@@ -92,7 +92,7 @@ function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
                     <Typography variant="h6">{subBoard.title}</Typography>
                   </Box>
                 </Link>
-                <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
+                <Button size="small" style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
               </Fragment>
 
               : <Fragment>
@@ -111,7 +111,7 @@ function SinglePin({ img, external_link, id, boards, sub_board, removeItem }) {
                     ))}
                   </Select>
                 </FormControl>
-                <Button onClick={handlePost}>Save</Button>
+                <Button size="small" onClick={handlePost}>Save</Button>
               </Fragment>
             }
             {/* </div> */}
