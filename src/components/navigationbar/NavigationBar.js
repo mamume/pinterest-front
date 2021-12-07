@@ -6,8 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
+// import MoreIcon from '@mui/icons-material/MoreVert';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Button from '@mui/material/Button';
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [, setMobileMoreAnchorEl] = React.useState(null);
   const { authedUser, headers } = useContext(UserContext);
   const [searchValue, setSearchValue] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -56,7 +56,8 @@ export default function PrimarySearchAppBar(props) {
   }
 
   useEffect(() => {
-    setReserve(...props.pins)
+    if (props.pins.length)
+      setReserve(...props.pins)
   }, [props.pins])
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function PrimarySearchAppBar(props) {
   }, [authedUser, headers]);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { runAuth } = props;
 
   const handleProfileMenuOpen = (event) => {
@@ -119,9 +120,9 @@ export default function PrimarySearchAppBar(props) {
   // },[headers])
 
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
 
 
 
@@ -173,26 +174,26 @@ export default function PrimarySearchAppBar(props) {
   //     open={isMobileMenuOpen}
   //     onClose={handleMobileMenuClose}
   //   >
-  {/* <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
+  // {/* <MenuItem>
+  //       <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+  //         <Badge badgeContent={4} color="error">
+  //           <MailIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Messages</p>
+  //     </MenuItem>
+  //     <MenuItem>
+  //       <IconButton
+  //         size="large"
+  //         aria-label="show 17 new notifications"
+  //         color="inherit"
+  //       >
+  //         <Badge badgeContent={17} color="error">
+  //           <NotificationsIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Notifications</p>
+  //     </MenuItem> */}
   //   <MenuItem onClick={handleProfileMenuOpen}>
   //     <IconButton
   //       size="large"
