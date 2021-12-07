@@ -83,6 +83,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     const [title, setTitle] = useState("")
     const [image, setImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
+    const [description, setDescription] = useState(null)
     const [message, setMessage] = useState("")
     // const [open, setOpen] = useState(false)
     // const onClose = () => setOpen(false)
@@ -108,6 +109,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
             fd.append('title', title)
             fd.append('content_type', 'image')
             fd.append('owner', authedUser.id)
+            fd.append('description', description)
             if (boardId) {
                 fd.append('board_id', boardId)
             }
@@ -245,8 +247,10 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
                             {/* <div className="section1"> */}
                             {/* </div> */}
                             <Stack mt={4} >
-                                <TextField label="Title" fullWidth placeholder="Add your title" onChange={(e) => { handleTitleChange(e) }} />
+                                <TextField label="Title" fullWidth placeholder="Add pin title" onChange={(e) => { handleTitleChange(e) }} />
                                 <Typography variant='caption' color="primary">{message}</Typography>
+                                <br />
+                                <TextField label="Description" fullWidth placeholder="Add Description" onChange={(e) => setDescription(e.target.value)} />
                                 {/* <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
                                 {/* <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} /> */}
                                 {/* <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}

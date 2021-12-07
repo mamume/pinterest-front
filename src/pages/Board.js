@@ -11,7 +11,7 @@ import BoardPins from "../components/board/BoardPins";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import EditBoard from "../components/board/EditBoard";
 
-function Board({addItem}) {
+function Board({ addItem }) {
   const search = window.location.search;
   const params = new URLSearchParams(search);
 
