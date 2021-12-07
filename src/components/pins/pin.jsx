@@ -137,7 +137,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 							<Avatar src={owner.profile_pic} />
 							<Typography>{owner.full_name || owner.username}</Typography>
 						</Stack>
-						<Typography variant="h6">{pin.title}</Typography>
+						<Typography variant="h3">{pin.title}</Typography>
 						<Typography variant="body1">{pin.description}</Typography>
 						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
 						{/* </div> */}

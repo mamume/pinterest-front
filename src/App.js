@@ -54,7 +54,7 @@ function App() {
 
   const addItem = (item) => {
     item.content_src = `${host}${item.content_src}`
-    setPins(pins => [...pins, item])
+    setPins(pins => [item, ...pins])
   }
 
   useEffect(() => {
