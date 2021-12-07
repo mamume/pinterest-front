@@ -129,7 +129,7 @@ const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
                     // console.log(data)
                     addItem(data)
                     if (setPinItems) {
-                        setPinItems(pinItems => [...pinItems, data])
+                        setPinItems(pinItems => [data, ...pinItems])
                     }
                     onClose()
                     //history(`/pin/${data.id}`)
