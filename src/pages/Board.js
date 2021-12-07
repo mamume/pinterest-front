@@ -168,7 +168,6 @@ function Board({addItem}) {
                       </Button>
 
                       <CreatePin
-                        pinItems= {pinItems}
                         setPinItems={setPinItems}
                         addItem={addItem}
                         open={openCreatePin}

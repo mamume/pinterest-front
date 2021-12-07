@@ -100,7 +100,7 @@ function App() {
                 <Routes>
 
                   <Route path="/" exact element={<Homepage pins={pins} addItem={addItem} removeItem={removeItem} />} />
-                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile" element={<Profile addItem={addItem} />} />
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/board/" element={<Board addItem={addItem} />} />
                   <Route path="/create_pin/" element={<Create />} />

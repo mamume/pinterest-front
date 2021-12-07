@@ -67,7 +67,7 @@ const MoreOptions = () => {
 }
 
 
-const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
+const Create = ({ open, onClose, addItem, setPinItems }) => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const [boardId] = useState(params.get('board_id'))
