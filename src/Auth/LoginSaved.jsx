@@ -35,7 +35,7 @@ export default class LoginSaved extends React.Component{
 
 
     render(){
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={true}>
         <DialogTitle>
           <IconButton
             aria-label="close"

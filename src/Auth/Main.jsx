@@ -116,7 +116,7 @@ export default class Main extends React.Component {
 
   responseGoogle = (response) => {
     // console.log(response)
-
+    console.log(response)
     axiosInstance
       .post('/account/auth/convert-token', {
         grant_type: "convert_token",
@@ -164,20 +164,20 @@ export default class Main extends React.Component {
 
   render() {
 
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false} style={{ zIndex: 1000002 }}>
-      <IconButton
-        aria-label="close"
-        onClick={this.props.close}
-        sx={{
-          position: 'absolute',
-          right: 10,
-          top: 10,
-          color: 'black',
-          fontWeight: 'bold'
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
+              <IconButton
+          aria-label="close"
+          onClick={this.props.close}
+          sx={{
+            position: 'absolute',
+            right: 10,
+            top: 10,
+            color: 'black',
+            fontWeight: 'bold'
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
       {/* <DialogTitle sx={{ textAlign: "center" }}>
 
       </DialogTitle> */}
@@ -292,7 +292,7 @@ export default class Main extends React.Component {
             </div>
             <div style={{ width: "100%", marginTop: '1rem' }}>
               <GoogleLogin
-                clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+                clientId="679751054018-2l8lc8ijibfr7ammo77vfu59epohaiu9.apps.googleusercontent.com"
                 render={renderProps => (
                   <Button
                     onClick={renderProps.onClick}

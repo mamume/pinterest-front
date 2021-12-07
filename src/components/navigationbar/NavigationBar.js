@@ -215,7 +215,7 @@ export default function PrimarySearchAppBar(props) {
   // );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000000 }}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1250 }}>
 
       <AppBar position="static" color="text">
         <Toolbar>

@@ -148,7 +148,7 @@ export default class LoginUnSaved extends React.Component {
 
 
   render() {
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
       <DialogTitle>
         <IconButton
           aria-label="close"
@@ -259,7 +259,7 @@ export default class LoginUnSaved extends React.Component {
             )}
           />
           <GoogleLogin
-            clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+            clientId="679751054018-2l8lc8ijibfr7ammo77vfu59epohaiu9.apps.googleusercontent.com"
             render={renderProps => (
               <Button
                 onClick={renderProps.onClick}
