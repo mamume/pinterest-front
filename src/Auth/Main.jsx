@@ -49,7 +49,6 @@ export default class Main extends React.Component {
       password: this.state.password,
       age: this.state.age,
     }
-<<<<<<< HEAD
     if(this.validator.allValid()){
       // axiosInstance
       //   .post('/account/checkmail', {"email":this.state.email})
@@ -64,20 +63,6 @@ export default class Main extends React.Component {
       //   })
       this.props.collect(data)
       this.props.switch('first')
-=======
-    if (this.validator.allValid()) {
-      axiosInstance
-        .post('/account/checkmail', { "email": this.state.email })
-        .then(res => {
-          // console.log(res)
-          if (res.data.success) {
-            this.props.collect(data)
-            this.props.switch('first')
-          } else {
-            this.setState({ emailError: true })
-          }
-        })
->>>>>>> main
 
     } else {
       this.validator.showMessages()
