@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
 import { UserContext } from "../../context";
-import { IconButton, Modal, Stack, TextField } from '@mui/material';
+import { IconButton, Modal, Stack, TextField, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -81,8 +81,9 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     });
     const { authedUser, headers, host } = useContext(UserContext)
     const [title, setTitle] = useState("")
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
+    const [message, setMessage] = useState("")
     // const [open, setOpen] = useState(false)
     // const onClose = () => setOpen(false)
     // const onOpen = () => setOpen(true)
@@ -92,53 +93,60 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     //     console.log(props)
     // }, [])
     const handlePost = () => {
-        const fd = new FormData()
-        //headers["content-type"] =  'multipart/form-data' ;
-        //headers["content-type"] ='multipart/form-data; boundary=something' ;
-        // console.log(headers.Authorization)
-        // console.log(authedUser)
-        fd.append('content_src', image, image.name)
-        fd.append('title', title)
-        fd.append('content_type', 'image')
-        fd.append('owner', authedUser.id)
-        if (boardId) {
-            fd.append('board_id', boardId)
-        }
-        // for (var pair of fd.entries()) {
-        // console.log(pair[0] + ', ' + pair[1]);
-        // }
+        if (title === "")
+            setMessage("Please Enter Title")
+        else if (!image)
+            setMessage("Please select an image")
+        else {
 
-        // const config = {
-        //     headers: headers
-        // };
-        /*const requestOptions = {
-            method: 'POST',
-            headers: headers ,
-            body: fd
-        }; */
-        // console.log(host)
-        if (host) {
+            const fd = new FormData()
+            //headers["content-type"] =  'multipart/form-data' ;
+            //headers["content-type"] ='multipart/form-data; boundary=something' ;
+            // console.log(headers.Authorization)
+            // console.log(authedUser)
+            fd.append('content_src', image, image.name)
+            fd.append('title', title)
+            fd.append('content_type', 'image')
+            fd.append('owner', authedUser.id)
+            if (boardId) {
+                fd.append('board_id', boardId)
+            }
+            // for (var pair of fd.entries()) {
+            // console.log(pair[0] + ', ' + pair[1]);
+            // }
 
-            fetch(`${host}/pin/create`, {
+            // const config = {
+            //     headers: headers
+            // };
+            /*const requestOptions = {
                 method: 'POST',
-                body: fd,
-                headers: { 'Authorization': headers.Authorization }
-            })
-                //axios.post('http://localhost:8000/pin/create', fd)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log(data)
-                    addItem(data)
-                    if (setPinItems) {
-                        setPinItems(pinItems => [data, ...pinItems])
-                    }
-                    onClose()
-                    //history(`/pin/${data.id}`)
+                headers: headers ,
+                body: fd
+            }; */
+            // console.log(host)
+            if (host) {
+
+                fetch(`${host}/pin/create`, {
+                    method: 'POST',
+                    body: fd,
+                    headers: { 'Authorization': headers.Authorization }
+                })
+                    //axios.post('http://localhost:8000/pin/create', fd)
+                    .then(response => response.json())
+                    .then(data => {
+                        // console.log(data)
+                        addItem(data)
+                        if (setPinItems) {
+                            setPinItems(pinItems => [data, ...pinItems])
+                        }
+                        onClose()
+                        //history(`/pin/${data.id}`)
 
 
-                });
+                    });
 
 
+            }
         }
     }
 
@@ -236,8 +244,9 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
                         <Stack className="side" id="right_side" mt={7}>
                             {/* <div className="section1"> */}
                             {/* </div> */}
-                            <Stack mt={4}>
+                            <Stack mt={4} >
                                 <TextField label="Title" fullWidth placeholder="Add your title" onChange={(e) => { handleTitleChange(e) }} />
+                                <Typography variant='caption' color="primary">{message}</Typography>
                                 {/* <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
                                 {/* <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} /> */}
                                 {/* <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
@@ -260,7 +269,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
                     </div>
                 </div>
             </div>
-        </Modal>
+        </Modal >
     );
 }
 
