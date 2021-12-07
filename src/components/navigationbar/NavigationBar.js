@@ -37,15 +37,15 @@ export default function PrimarySearchAppBar(props) {
   const { authedUser, headers } = useContext(UserContext);
   const [searchValue, setSearchValue] = useState("")
   const [submitted, setSubmitted] = useState(false)
-  const [reserve, setReserve] = useState("")
+  const [reserve, setReserve] = useState([])
   // const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState("")
 
   const handleSubmit = (e) => {
-    setSubmitted(true)
     e.preventDefault();
+    setSubmitted(true)
+    //setReserve(...props.pins)
     let res = []
-    setReserve(props.pins)
     for (let i = 0; i < props.pins.length; i++) {
       if (props.pins[i].title === searchValue) {
         res.push(props.pins[i])
@@ -56,16 +56,20 @@ export default function PrimarySearchAppBar(props) {
   }
 
   useEffect(() => {
-    if (props.pins.length)
-      setReserve(...props.pins)
-  }, [props.pins])
+    //if (authedUser)
+      //setReserve(...props.pins)
+  }, [props.pin])
 
   useEffect(() => {
-    if (searchValue === "" && submitted) {
-      props.setPins(reserve)
-      setSubmitted(false)
+    if(props.pins !== reserve && !submitted){
+      setReserve(props.pins)
     }
-  }, [props, reserve, searchValue, submitted])
+    console.log(reserve);
+    if (searchValue === "" && submitted) {
+      setSubmitted(false)  
+      props.setPins(reserve)  
+    }
+  }, [searchValue, submitted])
 
 
 
