@@ -83,7 +83,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     const [title, setTitle] = useState("")
     const [image, setImage] = useState(null)
     const [imageSrc, setImageSrc] = useState(null)
-    const [description, setDescription] = useState(null)
+    const [description, setDescription] = useState('')
     const [message, setMessage] = useState("")
     // const [open, setOpen] = useState(false)
     // const onClose = () => setOpen(false)
@@ -109,7 +109,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
             fd.append('title', title)
             fd.append('content_type', 'image')
             fd.append('owner', authedUser.id)
-            fd.append('description', description)
+            description && fd.append('description', description)
             if (boardId) {
                 fd.append('board_id', boardId)
             }
