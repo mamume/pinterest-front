@@ -182,6 +182,8 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     function onCloseModal() {
         setImage(null)
         setImageSrc(null)
+        setTitle("")
+        setDescription("")
         onClose()
     }
     const [showLable] = useState(true);
