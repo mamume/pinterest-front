@@ -165,7 +165,7 @@ export default class Main extends React.Component {
 
   render() {
 
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
               <IconButton
           aria-label="close"
           onClick={this.props.close}

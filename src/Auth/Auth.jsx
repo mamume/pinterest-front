@@ -252,7 +252,7 @@ export default class Auth extends React.Component{
               },
             },
           };
-        return <div style={{zIndex: 1000002}} >
+        return <div  >
         {/* <div style={{margin:'5rem auto', maxWidth:'150px'}}>
           <div style={{display: "flex"}}>
             <Button ml={8} onClick={()=> this.handleClickOpen("signup")} style={{width: "100px"}}>Sign Up</Button> 
@@ -261,27 +261,27 @@ export default class Auth extends React.Component{
           </div> */}
         {
         this.state.Cscreen==="main" &&
-        <Main switch={this.switchScreen} style={{zIndex: 1000002}} handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
+        <Main switch={this.switchScreen}  handle={this.handleClickOpen} open={this.state.open} close={this.handleClose} collect={this.collectFromMain} inputStyle={CssTextField}/> 
         }
         {
         this.state.Cscreen==="first" && 
-        <First switch={this.switchScreen} style={{zIndex: 1000002}} handle={this.handleClickOpen} open={this.state.open} collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
+        <First switch={this.switchScreen}  handle={this.handleClickOpen} open={this.state.open} collect={this.collectFromFirst} inputStyle={CssTextField} email={this.state.email} />
         }
         {
         this.state.Cscreen==="second" && 
-        <Second switch={this.switchScreen} style={{zIndex: 1000002}} open={this.state.open} collect={this.collectFromSecond} />
+        <Second switch={this.switchScreen}  open={this.state.open} collect={this.collectFromSecond} />
         }
         {
         this.state.Cscreen==="third" && 
-        <Third switch={this.switchScreen} style={{zIndex: 1000002}} open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
+        <Third switch={this.switchScreen}  open={this.state.open} close={this.handleClose} collect={this.collectFromThird} />
         }
         {
         this.state.Cscreen==="savedLogin" &&
-        <LoginSaved switch={this.switchScreen} style={{zIndex: 1000002}} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
+        <LoginSaved switch={this.switchScreen}  open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
         }
                 {
         this.state.Cscreen==="unsavedLogin" &&
-        <LoginUnSaved switch={this.switchScreen} style={{zIndex: 1000002}} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginUnSaved} inputStyle={CssTextField}/> 
+        <LoginUnSaved switch={this.switchScreen}  open={this.state.open} close={this.handleClose} collect={this.collectFromLoginUnSaved} inputStyle={CssTextField}/> 
         }
       </div>
 

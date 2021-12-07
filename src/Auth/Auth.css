@@ -10,10 +10,15 @@ z-index: 2000000 !important;
     border-radius: 30px !important;
     padding-right: 0rem !important;
     padding-left: 0rem !important;
-    min-width: 30%;
     max-height: none !important;
+}
 
+.css-twia2z-MuiPaper-root-MuiDialog-paper{
+    border-radius: 30px !important;
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
 
+    max-height: none !important;
 }
 
 .css-1xnnm35-MuiDialogContent-root {

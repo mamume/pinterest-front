@@ -40,7 +40,7 @@ export default class Second extends React.Component{
 
     render(){
         let checked = this.state.gender;
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}} >
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} >
         <DialogTitle mb={9} mt={1}>
         <IconButton
           aria-label="close"
