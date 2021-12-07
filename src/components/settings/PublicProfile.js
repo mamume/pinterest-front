@@ -2,15 +2,16 @@ import { Avatar, Button, InputLabel, Stack, TextField, Typography } from "@mui/m
 import { styled } from '@mui/material/styles';
 import { Fragment, useEffect, useState, useContext } from "react";
 import SettingsButtons from "./SettingsButtons";
-import axiosFetchInstance from '../../axios/Fetch';
 import { UserContext } from '../../context'
+import { useNavigate } from "react-router";
 
 const Input = styled('input')({
     display: 'none',
 });
 
 function PublicProfile() {
-    const { authedUser } = useContext(UserContext)
+    const { authedUser, host, headers } = useContext(UserContext)
+    const navigate = useNavigate()
 
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
@@ -24,11 +25,11 @@ function PublicProfile() {
     const [change] = useState(true)
 
     useEffect(() => {
-        setFname(authedUser.first_name)
-        setLname(authedUser.last_name)
-        setBio(authedUser.bio)
-        setWebsite(authedUser.website)
-        setUsername(authedUser.username)
+        setFname(authedUser.first_name || '')
+        setLname(authedUser.last_name || '')
+        setBio(authedUser.bio || '')
+        setWebsite(authedUser.website || '')
+        setUsername(authedUser.username || '')
         setProfilePic(authedUser.profile_pic)
     }, [authedUser])
 
@@ -37,12 +38,22 @@ function PublicProfile() {
         data.append('first_name', fname)
         data.append('last_name', lname)
         data.append('bio', bio)
-        data.append('website', website)
+        website && data.append('website', website)
         data.append('username', username)
         imageData && data.append('profile_pic', imageData)
-        console.log(data)
-        axiosFetchInstance
-            .patch('/account/update', data)
+
+        fetch(`${host}/profile/update/${authedUser.id}/`, {
+            headers: {
+                'Authorization': headers.Authorization
+            },
+            method: 'PATCH',
+            body: data
+        })
+            .then(res => res.status)
+            .then(statusCode => {
+                if (statusCode === 200)
+                    navigate('/profile')
+            })
     }
 
     useEffect(() => {
