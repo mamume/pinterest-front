@@ -102,8 +102,8 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 				{/* <div className="left-side col-md-5"> */}
 				{/* <div className="modals_pin_pin"> */}
 				{/* <div className="pin_image_pin"> */}
-				<Stack direction="row" justifyContent="space-around" spacing={5}>
-					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px" }} alt="pin_image" />
+				<Stack direction="row" justifyContent="space-around" spacing={5} style={{maxHeight: "600px"}}>
+					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
 

@@ -56,7 +56,10 @@ export default function PrimarySearchAppBar(props) {
   }
 
   useEffect(() => {
-    setReserve(...props.pins)
+    if(authedUser){
+      setReserve(...props.pins)
+
+    }
   }, [props.pins])
 
   useEffect(() => {
