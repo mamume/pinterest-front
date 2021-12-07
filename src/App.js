@@ -109,8 +109,8 @@ function App() {
                 </Routes>
                 :
                 <>
-                  <LogoutHomepage />
                   <Routes>
+                    <Route path="/" exact element={<LogoutHomepage />} />
                     <Route path="/password-reset" element={<PwReset />} />
                     <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
                   </Routes>
