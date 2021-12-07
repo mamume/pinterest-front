@@ -148,7 +148,7 @@ const Pin = ({ open, onClose, removeItem, pinItem }) => {
 								<Typography variant="h3">{pinItem.title}</Typography>
 								<Typography variant="body1">{pinItem.description}</Typography>
 							</>
-							: <CircularProgress />}
+							: <Stack direction="row" justifyContent="center"><CircularProgress /></Stack>}
 
 						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
 						{/* </div> */}
