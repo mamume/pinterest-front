@@ -13,7 +13,6 @@ import React, { useState, useEffect, useContext, Fragment } from "react";
 import { UserContext } from "../../context";
 import { Stack, Typography, Box } from '@mui/material';
 import Styles from '../../styles/Styles'
-import Pin from './pin';
 import { saveAs } from 'file-saver'
 
 
