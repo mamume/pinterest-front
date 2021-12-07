@@ -6,8 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
+// import MoreIcon from '@mui/icons-material/MoreVert';
 import Avatar from '@mui/material/Avatar';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import Button from '@mui/material/Button';
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 //import {Redirect } from 'react-router';
 import React, { useEffect, useContext, Fragment, useState } from "react";
 import { UserContext } from "../../context";
+import { Stack } from '@mui/material';
 
 
 
@@ -33,39 +34,43 @@ const useStyles = makeStyles({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [, setMobileMoreAnchorEl] = React.useState(null);
   const { authedUser, headers } = useContext(UserContext);
   const [searchValue, setSearchValue] = useState("")
   const [submitted, setSubmitted] = useState(false)
-  const [reserve, setReserve] = useState("")
+  const [reserve, setReserve] = useState([])
   // const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState("")
 
-  const handleSubmit = (e) =>{
-    setSubmitted( true)
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmitted(true)
+    //setReserve(...props.pins)
     let res = []
-    setReserve(props.pins)
-    let reserve = [...props.pins]
-    for(let i = 0; i< props.pins.length; i++){
-      if( props.pins[i].title == searchValue){
+    for (let i = 0; i < props.pins.length; i++) {
+      if (props.pins[i].title === searchValue) {
         res.push(props.pins[i])
-      }  
+      }
     }
     props.setPins(res);
 
   }
 
-  useEffect( () => {
-    setReserve(...props.pins)
-  }, [])
+  useEffect(() => {
+    //if (authedUser)
+    //setReserve(...props.pins)
+  }, [props.pin])
 
-  useEffect( () => {
-    if(searchValue === "" && submitted){
-      props.setPins(reserve)
-      setSubmitted(false)
+  useEffect(() => {
+    if (props.pins !== reserve && !submitted) {
+      setReserve(props.pins)
     }
-  },[searchValue])
+    console.log(reserve);
+    if (searchValue === "" && submitted) {
+      setSubmitted(false)
+      props.setPins(reserve)
+    }
+  }, [searchValue, submitted])
 
 
 
@@ -76,7 +81,7 @@ export default function PrimarySearchAppBar(props) {
   useEffect(() => {
     // console.log(authedUser)
     try {
-       setProfilePicture(authedUser.profile_pic)
+      setProfilePicture(authedUser.profile_pic)
     }
     catch (err) {
     }
@@ -84,7 +89,7 @@ export default function PrimarySearchAppBar(props) {
   }, [authedUser, headers]);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { runAuth } = props;
 
   const handleProfileMenuOpen = (event) => {
@@ -108,7 +113,7 @@ export default function PrimarySearchAppBar(props) {
     // return <Navigate to='/'/>;
 
     window.location.href = "/"
-    
+
   }
 
 
@@ -120,15 +125,15 @@ export default function PrimarySearchAppBar(props) {
   // },[headers])
 
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
 
 
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu style={{zIndex: 1000001}}
+    <Menu style={{ zIndex: 1000001 }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -157,60 +162,60 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      {/* <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+  // const mobileMenuId = 'primary-search-account-menu-mobile';
+  // const renderMobileMenu = (
+  //   <Menu
+  //     anchorEl={mobileMoreAnchorEl}
+  //     anchorOrigin={{
+  //       vertical: 'top',
+  //       horizontal: 'right',
+  //     }}
+  //     id={mobileMenuId}
+  //     keepMounted
+  //     transformOrigin={{
+  //       vertical: 'top',
+  //       horizontal: 'right',
+  //     }}
+  //     open={isMobileMenuOpen}
+  //     onClose={handleMobileMenuClose}
+  //   >
+  // {/* <MenuItem>
+  //       <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+  //         <Badge badgeContent={4} color="error">
+  //           <MailIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Messages</p>
+  //     </MenuItem>
+  //     <MenuItem>
+  //       <IconButton
+  //         size="large"
+  //         aria-label="show 17 new notifications"
+  //         color="inherit"
+  //       >
+  //         <Badge badgeContent={17} color="error">
+  //           <NotificationsIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Notifications</p>
+  //     </MenuItem> */}
+  //   <MenuItem onClick={handleProfileMenuOpen}>
+  //     <IconButton
+  //       size="large"
+  //       aria-label="account of current user"
+  //       aria-controls="primary-search-account-menu"
+  //       aria-haspopup="true"
+  //       color="inherit"
+  //     >
+  //       <AccountCircle />
+  //     </IconButton>
+  //     <p>Profile</p>
+  //   </MenuItem>
+  // </Menu>
+  // );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000000 }}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1250 }}>
 
       <AppBar position="static" color="text">
         <Toolbar>
@@ -231,8 +236,8 @@ export default function PrimarySearchAppBar(props) {
                 <SearchIcon></SearchIcon>
               </IconButton>
 
-              <form onSubmit={(e) =>{handleSubmit(e)}}>
-                <input type="text" value={searchValue} onChange={(e) => {setSearchValue(e.target.value)}} placeholder="Search..."/>
+              <form onSubmit={(e) => { handleSubmit(e) }}>
+                <input type="text" value={searchValue} onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search..." />
                 <button type="submit" >Submit</button>
               </form>
 
@@ -240,7 +245,7 @@ export default function PrimarySearchAppBar(props) {
           </SearchWrapper>
           {authedUser ?
             (<Fragment>
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Box sx={{ display: { md: 'flex' } }}>
                 {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -267,7 +272,7 @@ export default function PrimarySearchAppBar(props) {
                   {authedUser ? <Avatar alt="Remy Sharp" src={profilePicture} /> : <div></div>}
                 </IconButton>
               </Box>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size="large"
                   aria-label="show more"
@@ -278,7 +283,7 @@ export default function PrimarySearchAppBar(props) {
                 >
                   <MoreIcon />
                 </IconButton>
-              </Box>
+              </Box> */}
               {/* <IconButton
             size="large"
             edge="start"
@@ -290,11 +295,11 @@ export default function PrimarySearchAppBar(props) {
           </IconButton> */}
 
 
-            </Fragment>) : (<Fragment>
+            </Fragment>) : (<Stack marginX={1} spacing={1} direction="row">
 
               <Button onClick={() => runAuth("signup")}>Signup</Button>
-              <Button onClick={() => runAuth("login")}>Signin</Button>
-            </Fragment>)}
+              <Button variant="outlined" onClick={() => runAuth("login")}>Signin</Button>
+            </Stack>)}
 
 
 
@@ -302,10 +307,10 @@ export default function PrimarySearchAppBar(props) {
 
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {/* {renderMobileMenu} */}
       {renderMenu}
 
-    </Box>
+    </Box >
   );
 };
 

@@ -8,13 +8,14 @@ import FollowingModal from '../components/profile/FollowingModal'
 import { UserContext } from "../context";
 import Masonry from 'react-masonry-component';
 import CreateBoard from '../components/profile/CreateBoard'
+import CreatePin from '../components/pins/create_pin'
 import CircularProgress from '@mui/material/CircularProgress';
 import Styles from "../styles/Styles";
 import BoardThumbnail from "../components/profile/BoardThumbnail";
 import ProfilePins from "../components/profile/ProfilePins";
 
 
-function Profile() {
+function Profile({ addItem }) {
   const classes = Styles()
   const { authedUser, headers, host } = useContext(UserContext)
 
@@ -42,6 +43,7 @@ function Profile() {
   const handleCloseFollowing = () => setOpenFollowing(false);
   const handleOpenCreateBoard = () => setOpenCreateBoard(true);
   const handleCloseCreateBoard = () => setOpenCreateBoard(false);
+  const [openCreatePin, setOpenCreatePin] = useState(false)
 
   const search = window.location.search;
   const params = new URLSearchParams(search);
@@ -218,10 +220,25 @@ function Profile() {
                 }
 
                 <Divider sx={{ marginY: 5 }} />
-                {/* <Stack direction='row' justifyContent="space-between" mt={3}> */}
-                <Typography fontWeight="bold" variant="h6">Pins</Typography>
-                {/* <Button color="grey">Organize</Button> */}
-                {/* </Stack> */}
+                <Stack direction='row' justifyContent="space-between" mt={3}>
+                  <Typography fontWeight="bold" variant="h6">Pins</Typography>
+                  {/* <Button color="grey">Organize</Button> */}
+                  {isAuthedProfile && <>
+                    <Button
+                      color="grey"
+                      onClick={() => setOpenCreatePin(true)}
+                    >
+                      Create Pin
+                    </Button>
+
+                    <CreatePin
+                      setPinItems={setPinItems}
+                      addItem={addItem}
+                      open={openCreatePin}
+                      onClose={() => setOpenCreatePin(false)}
+                    />
+                  </>}
+                </Stack>
 
                 {Boolean(pinItems.length)
                   ? <ProfilePins pins={pinItems} isAuthedProfile={isAuthedProfile} />

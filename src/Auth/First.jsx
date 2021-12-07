@@ -45,6 +45,7 @@ export default class First extends React.Component{
     sendData=()=>{
 
       if(this.validator.allValid()){
+<<<<<<< HEAD
         // axiosInstance
         //   .post("/account/checkuser", {"username":this.state.username})
         //   .then(res =>{
@@ -55,6 +56,17 @@ export default class First extends React.Component{
         //   })
         this.props.collect(this.state.username)
         this.props.switch('second')
+=======
+        axiosInstance
+          .post("/account/checkuser", {"username":this.state.username})
+          .then(res =>{
+            if(res.data.success){
+              this.props.collect(this.state.username)
+              this.props.switch('second')
+            }else this.setState({usernameError:true})
+          })
+
+>>>>>>> main
       }else{
         this.setState({usernameError:true})
       }
@@ -63,7 +75,7 @@ export default class First extends React.Component{
     }
 
     render(){
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false}>
         <DialogTitle mb={3} mt={1}>
         <IconButton
           aria-label="close"

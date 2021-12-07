@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -24,10 +23,10 @@ export default class Main extends React.Component {
   constructor() {
     super();
     this.validator = new SimpleReactValidator({
-      autoForceUpdate:this,
-      validators:{
-        usedEmail:{
-          message:"Email used try another email"
+      autoForceUpdate: this,
+      validators: {
+        usedEmail: {
+          message: "Email used try another email"
         }
       }
     })
@@ -35,12 +34,12 @@ export default class Main extends React.Component {
       email: "",
       password: "",
       age: "",
-      emailError:false
+      emailError: false
     }
 
   }
   collectInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value, emailError:false })
+    this.setState({ [e.target.name]: e.target.value, emailError: false })
 
   }
 
@@ -50,6 +49,7 @@ export default class Main extends React.Component {
       password: this.state.password,
       age: this.state.age,
     }
+<<<<<<< HEAD
     if(this.validator.allValid()){
       // axiosInstance
       //   .post('/account/checkmail', {"email":this.state.email})
@@ -64,8 +64,22 @@ export default class Main extends React.Component {
       //   })
       this.props.collect(data)
       this.props.switch('first')
+=======
+    if (this.validator.allValid()) {
+      axiosInstance
+        .post('/account/checkmail', { "email": this.state.email })
+        .then(res => {
+          // console.log(res)
+          if (res.data.success) {
+            this.props.collect(data)
+            this.props.switch('first')
+          } else {
+            this.setState({ emailError: true })
+          }
+        })
+>>>>>>> main
 
-    }else{
+    } else {
       this.validator.showMessages()
       this.forceUpdate()
     }
@@ -119,7 +133,7 @@ export default class Main extends React.Component {
 
   responseGoogle = (response) => {
     // console.log(response)
-
+    console.log(response)
     axiosInstance
       .post('/account/auth/convert-token', {
         grant_type: "convert_token",
@@ -167,7 +181,7 @@ export default class Main extends React.Component {
 
   render() {
 
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
               <IconButton
           aria-label="close"
           onClick={this.props.close}
@@ -184,7 +198,7 @@ export default class Main extends React.Component {
       {/* <DialogTitle sx={{ textAlign: "center" }}>
 
       </DialogTitle> */}
-      <DialogContent sx={{ textAlign: "center"}}>
+      <DialogContent sx={{ textAlign: "center" }}>
         <DialogContentText sx={{ margin: '0 0 1rem 0' }}>
           <PinterestIcon fontSize="large"
             sx={{
@@ -215,9 +229,9 @@ export default class Main extends React.Component {
               value={this.state.email}
               onChange={this.collectInput}
               helperText={
-                this.state.emailError?
-                "Email exists":
-                this.validator.message('email', this.state.email, "required|email")
+                this.state.emailError ?
+                  "Email exists" :
+                  this.validator.message('email', this.state.email, "required|email")
               }
             />
             <TextField
@@ -295,7 +309,7 @@ export default class Main extends React.Component {
             </div>
             <div style={{ width: "100%", marginTop: '1rem' }}>
               <GoogleLogin
-                clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+                clientId="679751054018-2l8lc8ijibfr7ammo77vfu59epohaiu9.apps.googleusercontent.com"
                 render={renderProps => (
                   <Button
                     onClick={renderProps.onClick}
@@ -322,7 +336,7 @@ export default class Main extends React.Component {
               />
             </div>
           </form>
-          <div style={{ width: "90%", margin: '1rem auto' , textAlign: 'center' }}>
+          <div style={{ width: "90%", margin: '1rem auto', textAlign: 'center' }}>
             <Typography variant="caption">
               By continuing you agree to pinterest's <button className="asAnchor">Terms of Service</button> and
               acknowledge you've read our <button className="asAnchor">Privacy Policy</button>

@@ -7,20 +7,45 @@ import { UserContext } from "../context";
 import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from "@mui/material";
 import Styles from '../styles/Styles'
+import Pin from '../components/pins/pin'
 
 
-function Homepage({pins , boards, addItem, removeItem}) {
+function Homepage({ pins, addItem, removeItem }) {
   const classes = Styles()
   const [loaded, setLoaded] = useState(false)
-  const { authedUser, headers, host } = useContext(UserContext)
+  const { authedUser, host, headers } = useContext(UserContext)
+  const [boards, setBoards] = useState([])
 
- 
+  const [open, setOpen] = useState(false)
+  // const onClose = () => setOpen(false)
+  // const onOpen = () => setOpen(true)
+  const [pinModalItem, setPinModalItem] = useState({})
+
+  useEffect(() => {
+    if (authedUser.id) {
+      fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+        .then(res => res.json())
+        .then(data => setBoards(data))
+
+    }
+  }, [authedUser.id, headers, host])
+
 
   useEffect(() => {
     pins.length /*&& boards.length*/
       ? setLoaded(true)
       : setLoaded(false)
-  }, [pins.length, boards.length])
+  }, [pins.length])
+
+  function onOpenPinModal(pinItem) {
+    setPinModalItem(pinItem)
+    setOpen(true)
+  }
+
+  function onClosePinModal() {
+    setOpen(false)
+    setPinModalItem({})
+  }
 
   return (
     <Fragment>
@@ -30,11 +55,12 @@ function Homepage({pins , boards, addItem, removeItem}) {
             <Fragment>
               <AddButton addItem={addItem} />
               <Masonry className={classes.masonry}  >
-                
+
                 {pins.map((pin) => (
-                  <SinglePin key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
+                  <SinglePin onOpenPinModal={() => onOpenPinModal(pin)} key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
+              <Pin pinItem={pinModalItem} open={open} onClose={onClosePinModal} removeItem={removeItem} />
             </Fragment>
           )
           : <div>Please Login</div>

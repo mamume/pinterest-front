@@ -3,14 +3,13 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/settings/PublicProfile'
 import AccountSettings from '../components/settings/AccountSettings';
-import Notifications from '../components/settings/Notifications'
-import PrivacyAndData from '../components/settings/PrivacyAndData';
 import {
   Routes,
   Route,
   Link,
   useLocation
 } from "react-router-dom";
+import Security from '../components/settings/Security';
 
 const drawerWidth = 200
 
@@ -97,9 +96,19 @@ function Setting() {
                   Notifications
                 </ListItemText>
               </ListItemButton>
-            </Link>
+            </Link> */}
 
-            <Link to="privacy" className={classes.link}>
+            <Link to="security" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/security"}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "button"
+                  }}
+                >
+                  Security</ListItemText>
+              </ListItemButton>
+            </Link>
+            {/* <Link to="privacy" className={classes.link}>
               <ListItemButton selected={location.pathname === "/settings/privacy"}>
                 <ListItemText
                   primaryTypographyProps={{
@@ -108,17 +117,17 @@ function Setting() {
                 >
                   Privacy and data</ListItemText>
               </ListItemButton>
-            </Link>
+            </Link> */}
 
-            <ListItemButton>
+            {/* <ListItemButton>
               <ListItemText
                 primaryTypographyProps={{
                   variant: "button"
                 }}
               >
                 Security</ListItemText>
-            </ListItemButton>
-            <ListItemButton>
+            </ListItemButton> */}
+            {/* <ListItemButton>
               <ListItemText
                 primaryTypographyProps={{
                   variant: "button"
@@ -133,8 +142,9 @@ function Setting() {
             <Route path="" element={<PublicProfile />}
             />
             <Route path="account" element={<AccountSettings />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="privacy" element={<PrivacyAndData />} />
+            <Route path="security" element={<Security />} />
+            {/* <Route path="notifications" element={<Notifications />} /> */}
+            {/* <Route path="privacy" element={<PrivacyAndData />} /> */}
           </Routes>
         </Stack>
       </div>

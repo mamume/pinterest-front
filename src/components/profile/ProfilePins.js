@@ -9,6 +9,7 @@ import Masonry from 'react-masonry-component';
 import { saveAs } from 'file-saver'
 import DownloadIcon from '@mui/icons-material/Download';
 import Pin from '../pins/pin';
+import { Typography } from '@mui/material';
 
 function ProfilePins({ pins, isAuthedProfile }) {
   const { headers, host } = useContext(UserContext)
@@ -19,7 +20,6 @@ function ProfilePins({ pins, isAuthedProfile }) {
   const [pinModal, setPinModal] = useState('')
 
   function openPinModal(pin) {
-    // console.log(pin)
     setPinModal(pin)
     setOpenPin(true)
   }
@@ -40,13 +40,12 @@ function ProfilePins({ pins, isAuthedProfile }) {
   }
 
   const saveImage = (image, title) => {
-    // console.log(image)
     saveAs(image, `${title}.jpg`)
   }
 
   return (
-    <>
-      <Masonry className={classes.masonry}>
+    <>{pinItems.length
+      ? <Masonry className={classes.masonry}>
         {
           pinItems.map((pin, index) => (
             <ImageListItem key={index} sx={{ margin: 1 }}>
@@ -78,6 +77,7 @@ function ProfilePins({ pins, isAuthedProfile }) {
           ))
         }
       </Masonry >
+      : <Typography textAlign="center">There are not pins</Typography>}
       <Pin open={openPin} onClose={closePinModal} pinItem={pinModal} removeItem={() => removeFromProfile(pinModal.id)} />
     </>
   );
