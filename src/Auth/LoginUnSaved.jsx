@@ -148,7 +148,7 @@ export default class LoginUnSaved extends React.Component {
 
 
   render() {
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
       <DialogTitle>
         <IconButton
           aria-label="close"

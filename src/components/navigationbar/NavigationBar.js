@@ -128,7 +128,7 @@ export default function PrimarySearchAppBar(props) {
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu style={{zIndex: 1251}}
+    <Menu style={{zIndex: 1000001}}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -210,7 +210,7 @@ export default function PrimarySearchAppBar(props) {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1250 }}>
+    <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000000 }}>
 
       <AppBar position="static" color="text">
         <Toolbar>

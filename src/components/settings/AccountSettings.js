@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context'
 
 function AccountSettings() {
-    const { authedUser, setAuthedUser } = useContext(UserContext)
+    const { authedUser, setAuthedUser, host, headers } = useContext(UserContext)
     const countryOptions = useMemo(() => countryList().getData(), [])
     const navigate = useNavigate();
 
@@ -20,21 +20,30 @@ function AccountSettings() {
 
     useEffect(() => {
         if (authedUser) {
-            setEmail(authedUser.email)
-            setCountry(authedUser.country)
-            setGender(authedUser.gender)
+            setEmail(authedUser.email || '')
+            setCountry(authedUser.country || '')
+            setGender(authedUser.gender || '')
         }
     }, [authedUser])
 
     const HSave = () => {
-        const data = {
-            email: email,
-            gender: gender,
-            country: country
-        };
-        let jsonUser = JSON.stringify(data)
-        axiosFetchInstance
-            .patch('/account/update', jsonUser)
+        const data = new FormData()
+        data.append('email', email)
+        data.append('country', country)
+        data.append('gender', gender)
+
+        fetch(`${host}/profile/update/${authedUser.id}/`, {
+            headers: {
+                'Authorization': headers.Authorization
+            },
+            method: 'PATCH',
+            body: data
+        })
+            .then(res => res.status)
+            .then(statusCode => {
+                if (statusCode === 200)
+                    navigate('/profile')
+            })
     }
 
     const HDelete = async () => {
@@ -76,11 +85,11 @@ function AccountSettings() {
             </Stack>
 
             <FormControl fullWidth>
-                <InputLabel id="country">Country/Region</InputLabel>
+                <InputLabel id="country">Country</InputLabel>
                 <Select
                     labelId="country"
                     id="country-select"
-                    label="Country/Region"
+                    label={country && countryList().getLabel(country)}
                     fullWidth
                     value={country}
                     onChange={e => setCountry(e.target.value)}
