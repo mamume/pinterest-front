@@ -14,6 +14,7 @@ import { UserContext } from "./context";
 import PwReset from './Auth/PwReset'
 import PwResetConfirm from './Auth/PwResetConfirm'
 import Auth from './Auth/Auth'
+import LogoutHomepage from './LogoutHomepage/App'
 
 
 
@@ -107,11 +108,13 @@ function App() {
                   <Route path='/pin/:id' element={<Pin />}> </Route>
                 </Routes>
                 :
-
-                <Routes>
-                  <Route path="/password-reset" element={<PwReset />} />
-                  <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
-                </Routes>
+                <>
+                  <LogoutHomepage />
+                  <Routes>
+                    <Route path="/password-reset" element={<PwReset />} />
+                    <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
+                  </Routes>
+                </>
               }
 
             </Router>

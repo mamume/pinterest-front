@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 //import {Redirect } from 'react-router';
 import React, { useEffect, useContext, Fragment, useState } from "react";
 import { UserContext } from "../../context";
+import { Stack } from '@mui/material';
 
 
 
@@ -57,17 +58,17 @@ export default function PrimarySearchAppBar(props) {
 
   useEffect(() => {
     //if (authedUser)
-      //setReserve(...props.pins)
+    //setReserve(...props.pins)
   }, [props.pin])
 
   useEffect(() => {
-    if(props.pins !== reserve && !submitted){
+    if (props.pins !== reserve && !submitted) {
       setReserve(props.pins)
     }
     console.log(reserve);
     if (searchValue === "" && submitted) {
-      setSubmitted(false)  
-      props.setPins(reserve)  
+      setSubmitted(false)
+      props.setPins(reserve)
     }
   }, [searchValue, submitted])
 
@@ -294,11 +295,11 @@ export default function PrimarySearchAppBar(props) {
           </IconButton> */}
 
 
-            </Fragment>) : (<Fragment>
+            </Fragment>) : (<Stack marginX={1} spacing={1} direction="row">
 
               <Button onClick={() => runAuth("signup")}>Signup</Button>
-              <Button onClick={() => runAuth("login")}>Signin</Button>
-            </Fragment>)}
+              <Button variant="outlined" onClick={() => runAuth("login")}>Signin</Button>
+            </Stack>)}
 
 
 
@@ -309,7 +310,7 @@ export default function PrimarySearchAppBar(props) {
       {/* {renderMobileMenu} */}
       {renderMenu}
 
-    </Box>
+    </Box >
   );
 };
 
