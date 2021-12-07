@@ -29,7 +29,7 @@ function Homepage({ pins, addItem, removeItem }) {
     pins.length /*&& boards.length*/
       ? setLoaded(true)
       : setLoaded(false)
-  }, [pins.length, boards.length])
+  }, [pins.length])
 
   return (
     <Fragment>
