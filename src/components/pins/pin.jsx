@@ -3,7 +3,7 @@ import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
 import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
-// import Styles from "../../styles/Styles";
+import Styles from "../../styles/Styles";
 
 
 // const handelfocus = () => {
@@ -35,6 +35,7 @@ import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
 
 
 const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
+	const classes = Styles()
 	const [pin, setPin] = useState(pinItem)
 	const { authedUser, headers, host } = useContext(UserContext)
 	const [owner, setOwner] = useState({})
@@ -102,7 +103,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 				{/* <div className="left-side col-md-5"> */}
 				{/* <div className="modals_pin_pin"> */}
 				{/* <div className="pin_image_pin"> */}
-				<Stack direction="row" justifyContent="space-around" spacing={5} style={{maxHeight: "600px"}}>
+				<Stack direction="row" justifyContent="space-around" spacing={5} style={{ maxHeight: "600px" }}>
 					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
@@ -134,8 +135,12 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 						{/* <div className="section2 row">
 							<div className="section2_header col-12"> */}
 						<Stack direction="row" alignItems="center" spacing={1}>
-							<Avatar src={owner.profile_pic} />
-							<Typography>{owner.full_name || owner.username}</Typography>
+							<a href={`/profile?username=${owner.username}`} className={classes.link}>
+								<Avatar src={owner.profile_pic} />
+							</a>
+							<a href={`/profile?username=${owner.username}`} className={classes.link}>
+								<Typography>{owner.full_name || owner.username}</Typography>
+							</a>
 						</Stack>
 						<Typography variant="h3">{pin.title}</Typography>
 						<Typography variant="body1">{pin.description}</Typography>
