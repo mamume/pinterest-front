@@ -117,7 +117,7 @@ export default class Main extends React.Component {
 
   responseGoogle = (response) => {
     // console.log(response)
-
+    console.log(response)
     axiosInstance
       .post('/account/auth/convert-token', {
         grant_type: "convert_token",
@@ -268,7 +268,7 @@ export default class Main extends React.Component {
             </div>
             <div style={{ width: "100%" }}>
               <FacebookLogin
-                appId="1730643360462848"
+                appId="621170252559307"
                 fields='name,email,picture,first_name,last_name'
                 callback={this.responseFacebook}
                 render={renderProps => (

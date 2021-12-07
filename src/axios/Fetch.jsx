@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8000/'
-
+const baseUrl = 'http://localhost:8000'
 const axiosFetchInstance = axios.create({
     baseURL: baseUrl,
     timeout: 5000,

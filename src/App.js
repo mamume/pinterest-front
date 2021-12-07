@@ -19,7 +19,7 @@ import Auth from './Auth/Auth'
 
 function App() {
   const [authedUser, setAuthedUser] = useState({})
-  const [host] = useState('http://localhost:8000')
+  const [host] = useState('https://pinterest-back-api-5.herokuapp.com')
   const [pins, setPins] = useState([])
   const [boards, setBoards] = useState([])
   const [headers, setHeaders] = useState({
@@ -91,7 +91,7 @@ function App() {
       })
   }, [headers, host])
 
-  if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
+  if (authedUser == null && window.location.href !== "https://sheltered-lowlands-49267.herokuapp.com/password-reset") AuthRef.current.state.open = true
  
 
   return (
