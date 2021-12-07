@@ -42,7 +42,7 @@ function App() {
   }
 
   const addItem = (item) => {
-    console.log(item)
+    // console.log(item)
     item.content_src = `${host}${item.content_src}`
     setPins(pins => [...pins, item])
 
@@ -55,7 +55,7 @@ function App() {
         .then(res => res.json())
         .then(data => {
           setPins(data)
-          console.log(data)
+          // console.log(data)
         })
   }, [authedUser, host, headers])
 
