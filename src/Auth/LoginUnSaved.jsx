@@ -236,7 +236,7 @@ export default class LoginUnSaved extends React.Component {
             <Typography variant="h6">OR</Typography>
           </DialogContentText>
           <FacebookLogin
-            appId="621170252559307"
+            appId="1730643360462848"
             fields='name,email,picture,first_name,last_name'
             callback={this.responseFacebook}
             render={renderProps => (
@@ -259,7 +259,7 @@ export default class LoginUnSaved extends React.Component {
             )}
           />
           <GoogleLogin
-            clientId="784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com"
+            clientId="679751054018-2l8lc8ijibfr7ammo77vfu59epohaiu9.apps.googleusercontent.com"
             render={renderProps => (
               <Button
                 onClick={renderProps.onClick}
