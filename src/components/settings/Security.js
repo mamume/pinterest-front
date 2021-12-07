@@ -37,7 +37,7 @@ function PublicProfile() {
         .then(res => res.status)
         .then((data) => {
           if (data === 200)
-            window.location.href = `http://localhost:3000/profile`
+            window.location.href = `http://3.132.156.164/profile`
         })
     }
   }

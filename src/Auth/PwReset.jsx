@@ -17,14 +17,14 @@ class ResetPassInput extends React.Component {
     constructor() {
         super();
         this.validator = new SimpleReactValidator({
-            autoForceUpdate:this,
-            validators:{
-                invalidmail:{
-                    message:"email isn't in our database"
+            autoForceUpdate: this,
+            validators: {
+                invalidmail: {
+                    message: "email isn't in our database"
                 }
             }
         })
-        this.state = { email: '', emailError:false }
+        this.state = { email: '', emailError: false }
     };
 
     collectInput = (e) => {
@@ -35,23 +35,23 @@ class ResetPassInput extends React.Component {
 
     sendData = () => {
 
-        if(this.validator.allValid()){
-        axiosInstance
-            .post('/account/password-reset-request', {
-                "email": this.state.email,
-                "redirect_url": "http://localhost:3000/password-reset/confirm"
-            })
-            .then(res => {
-                if (res.data.success) {
-                    this.props.getEmail(this.state.email)
-                    this.props.switch("sent")
-                }
-            }).catch(err => {
-                // console.log(err)
-                this.setState({emailError:true})
-                this.validator.showMessageFor("email")
-            })
-        }else this.validator.showMessages()
+        if (this.validator.allValid()) {
+            axiosInstance
+                .post('/account/password-reset-request', {
+                    "email": this.state.email,
+                    "redirect_url": "http://3.132.156.164/password-reset/confirm"
+                })
+                .then(res => {
+                    if (res.data.success) {
+                        this.props.getEmail(this.state.email)
+                        this.props.switch("sent")
+                    }
+                }).catch(err => {
+                    // console.log(err)
+                    this.setState({ emailError: true })
+                    this.validator.showMessageFor("email")
+                })
+        } else this.validator.showMessages()
     }
 
     render() {
@@ -82,9 +82,9 @@ class ResetPassInput extends React.Component {
                             value={this.state.email}
                             onChange={this.collectInput}
                             helperText={
-                                this.state.emailError?
-                                this.validator.message("email", this.state.email, "required|invalidmail"):
-                                this.validator.message("email", this.state.email, "required|email")
+                                this.state.emailError ?
+                                    this.validator.message("email", this.state.email, "required|invalidmail") :
+                                    this.validator.message("email", this.state.email, "required|email")
                             }
                         />
                     </Grid>
