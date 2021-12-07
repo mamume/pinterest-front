@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import BoardPins from "../components/board/BoardPins";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import EditBoard from "../components/board/EditBoard";
+// import { useHistory } from 'react-router'
 
 function Board({ addItem }) {
   const search = window.location.search;
@@ -31,6 +32,7 @@ function Board({ addItem }) {
 
   const { headers, host, authedUser } = useContext(UserContext)
   const navigate = useNavigate()
+  // const history = useHistory()
 
   useEffect(() => {
     if (boardId) {
@@ -72,7 +74,11 @@ function Board({ addItem }) {
       headers,
       method: 'DELETE'
     })
-      .then(navigate('/profile'))
+      .then(
+        // navigate('/profile')
+        window.location.href = `http://localhost:3000/profile`
+        // history.go('/profile')
+      )
   }
 
   return (

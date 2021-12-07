@@ -52,7 +52,7 @@ function PublicProfile() {
             .then(res => res.status)
             .then(statusCode => {
                 if (statusCode === 200)
-                    navigate('/profile')
+                    window.location.href = `http://localhost:3000/profile`
             })
     }
 

@@ -133,8 +133,8 @@ function Setting() {
             <Route path="" element={<PublicProfile />}
             />
             <Route path="account" element={<AccountSettings />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="privacy" element={<PrivacyAndData />} />
+            {/* <Route path="notifications" element={<Notifications />} /> */}
+            {/* <Route path="privacy" element={<PrivacyAndData />} /> */}
           </Routes>
         </Stack>
       </div>
