@@ -65,14 +65,14 @@ export default class Third extends React.Component{
         />
         </DialogTitle>
         <DialogContent sx={{textAlign:"center"}}>
-       <div style={{width:"90%", textAlign:"center", margin:'auto'}}>
+       
         <DialogContentText my={10} >
-        <Typography variant="h4" sx={{color:'black'}}>Pick your country/region</Typography>
-        </DialogContentText>
-          
-        <div style={{width:'90%', margin:'0 auto 1rem'}}>    
-        <FormControl fullWidth >
-            <InputLabel id="demo-simple-select-label">Country</InputLabel>
+        <Typography variant="h4" sx={{color:'black'}}>Pick your language and country/region</Typography>
+        </DialogContentText >
+        <div style={{width:"85%", textAlign:"center", margin:'auto'}}>  
+        <div style={{width:'100%', marginBottom:'1rem', zIndex: "1000003 !important "}} style={{}}>    
+        <FormControl fullWidth  >
+            <InputLabel id="demo-simple-select-label" >Country</InputLabel>
             <Select
                 style={{zIndex:  1000005}}
                 labelId="country-selector-label"
@@ -91,7 +91,7 @@ export default class Third extends React.Component{
         </FormControl>
         </div>
        
-        <div style={{width:'90%', margin:'0 auto '}}> 
+          
         <Button
           onClick={this.sendData}
           variant="contained" 
@@ -106,7 +106,6 @@ export default class Third extends React.Component{
           }}
         >
         Next</Button>
-	</div>
         </div>
         
 

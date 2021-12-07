@@ -35,7 +35,7 @@ export default class LoginSaved extends React.Component{
 
 
     render(){
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={true}>
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} style={{zIndex: 1000002}}>
         <DialogTitle>
           <IconButton
             aria-label="close"
@@ -52,7 +52,7 @@ export default class LoginSaved extends React.Component{
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{textAlign:"center"}}>
-        <div style={{width:"90%", textAlign:"center", margin:'auto'}}>
+        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>
           <PinterestIcon fontSize="large" 
           sx={{
             color:'#e60023',
@@ -72,7 +72,7 @@ export default class LoginSaved extends React.Component{
           </Avatar>
           </div>
           
-          <div style={{width:"75%", textAlign:"center", margin:'auto', marginTop:'0.5rem'}}>
+          <div style={{width:"70%", textAlign:"center", margin:'auto', marginTop:'0.5rem'}}>
 
           <TextField
             autoFocus
