@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -24,10 +23,10 @@ export default class Main extends React.Component {
   constructor() {
     super();
     this.validator = new SimpleReactValidator({
-      autoForceUpdate:this,
-      validators:{
-        usedEmail:{
-          message:"Email used try another email"
+      autoForceUpdate: this,
+      validators: {
+        usedEmail: {
+          message: "Email used try another email"
         }
       }
     })
@@ -35,12 +34,12 @@ export default class Main extends React.Component {
       email: "",
       password: "",
       age: "",
-      emailError:false
+      emailError: false
     }
 
   }
   collectInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value, emailError:false })
+    this.setState({ [e.target.name]: e.target.value, emailError: false })
 
   }
 
@@ -50,20 +49,20 @@ export default class Main extends React.Component {
       password: this.state.password,
       age: this.state.age,
     }
-    if(this.validator.allValid()){
+    if (this.validator.allValid()) {
       axiosInstance
-        .post('/account/checkmail', {"email":this.state.email})
-        .then(res =>{
+        .post('/account/checkmail', { "email": this.state.email })
+        .then(res => {
           // console.log(res)
-          if(res.data.success){
+          if (res.data.success) {
             this.props.collect(data)
             this.props.switch('first')
-          }else{ 
-            this.setState({emailError:true})
+          } else {
+            this.setState({ emailError: true })
           }
         })
 
-    }else{
+    } else {
       this.validator.showMessages()
       this.forceUpdate()
     }
@@ -182,7 +181,7 @@ export default class Main extends React.Component {
       {/* <DialogTitle sx={{ textAlign: "center" }}>
 
       </DialogTitle> */}
-      <DialogContent sx={{ textAlign: "center"}}>
+      <DialogContent sx={{ textAlign: "center" }}>
         <DialogContentText sx={{ margin: '0 0 1rem 0' }}>
           <PinterestIcon fontSize="large"
             sx={{
@@ -213,9 +212,9 @@ export default class Main extends React.Component {
               value={this.state.email}
               onChange={this.collectInput}
               helperText={
-                this.state.emailError?
-                "Email exists":
-                this.validator.message('email', this.state.email, "required|email")
+                this.state.emailError ?
+                  "Email exists" :
+                  this.validator.message('email', this.state.email, "required|email")
               }
             />
             <TextField
@@ -320,7 +319,7 @@ export default class Main extends React.Component {
               />
             </div>
           </form>
-          <div style={{ width: "90%", margin: '1rem auto' , textAlign: 'center' }}>
+          <div style={{ width: "90%", margin: '1rem auto', textAlign: 'center' }}>
             <Typography variant="caption">
               By continuing you agree to pinterest's <button className="asAnchor">Terms of Service</button> and
               acknowledge you've read our <button className="asAnchor">Privacy Policy</button>

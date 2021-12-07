@@ -6,12 +6,11 @@ import NotFound from './NotFound'
 import CircularProgress from '@mui/material/CircularProgress';
 import CreatePin from '../components/pins/create_pin'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from "react-router";
 import BoardPins from "../components/board/BoardPins";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import EditBoard from "../components/board/EditBoard";
 
-function Board({addItem}) {
+function Board({ addItem }) {
   const search = window.location.search;
   const params = new URLSearchParams(search);
 
@@ -30,7 +29,6 @@ function Board({addItem}) {
   const [authorized, setAuthorized] = useState(true)
 
   const { headers, host, authedUser } = useContext(UserContext)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (boardId) {
@@ -72,7 +70,9 @@ function Board({addItem}) {
       headers,
       method: 'DELETE'
     })
-      .then(navigate('/profile'))
+      .then(
+        window.location.href = `http://localhost:3000/profile`
+      )
   }
 
   return (
@@ -168,7 +168,6 @@ function Board({addItem}) {
                       </Button>
 
                       <CreatePin
-                        pinItems= {pinItems}
                         setPinItems={setPinItems}
                         addItem={addItem}
                         open={openCreatePin}

@@ -3,7 +3,8 @@ import "./pin_styles.css"
 import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
 import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
-// import Styles from "../../styles/Styles";
+import Styles from "../../styles/Styles";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 // const handelfocus = () => {
@@ -34,10 +35,12 @@ import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
 // }
 
 
-const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
+const Pin = ({ open, onClose, removeItem, pinItem }) => {
+	const classes = Styles()
 	const [pin, setPin] = useState(pinItem)
 	const { authedUser, headers, host } = useContext(UserContext)
 	const [owner, setOwner] = useState({})
+	const [loaded, setLoaded] = useState(false)
 
 
 	// useEffect(() => {
@@ -48,14 +51,17 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 	// 			setPin(data)
 	// 		})
 	// }, [host, id])
+	useEffect(() => {
+		setPin(pinItem)
+	}, [pinItem])
 
 	useEffect(() => {
-		if (pin) {
-			console.log(pin.owner)
-			fetch(`${host}/profile/details/${pin.owner}`, { headers })
-				.then(res => res.json())
-				.then(data => setOwner(data))
-		}
+		// if (pinItem) {
+		// console.log(pin.owner)
+		fetch(`${host}/profile/details/${pin.owner}`, { headers })
+			.then(res => res.json())
+			.then(data => setOwner(data))
+		// }
 	}, [headers, host, pin])
 
 	const handleDelete = () => {
@@ -71,9 +77,10 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 			})
 	}
 
+
 	useEffect(() => {
-		setPin(pinItem)
-	}, [pinItem])
+		owner.id ? setLoaded(true) : setLoaded(false)
+	}, [owner.id])
 
 	return (
 		<Modal
@@ -96,14 +103,8 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 					marginTop: "20% auto"
 				}}
 			>
-				{/* <div className="container"> */}
-				{/* <div className="sides row"> */}
-
-				{/* <div className="left-side col-md-5"> */}
-				{/* <div className="modals_pin_pin"> */}
-				{/* <div className="pin_image_pin"> */}
-				<Stack direction="row" justifyContent="space-around" spacing={5}>
-					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px" }} alt="pin_image" />
+				<Stack direction="row" justifyContent="space-around" spacing={5} style={{ maxHeight: "600px" }}>
+					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
 
@@ -133,12 +134,22 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 
 						{/* <div className="section2 row">
 							<div className="section2_header col-12"> */}
-						<Stack direction="row" alignItems="center" spacing>
-							<Avatar src={owner.profile_pic} />
-							<Typography>{owner.full_name || owner.username}</Typography>
-						</Stack>
-						<Typography variant="h6">{pin.title}</Typography>
-						<Typography variant="body1">{pin.description}</Typography>
+						{loaded
+							? <>
+								<Stack direction="row" alignItems="center" spacing={1}>
+									<a href={`/profile?username=${owner.username}`} className={classes.link}>
+										<Avatar src={owner.profile_pic || ""} />
+									</a>
+									{/* {owner.profile_pic} */}
+									<a href={`/profile?username=${owner.username}`} className={classes.link}>
+										<Typography>{owner.full_name || owner.username}</Typography>
+									</a>
+								</Stack>
+								<Typography variant="h3">{pin.title}</Typography>
+								<Typography variant="body1">{pin.description}</Typography>
+							</>
+							: <Stack direction="row" justifyContent="center"><CircularProgress /></Stack>}
+
 						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
 						{/* </div> */}
 						{/* <div className="user_details row">
@@ -195,6 +206,12 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 						</div> */}
 					</Stack>
 				</Stack>
+				{/* <div className="container"> */}
+				{/* <div className="sides row"> */}
+
+				{/* <div className="left-side col-md-5"> */}
+				{/* <div className="modals_pin_pin"> */}
+				{/* <div className="pin_image_pin"> */}
 
 				{/* </div> */}
 				{/* </div> */}

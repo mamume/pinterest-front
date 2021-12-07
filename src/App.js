@@ -14,18 +14,30 @@ import { UserContext } from "./context";
 import PwReset from './Auth/PwReset'
 import PwResetConfirm from './Auth/PwResetConfirm'
 import Auth from './Auth/Auth'
+import LogoutHomepage from './LogoutHomepage/App'
 
 
 
 function App() {
-  const [authedUser, setAuthedUser] = useState({})
-  const [host] = useState('https://pinterest-back-api-5.herokuapp.com')
-  const [pins, setPins] = useState([])
-  const [boards, setBoards] = useState([])
+  const [host] = useState('http://localhost:8000')
   const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
   })
+  const [authedUser, setAuthedUser] = useState({})
+  const [pins, setPins] = useState([])
+  // const [boards, setBoards] = useState([])
+
+  useEffect(() => {
+    fetch(`${host}/account/details`, { headers })
+      .then(res => res.json())
+      .then(data => {
+        if (data.username)
+          setAuthedUser(data)
+        else
+          setAuthedUser(null)
+      })
+  }, [headers, host])
 
   const removeItem = (id) => {
     // let idx;
@@ -42,12 +54,9 @@ function App() {
   }
 
   const addItem = (item) => {
-    console.log(item)
     item.content_src = `${host}${item.content_src}`
-    setPins(pins => [...pins, item])
-
+    setPins(pins => [item, ...pins])
   }
-  
 
   useEffect(() => {
     if (authedUser)
@@ -55,83 +64,68 @@ function App() {
         .then(res => res.json())
         .then(data => {
           setPins(data)
-          console.log(data)
         })
   }, [authedUser, host, headers])
 
-  useEffect(() => {
-    try {
-      if (authedUser) {
-        fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
-          .then(res => res.json())
-          .then(data => setBoards(data))
+  // useEffect(() => {
+  //   if (authedUser && authedUser.id) {
+  //     fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+  //       .then(res => res.json())
+  //       .then(data => setBoards(data))
 
-      }
-    }
-    catch (err) {
-      console.log(err)
-    }
+  //   }
+  // }, [authedUser, headers, host])
 
-
-  }, [authedUser, host, headers])
   const AuthRef = useRef();
   const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
   }
-  
 
-  useEffect(() => {
-    fetch(`${host}/account/details`, { headers })
-      .then(res => res.json())
-      .then(data => {
-        if (data.username)
-          setAuthedUser(data)
-        else
-          setAuthedUser(null)
-      })
-  }, [headers, host])
 
-  if (authedUser == null && window.location.href !== "https://sheltered-lowlands-49267.herokuapp.com/password-reset") AuthRef.current.state.open = true
- 
+
+  if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
+
 
   return (
     <Fragment>
       <Auth ref={AuthRef} />
       <CssBaseline />
-      
-    <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
-            <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
-              <Router>
-                <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
-                {authedUser
-                      ? 
-                    <Routes>
 
-                      <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem}  />} />
-                      <Route path="/profile" element={<Profile  />} />
-                      <Route path="/settings/*" element={<Settings />} />
-                      <Route path="/board/" element={<Board addItem={addItem} />} />
-                      <Route path="/create_pin/" element={<Create />} />
-                      <Route path='/pin/:id' element={<Pin />}> </Route>
-                    </Routes>
-                  :
-                  
+      <ThemeProvider theme={theme}>
+        <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
+          <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
+            <Router>
+              <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
+              {authedUser
+                ?
+                <Routes>
+
+                  <Route path="/" exact element={<Homepage pins={pins} addItem={addItem} removeItem={removeItem} />} />
+                  <Route path="/profile" element={<Profile addItem={addItem} />} />
+                  <Route path="/settings/*" element={<Settings />} />
+                  <Route path="/board/" element={<Board addItem={addItem} />} />
+                  <Route path="/create_pin/" element={<Create />} />
+                  <Route path='/pin/:id' element={<Pin />}> </Route>
+                </Routes>
+                :
+                <>
+                  <LogoutHomepage />
                   <Routes>
-                  <Route path="/password-reset" element={<PwReset />} />
-                  <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
+                    <Route path="/password-reset" element={<PwReset />} />
+                    <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
                   </Routes>
-                }
+                </>
+              }
 
-              </Router>
-            </Container>
-          </UserContext.Provider>
-
-    
-        </ThemeProvider>
+            </Router>
+          </Container>
+        </UserContext.Provider>
 
 
-      
+      </ThemeProvider>
+
+
+
     </Fragment>
   );
 }

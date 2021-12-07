@@ -3,8 +3,6 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/settings/PublicProfile'
 import AccountSettings from '../components/settings/AccountSettings';
-import Notifications from '../components/settings/Notifications'
-import PrivacyAndData from '../components/settings/PrivacyAndData';
 import {
   Routes,
   Route,
@@ -133,8 +131,8 @@ function Setting() {
             <Route path="" element={<PublicProfile />}
             />
             <Route path="account" element={<AccountSettings />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="privacy" element={<PrivacyAndData />} />
+            {/* <Route path="notifications" element={<Notifications />} /> */}
+            {/* <Route path="privacy" element={<PrivacyAndData />} /> */}
           </Routes>
         </Stack>
       </div>
