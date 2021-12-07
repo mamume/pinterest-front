@@ -40,7 +40,7 @@ function Homepage({ pins, addItem, removeItem }) {
               <AddButton addItem={addItem} />
               <Masonry className={classes.masonry}  >
 
-                {pins.map((pin) => (
+                { pins  && pins.map((pin) => (
                   <SinglePin key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
