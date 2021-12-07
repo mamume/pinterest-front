@@ -156,24 +156,24 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      {/* <MenuItem>
+  // const mobileMenuId = 'primary-search-account-menu-mobile';
+  // const renderMobileMenu = (
+  //   <Menu
+  //     anchorEl={mobileMoreAnchorEl}
+  //     anchorOrigin={{
+  //       vertical: 'top',
+  //       horizontal: 'right',
+  //     }}
+  //     id={mobileMenuId}
+  //     keepMounted
+  //     transformOrigin={{
+  //       vertical: 'top',
+  //       horizontal: 'right',
+  //     }}
+  //     open={isMobileMenuOpen}
+  //     onClose={handleMobileMenuClose}
+  //   >
+  {/* <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -193,20 +193,20 @@ export default function PrimarySearchAppBar(props) {
         </IconButton>
         <p>Notifications</p>
       </MenuItem> */}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+  //   <MenuItem onClick={handleProfileMenuOpen}>
+  //     <IconButton
+  //       size="large"
+  //       aria-label="account of current user"
+  //       aria-controls="primary-search-account-menu"
+  //       aria-haspopup="true"
+  //       color="inherit"
+  //     >
+  //       <AccountCircle />
+  //     </IconButton>
+  //     <p>Profile</p>
+  //   </MenuItem>
+  // </Menu>
+  // );
 
   return (
     <Box sx={{ flexGrow: 1 }} style={{ margin: 0, position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000000 }}>
@@ -239,7 +239,7 @@ export default function PrimarySearchAppBar(props) {
           </SearchWrapper>
           {authedUser ?
             (<Fragment>
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Box sx={{ display: { md: 'flex' } }}>
                 {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -266,7 +266,7 @@ export default function PrimarySearchAppBar(props) {
                   {authedUser ? <Avatar alt="Remy Sharp" src={profilePicture} /> : <div></div>}
                 </IconButton>
               </Box>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size="large"
                   aria-label="show more"
@@ -277,7 +277,7 @@ export default function PrimarySearchAppBar(props) {
                 >
                   <MoreIcon />
                 </IconButton>
-              </Box>
+              </Box> */}
               {/* <IconButton
             size="large"
             edge="start"
@@ -301,7 +301,7 @@ export default function PrimarySearchAppBar(props) {
 
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {/* {renderMobileMenu} */}
       {renderMenu}
 
     </Box>
