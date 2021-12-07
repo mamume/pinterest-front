@@ -14,12 +14,13 @@ import { UserContext } from "../../context";
 import { Stack, Typography, Box } from '@mui/material';
 import Styles from '../../styles/Styles'
 import { saveAs } from 'file-saver'
+import CreateBoard from '../profile/CreateBoard'
 
 
 
 
 
-function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board, removeItem }) {
+function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board }) {
   // const newTo = {
   //   pathname: url ? url : `/pin/${id}`,
   //   state: { id: id }
@@ -33,6 +34,7 @@ function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board, 
   const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
   const [subBoard, setSubBoard] = useState(sub_board)
+  const [openCreateBoard, setOpenCreateBoard] = useState(false)
   // const [open, setOpen] = useState(false)
   // const onClose = () => setOpen(false)
   // const onOpen = () => setOpen(true)
@@ -95,34 +97,39 @@ function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board, 
                   <Button size="small" style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
                 </Fragment>
 
-                : <Fragment>
-                  <FormControl size="small" fullWidth>
-                    <InputLabel id="select-board" style={{ color: "#455a64" }}>Board</InputLabel>
-                    <Select
-                      labelId="select-board"
-                      onChange={(e) => setSavedBoard(e.target.value)}
-                      label="Board"
-                      style={{ backgroundColor: "white" }}
-                      value={savedBoard}
-                      size="small"
-                    >
-                      {boards.map((item, index) => (
-                        <MenuItem value={item.id} key={index}>{item.title}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <Button size="small" onClick={handlePost}>Save</Button>
-                </Fragment>
-              }
-              {/* </div> */}
-              {/* <div className="Two"></div> */}
-              {/* <div className="Three"> */}
-              {/* {linked
-                ? <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
-                : <Button onClick={handlePost}>Save</Button>
-              } */}
-              {/* </div> */}
+                : <>
+                  {
+                    boards.length
+                      ? < Fragment >
+                        <FormControl size="small" fullWidth>
+                          <InputLabel id="select-board" style={{ color: "#455a64" }}>Board</InputLabel>
+                          <Select
+                            labelId="select-board"
+                            onChange={(e) => setSavedBoard(e.target.value)}
+                            label="Board"
+                            style={{ backgroundColor: "white" }}
+                            value={savedBoard}
+                            size="small"
+                          >
+                            {boards.map((item, index) => (
+                              <MenuItem value={item.id} key={index}>{item.title}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <Button size="small" onClick={handlePost}>Save</Button>
+                      </Fragment>
+                      : <Button size="small" onClick={() => setOpenCreateBoard(true)}>Create Board</Button>
+                  }</>}
             </Stack>
+            {/* // }</> */}
+            {/* // </div> */}
+            {/* // <div className="Two"></div> */}
+            {/* // <div className="Three"> */}
+            {/* // {linked
+                // ? <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
+                // : <Button onClick={handlePost}>Save</Button>
+              // } */}
+            {/* // </div> */}
             {/* </div> */}
             {/* <Link to={newTo}> */}
 
@@ -152,8 +159,13 @@ function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board, 
 
           <img style={{ minHeight: 236, }} src={img} alt="" />
         </CardWrapper>
-      </Wrapper>
+      </Wrapper >
       {/* <Pin pinItem={pinItem} open={open} onClose={onClose} id={id} removeItem={removeItem} /> */}
+      < CreateBoard
+        openCreateBoard={openCreateBoard}
+        closeCreateBoard={() => setOpenCreateBoard(false)
+        }
+      />
     </>
   )
 }
