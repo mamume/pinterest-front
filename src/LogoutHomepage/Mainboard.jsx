@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import PinMain from './Pin_main';
 import unsplash from './api/unsplash';
 import './mainboard.css';
@@ -47,12 +47,12 @@ function Mainboard() {
 
 export default Mainboard;
 
-const Wrapper = styled.div`
-    background-color:white;
-    height:100%;
-    margin-top:15px;
-    column-gap:10px;
-    margin:0 auto;
-    margin-top:20px;
+// const Wrapper = styled.div`
+//     background-color:white;
+//     height:100%;
+//     margin-top:15px;
+//     column-gap:10px;
+//     margin:0 auto;
+//     margin-top:20px;
 
-`
+// `

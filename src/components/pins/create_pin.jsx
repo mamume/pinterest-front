@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
 import { UserContext } from "../../context";
-import { IconButton, Modal } from '@mui/material';
+import { IconButton, Modal, Stack, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -43,24 +43,24 @@ const check_size = (event) => {
     imgSize.style.opacity = 1;
 }
 
-const handelFocus = (event) => {
-    let ftitle = event.target
-    ftitle.classList.add("pin_title_on_focus");
-    // console.log("changed")
-}
+// const handelFocus = (event) => {
+//     let ftitle = event.target
+//     ftitle.classList.add("pin_title_on_focus");
+//     // console.log("changed")
+// }
 
-const handelBlur = (event) => {
-    let ftitle = event.target
-    ftitle.classList.remove("pin_title_on_focus");
-    // console.log("changed")
+// const handelBlur = (event) => {
+//     let ftitle = event.target
+//     ftitle.classList.remove("pin_title_on_focus");
+//     // console.log("changed")
 
-}
+// }
 
-const handelClick = (event) => {
-    event.target.classList.add("alt_text_btn_disappears")
-    let alttext = document.getElementsByClassName("alt_text")
-    alttext.item(0).classList.add("alt_text_display")
-}
+// const handelClick = (event) => {
+//     event.target.classList.add("alt_text_btn_disappears")
+//     let alttext = document.getElementsByClassName("alt_text")
+//     alttext.item(0).classList.add("alt_text_display")
+// }
 const MoreOptions = () => {
     let element = document.getElementsByClassName("more_options_btn");
     element.item(0).classList.toggle("more_options_btn_display");
@@ -82,6 +82,7 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
     const { authedUser, headers, host } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
+    const [imageSrc, setImageSrc] = useState(null)
     // const [open, setOpen] = useState(false)
     // const onClose = () => setOpen(false)
     // const onOpen = () => setOpen(true)
@@ -143,6 +144,12 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            setImageSrc(e.target.result)
+        }
+        reader.readAsDataURL(e.target.files[0])
         // console.log(e.target.files[0])
     }
 
@@ -162,19 +169,24 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
  }
  */
 
+    function onCloseModal() {
+        setImage(null)
+        setImageSrc(null)
+        onClose()
+    }
     const [showLable] = useState(true);
     const [showModalPin] = useState(false);
     return (
         <Modal
             style={{ zIndex: 1000001 }}
             open={open}
-            onClose={onClose}
+            onClose={onCloseModal}
         >
             <div>
                 <div className="add_pin_modal">
                     <div className="add_pin_container">
                         <div className="side" id="left_side">
-                            <IconButton onClick={onClose} sx={{ display: "flex" }}>
+                            <IconButton onClick={onCloseModal} sx={{ display: "flex" }}>
                                 <CloseIcon color="primary" />
                             </IconButton>
                             <div className="section1">
@@ -190,20 +202,20 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
                                         display: showLable ? "block" : "none"
                                     }}
                                 >
-                                    <div className="upload_img_container">
-                                        <div className="dotted_border">
-                                            <div className="pin_mock_icon_container">
-                                                <img src="/images/up-arrow.png" alt="upload_img" className="pin_mock_icon" onChange={(e) => { handleImageChange(e) }} />
-                                            </div>
-                                            <div>click to upload</div>
-                                            <div id="recommend">Recmmendation: use high-quality .jpg files <br />less than 20 MB</div>
-                                        </div>
-
-
-
-
-
+                                    {/* <div className="upload_img_container"> */}
+                                    <div className="dotted_border">
+                                        {/* <div className="pin_mock_icon_container"> */}
+                                        <img style={{ maxheight: 'inherit' }} src={imageSrc || "/images/upload_image_placeholder.svg"} alt="upload_img" className="pin_mock_icon" onChange={(e) => { handleImageChange(e) }} />
+                                        {/* </div> */}
+                                        {/* <div>click to upload</div> */}
+                                        {/* <div id="recommend">Recmmendation: use high-quality .jpg files <br />less than 20 MB</div> */}
                                     </div>
+
+
+
+
+
+                                    {/* </div> */}
                                     <input onChange={event => handleImageChange(event)} type="file" name="upload_img" id="upload_img" value="" />
 
                                 </label>
@@ -221,27 +233,26 @@ const Create = ({ open, onClose, addItem, setPinItems }) => {
                             </div>
 
                         </div>
-                        <div className="side" id="right_side">
-                            <div className="section1">
-                                <div className="select_size">
-                                    <select defaultValue="Select" name="pin_size" id="pin size">
+                        <Stack className="side" id="right_side" mt={7}>
+                            {/* <div className="section1"> */}
+                            {/* </div> */}
+                            <Stack mt={4}>
+                                <TextField label="Title" fullWidth placeholder="Add your title" onChange={(e) => { handleTitleChange(e) }} />
+                                {/* <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
+                                {/* <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} /> */}
+                                {/* <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
+                                {/* <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} /> */}
+                            </Stack>
+                            <Stack direction="row" justifyContent="end" mt={2}>
+                                {/* <select defaultValue="Select" name="pin_size" id="pin size">
                                         <option value="">Select</option>
                                         <option value="option1">option1</option>
                                         <option value="option2">option2</option>
                                         <option value="option3">option3</option>
-                                    </select>
-                                    <Button onClick={handlePost}>Save</Button>
-
-                                </div>
-                            </div>
-                            <div className="section2">
-                                <input placeholder="Add your title" type="text" className="new_pin_input pin_title" id="pin_title" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} onChange={(e) => { handleTitleChange(e) }} />
-                                <input placeholder="Tell everyone what your pin is about" type="text" className=" pin_description" id="pin_description" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
-                                <input type="button" value="Add alt text" id="alt-text-btn" onClick={(event) => handelClick(event)} />
-                                <input placeholder="Explain what people can see in the pin" type="text" className="alt_text" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
-                                <input placeholder="Add a destination link" type="text" className="pin_destination" id="pin_destination" onFocus={(event) => handelFocus(event)} onBlur={(event) => handelBlur(event)} />
-                            </div>
-                        </div>
+                                    </select> */}
+                                <Button onClick={handlePost}>Save</Button>
+                            </Stack>
+                        </Stack>
                         <div className="more_options_btn">
                             <div className="m_delete">Delete</div>
                             <div className="m_duplicate"><span>Duplicate</span></div>
