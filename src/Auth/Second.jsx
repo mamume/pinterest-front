@@ -40,7 +40,7 @@ export default class Second extends React.Component{
 
     render(){
         let checked = this.state.gender;
-        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={false} >
+        return <Dialog open={this.props.open}  maxWidth='xs' fullWidth={true} >
         <DialogTitle mb={9} mt={1}>
         <IconButton
           aria-label="close"
@@ -68,7 +68,7 @@ export default class Second extends React.Component{
         <DialogContentText my={5} >
         <Typography variant="h4" sx={{color:'black'}}>How do you identify?</Typography>
         </DialogContentText>  
-
+	
         <FormControl component="fieldset" sx={{marginRight:'12rem'}}>
         <RadioGroup
             aria-label="gender"
@@ -76,17 +76,17 @@ export default class Second extends React.Component{
             value={this.state.gender}
             onChange={this.collectInput}
         >
-            <FormControlLabel value="female" control={<Radio sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'0.75rem'}} />}
+            <FormControlLabel value="female" control={<Radio sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'1.75rem'}} />}
             label={<Typography variant="h6" sx={{color: checked==='female'?"#e60023":'black' }}>Female</Typography>} />
             
-            <FormControlLabel value="male" control={<Radio  sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'0.75rem'}} />} 
+            <FormControlLabel value="male" control={<Radio  sx={{'&.Mui-checked':{color:'#e60023'}, marginRight:'1.75rem'}} />} 
             label={<Typography variant="h6" sx={{color:checked==='male'?"#e60023":'black'}}>Male</Typography>}  />
     
             
         </RadioGroup>
         </FormControl>
 
-        <div style={{width:"80%", textAlign:"center", margin:'auto'}}>  
+        <div style={{width:"85%", textAlign:"center", margin:'auto'}}>  
         <Button
           onClick={this.sendData}
           variant="contained" 
