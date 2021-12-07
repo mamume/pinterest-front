@@ -3,8 +3,6 @@ import { makeStyles } from '@mui/styles';
 import Drawer from '@mui/material/Drawer';
 import PublicProfile from '../components/settings/PublicProfile'
 import AccountSettings from '../components/settings/AccountSettings';
-import Notifications from '../components/settings/Notifications'
-import PrivacyAndData from '../components/settings/PrivacyAndData';
 import {
   Routes,
   Route,
