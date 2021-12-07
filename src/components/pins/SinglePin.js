@@ -20,7 +20,7 @@ import { saveAs } from 'file-saver'
 
 
 
-function SinglePin({ pinItem, img, external_link, id, boards, sub_board, removeItem }) {
+function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board, removeItem }) {
   // const newTo = {
   //   pathname: url ? url : `/pin/${id}`,
   //   state: { id: id }
@@ -34,9 +34,9 @@ function SinglePin({ pinItem, img, external_link, id, boards, sub_board, removeI
   const [savedBoard, setSavedBoard] = useState("");
   const [linked, setLinked] = useState(false)
   const [subBoard, setSubBoard] = useState(sub_board)
-  const [open, setOpen] = useState(false)
-  const onClose = () => setOpen(false)
-  const onOpen = () => setOpen(true)
+  // const [open, setOpen] = useState(false)
+  // const onClose = () => setOpen(false)
+  // const onOpen = () => setOpen(true)
 
   // onClose={onClose}
   //       open={open}
@@ -75,85 +75,87 @@ function SinglePin({ pinItem, img, external_link, id, boards, sub_board, removeI
   }, [authedUser, subBoard])
 
   return (
-    <Wrapper>
-      <CardWrapper className={classes.pin}>
-        <div className="myModal">
-          {/* <div className="my_modal_header"> */}
-          <Stack direction='row' justifyContent="space-between" p={1} spacing={1}>
-            {/* <div> */}
-            {linked
-              ? <Fragment>
-                <Link
-                  to={`/board?board_id=${subBoard.id}`}
-                  // style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}
-                  className={classes.link}
-                >
-                  <Box sx={{ bgcolor: "white", borderRadius: 1, p: "5px" }}>
-                    <Typography variant="h6">{subBoard.title}</Typography>
-                  </Box>
-                </Link>
-                <Button size="small" style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
-              </Fragment>
-
-              : <Fragment>
-                <FormControl size="small" fullWidth>
-                  <InputLabel id="select-board" style={{ color: "#455a64" }}>Board</InputLabel>
-                  <Select
-                    labelId="select-board"
-                    onChange={(e) => setSavedBoard(e.target.value)}
-                    label="Board"
-                    style={{ backgroundColor: "white" }}
-                    value={savedBoard}
-                    size="small"
+    <>
+      <Wrapper>
+        <CardWrapper className={classes.pin}>
+          <div className="myModal">
+            {/* <div className="my_modal_header"> */}
+            <Stack direction='row' justifyContent="space-between" p={1} spacing={1}>
+              {/* <div> */}
+              {linked
+                ? <Fragment>
+                  <Link
+                    to={`/board?board_id=${subBoard.id}`}
+                    // style={{ display: "inline-block", width: "130px", overflow: "hidden", whiteSpace: "nowrap", color: "white", textDecoration: "none", fontWeight: "700", fontSize: "20px" }}
+                    className={classes.link}
                   >
-                    {boards.map((item, index) => (
-                      <MenuItem value={item.id} key={index}>{item.title}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Button size="small" onClick={handlePost}>Save</Button>
-              </Fragment>
-            }
-            {/* </div> */}
-            {/* <div className="Two"></div> */}
-            {/* <div className="Three"> */}
-            {/* {linked
+                    <Box sx={{ bgcolor: "white", borderRadius: 1, p: "5px" }}>
+                      <Typography variant="h6">{subBoard.title}</Typography>
+                    </Box>
+                  </Link>
+                  <Button size="small" style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
+                </Fragment>
+
+                : <Fragment>
+                  <FormControl size="small" fullWidth>
+                    <InputLabel id="select-board" style={{ color: "#455a64" }}>Board</InputLabel>
+                    <Select
+                      labelId="select-board"
+                      onChange={(e) => setSavedBoard(e.target.value)}
+                      label="Board"
+                      style={{ backgroundColor: "white" }}
+                      value={savedBoard}
+                      size="small"
+                    >
+                      {boards.map((item, index) => (
+                        <MenuItem value={item.id} key={index}>{item.title}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Button size="small" onClick={handlePost}>Save</Button>
+                </Fragment>
+              }
+              {/* </div> */}
+              {/* <div className="Two"></div> */}
+              {/* <div className="Three"> */}
+              {/* {linked
                 ? <Button style={{ color: "white", backgroundColor: "black" }}>Saved</Button>
                 : <Button onClick={handlePost}>Save</Button>
               } */}
+              {/* </div> */}
+            </Stack>
             {/* </div> */}
-          </Stack>
-          {/* </div> */}
-          {/* <Link to={newTo}> */}
+            {/* <Link to={newTo}> */}
 
-          <div style={{ display: "flex", height: "100%" }} onClick={onOpen} className="my_image_div"></div>
-          <Pin pinItem={pinItem} open={open} onClose={onClose} id={id} removeItem={removeItem} />
-          {/* </Link> */}
-          <div className="my_modal_footer">
-            {external_link && (<a href={external_link}><div className="my_ext" style={{ position: "absolute", float: "left", bottom: "15px", left: "15px" }} >
-              <IconButton>
-                <CallMadeIcon />
-              </IconButton>
-              <span>{external_link}</span>
-            </div> </a>)}
+            <div style={{ display: "flex", height: "100%" }} onClick={onOpenPinModal} className="my_image_div"></div>
+            {/* </Link> */}
+            <div className="my_modal_footer">
+              {external_link && (<a href={external_link}><div className="my_ext" style={{ position: "absolute", float: "left", bottom: "15px", left: "15px" }} >
+                <IconButton>
+                  <CallMadeIcon />
+                </IconButton>
+                <span>{external_link}</span>
+              </div> </a>)}
 
-            <div className="my_send" style={{ position: "absolute", float: "right", bottom: "15px", right: "15px" }}>
-              <IconButton onClick={downloadImage}>
-                <DownloadIcon />
-              </IconButton>
-            </div>
+              <div className="my_send" style={{ position: "absolute", float: "right", bottom: "15px", right: "15px" }}>
+                <IconButton onClick={downloadImage}>
+                  <DownloadIcon />
+                </IconButton>
+              </div>
 
-            {/* <div className="my_options">
+              {/* <div className="my_options">
               <IconButton>
                 <MoreVertIcon />
               </IconButton>
             </div> */}
+            </div>
           </div>
-        </div>
 
-        <img style={{ minHeight: 236, }} src={img} alt="" />
-      </CardWrapper>
-    </Wrapper>
+          <img style={{ minHeight: 236, }} src={img} alt="" />
+        </CardWrapper>
+      </Wrapper>
+      {/* <Pin pinItem={pinItem} open={open} onClose={onClose} id={id} removeItem={removeItem} /> */}
+    </>
   )
 }
 

@@ -7,6 +7,7 @@ import { UserContext } from "../context";
 import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from "@mui/material";
 import Styles from '../styles/Styles'
+import Pin from '../components/pins/pin'
 
 
 function Homepage({ pins, addItem, removeItem }) {
@@ -14,6 +15,11 @@ function Homepage({ pins, addItem, removeItem }) {
   const [loaded, setLoaded] = useState(false)
   const { authedUser, host, headers } = useContext(UserContext)
   const [boards, setBoards] = useState([])
+
+  const [open, setOpen] = useState(false)
+  const onClose = () => setOpen(false)
+  // const onOpen = () => setOpen(true)
+  const [pinModalItem, setPinModalItem] = useState({})
 
   useEffect(() => {
     if (authedUser.id) {
@@ -31,6 +37,12 @@ function Homepage({ pins, addItem, removeItem }) {
       : setLoaded(false)
   }, [pins.length])
 
+  function onOpenPinModal(pinItem) {
+    console.log('ih')
+    setPinModalItem(pinItem)
+    setOpen(true)
+  }
+
   return (
     <Fragment>
       {loaded
@@ -41,9 +53,10 @@ function Homepage({ pins, addItem, removeItem }) {
               <Masonry className={classes.masonry}  >
 
                 {pins.map((pin) => (
-                  <SinglePin key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
+                  <SinglePin onOpenPinModal={() => onOpenPinModal(pin)} key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
+              <Pin pinItem={pinModalItem} open={open} onClose={onClose} removeItem={removeItem} />
             </Fragment>
           )
           : <div>Please Login</div>

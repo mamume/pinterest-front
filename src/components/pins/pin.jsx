@@ -4,6 +4,7 @@ import { UserContext } from '../../context'
 import Button from '@mui/material/Button';
 import { Modal, Box, Stack, Typography, Avatar } from '@mui/material';
 import Styles from "../../styles/Styles";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 // const handelfocus = () => {
@@ -34,11 +35,12 @@ import Styles from "../../styles/Styles";
 // }
 
 
-const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
+const Pin = ({ open, onClose, removeItem, pinItem }) => {
 	const classes = Styles()
-	const [pin, setPin] = useState(pinItem)
+	// const [pin] = useState(pinItem)
 	const { authedUser, headers, host } = useContext(UserContext)
 	const [owner, setOwner] = useState({})
+	const [loaded, setLoaded] = useState(false)
 
 
 	// useEffect(() => {
@@ -49,32 +51,36 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 	// 			setPin(data)
 	// 		})
 	// }, [host, id])
+	// useEffect(() => {
+	// 	setPin(pinItem)
+	// }, [pinItem])
 
 	useEffect(() => {
-		if (pin) {
-			// console.log(pin.owner)
-			fetch(`${host}/profile/details/${pin.owner}`, { headers })
-				.then(res => res.json())
-				.then(data => setOwner(data))
-		}
-	}, [headers, host, pin])
+		// if (pinItem) {
+		// console.log(pin.owner)
+		fetch(`${host}/profile/details/${pinItem.owner}`, { headers })
+			.then(res => res.json())
+			.then(data => setOwner(data))
+		// }
+	}, [headers, host, pinItem])
 
 	const handleDelete = () => {
-		fetch(`${host}/profile/pins-delete/${pin.id}/`, {
+		fetch(`${host}/profile/pins-delete/${pinItem.id}/`, {
 			headers,
 			method: "DELETE"
 		})
 			.then(res => res.json())
 			.catch(() => {
 
-				removeItem(pin.id);
+				removeItem(pinItem.id);
 				onClose();
 			})
 	}
 
+
 	useEffect(() => {
-		setPin(pinItem)
-	}, [pinItem])
+		owner.id ? setLoaded(true) : setLoaded(false)
+	}, [owner.id])
 
 	return (
 		<Modal
@@ -97,14 +103,8 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 					marginTop: "20% auto"
 				}}
 			>
-				{/* <div className="container"> */}
-				{/* <div className="sides row"> */}
-
-				{/* <div className="left-side col-md-5"> */}
-				{/* <div className="modals_pin_pin"> */}
-				{/* <div className="pin_image_pin"> */}
 				<Stack direction="row" justifyContent="space-around" spacing={5} style={{ maxHeight: "600px" }}>
-					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
+					<img src={pinItem.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
 
@@ -126,7 +126,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 
 						{/* <div > */}
 						<Stack direction="row" justifyContent="flex-end">
-							{(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+							{(authedUser.id === pinItem.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
 						</Stack>
 						{/* </div> */}
 
@@ -134,16 +134,22 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 
 						{/* <div className="section2 row">
 							<div className="section2_header col-12"> */}
-						<Stack direction="row" alignItems="center" spacing={1}>
-							<a href={`/profile?username=${owner.username}`} className={classes.link}>
-								<Avatar src={owner.profile_pic} />
-							</a>
-							<a href={`/profile?username=${owner.username}`} className={classes.link}>
-								<Typography>{owner.full_name || owner.username}</Typography>
-							</a>
-						</Stack>
-						<Typography variant="h3">{pin.title}</Typography>
-						<Typography variant="body1">{pin.description}</Typography>
+						{loaded
+							? <>
+								<Stack direction="row" alignItems="center" spacing={1}>
+									<a href={`/profile?username=${owner.username}`} className={classes.link}>
+										<Avatar src={owner.profile_pic || ""} />
+									</a>
+									{/* {owner.profile_pic} */}
+									<a href={`/profile?username=${owner.username}`} className={classes.link}>
+										<Typography>{owner.full_name || owner.username}</Typography>
+									</a>
+								</Stack>
+								<Typography variant="h3">{pinItem.title}</Typography>
+								<Typography variant="body1">{pinItem.description}</Typography>
+							</>
+							: <CircularProgress />}
+
 						{/* <div className="pin_description_for_pin">{pin.desc}</div> */}
 						{/* </div> */}
 						{/* <div className="user_details row">
@@ -200,6 +206,12 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 						</div> */}
 					</Stack>
 				</Stack>
+				{/* <div className="container"> */}
+				{/* <div className="sides row"> */}
+
+				{/* <div className="left-side col-md-5"> */}
+				{/* <div className="modals_pin_pin"> */}
+				{/* <div className="pin_image_pin"> */}
 
 				{/* </div> */}
 				{/* </div> */}
