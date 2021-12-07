@@ -3,7 +3,6 @@ import { useState, useContext } from 'react';
 import "./create_pin_styles.css";
 import Button from '@mui/material/Button';
 import { UserContext } from "../../context";
-import { useNavigate } from 'react-router-dom'
 import { IconButton, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -80,7 +79,6 @@ const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
         festination: "",
         img_blob: ""
     });
-    let history = useNavigate();
     const { authedUser, headers, host } = useContext(UserContext)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
@@ -118,31 +116,31 @@ const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
             body: fd
         }; */
         // console.log(host)
-        if(host){
+        if (host) {
 
             fetch(`${host}/pin/create`, {
                 method: 'POST',
                 body: fd,
                 headers: { 'Authorization': headers.Authorization }
-        })
-        //axios.post('http://localhost:8000/pin/create', fd)
-            .then(response => response.json())
-            .then(data => {
-                // console.log(data)
-                addItem(data)
-                if(setPinItems){
-                    setPinItems(pinItems=>[...pinItems, data])
-                }
-                onClose()
-                //history(`/pin/${data.id}`)
-                
-                
-            });
-            
-            
+            })
+                //axios.post('http://localhost:8000/pin/create', fd)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data)
+                    addItem(data)
+                    if (setPinItems) {
+                        setPinItems(pinItems => [...pinItems, data])
+                    }
+                    onClose()
+                    //history(`/pin/${data.id}`)
+
+
+                });
+
+
         }
     }
-    
+
     const handleImageChange = (e) => {
         setImage(e.target.files[0])
         // console.log(e.target.files[0])
@@ -168,7 +166,7 @@ const Create = ({ open, onClose, addItem, pinItems, setPinItems }) => {
     const [showModalPin] = useState(false);
     return (
         <Modal
-        style={{zIndex: 1000001}}
+            style={{ zIndex: 1000001 }}
             open={open}
             onClose={onClose}
         >

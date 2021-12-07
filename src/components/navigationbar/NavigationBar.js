@@ -41,31 +41,30 @@ export default function PrimarySearchAppBar(props) {
   // const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState("")
 
-  const handleSubmit = (e) =>{
-    setSubmitted( true)
+  const handleSubmit = (e) => {
+    setSubmitted(true)
     e.preventDefault();
     let res = []
     setReserve(props.pins)
-    let reserve = [...props.pins]
-    for(let i = 0; i< props.pins.length; i++){
-      if( props.pins[i].title == searchValue){
+    for (let i = 0; i < props.pins.length; i++) {
+      if (props.pins[i].title === searchValue) {
         res.push(props.pins[i])
-      }  
+      }
     }
     props.setPins(res);
 
   }
 
-  useEffect( () => {
+  useEffect(() => {
     setReserve(...props.pins)
-  }, [])
+  }, [props.pins])
 
-  useEffect( () => {
-    if(searchValue === "" && submitted){
+  useEffect(() => {
+    if (searchValue === "" && submitted) {
       props.setPins(reserve)
       setSubmitted(false)
     }
-  },[searchValue])
+  }, [props, reserve, searchValue, submitted])
 
 
 
@@ -76,7 +75,7 @@ export default function PrimarySearchAppBar(props) {
   useEffect(() => {
     // console.log(authedUser)
     try {
-       setProfilePicture(authedUser.profile_pic)
+      setProfilePicture(authedUser.profile_pic)
     }
     catch (err) {
     }
@@ -108,7 +107,7 @@ export default function PrimarySearchAppBar(props) {
     // return <Navigate to='/'/>;
 
     window.location.href = "/"
-    
+
   }
 
 
@@ -128,7 +127,7 @@ export default function PrimarySearchAppBar(props) {
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu style={{zIndex: 1000001}}
+    <Menu style={{ zIndex: 1000001 }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -231,8 +230,8 @@ export default function PrimarySearchAppBar(props) {
                 <SearchIcon></SearchIcon>
               </IconButton>
 
-              <form onSubmit={(e) =>{handleSubmit(e)}}>
-                <input type="text" value={searchValue} onChange={(e) => {setSearchValue(e.target.value)}} placeholder="Search..."/>
+              <form onSubmit={(e) => { handleSubmit(e) }}>
+                <input type="text" value={searchValue} onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search..." />
                 <button type="submit" >Submit</button>
               </form>
 

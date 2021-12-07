@@ -51,7 +51,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 
 	useEffect(() => {
 		if (pin) {
-			console.log(pin.owner)
+			// console.log(pin.owner)
 			fetch(`${host}/profile/details/${pin.owner}`, { headers })
 				.then(res => res.json())
 				.then(data => setOwner(data))
@@ -133,7 +133,7 @@ const Pin = ({ open, onClose, id, removeItem, pinItem }) => {
 
 						{/* <div className="section2 row">
 							<div className="section2_header col-12"> */}
-						<Stack direction="row" alignItems="center" spacing>
+						<Stack direction="row" alignItems="center" spacing={1}>
 							<Avatar src={owner.profile_pic} />
 							<Typography>{owner.full_name || owner.username}</Typography>
 						</Stack>

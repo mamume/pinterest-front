@@ -9,12 +9,21 @@ import { Stack } from "@mui/material";
 import Styles from '../styles/Styles'
 
 
-function Homepage({pins , boards, addItem, removeItem}) {
+function Homepage({ pins, addItem, removeItem }) {
   const classes = Styles()
   const [loaded, setLoaded] = useState(false)
-  const { authedUser, headers, host } = useContext(UserContext)
+  const { authedUser, host, headers } = useContext(UserContext)
+  const [boards, setBoards] = useState([])
 
- 
+  useEffect(() => {
+    if (authedUser.id) {
+      fetch(`${host}/board/list?owner_id=${authedUser.id}`, { headers })
+        .then(res => res.json())
+        .then(data => setBoards(data))
+
+    }
+  }, [authedUser.id, headers, host])
+
 
   useEffect(() => {
     pins.length /*&& boards.length*/
@@ -30,7 +39,7 @@ function Homepage({pins , boards, addItem, removeItem}) {
             <Fragment>
               <AddButton addItem={addItem} />
               <Masonry className={classes.masonry}  >
-                
+
                 {pins.map((pin) => (
                   <SinglePin key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
