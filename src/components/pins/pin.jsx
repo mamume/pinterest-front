@@ -37,7 +37,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const Pin = ({ open, onClose, removeItem, pinItem }) => {
 	const classes = Styles()
-	// const [pin] = useState(pinItem)
+	const [pin, setPin] = useState(pinItem)
 	const { authedUser, headers, host } = useContext(UserContext)
 	const [owner, setOwner] = useState({})
 	const [loaded, setLoaded] = useState(false)
@@ -51,28 +51,28 @@ const Pin = ({ open, onClose, removeItem, pinItem }) => {
 	// 			setPin(data)
 	// 		})
 	// }, [host, id])
-	// useEffect(() => {
-	// 	setPin(pinItem)
-	// }, [pinItem])
+	useEffect(() => {
+		setPin(pinItem)
+	}, [pinItem])
 
 	useEffect(() => {
 		// if (pinItem) {
 		// console.log(pin.owner)
-		fetch(`${host}/profile/details/${pinItem.owner}`, { headers })
+		fetch(`${host}/profile/details/${pin.owner}`, { headers })
 			.then(res => res.json())
 			.then(data => setOwner(data))
 		// }
-	}, [headers, host, pinItem])
+	}, [headers, host, pin])
 
 	const handleDelete = () => {
-		fetch(`${host}/profile/pins-delete/${pinItem.id}/`, {
+		fetch(`${host}/profile/pins-delete/${pin.id}/`, {
 			headers,
 			method: "DELETE"
 		})
 			.then(res => res.json())
 			.catch(() => {
 
-				removeItem(pinItem.id);
+				removeItem(pin.id);
 				onClose();
 			})
 	}
@@ -104,7 +104,7 @@ const Pin = ({ open, onClose, removeItem, pinItem }) => {
 				}}
 			>
 				<Stack direction="row" justifyContent="space-around" spacing={5} style={{ maxHeight: "600px" }}>
-					<img src={pinItem.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
+					<img src={pin.content_src} style={{ borderRadius: 16, maxWidth: "500px", maxHeight: "500px" }} alt="pin_image" />
 					{/* </div> */}
 					{/* </div> */}
 
@@ -126,7 +126,7 @@ const Pin = ({ open, onClose, removeItem, pinItem }) => {
 
 						{/* <div > */}
 						<Stack direction="row" justifyContent="flex-end">
-							{(authedUser.id === pinItem.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
+							{(authedUser.id === pin.owner) && <Button onClick={handleDelete} variant="outline" color="primary" sx={{ color: "white !important", backgroundColor: " #e33225 !important" }}>Delete</Button>}
 						</Stack>
 						{/* </div> */}
 
@@ -145,8 +145,8 @@ const Pin = ({ open, onClose, removeItem, pinItem }) => {
 										<Typography>{owner.full_name || owner.username}</Typography>
 									</a>
 								</Stack>
-								<Typography variant="h3">{pinItem.title}</Typography>
-								<Typography variant="body1">{pinItem.description}</Typography>
+								<Typography variant="h3">{pin.title}</Typography>
+								<Typography variant="body1">{pin.description}</Typography>
 							</>
 							: <Stack direction="row" justifyContent="center"><CircularProgress /></Stack>}
 

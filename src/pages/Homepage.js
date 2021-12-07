@@ -17,7 +17,7 @@ function Homepage({ pins, addItem, removeItem }) {
   const [boards, setBoards] = useState([])
 
   const [open, setOpen] = useState(false)
-  const onClose = () => setOpen(false)
+  // const onClose = () => setOpen(false)
   // const onOpen = () => setOpen(true)
   const [pinModalItem, setPinModalItem] = useState({})
 
@@ -38,9 +38,13 @@ function Homepage({ pins, addItem, removeItem }) {
   }, [pins.length])
 
   function onOpenPinModal(pinItem) {
-    console.log('ih')
     setPinModalItem(pinItem)
     setOpen(true)
+  }
+
+  function onClosePinModal() {
+    setOpen(false)
+    setPinModalItem({})
   }
 
   return (
@@ -56,7 +60,7 @@ function Homepage({ pins, addItem, removeItem }) {
                   <SinglePin onOpenPinModal={() => onOpenPinModal(pin)} key={pin.id} pinItem={pin} img={pin.content_src} external_link={pin.external_website} id={pin.id} boards={boards || []} sub_board={pin.board || []} removeItem={removeItem} />
                 ))}
               </Masonry>
-              <Pin pinItem={pinModalItem} open={open} onClose={onClose} removeItem={removeItem} />
+              <Pin pinItem={pinModalItem} open={open} onClose={onClosePinModal} removeItem={removeItem} />
             </Fragment>
           )
           : <div>Please Login</div>
