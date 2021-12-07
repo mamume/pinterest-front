@@ -47,7 +47,7 @@ function App() {
     setPins(pins => [...pins, item])
 
   }
-  
+
 
   useEffect(() => {
     if (authedUser)
@@ -78,7 +78,7 @@ function App() {
   const runAuth = (type) => {
     AuthRef.current.handleClickOpen(type)
   }
-  
+
 
   useEffect(() => {
     fetch(`${host}/account/details`, { headers })
@@ -92,46 +92,46 @@ function App() {
   }, [headers, host])
 
   if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
- 
+
 
   return (
     <Fragment>
       <Auth ref={AuthRef} />
       <CssBaseline />
-      
-    <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
-            <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
-              <Router>
-                <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
-                {authedUser
-                      ? 
-                    <Routes>
 
-                      <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem}  />} />
-                      <Route path="/profile" element={<Profile  />} />
-                      <Route path="/settings/*" element={<Settings />} />
-                      <Route path="/board/" element={<Board addItem={addItem} />} />
-                      <Route path="/create_pin/" element={<Create />} />
-                      <Route path='/pin/:id' element={<Pin />}> </Route>
-                    </Routes>
-                  :
-                  
-                  <Routes>
+      <ThemeProvider theme={theme}>
+        <UserContext.Provider value={{ authedUser, headers, setAuthedUser, setHeaders, host }}>
+          <Container maxWidth="xl" sx={{ paddingTop: 9 }} >
+            <Router>
+              <NavigationBar runAuth={runAuth} pins={pins} setPins={setPins} />
+              {authedUser
+                ?
+                <Routes>
+
+                  <Route path="/" exact element={<Homepage pins={pins} boards={boards} addItem={addItem} removeItem={removeItem} />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings/*" element={<Settings />} />
+                  <Route path="/board/" element={<Board addItem={addItem} />} />
+                  <Route path="/create_pin/" element={<Create />} />
+                  <Route path='/pin/:id' element={<Pin />}> </Route>
+                </Routes>
+                :
+
+                <Routes>
                   <Route path="/password-reset" element={<PwReset />} />
                   <Route path="/password-reset/confirm" element={<PwResetConfirm />} />
-                  </Routes>
-                }
+                </Routes>
+              }
 
-              </Router>
-            </Container>
-          </UserContext.Provider>
-
-    
-        </ThemeProvider>
+            </Router>
+          </Container>
+        </UserContext.Provider>
 
 
-      
+      </ThemeProvider>
+
+
+
     </Fragment>
   );
 }

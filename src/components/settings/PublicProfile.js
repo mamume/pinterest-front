@@ -40,7 +40,7 @@ function PublicProfile() {
         data.append('website', website)
         data.append('username', username)
         imageData && data.append('profile_pic', imageData)
-
+        console.log(data)
         axiosFetchInstance
             .patch('/account/update', data)
     }
