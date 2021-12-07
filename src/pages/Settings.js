@@ -9,6 +9,7 @@ import {
   Link,
   useLocation
 } from "react-router-dom";
+import Security from '../components/settings/Security';
 
 const drawerWidth = 200
 
@@ -95,9 +96,19 @@ function Setting() {
                   Notifications
                 </ListItemText>
               </ListItemButton>
-            </Link>
+            </Link> */}
 
-            <Link to="privacy" className={classes.link}>
+            <Link to="security" className={classes.link}>
+              <ListItemButton selected={location.pathname === "/settings/security"}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "button"
+                  }}
+                >
+                  Security</ListItemText>
+              </ListItemButton>
+            </Link>
+            {/* <Link to="privacy" className={classes.link}>
               <ListItemButton selected={location.pathname === "/settings/privacy"}>
                 <ListItemText
                   primaryTypographyProps={{
@@ -106,17 +117,17 @@ function Setting() {
                 >
                   Privacy and data</ListItemText>
               </ListItemButton>
-            </Link>
+            </Link> */}
 
-            <ListItemButton>
+            {/* <ListItemButton>
               <ListItemText
                 primaryTypographyProps={{
                   variant: "button"
                 }}
               >
                 Security</ListItemText>
-            </ListItemButton>
-            <ListItemButton>
+            </ListItemButton> */}
+            {/* <ListItemButton>
               <ListItemText
                 primaryTypographyProps={{
                   variant: "button"
@@ -131,6 +142,7 @@ function Setting() {
             <Route path="" element={<PublicProfile />}
             />
             <Route path="account" element={<AccountSettings />} />
+            <Route path="security" element={<Security />} />
             {/* <Route path="notifications" element={<Notifications />} /> */}
             {/* <Route path="privacy" element={<PrivacyAndData />} /> */}
           </Routes>
