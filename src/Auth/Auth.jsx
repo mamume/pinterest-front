@@ -11,8 +11,10 @@ import axiosInstance from '../axios/Base'
 import axiosFetchInstance from "../axios/Fetch";
 
 export default class Auth extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.loginUnSavedRef = React.createRef()
+        this.loginSavedRef = React.createRef()
         this.state = {
             open:false,
             Cscreen:"main",
@@ -24,7 +26,7 @@ export default class Auth extends React.Component{
             country:"",
             language:"",
             loginEmail:"",
-            loginPassword:""
+            loginPassword:"",
           }
     }
 
@@ -142,6 +144,9 @@ export default class Auth extends React.Component{
           window.location.reload()
         }).catch(err => {
           console.log(err)
+          this.loginSavedRef.current.state.loginFaild = true;
+          this.loginSavedRef.current.setState({loginPassword:""})
+
         })
 
       // let userLogin = {
@@ -191,6 +196,8 @@ export default class Auth extends React.Component{
         window.location.reload()
       }).catch(err => {
         console.log(err)
+        this.loginUnSavedRef.current.state.loginFaild = true;
+        this.loginUnSavedRef.current.setState({loginPassword:""})
       })
 
     //   let userLogin = {
@@ -277,11 +284,11 @@ export default class Auth extends React.Component{
         }
         {
         this.state.Cscreen==="savedLogin" &&
-        <LoginSaved switch={this.switchScreen}  open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
+        <LoginSaved switch={this.switchScreen} ref={this.loginSavedRef}  open={this.state.open} close={this.handleClose} collect={this.collectFromLoginSaved} email={this.state.loginEmail} inputStyle={CssTextField}/> 
         }
                 {
         this.state.Cscreen==="unsavedLogin" &&
-        <LoginUnSaved switch={this.switchScreen}  open={this.state.open} close={this.handleClose} collect={this.collectFromLoginUnSaved} inputStyle={CssTextField}/> 
+        <LoginUnSaved switch={this.switchScreen} ref={this.loginUnSavedRef} open={this.state.open} close={this.handleClose} collect={this.collectFromLoginUnSaved} inputStyle={CssTextField}/> 
         }
       </div>
 

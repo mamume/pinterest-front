@@ -10,7 +10,8 @@ import {
   Typography,
   // Avatar,
   IconButton,
-  Divider
+  Divider,
+  Alert
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
@@ -28,7 +29,8 @@ export default class LoginUnSaved extends React.Component {
     this.validator = new SimpleReactValidator()
     this.state = {
       loginEmail: "",
-      loginPassword: ""
+      loginPassword: "",
+      loginFaild:false,
     }
   }
 
@@ -43,7 +45,7 @@ export default class LoginUnSaved extends React.Component {
       loginEmail: this.state.loginEmail,
       loginPassword: this.state.loginPassword,
     }
-    if (this.validator.allValid() || 1) {
+    if(this.validator.allValid()) {
       this.props.collect(data)
     } else {
       this.validator.showMessages()
@@ -177,7 +179,12 @@ export default class LoginUnSaved extends React.Component {
             </Typography>
           </DialogContentText>
         </div>
-
+        <div style={{ width: "80%", textAlign: "center", margin: 'auto', marginTop: '0.5rem', }}>
+        {
+          this.state.loginFaild===true && 
+          <Alert severity="error">login failed check email and password again</Alert>
+        }
+        </div>
         <div style={{ width: "70%", textAlign: "center", margin: 'auto', marginTop: '0.5rem' }}>
 
           <TextField
@@ -197,7 +204,6 @@ export default class LoginUnSaved extends React.Component {
             helperText={this.validator.message('email', this.state.loginEmail, 'required|email', { style: { color: 'red' } })}
           />
           <TextField
-            error={() => this.validator.fieldValid('email') ? false : true}
             required
             sx={this.props.inputStyle}
             margin="dense"
@@ -209,7 +215,7 @@ export default class LoginUnSaved extends React.Component {
             variant="outlined"
             value={this.state.loginPassword}
             onChange={this.collectInput}
-            helperText={this.validator.message('password', this.state.loginPassword, 'required|password|min:8')}
+            helperText={this.validator.message("password", this.state.loginPassword, "required|min:8")}
           />
           <DialogContentText ml={1} sx={{ textAlign: "left" }}>
             <Typography variant="subtitle2"><a href="http://localhost:3000/password-reset">Forgot your password?</a>
