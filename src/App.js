@@ -83,7 +83,7 @@ function App() {
 
 
 
-  if (authedUser == null && window.location.href !== "http://localhost:3000/password-reset") AuthRef.current.state.open = true
+  if (authedUser == null && window.location.href.search("http://localhost:3000/password-reset") == -1) AuthRef.current.state.open = true
 
 
   return (
