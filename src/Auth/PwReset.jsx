@@ -88,7 +88,8 @@ class ResetPassInput extends React.Component {
                             }
                         />
                     </Grid>
-                    <Grid item xs={12} sm={2} sx={{ textAlign: "center" }}>
+                    <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+                        <div style={{width:'90%'}}>
                         <Button
                             onClick={this.sendData}
                             fullWidth
@@ -102,6 +103,7 @@ class ResetPassInput extends React.Component {
                             }}
                         >
                             Send email</Button>
+                            </div>
                     </Grid>
                 </Grid>
             </Grid>
@@ -125,7 +127,7 @@ class ResetPassSent extends React.Component {
                         Email Sent
                     </Typography>
                     <Typography variant='subtitle1'>
-                        we sent an email to <span style={{ fontWeight: 'bold' }}>{this.props.email}eve.holt@reqres.in!</span> if this email
+                        we sent an email to <span style={{ fontWeight: 'bold' }}>{this.props.email}</span> if this email
                         is connected to Pinterest account , you will be able to reset your password
                     </Typography>
                     <Typography variant='subtitle1'>

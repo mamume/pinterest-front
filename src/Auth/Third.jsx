@@ -41,7 +41,7 @@ export default class Third extends React.Component {
   render() {
     let countryArr = countryList().getData()
 
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={true}>
       <DialogTitle mt={1}>
         <IconButton
           aria-label="close"
@@ -67,7 +67,7 @@ export default class Third extends React.Component {
       <DialogContent sx={{ textAlign: "center" }}>
 
         <DialogContentText my={10} >
-          <Typography variant="h4" sx={{ color: 'black' }}>Pick your language and country/region</Typography>
+          <Typography variant="h4" sx={{ color: 'black' }}>Pick your country/region</Typography>
         </DialogContentText >
         <div style={{width:"85%", textAlign:"center", margin:'auto'}}>  
         <div style={{width:'100%', marginBottom:'1rem',}} >    

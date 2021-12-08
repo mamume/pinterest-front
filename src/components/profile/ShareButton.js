@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function BasicMenu() {
+export default function BasicMenu({ username }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -54,7 +54,7 @@ export default function BasicMenu() {
             target="_blank"
             rel="noreferrer"
             className={classes.link}
-            href="https://www.facebook.com/sharer/sharer.php?u=https://www.pinterest.com/">
+            href={`https://www.facebook.com/sharer/sharer.php?u=${currentURL}/`}>
             <FacebookRoundedIcon fontSize="large" />
           </a>
         </IconButton>

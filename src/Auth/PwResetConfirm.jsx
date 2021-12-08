@@ -86,6 +86,7 @@ class PwResetConfirmInput extends React.Component {
                     .then(res => {
                         // console.log(res.error)
                         if (res.data.success) this.props.collectResult(res.data.success, "done")
+                        if (res.data.token) this.props.collectResult("link has been expired", "done")
                         if (res.data.password) this.props.collectResult("invalid password", "done")
                         // console.log(res.data)
                     })
