@@ -8,7 +8,8 @@ import {
     TextField,
     Typography,
     DialogTitle,
-    DialogContentText
+    DialogContentText,
+    Alert
 } from "@mui/material";
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -31,6 +32,7 @@ class PwResetConfirmDone extends React.Component {
                 <Button
                     LinkComponent={Link}
                     to="/"
+                    // onClick={()=> window.location.href="/"}
                     size="large"
                     variant="contained"
                     sx={{
@@ -56,7 +58,8 @@ class PwResetConfirmInput extends React.Component {
         })
         this.state = {
             password: "",
-            passwordConfirm: ""
+            passwordConfirm: "",
+            passMissmatch:false
         };
     }
 
@@ -77,19 +80,24 @@ class PwResetConfirmInput extends React.Component {
         }
         let jsonObj = JSON.stringify(obj)
         if(this.validator.allValid()){
-            axiosInstance
-                .patch('/account/password-reset-complete', jsonObj)
-                .then(res => {
-                    // console.log(res.error)
-                    if (res.data.success) this.props.collectResult(res.data.success, "done")
-                    if (res.data.password) this.props.collectResult("invalid password", "done")
-                    // console.log(res.data)
-                })
-                .catch(err => {
-                    this.props.collectResult("link has been expired", "done")
+            if(this.state.password===this.state.passwordConfirm){
+                axiosInstance
+                    .patch('/account/password-reset-complete', jsonObj)
+                    .then(res => {
+                        // console.log(res.error)
+                        if (res.data.success) this.props.collectResult(res.data.success, "done")
+                        if (res.data.password) this.props.collectResult("invalid password", "done")
+                        // console.log(res.data)
+                    })
+                    .catch(err => {
+                        this.props.collectResult("link has been expired", "done")
 
-                })
-            }else this.validator.showMessages()
+                    })
+            }else{
+                 this.state.passMissmatch = true;  
+                 this.setState({password:"", passwordConfirm:""})  
+                }   
+        }else this.validator.showMessages()
     }
 
     render() {
@@ -104,6 +112,10 @@ class PwResetConfirmInput extends React.Component {
                     <Typography variant="subtitle2">New password
                     </Typography>
                 </DialogContentText>
+                {
+                    this.state.passMissmatch && 
+                    <Alert severity="error">login failed check email and password again</Alert>
+                }
                 <TextField
                     autoFocus
                     required
@@ -135,7 +147,7 @@ class PwResetConfirmInput extends React.Component {
                     variant="outlined"
                     value={this.state.passwordConfirm}
                     onChange={this.collectInput}
-                    helperText={this.validator.message('passwordConfirm', this.state.passwordConfirm, `required|string:${this.state.password}`, {messages: {string: 'Passwords need to match!'}})}
+                    
                 />
                 <div style={{ width: "100%", textAlign: "right", marginTop: "0.75rem" }}>
                     <Button

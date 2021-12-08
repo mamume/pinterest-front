@@ -9,7 +9,8 @@ import {
     Typography,
     Avatar,
     IconButton,
-    Divider
+    Divider,
+    Alert
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PinterestIcon from '@mui/icons-material/Pinterest';
@@ -19,7 +20,8 @@ export default class LoginSaved extends React.Component{
     constructor(){
         super()
         this.state = {
-          loginPassword:""
+          loginPassword:"",
+          loginFaild:false,
         }
     }
 
@@ -71,6 +73,12 @@ export default class LoginSaved extends React.Component{
             </Typography>
           </Avatar>
           </div>
+        <div style={{ width: "80%", textAlign: "center", margin: 'auto', marginTop: '0.5rem', }}>
+          {
+            this.state.loginFaild===true && 
+            <Alert severity="error">login failed check email and password again</Alert>
+          }
+        </div>
           
           <div style={{width:"70%", textAlign:"center", margin:'auto', marginTop:'0.5rem'}}>
 

@@ -70,7 +70,7 @@ function SinglePin({ onOpenPinModal, img, external_link, id, boards, sub_board }
   useEffect(() => {
     // console.log(authedUser)
     // console.log(subBoard)
-    if (subBoard !== "None" && authedUser.id === subBoard.owner) {
+    if (subBoard !== "None") {
       setLinked(true)
     }
   }, [authedUser, subBoard])

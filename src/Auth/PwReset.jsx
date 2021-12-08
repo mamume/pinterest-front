@@ -135,8 +135,9 @@ class ResetPassSent extends React.Component {
                 <Grid container direction="row" justifyContent="center" alignItem="center">
                     <Grid item xs={10} sm={3} sx={{ textAlign: "center" }}>
                         <Button
-                            LinkComponent={Link}
-                            to='/password-reset'
+                            // LinkComponent={Link}
+                            // to='/password-reset'
+                            onClick={()=> window.location.href="/password-reset"}
                             fullWidth
                             size="large"
                             variant="contained"
@@ -157,6 +158,7 @@ class ResetPassSent extends React.Component {
                             variant="contained"
                             LinkComponent={Link}
                             to='/'
+                            // onClick={()=> window.location.href="/"}
                             sx={{
                                 backgroundColor: "#e60023",
                                 '&:hover': { backgroundColor: "#e60023" },
