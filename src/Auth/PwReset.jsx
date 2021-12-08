@@ -125,7 +125,7 @@ class ResetPassSent extends React.Component {
                         Email Sent
                     </Typography>
                     <Typography variant='subtitle1'>
-                        we sent an email to <span style={{ fontWeight: 'bold' }}>{this.props.email}eve.holt@reqres.in!</span> if this email
+                        we sent an email to <span style={{ fontWeight: 'bold' }}>{this.props.email}</span> if this email
                         is connected to Pinterest account , you will be able to reset your password
                     </Typography>
                     <Typography variant='subtitle1'>
