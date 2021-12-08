@@ -41,7 +41,7 @@ export default class Third extends React.Component {
   render() {
     let countryArr = countryList().getData()
 
-    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={false}>
+    return <Dialog open={this.props.open} maxWidth='xs' fullWidth={true}>
       <DialogTitle mt={1}>
         <IconButton
           aria-label="close"
