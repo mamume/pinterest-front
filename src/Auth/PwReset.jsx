@@ -88,7 +88,8 @@ class ResetPassInput extends React.Component {
                             }
                         />
                     </Grid>
-                    <Grid item xs={12} sm={2} sx={{ textAlign: "center" }}>
+                    <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+                        <div style={{width:'90%'}}>
                         <Button
                             onClick={this.sendData}
                             fullWidth
@@ -102,6 +103,7 @@ class ResetPassInput extends React.Component {
                             }}
                         >
                             Send email</Button>
+                            </div>
                     </Grid>
                 </Grid>
             </Grid>
