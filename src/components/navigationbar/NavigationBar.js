@@ -219,7 +219,7 @@ export default function PrimarySearchAppBar(props) {
 
       <AppBar position="static" color="text">
         <Toolbar>
-          <Link to="/">
+          <a href="http://3.132.156.164/">
             <LogoWrapper>
               <IconButton>
                 <PinterestIcon />
@@ -227,7 +227,7 @@ export default function PrimarySearchAppBar(props) {
             </LogoWrapper>
 
 
-          </Link>
+          </a>
 
           <SearchWrapper>
 
