@@ -43,9 +43,11 @@ This project is a front-end clone for the Pinterest website. The project contain
       - There is also an optional description field.
       - After the creating of the pin, it will appear immediately on the top of the homepage.
   - **Profile**: 
-    - Display user data: profile picture, full name, username, and bio.
+    - Display user data: profile picture, full name, username, bio and number of followers and following users.
+      - Click on folowers or following will open a model with the list for users and a button beside each of them to follow or unfollow.
+    - **Follow**: If it is not the logged user profile, this button will appear to follow or unfollow that user.
     - **Share**: to share profile on Facebook, Whatsapp, Twitter or copy the profile link.
-    - **Edit Profile**: navigate to the settings page.
+    - **Edit Profile**: If it is the logged user profile, this button will appear to navigate to the settings page.
     - **Boards Section**: List all user boards and shows with a preview of their pins.
       - If the board is private no one can view it or its pins but the owner.
       - If there are no boards a message will be displayed to inform the user there are no boards yet.
