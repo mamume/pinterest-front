@@ -1,5 +1,5 @@
 # Pinterest Front-End
-A Pinterest front-end clone using React.js. The back-end project can be found [here](https://github.com/mamume/pinterest-back/).
+A Pinterest front-end clone using React.js. The back-end project can be found [here](https://github.com/mamume/pinterest-back/). The Deployment of the project can be found [here](http://3.132.156.164/)
 
 ## Overview
 This project is a front-end clone for the Pinterest website. The project contains:
