@@ -27,7 +27,7 @@ This project is a front-end clone for the Pinterest website. The project contain
   - To build the project run:
     - `yarn build`
     
-## Specifications:
+## Specifications
   - **Authentication**: Sends a request to the server with data and receives an access token that is used for each request to the back-end later.
     - **Login**: User can do normal or social login.
       - If the user logged in before, the website will remember their email.
@@ -70,7 +70,7 @@ This project is a front-end clone for the Pinterest website. The project contain
         3. **Security**: To change the user password by adding, old, new, and confirm passwords.
           - There are validations to check if the fields are empty or new and confirm passwords aren't the same.
           
-## Dependencies:
+## Dependencies
   - This project is built using create-react-app using these packages.
     - Material UI
     - Axios
