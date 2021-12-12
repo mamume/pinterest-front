@@ -14,7 +14,9 @@ This project is a front-end clone for the Pinterest website. The project contain
   - Clone the project repo: 
     - `git clone https://github.com/mamume/pinterest-front.git`
   - In dependencies:
-    - First, install [Yarn](https://classic.yarnpkg.com/en/) package manager: 
+    - Download and Install Node.js
+      - [Download Link](https://nodejs.org/en/download/)
+    - Install [Yarn](https://classic.yarnpkg.com/en/) package manager: 
       - [Yarn Installation](https://classic.yarnpkg.com/lang/en/docs/install)
     - Change directory to the project folder:
       - `cd pinterest-front`
@@ -77,3 +79,10 @@ This project is a front-end clone for the Pinterest website. The project contain
     - Material UI
     - Axios
     - React Router Dom
+
+## Team Members
+  - [Ahmed Saied](https://github.com/AhmedSaied94)
+  - [Amr Magdy](https://github.com/Amr-Magdy95)
+  - [Andrew Roshdy](https://github.com/andrew-roshdy13)
+  - [Mahmoud Metwally](https://github.com/mamume)
+  - [Momen Awad](https://github.com/momen-awad)
