@@ -69,9 +69,9 @@ This project is a front-end clone for the Pinterest website. The project contain
     - **Settings**: Edit user data.
       - To access it click on the **Edit Profile** button on the profile page.
       - Contains three pages:
-        1. **Public Profile**: To edit profile picture, first name, last name, website, bio, and username.
-        2. **Account Settings**: To edit email address, gender, country, or delete the user account.
-        3. **Security**: To change the user password by adding, old, new, and confirm passwords.
+        - **Public Profile**: To edit profile picture, first name, last name, website, bio, and username.
+        - **Account Settings**: To edit email address, gender, country, or delete the user account.
+        - **Security**: To change the user password by adding, old, new, and confirm passwords.
           - There are validations to check if the fields are empty or new and confirm passwords aren't the same.
           
 ## Dependencies
