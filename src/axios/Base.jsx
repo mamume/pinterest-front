@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://3.135.88.239/'
+const baseUrl = 'https://pinterest-django.herokuapp.com/'
 
 const axiosInstance = axios.create({
     baseURL: baseUrl,

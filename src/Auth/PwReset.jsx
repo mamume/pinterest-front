@@ -39,7 +39,7 @@ class ResetPassInput extends React.Component {
             axiosInstance
                 .post('/account/password-reset-request', {
                     "email": this.state.email,
-                    "redirect_url": "http://3.132.156.164/password-reset/confirm"
+                    "redirect_url": "https://pinterest-final.herokuapp.com/password-reset/confirm"
                 })
                 .then(res => {
                     if (res.data.success) {
@@ -89,21 +89,21 @@ class ResetPassInput extends React.Component {
                         />
                     </Grid>
                     <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
-                        <div style={{width:'90%'}}>
-                        <Button
-                            onClick={this.sendData}
-                            fullWidth
-                            size="large"
-                            variant="contained"
-                            sx={{
-                                backgroundColor: "#e60023",
-                                '&:hover': { backgroundColor: "#e60023" },
-                                borderRadius: 10,
-                                textTransform: 'none',
-                            }}
-                        >
-                            Send email</Button>
-                            </div>
+                        <div style={{ width: '90%' }}>
+                            <Button
+                                onClick={this.sendData}
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: "#e60023",
+                                    '&:hover': { backgroundColor: "#e60023" },
+                                    borderRadius: 10,
+                                    textTransform: 'none',
+                                }}
+                            >
+                                Send email</Button>
+                        </div>
                     </Grid>
                 </Grid>
             </Grid>
@@ -139,7 +139,7 @@ class ResetPassSent extends React.Component {
                         <Button
                             // LinkComponent={Link}
                             // to='/password-reset'
-                            onClick={()=> window.location.href="/password-reset"}
+                            onClick={() => window.location.href = "/password-reset"}
                             fullWidth
                             size="large"
                             variant="contained"

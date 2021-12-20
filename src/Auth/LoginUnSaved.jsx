@@ -30,7 +30,7 @@ export default class LoginUnSaved extends React.Component {
     this.state = {
       loginEmail: "",
       loginPassword: "",
-      loginFaild:false,
+      loginFaild: false,
     }
   }
 
@@ -45,7 +45,7 @@ export default class LoginUnSaved extends React.Component {
       loginEmail: this.state.loginEmail,
       loginPassword: this.state.loginPassword,
     }
-    if(this.validator.allValid()) {
+    if (this.validator.allValid()) {
       this.props.collect(data)
     } else {
       this.validator.showMessages()
@@ -180,10 +180,10 @@ export default class LoginUnSaved extends React.Component {
           </DialogContentText>
         </div>
         <div style={{ width: "80%", textAlign: "center", margin: 'auto', marginTop: '0.5rem', }}>
-        {
-          this.state.loginFaild===true && 
-          <Alert severity="error">login failed check email and password again</Alert>
-        }
+          {
+            this.state.loginFaild === true &&
+            <Alert severity="error">login failed check email and password again</Alert>
+          }
         </div>
         <div style={{ width: "70%", textAlign: "center", margin: 'auto', marginTop: '0.5rem' }}>
 
@@ -218,7 +218,7 @@ export default class LoginUnSaved extends React.Component {
             helperText={this.validator.message("password", this.state.loginPassword, "required|min:8")}
           />
           <DialogContentText ml={1} sx={{ textAlign: "left" }}>
-            <Typography variant="subtitle2"><a href="http://3.132.156.164/password-reset">Forgot your password?</a>
+            <Typography variant="subtitle2"><a href="https://pinterest-final.herokuapp.com/password-reset">Forgot your password?</a>
             </Typography>
           </DialogContentText>
 

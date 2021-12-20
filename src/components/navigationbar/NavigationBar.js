@@ -219,7 +219,7 @@ export default function PrimarySearchAppBar(props) {
 
       <AppBar position="static" color="text">
         <Toolbar>
-          <a href="http://3.132.156.164/">
+          <a href="https://pinterest-final.herokuapp.com/">
             <LogoWrapper>
               <IconButton>
                 <PinterestIcon />

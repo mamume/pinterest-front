@@ -50,7 +50,7 @@ function PublicProfile() {
       .then(res => res.status)
       .then(statusCode => {
         if (statusCode === 200)
-          window.location.href = `http://3.132.156.164/profile`
+          window.location.href = `https://pinterest-final.herokuapp.com/profile`
       })
   }
 

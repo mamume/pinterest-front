@@ -19,7 +19,7 @@ import LogoutHomepage from './LogoutHomepage/App'
 
 
 function App() {
-  const [host] = useState('http://3.135.88.239')
+  const [host] = useState('https://pinterest-django.herokuapp.com')
   const [headers, setHeaders] = useState({
     'content-type': "application/json",
     'Authorization': `bearer ${localStorage.getItem('pinterestAccessToken')}`
