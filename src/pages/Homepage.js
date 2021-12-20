@@ -4,15 +4,15 @@ import SinglePin from '../components/pins/SinglePin'
 import Masonry from 'react-masonry-component';
 import AddButton from "../components/navigationbar/AddButton"
 import { UserContext } from "../context";
-import CircularProgress from '@mui/material/CircularProgress';
-import { Stack } from "@mui/material";
+// import CircularProgress from '@mui/material/CircularProgress';
+// import { Stack } from "@mui/material";
 import Styles from '../styles/Styles'
 import Pin from '../components/pins/pin'
 
 
 function Homepage({ pins, addItem, removeItem }) {
   const classes = Styles()
-  const [loaded, setLoaded] = useState(false)
+  // const [loaded, setLoaded] = useState(false)
   const { authedUser, host, headers } = useContext(UserContext)
   const [boards, setBoards] = useState([])
 
@@ -31,11 +31,11 @@ function Homepage({ pins, addItem, removeItem }) {
   }, [authedUser.id, headers, host])
 
 
-  useEffect(() => {
-    pins.length /*&& boards.length*/
-      ? setLoaded(true)
-      : setLoaded(false)
-  }, [pins.length])
+  // useEffect(() => {
+  //   pins.length /*&& boards.length*/
+  //     ? setLoaded(true)
+  //     : setLoaded(false)
+  // }, [pins.length])
 
   function onOpenPinModal(pinItem) {
     setPinModalItem(pinItem)
